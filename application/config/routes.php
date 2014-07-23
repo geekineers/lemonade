@@ -8,7 +8,7 @@
  */
 
 Pigeon::map(function($r){
-    $r->route('default_controller', 'Welcome#index');
+    $r->route('default_controller', ['Welcome', 'index']);
     $r->route('404_override', 'Welcome#error404');
 
     $r->get('hey', ['Welcome', 'hey']);
@@ -26,6 +26,7 @@ Pigeon::map(function($r){
 
 
 $route = Pigeon::draw();
+
 // $route['default_controller'] = 'welcome';
 // $route['404_override'] = '';
 // $route['translate_uri_dashes'] = FALSE;
