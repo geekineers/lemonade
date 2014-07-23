@@ -45,7 +45,19 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+		$users = User::all();
+		var_dump($users);
 		$this->load->view('welcome_message');
+	}
+
+	public function hey($a = 'all')
+	{
+		echo $a;
+	}
+
+	public function error404()
+	{
+		echo '404';
 	}
 }
 

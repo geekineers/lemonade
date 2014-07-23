@@ -2,9 +2,18 @@
 	"description" : "Dependencies for CodeIgniter's testing environment",
 	"name" : "ellislab/codeigniter",
 	"require": {
+		 "jamierumbelow/pigeon": "*",
+		 "cartalyst/sentry": "2.1.*",
+		 "illuminate/database": "4.2.7",
 		"php": ">=5.2.4"
 	},
+	"autoload": {
+        "classmap": [
+            "application/models/eloquent"
+                    ]
+    },
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
-	}
+	},
+	"minimum-stability": "dev"
 }
