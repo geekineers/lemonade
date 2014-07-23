@@ -22,7 +22,8 @@ class Welcome extends Base_Controller {
 	public function index()
 	{
 		try {
-			$users = User::all();
+			$users = (new UserRepository())->getAll();
+			// var_dump($users->toArray());
 		} catch(\Exception $e) {
 
 		}
@@ -33,6 +34,7 @@ class Welcome extends Base_Controller {
 			['href' => '/about-us', 'caption' => 'About Us']
 		];
 
+		//http://twig.sensiolabs.org/doc/templates.html
 		$this->render('index.twig.html', compact('site', 'navigation'));
 	}
 

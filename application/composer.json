@@ -10,8 +10,9 @@
 	},
 	"autoload": {
         "classmap": [
-            "application/models/eloquent"
-                    ]
+            "models/eloquent",
+            "models/repositories"
+        ]
     },
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*"
