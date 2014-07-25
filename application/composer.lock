@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "4d777dfb261d69298a950c6ba26d70b4",
+    "hash": "5a05897b94c5444bf1a01fa5b1e05539",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -258,12 +259,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "887148b49a27de2b7e9818c4667b40f429d01638"
+                "reference": "b658e4cf1251d059c184a8909a4e670e2b00a683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/887148b49a27de2b7e9818c4667b40f429d01638",
-                "reference": "887148b49a27de2b7e9818c4667b40f429d01638",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/b658e4cf1251d059c184a8909a4e670e2b00a683",
+                "reference": "b658e4cf1251d059c184a8909a4e670e2b00a683",
                 "shasum": ""
             },
             "require": {
@@ -297,7 +298,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-07-21 21:14:59"
+            "time": "2014-07-23 18:26:20"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -486,6 +487,7 @@
     "stability-flags": [
 
     ],
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.2.4"
     },

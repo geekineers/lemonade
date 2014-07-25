@@ -7,7 +7,8 @@ abstract class Base_Controller extends CI_Controller {
 	{
 		$loader = new Twig_Loader_Filesystem(APPPATH.'views');
 		$twig = new Twig_Environment($loader, array(
-		    'cache' => APPPATH.'/cache/views',
+		    // 'cache' => APPPATH.'/cache/views',
+		    'cache' => false
 		));
 
 		echo $twig->render($template, $data);

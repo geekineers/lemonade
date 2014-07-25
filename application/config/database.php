@@ -88,10 +88,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db_host = 'localhost';
-$db_name = 'ci3';
-$db_username = 'homestead';
-$db_password = 'secret';
+$db_host = '127.0.0.1';
+$db_name = 'lemonade';
+$db_username = 'root';
+$db_password = 'mark17';
 
 // Setup the default config
 $db['default'] = array(

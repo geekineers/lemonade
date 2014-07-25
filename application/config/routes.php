@@ -9,10 +9,13 @@
 
 Pigeon::map(function($r){
     $r->route('default_controller', ['Welcome', 'index']);
+
     $r->route('404_override', 'Welcome#error404');
 
-    $r->get('hey', ['Welcome', 'hey']);
-    $r->get('hey/(:num)', ['Welcome', 'hey']);
+
+     $r->route('create-admin-lemonade', 'Auth#createAdmin');
+     $r->get('auth', 'auth#index');
+     $r->post('auth', 'auth#login');
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
     // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));
