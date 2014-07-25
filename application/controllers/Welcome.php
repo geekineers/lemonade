@@ -8,18 +8,19 @@ class Welcome extends Base_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->userRepository = new UserRepository();
 	}
 
 	public function index()
 	{
 		try {
-			$users = $this->userRepository->getAll()->toArray();
+			$users = $this->userRepository->all()->toArray();
 			// var_dump($users);
 		} catch(\Exception $e) {
 
 		}
+
+		ci_dd(ci_app_path('storage'));
 
 		$site = ['title' => 'My Site Title'];
 		$navigation = [
