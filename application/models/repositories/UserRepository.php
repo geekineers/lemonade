@@ -1,18 +1,11 @@
 <?php
 use User as User;
 
-class UserRepository {
-
-	protected $model = '';
+class UserRepository extends BaseRepository{
 
 	public function __construct()
 	{
-		$this->model = new User;
-	}
-
-	public function getAll()
-	{
-		return $this->model->all();
+		$this->class = new User;
 	}
 
 }
