@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('Base.php');
 
+use Sentry as Sentry;
+
 class Welcome extends Base_Controller {
 
 	protected $userRepository;
@@ -13,14 +15,45 @@ class Welcome extends Base_Controller {
 
 	public function index()
 	{
+		$sentry = Sentry::createSentry();
+
+		// $group = $sentry->createGroup(array(
+	 //        'name'        => 'Moderator',
+	 //        'permissions' => array(
+	 //            'admin' => 1,
+	 //            'users' => 1,
+	 //        ),
+	 //    ));
+
+	 	$adminGroup = $sentry->findGroupById(2);
+
+		$user = $sentry->findUserByLogin(['random@email.com']);
+		$user->addGroup($adminGroup);
+		// dd($user->email);
+		// var_dump($user->getMergedPermissions());
+		// dd($user->getPermissions());
+		dd($user->hasAnyAccess(['users', ['users.qwe']]));
+		// dd($user);
+
 		try {
-			$users = $this->userRepository->all()->toArray();
+			// register
+
+			// $sentry->register([
+			// 	'email' => 'random@email.com',
+			// 	'password' => 'secret'
+			// ]);
+
+			// $this->userRepository->create([
+			// 	'email' => 'random@email.com',
+			// 	'password' => 'secret'
+			// ]);
+
+			// $users = $this->userRepository->all()->toArray();
 			// var_dump($users);
+
 		} catch(\Exception $e) {
 
 		}
-
-		ci_dd(ci_app_path('storage'));
 
 		$site = ['title' => 'My Site Title'];
 		$navigation = [

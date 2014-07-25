@@ -8,4 +8,11 @@ class User extends Eloquent {
 
   public $table = "users";
 
+  protected $fillable = ['name', 'password'];
+
+  public function setPasswordAttribute($password)
+  {
+  		$this->attributes['password'] = md5($password);
+  }
+
 }
