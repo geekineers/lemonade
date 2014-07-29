@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class User extends Eloquent {
 
-  public $table = "users";
-
+  	 public $table = "users";
+	
   protected $fillable = ['name', 'password'];
 
   public function setPasswordAttribute($password)

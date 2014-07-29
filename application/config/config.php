@@ -52,7 +52,7 @@ $config['base_url']	= '';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -451,7 +451,9 @@ $config['minify_output'] = FALSE;
 | helper' page of the user guide for information regarding date handling.
 |
 */
+
 $config['time_reference'] = 'ASIA/MANILA';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -488,3 +490,4 @@ $config['proxy_ips'] = '';
 /* End of file config.php */
 /* Location: ./application/config/config.php */
 require_once('aliases.php');
+

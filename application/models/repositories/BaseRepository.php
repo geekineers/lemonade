@@ -8,6 +8,7 @@ abstract class BaseRepository {
 
     public function create(array $input)
     {
+        // dd($input);
         return $this->currentModel = $this->class->create($input);
     }
 
