@@ -1,0 +1,56 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+	<div class="col-md-6">
+		<div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">User Role Info</h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <form role="form" method="post">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Role Name</label>
+                                            <input type="text" name="branch_name" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Branch Description</label>
+                                            <textarea  class="form-control" id="exampleInputPassword1" name="branch_description" placeholder="Say Something About the Role ..."></textarea>
+                                        </div>
+                                   
+                               
+                                    </div><!-- /.box-body -->
+
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+         </div>
+	</div>
+    <div class="col-md-6">
+        <div class="box box-danger">
+                                <div class="box-header">
+                                    <h3 class="box-title">User Permissions</h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                              
+                                    <div class="box-body">
+                                        {% for permission in permissions %}
+                                           <div class="form-group">
+                                              <div class="icheckbox flat-red">
+                                             <input type="checkbox" class="form-control flat-red">
+                                             <label>{{ permission }}</label>  
+                                           </div> 
+                                        {% endfor %}
+                                    </div>
+                            
+                                   
+                               
+                                    </div><!-- /.box-body -->
+
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+         </div>
+    </div>
+{% endblock %}
