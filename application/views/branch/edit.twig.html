@@ -1,0 +1,38 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+	<div class="col-md-6">
+		<div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Branch Info</h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <form role="form" method="post">
+                                    <input type="hidden" value="{{ branch.id }}" name="id">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Branch Name</label>
+                                            <input type="text" name="branch_name" class="form-control" id="exampleInputEmail1" placeholder="Enter Branch Name" value="{{ branch.branch_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Branch Address</label>
+                                            <textarea  class="form-control" id="exampleInputPassword1" name="branch_address" placeholder="Type Full Address here..." >{{ branch.branch_address }}
+                                            </textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Branch Description</label>
+                                            <textarea  class="form-control" id="exampleInputPassword1" name="branch_description" placeholder="Say something about the branch here...">{{ branch.branch_description }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">Branch Contact Number</label>
+                                            <input type="text" name="branch_contact_number" class="form-control" id="exampleInputEmail1" placeholder="Enter contact number" value="{{ branch.branch_contact_number }}">
+                                        </div>
+                               
+                                    </div><!-- /.box-body -->
+
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+	</div>
+{% endblock %}
