@@ -125,7 +125,7 @@ function getPH($basic_salary)
 					'Salary_Base' =>  $ph_range[$ph]['Salary_Base']
 				);
 			break;
-		}else if($basic_salary>$ph_range[count($ph_range)-1]['range']){
+		}else if($basic_salary>$ph_range[count($ph_range)-1]['Salary_Range']){
 			$ph_val = array(
 					'range' =>  $ph_range[count($ph_range)-1]['Salary_Range'],
 					'Total_Monthly_Premium' =>  $ph_range[count($ph_range)-1]['Total_Monthly_Premium'],
@@ -212,15 +212,18 @@ function getWTax($basic_salary,$period = 'monthly')
 	// iterate
 	$wt = 0;
 	foreach ($tax as $key => $value) {
-		if($basic_salary <= $tax[$key] )
+		if($basic_salary < $tax[$key] )
 		{
-			// $tax_income =
+			// $tax_income 
 			$key = $key - 1;
+			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
+			
 			$resultArray = array(
 					'bsalary' => $basic_salary,
 					'bracket' => $tax[$key],
 					'over' => $es[$key][1],
-					'base' => $es[$key][0]
+					'base' => $es[$key][0],
+					'tw' => $wt
 					);
 								 
 			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
@@ -229,21 +232,41 @@ function getWTax($basic_salary,$period = 'monthly')
 		else if($basic_salary > $tax[7] )
 		{
 			$key = 7;
+			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
 			$resultArray = array(
 					'bsalary' => $basic_salary,
 					'bracket' => $tax[$key],
 					'over' => $es[$key][1],
-					'base' => $es[$key][0]
+					'base' => $es[$key][0],
+					'wt' => $wt
 					);
 								 
-			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
+			
 			break;
 		}
 	}
 
-	return $resultArray;
-
+	return $wt;
 }
 
+// get total withholdong tax
+function getWithholdingTax( $salary = 0  ,$philhealth = false , $pagibig = false, $sss = false )
+{
+	$sss_val = $sss ? getSSS($salary) : 0;
+	
+	$philhealth_val = $philhealth ? getPH($salary) : 0;
+	$pagibig_val = $pagibig ? 100 : 0;
 
+	$curr_salary =    $salary - ($sss_val['EE'] + $philhealth_val['Employee_Share'] + $pagibig_val );
+	// return $curr_salary;
+	return array(
+		    'gross' => $salary,
+			'widthholding_tax' => getWTax( $curr_salary ),
+			'philhealth' => $philhealth_val['Employee_Share'],
+			'SSS' => $sss_val['EE'],
+			'pagibig'=> $pagibig_val,
+			'net' => $curr_salary
+		);
+}
+	
 
