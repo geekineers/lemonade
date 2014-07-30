@@ -27,4 +27,10 @@ class MainController extends BaseController
 		$this->render('index.twig.html', $data);
 	}
 
+	public function test()
+	{
+		$salary = (int) $this->input->get('salary');
+		
+		echo json_encode(getWTax($salary));
+	}
 }
