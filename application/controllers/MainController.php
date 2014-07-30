@@ -30,7 +30,14 @@ class MainController extends BaseController
 	public function test()
 	{
 		$salary = (int) $this->input->get('salary');
-		
-		echo json_encode( getWithholdingTax($salary,true,true,true) );
+		$period =  $this->input->get('period');
+		echo json_encode( getWTax($salary,$period) );
+	}
+
+	public function slip()
+	{
+		$salary = (int) $this->input->get('salary');
+		$data =  getWithholdingTax($salary,true,true,true) ;
+		$this->render('slip.twig.html',$data);
 	}
 }
