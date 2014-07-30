@@ -31,6 +31,6 @@ class MainController extends BaseController
 	{
 		$salary = (int) $this->input->get('salary');
 		
-		echo json_encode(getWTax($salary));
+		echo json_encode( getWithholdingTax($salary,true,true,true) );
 	}
 }
