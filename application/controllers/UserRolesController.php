@@ -6,6 +6,7 @@ class UserRolesController extends BaseController {
 	public function index() 
 	{
 		$data['groups'] = $this->sentry->findAllGroups();
+
 		$this->render('user_roles/index.twig.html', $data);
 
 	}
@@ -22,4 +23,15 @@ class UserRolesController extends BaseController {
 
 	}
 
+	public function save()
+	{
+		$input['name'] = $this->input->post('name');
+		$permissions = $this->input->post('permissions');
+		
+		foreach ($permissions as $key => $value) {
+				$input['permissions'][$key] = ($value == 'on') ? 1 : 0;
+			}	
+
+		$this->sentry->createGroup($input);
+	}
 }

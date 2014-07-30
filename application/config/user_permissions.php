@@ -3,12 +3,14 @@
 $config['permissions'] = [
 	
 		'user',
-		'user.view',
-		'user.create',
-		'user.delete',
-		'branch.create',
-		'branch.delete',
-		'branch.view',
+		'user_view',
+		'user_create',
+		'user_delete',
+		'branc_create',
+		'branch_delete',
+		'branch_view',
+		'interbranch_assigning'
+
 		// 'branch.delete',
 	
 ];

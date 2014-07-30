@@ -6,7 +6,6 @@ class UserRepository extends BaseRepository{
 	public function __construct()
 	{
 		$this->class = new User;
-		
 	}
 
 	public function createUser(array $input){

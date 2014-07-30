@@ -35,6 +35,14 @@ Pigeon::map(function($r){
      $r->post('roles/edit', 'UserRolesController#update');
      $r->get('roles/delete', 'UserRolesController#delete');
 
+     $r->get('employees', 'EmployeeController#index');
+     $r->get('employees/add', 'EmployeeController#add');
+     $r->post('employees/add', 'EmployeeController#save');
+     $r->get('employees/edit', 'EmployeeController#edit');
+     $r->post('employees/edit', 'EmployeeController#update');
+     $r->get('employees/delete', 'EmployeeController#delete');
+
+
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
     // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));
