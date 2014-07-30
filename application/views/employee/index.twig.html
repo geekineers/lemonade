@@ -1,0 +1,31 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+<div class="row">
+	<a class="btn-add-branch btn btn-primary pull-right" href="/employees/add">+ Add Employee</a>
+	{% if alert_message != null %}
+	<div class="col-md-7 alert alert-success alert-dismissable">
+                                        <i class="fa fa-check"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Success!</b> {{ alert_message }}.
+    </div>
+    {% endif %}
+</div>
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Position</th>
+		<th>Option</th>
+	</tr>
+	 {% for branch in branches %}
+	 	<tr>
+	 		<td>{{ branch.branch_name }}</td>
+	 		<td>{{ branch.branch_address }}</td>
+	 		<td></td>
+	 		<td>
+	 			<a href="/branches/edit?id={{ branch.id }}" class="btn btn-primary">Edit</a>
+	 			<a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger">Delete</a>
+	 		</td>
+	 	</tr>
+	 {% endfor %}
+</table>
+{% endblock %}
