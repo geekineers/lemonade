@@ -241,7 +241,7 @@ function getWTax($basic_salary,$period = 'monthly')
 		}
 	}
 
-	return $wt;
+	return $resultArray;
 
 }
 
