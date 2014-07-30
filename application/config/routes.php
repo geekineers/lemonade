@@ -43,6 +43,7 @@ Pigeon::map(function($r){
      $r->get('employees/delete', 'EmployeeController#delete');
 
 
+     $r->get('sss','MainController#test');
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
     // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));
