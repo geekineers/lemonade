@@ -43,9 +43,13 @@ class Migration_Add_employee
                                	'type' => 'INT',
                                 'constraint' => 5,
                         ),
+                        'department_id' => array(
+                                'type' => 'INT',
+                                'constraint' => 5,
+                        ),
 
                         'job_position' => array(
-                        		'type' => 'VARCHAR',
+                        		'type' => 'INT',
                         		'constraint' => '100',
 
                         	),

@@ -3,17 +3,23 @@ require_once('BaseController.php');
 
 class EmployeeController extends BaseController {
 
-	protected $employeeRepository, $branchesRepository;
+	protected $employeeRepository, $branchesRepository,$jobPositionRepository, $departmentRepository;
 
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->mustBeLoggedIn();
-			$this->employeeRepository = new EmployeeRepository();
 
+	
+		$this->employeeRepository = new EmployeeRepository();
+		
 		$this->branchesRepository = new BranchRepository();
-		$this->load->library('session');
+		$this->jobPositionRepository = new JobPositionRepository();
+
+		$this->departmentRepository = new DepartmentRepository();
+		$this->load->library('session'); 
+>>>>>>> 57350c1a3dcf5fec6a2ba2d93cf1c1fe6e689ed5
 
 	}
 
@@ -26,6 +32,11 @@ class EmployeeController extends BaseController {
 		$data['user'] = $this->sentry->getUser();
 		$data['title'] = "Employee";
 		$data['employees'] = $this->employeeRepository->all();
+<<<<<<< HEAD
+=======
+		$data['job_positions'] = $this->jobPositionRepository->all();
+		$data['departments'] = $this->departmentRepository->all();
+>>>>>>> 57350c1a3dcf5fec6a2ba2d93cf1c1fe6e689ed5
 		// dd($this->employeeRepository->all());
 		$this->render('/employee/index.twig.html', $data);
 	}
@@ -36,12 +47,17 @@ class EmployeeController extends BaseController {
 		$data['title'] = "Employees";
 		$data['branches'] = $this->branchesRepository->all();
 		$data['groups'] = $this->sentry->findAllGroups();
+		$data['job_positions'] = $this->jobPositionRepository->all();
+		
+		$data['departments'] = $this->departmentRepository->all();
+		// dd($data['job_position'][0]['job_position']);		
 		$this->render('employee/add.twig.html', $data);
 
 	}
 
 	public function save()
 	{
+
 		$role_id = $this->input->post('role_id');
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
@@ -72,7 +88,8 @@ class EmployeeController extends BaseController {
 		$pagibig_number = $this->input->post('pagibig_number');
 		$employee_type = $this->input->post('employee_type');
 		$contact_number = $this->input->post('contact_number');
-
+		$job_position  =$this->input->post('job_position');
+		$departments = $this->input->post('departments');
 		$dependents = $this->input->post('dependents');
 
 

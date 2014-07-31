@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>AdminLTE | Dashboard</title>
+        <title>Lemonade | {{ title }}   </title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
         <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -51,8 +51,8 @@
                                 <li class="user-header bg-light-blue">
                                     <img src="../../img/avatar3.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        {{ user.first_name }} - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        {{ user.first_name }} 
+                                        <small></small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -63,7 +63,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="auth/logout" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>

@@ -42,7 +42,7 @@ class BranchController extends BaseController {
 		$branch_name = $this->input->post('branch_name');
 
 		$save = $this->branchRepository->create($this->input->post());
-		dd($save);
+		// dd($save);
 		$this->session->set_flashdata('message', $branch_name .' has been added.');
 
 		redirect('/branches', 'location');

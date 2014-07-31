@@ -20,6 +20,8 @@ Pigeon::map(function($r){
 
      $r->get('dashboard', 'MainController#dashboard');
 
+     $r->get('slip','MainController#slip');
+
      $r->get('branches', 'BranchController#index');
      $r->get('branches/add', 'BranchController#add');
      $r->post('branches/add', 'BranchController#save');
@@ -35,6 +37,22 @@ Pigeon::map(function($r){
      $r->post('roles/edit', 'UserRolesController#update');
      $r->get('roles/delete', 'UserRolesController#delete');
 
+
+     $r->get('job', 'jobController#index');
+     $r->get('job/add', 'jobController#add');
+     $r->post('job/add', 'jobController#save');
+     $r->get('job/edit', 'jobController#edit');
+     $r->post('job/edit', 'jobController#update');
+     $r->get('job/delete', 'jobControllerjob#delete');
+
+      $r->get('department', 'DepartmentController#index');
+     $r->get('department/add', 'DepartmentController#add');
+     $r->post('department/add', 'DepartmentController#save');
+     $r->get('department/edit', 'DepartmentController#edit');
+     $r->post('department/edit', 'DepartmentController#update');
+     $r->get('department/delete', 'DepartmentController#delete');
+
+
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
      $r->post('employees/add', 'EmployeeController#save');
@@ -42,6 +60,7 @@ Pigeon::map(function($r){
      $r->post('employees/edit', 'EmployeeController#update');
      $r->get('employees/delete', 'EmployeeController#delete');
      $r->get('employees/(:num)/profile', 'EmployeeController#profile');
+
 
 
      $r->get('sss','MainController#test');
