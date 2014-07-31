@@ -99,7 +99,7 @@ class Migration_Add_employee
 
                 ));
                 $this->dbforge->add_key('id', TRUE);
-                $this->dbforge->create_table('employees_profile');
+                $this->dbforge->create_table('employees');
         }
 
         public function down()

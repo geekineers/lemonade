@@ -42,22 +42,22 @@ class EmployeeController extends BaseController {
 	public function save()
 	{
 		$role_id = $this->input->post('role_id');
-		// $email = $this->input->post('email');
-		// $password = $this->input->post('password');
+		$email = $this->input->post('email');
+		$password = $this->input->post('password');
 
-		//    $user = $this->sentry->createUser(array(
-  //     			 'email'     => $email,
-  //      			 'password'  => $password,
-  //      			 'activated' => true,
-  // 		  ));
+		   $user = $this->sentry->createUser(array(
+      			 'email'     => $email,
+       			 'password'  => $password,
+       			 'activated' => true,
+  		  ));
 
-		//  $group = $this->sentry->findGroupById($role_id);
+		 $group = $this->sentry->findGroupById($role_id);
 
-		//  $user->addGroup($group);
+		 $user->addGroup($group);
 
 
-		// $user_id =  $user->id;
-		$user_id = 1;
+		$user_id =  $user->id;
+
 		$first_name = $this->input->post('first_name');
 		$last_name = $this->input->post('last_name');
 		$middle_name = $this->input->post('middle_name');
@@ -96,7 +96,7 @@ class EmployeeController extends BaseController {
 					)	
 			);
 
-	
+		
 
 	
 		$this->session->set_flashdata('message', $first_name . ' ' . $last_name . ' has been added.');
