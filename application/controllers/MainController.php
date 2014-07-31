@@ -4,11 +4,12 @@ require_once('BaseController.php');
 class MainController extends BaseController 
 {
 
+	protected $employeeRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
-
+		$this->employeeRepository = new EmployeeRepository();
 
 	}
 
@@ -29,6 +30,7 @@ class MainController extends BaseController
 
 	public function test()
 	{
+
 		$salary = (int) $this->input->get('salary');
 		$period =  $this->input->get('period');
 		$dependents = (int) $this->input->get('dependents');
@@ -45,5 +47,6 @@ class MainController extends BaseController
 		$ph = $this->input->get('ph');
 		$data =  getWithholdingTax($salary,$period ,$dependents,$ph,$pagibig,$sss) ;
 		$this->render('slip.twig.html',$data);
+
 	}
 }

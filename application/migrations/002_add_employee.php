@@ -78,13 +78,18 @@ class Migration_Add_employee
 
                         	),	
 
+                        'dependents' => array(
+                                'type' => 'INT',
+                                'constraint' => '5',
+
+                        ),  
 	                   'created_at' => array(
                         		 'type' => 'DATETIME',
-                            
+                                'null' => TRUE,
                         	),
                       'updated_at' => array(
                         		 'type' => 'DATETIME',
-                            
+                             'null' => TRUE,
                     	),
                       'deleted_at' => array(
                       			'type' => 'DATETIME',
