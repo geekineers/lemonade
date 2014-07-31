@@ -41,6 +41,7 @@ Pigeon::map(function($r){
      $r->get('employees/edit', 'EmployeeController#edit');
      $r->post('employees/edit', 'EmployeeController#update');
      $r->get('employees/delete', 'EmployeeController#delete');
+     $r->get('employees/(:num)/profile', 'EmployeeController#profile');
 
 
      $r->get('sss','MainController#test');
