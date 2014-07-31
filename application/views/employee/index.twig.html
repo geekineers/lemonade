@@ -16,10 +16,10 @@
 		<th>Position</th>
 		<th>Option</th>
 	</tr>
-	 {% for branch in branches %}
+	 {% for employee in employees %}
 	 	<tr>
-	 		<td>{{ branch.branch_name }}</td>
-	 		<td>{{ branch.branch_address }}</td>
+	 		<td>{{ employee.last_name }}, {{ employee.first_name }}</td>
+	 		<td>{{ branch.job_position }}</td>
 	 		<td></td>
 	 		<td>
 	 			<a href="/branches/edit?id={{ branch.id }}" class="btn btn-primary">Edit</a>
