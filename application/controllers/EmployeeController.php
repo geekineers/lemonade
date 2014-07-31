@@ -19,8 +19,6 @@ class EmployeeController extends BaseController {
 
 		$this->departmentRepository = new DepartmentRepository();
 		$this->load->library('session'); 
->>>>>>> 57350c1a3dcf5fec6a2ba2d93cf1c1fe6e689ed5
-
 	}
 
 
@@ -32,11 +30,10 @@ class EmployeeController extends BaseController {
 		$data['user'] = $this->sentry->getUser();
 		$data['title'] = "Employee";
 		$data['employees'] = $this->employeeRepository->all();
-<<<<<<< HEAD
-=======
+
 		$data['job_positions'] = $this->jobPositionRepository->all();
 		$data['departments'] = $this->departmentRepository->all();
->>>>>>> 57350c1a3dcf5fec6a2ba2d93cf1c1fe6e689ed5
+
 		// dd($this->employeeRepository->all());
 		$this->render('/employee/index.twig.html', $data);
 	}
