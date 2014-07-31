@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Employee extends Eloquent {
 	// use SoftDeletingTrait;
-  	 protected $table = "employees_profile";
+  	 protected $table = "employees";
 	 // protected $datas = ['deleted_at'];
 
 
