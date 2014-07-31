@@ -78,13 +78,18 @@ class Migration_Add_employee
 
                         	),	
 
+                        'dependents' => array(
+                                'type' => 'INT',
+                                'constraint' => '5',
+
+                        ),  
 	                   'created_at' => array(
                         		 'type' => 'DATETIME',
-                            
+                                'null' => TRUE,
                         	),
                       'updated_at' => array(
                         		 'type' => 'DATETIME',
-                            
+                             'null' => TRUE,
                     	),
                       'deleted_at' => array(
                       			'type' => 'DATETIME',
@@ -94,7 +99,7 @@ class Migration_Add_employee
 
                 ));
                 $this->dbforge->add_key('id', TRUE);
-                $this->dbforge->create_table('employees');
+                $this->dbforge->create_table('employees_profile');
         }
 
         public function down()
