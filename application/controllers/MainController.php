@@ -31,13 +31,19 @@ class MainController extends BaseController
 	{
 		$salary = (int) $this->input->get('salary');
 		$period =  $this->input->get('period');
-		echo json_encode( getWTax($salary,$period) );
+		$dependents = (int) $this->input->get('dependents');
+		echo json_encode( getWTax($salary,$period,$dependents) );
 	}
 
 	public function slip()
 	{
 		$salary = (int) $this->input->get('salary');
-		$data =  getWithholdingTax($salary,true,true,true) ;
+		$period =  $this->input->get('period');
+		$dependents = (int) $this->input->get('dependents');
+		$pagibig = $this->input->get('pagibig');
+		$sss = $this->input->get('sss');
+		$ph = $this->input->get('ph');
+		$data =  getWithholdingTax($salary,$period ,$dependents,$ph,$pagibig,$sss) ;
 		$this->render('slip.twig.html',$data);
 	}
 }

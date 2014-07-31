@@ -39,6 +39,7 @@ class EmployeeController extends BaseController {
 
 	public function save()
 	{
-		dd($this->input->post());
+		$save = $this->employeeRepository->create($this->input->post());
+		dd($save);
 	}
 }

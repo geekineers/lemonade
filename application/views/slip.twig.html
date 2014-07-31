@@ -2,7 +2,7 @@
 <html >
     <head>
         <meta charset="UTF-8">
-        <title>Welcome to Lemonade | Log in</title>
+        <title>Payslip </title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
         <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -18,8 +18,30 @@
                     <h3 class="box-title">Pay Slip</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                	<label>Name</label>
-                	<span>Onar De Jesus</span>
+                    <div class="col-md-5">
+                    	<label>Name:</label>
+                    	<span>Onar De Jesus</span>
+                    </div>
+                    <div class="col-md-5">
+                        <label>TIN:</label>
+                        <span>2323</span>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label>SSS:</label>
+                        <span>2323</span>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label>Pag - ibig:</label>
+                        <span>2323</span>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label>PhilHealth:</label>
+                        <span>2323</span>
+                    </div>
+
                 	<table class="table table-bordered">
 
             			<tr class="table-head">
@@ -35,10 +57,7 @@
                 			<td>Gross Pay:</td>
                 			<td> {{ gross }}</td>
                 		</tr>
-                		<tr>
-                			<td>Withholding Tax:</td>
-                			<td> {{ widthholding_tax }}</td>
-                		</tr>
+                		
                 		<tr class="table-head">
             				<td>Deductions</td>
             				<td>Amount</td>
@@ -59,6 +78,18 @@
                 			<td>Total Deductions:</td>
                 			<td>{{total_deduc}}</td>
                 		</tr>
+                        <tr class="table-head">
+                            <td></td>
+                            <td></td>
+                        </tr>
+                         <tr>
+                            <td>Taxable Pay:</td>
+                            <td> {{ taxable }}</td>
+                        </tr>
+                        <tr>
+                            <td>Withholding Tax:</td>
+                            <td> {{ widthholding_tax }}</td>
+                        </tr>
                 		<tr style="border-top: 2px solid black;">
                 			<td>Net Pay:</td>
                 			<td>{{net}}</td>

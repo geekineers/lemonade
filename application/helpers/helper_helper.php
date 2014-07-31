@@ -143,7 +143,7 @@ function getPH($basic_salary)
 
 // withholding tax
 
-function getWTax($basic_salary = 0,$period = 'monthly')
+function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 {
 	$resultArray = array();
 	$wtax_list = array(
@@ -197,26 +197,33 @@ function getWTax($basic_salary = 0,$period = 'monthly')
 											25000, //7
 											45883) //8
 						),
-					'employees_with_qualified_dependent' => ''
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
 				)
 		);
 	// formula
 	// Withholding Tax = ( ([Taxable Income] - [Bracket or Exemption] ) x [%over] ) + [Bracket Tax or Base Tax] 
 
-	
-	
+	$period = isset($period) || $period != null ? $period : 'monthly';
+
 	// single or married
-	$tax = $wtax_list[$period]['employees_without_qualified_dependent']['SME'];
+	$tax = $dependents==0 ? $wtax_list[$period]['employees_without_qualified_dependent']['SME'] : $wtax_list[$period]['employees_with_qualified_dependent'][$dependents-1];
 	// exemtion status
 	$es  =  $wtax_list[$period]['exemption_status'];
 	// iterate
 	$wt = 0;
 	
 	foreach ($tax as $key => $value) {
-		if($basic_salary < $tax[$key] && $basic_salary>238)
+
+		if($basic_salary < $tax[$key] && $basic_salary > 238)
 		{
 			// $tax_income 
-			$key =  $key - 1  ;
+			$key =  $key - 1;
+
 			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
 			
 			$resultArray = array(
@@ -228,9 +235,11 @@ function getWTax($basic_salary = 0,$period = 'monthly')
 					);
 								 
 			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
+
 			break;
 		}
-		else if($basic_salary > $tax[7] && $basic_salary>238)
+
+		else if($basic_salary > $tax[7] && $basic_salary > 238)
 		{
 			$key = 7;
 			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
@@ -253,24 +262,31 @@ function getWTax($basic_salary = 0,$period = 'monthly')
 }
 
 // get total withholdong tax
-function getWithholdingTax( $salary = 0  ,$philhealth = false , $pagibig = false, $sss = false )
+//getWithholdingTax($salary,null,1,null,null,null);
+function getWithholdingTax( $salary = 0,$period = 'monthly',$dependents = 0, $philhealth = 0 , $pagibig = 0, $sss = 0 )
 {
-	$sss_val = $sss ? getSSS($salary) : 0;
-	
-	$philhealth_val = $philhealth ? getPH($salary) : 0;
-	$pagibig_val = $pagibig ? 100 : 0;
 
-	$curr_salary =    $salary - ($sss_val['EE'] + $philhealth_val['Employee_Share'] + $pagibig_val );
+	$sss_val = $sss==null ? getSSS($salary)['EE'] : (int) $sss;
+
+	$philhealth_val = $philhealth==null ? getPH($salary)['Employee_Share'] : (int) $philhealth;
+	
+	$pagibig_val = $pagibig==null ? 100 : (int) $pagibig;
+
+	$curr_salary =    $salary - ($sss_val + $philhealth_val + $pagibig_val );
 	// return $curr_salary;
+	$deductions = ($sss_val + $philhealth_val + $pagibig_val );
+
+	$wt = getWTax( $curr_salary , $period ,$dependents);
 	return array(
-		    'gross' => $salary,
-			'widthholding_tax' => getWTax( $curr_salary ),
-			'philhealth' => $philhealth_val['Employee_Share'],
-			'SSS' => $sss_val['EE'],
-			'pagibig'=> $pagibig_val,
-			'basic' => $salary,
-			'net' => $curr_salary,
-			'total_deduc' => ($sss_val['EE'] + $philhealth_val['Employee_Share'] + $pagibig_val )
+		    'gross' => number_format($salary,2),
+			'widthholding_tax' => number_format($wt),
+			'philhealth' => number_format($philhealth_val,2),
+			'SSS' => number_format($sss_val,2),
+			'pagibig'=> number_format($pagibig_val,2),
+			'basic' => number_format($salary,2),
+			'taxable' => number_format($curr_salary,2),
+			'total_deduc' => number_format($deductions,2),
+			'net' => number_format($salary-$deductions-$wt,2)
 		);
 }
 	
