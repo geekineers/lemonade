@@ -20,6 +20,8 @@ Pigeon::map(function($r){
 
      $r->get('dashboard', 'MainController#dashboard');
 
+     $r->get('slip','MainController#slip');
+
      $r->get('branches', 'BranchController#index');
      $r->get('branches/add', 'BranchController#add');
      $r->post('branches/add', 'BranchController#save');
@@ -41,6 +43,7 @@ Pigeon::map(function($r){
      $r->get('employees/edit', 'EmployeeController#edit');
      $r->post('employees/edit', 'EmployeeController#update');
      $r->get('employees/delete', 'EmployeeController#delete');
+
 
 
      $r->get('sss','MainController#test');

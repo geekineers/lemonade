@@ -41,6 +41,7 @@ class EmployeeController extends BaseController {
 
 	public function save()
 	{
+
 		$role_id = $this->input->post('role_id');
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');

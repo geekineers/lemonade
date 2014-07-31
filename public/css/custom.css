@@ -10,3 +10,22 @@ header .logo img{
 	margin-bottom: 20px;
 	margin-right: 35px;
 }
+
+.slip {
+	margin: 0 auto;
+	float: none;
+}
+
+.slip  .table-head{
+
+}
+
+.slip .table .table-head {
+	color: white;
+	background-color: gray;
+}
+
+.slip .table .table-head  td {
+	color: white;
+	font-size: 18px;
+}

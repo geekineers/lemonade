@@ -30,28 +30,23 @@ class MainController extends BaseController
 
 	public function test()
 	{
-		// $salary = (int) $this->input->get('salary');
-		
-		// echo json_encode( getWithholdingTax($salary,true,true,true) );
-		$save = $this->employeeRepository->create(
-					[
-						'id' => 3,
-						'first_name' => '$first_name',
-						'last_name' => '$last_name',
-						'middle_name' => 'middle_name',
-						'full_address' => '$full_address',
-						'job_position' => '$job_position',
-						'role_id' => '$role_id',
-						'tin_number' => '$tin_number',
-						'sss_number' => '$sss_number',
-						'pagibig_number' => '$pagibig_number',
-						'contact_number' => '$contact_number',
-						'employee_type' =>' $employee_type',
-						'dependents' =>' $dependents',
-						'user_id' =>' $user_id',
-						'branch_id' => '$branch_id'
-				 ]
-			);
-		dd($save);
+
+		$salary = (int) $this->input->get('salary');
+		$period =  $this->input->get('period');
+		$dependents = (int) $this->input->get('dependents');
+		echo json_encode( getWTax($salary,$period,$dependents) );
+	}
+
+	public function slip()
+	{
+		$salary = (int) $this->input->get('salary');
+		$period =  $this->input->get('period');
+		$dependents = (int) $this->input->get('dependents');
+		$pagibig = $this->input->get('pagibig');
+		$sss = $this->input->get('sss');
+		$ph = $this->input->get('ph');
+		$data =  getWithholdingTax($salary,$period ,$dependents,$ph,$pagibig,$sss) ;
+		$this->render('slip.twig.html',$data);
+
 	}
 }
