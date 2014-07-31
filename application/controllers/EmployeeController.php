@@ -4,16 +4,19 @@ require_once('BaseController.php');
 
 class EmployeeController extends BaseController {
 
-	protected $employeeRepository, $branchesRepository;
+	protected $employeeRepository, $branchesRepository,$jobPositionRepository, $departmentRepository;
 
 	public function __construct()
 	{	
 		parent::__construct();
 	
 		$this->mustBeLoggedIn();
-			$this->employeeRepository = new EmployeeRepository();
+		$this->employeeRepository = new EmployeeRepository();
 		
 		$this->branchesRepository = new BranchRepository();
+		$this->jobPositionRepository = new JobPositionRepository();
+
+		$this->departmentRepository = new DepartmentRepository();
 		$this->load->library('session'); 
 
 	}
@@ -24,7 +27,9 @@ class EmployeeController extends BaseController {
 		$data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
 		$data['user'] = $this->sentry->getUser();
 		$data['title'] = "Employee";
-		$data['employees'] = $this->employeeRepository->all();		
+		$data['employees'] = $this->employeeRepository->all();
+		$data['job_positions'] = $this->jobPositionRepository->all();
+		$data['departments'] = $this->departmentRepository->all();
 		// dd($this->employeeRepository->all());
 		$this->render('/employee/index.twig.html', $data);
 	}
@@ -35,6 +40,10 @@ class EmployeeController extends BaseController {
 		$data['title'] = "Employees";
 		$data['branches'] = $this->branchesRepository->all();
 		$data['groups'] = $this->sentry->findAllGroups();
+		$data['job_positions'] = $this->jobPositionRepository->all();
+		
+		$data['departments'] = $this->departmentRepository->all();
+		// dd($data['job_position'][0]['job_position']);		
 		$this->render('employee/add.twig.html', $data);
 
 	}
@@ -72,7 +81,8 @@ class EmployeeController extends BaseController {
 		$pagibig_number = $this->input->post('pagibig_number');
 		$employee_type = $this->input->post('employee_type');
 		$contact_number = $this->input->post('contact_number');
-
+		$job_position  =$this->input->post('job_position');
+		$departments = $this->input->post('departments');
 		$dependents = $this->input->post('dependents');
 
 
