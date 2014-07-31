@@ -15,7 +15,7 @@ class MainController extends BaseController
 
 	public function index()
 	{
-
+		redirect('/auth');
 	}
 
 	public function dashboard()
