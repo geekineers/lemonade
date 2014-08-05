@@ -16,9 +16,10 @@ class Migration_Add_employee
                                 'auto_increment' => TRUE
                         ),
                         'user_id' => array(
-                        		'type' => 'INT',
-                        		'constraint' => 5
-                        	),
+                        		'type' => 'VARCHAR',
+                        		'constraint' => '10'
+                        ),
+                        // Employee Information 
                         'first_name' => array(
                                 'type' => 'VARCHAR',
                                 'constraint' => '100',
@@ -35,24 +36,29 @@ class Migration_Add_employee
                                 'type' => 'VARCHAR',
                                 'constraint' => '255',
                         ),
+                       'job_position' => array(
+                                'type' => 'INT',
+                                'constraint' => 5,
+                        ),
+                      'department' => array(
+                                'type' => 'INT',
+                                'constraint' => 5,
+                        ),
                         'role_id' => array(
-                               	'type' => 'INT',
+                                'type' => 'INT',
                                 'constraint' => 5
                         ),
                         'branch_id' => array(
                                	'type' => 'INT',
                                 'constraint' => 5,
                         ),
-                        'department_id' => array(
-                                'type' => 'INT',
-                                'constraint' => 5,
+
+                        // Salary Information
+                        'basic_pay' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => '100',
+
                         ),
-
-                        'job_position' => array(
-                        		'type' => 'INT',
-                        		'constraint' => '100',
-
-                        	),
                         'tin_number' => array(
                         		'type' => 'VARCHAR',
                         		'constraint' => '100',
@@ -69,6 +75,11 @@ class Migration_Add_employee
                         		'constraint' => '100',
 
                         	),
+                        'dependents' => array(
+                                'type' => 'INT',
+                                'constraint' => 5,
+
+                        ), 
 
                         'contact_number' => array(
                         		'type' => 'VARCHAR',
@@ -81,12 +92,21 @@ class Migration_Add_employee
                         		'constraint' => '100',
 
                         	),	
+                          'profile_picture' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => '100',
 
-                        'dependents' => array(
-                                'type' => 'INT',
-                                'constraint' => '5',
+                            ),  
 
-                        ),  
+                        'fb' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => '100'
+                            ),                 
+                        'email' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => '100'
+                            ),                 
+
 	                   'created_at' => array(
                         		 'type' => 'DATETIME',
                                 'null' => TRUE,

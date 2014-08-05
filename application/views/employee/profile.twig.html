@@ -2,13 +2,13 @@
 {% block content %}
 <div id="content-wrapper">
 		<div class="profile-full-name">
-			<span class="text-semibold">Denise Steiner</span>'s profile
+			<span class="text-semibold">{{ employee.getName() }}</span>'s profile
 		</div>
 	 	<div class="profile-row">
 			<div class="left-col">
 				<div class="profile-block">
 					<div class="panel profile-photo">
-						<img src="/img/avatar5.png" alt="">
+						<img src="{{ employee.getProfilePicture() }}" alt="">
 					</div><br>
 					<a href="#" class="btn btn-success"><i class="fa fa-check"></i>&nbsp;&nbsp;Following</a>&nbsp;&nbsp;
 					<a href="#" class="btn"><i class="fa fa-comment"></i></a>
@@ -23,38 +23,16 @@
 					</div>
 				</div>
 
-				<div class="panel panel-transparent">
-					<div class="panel-heading">
-						<span class="panel-title">Statistics</span>
-					</div>
-					<div class="list-group">
-						<a href="#" class="list-group-item"><strong>126</strong> Likes</a>
-						<a href="#" class="list-group-item"><strong>579</strong> Followers</a>
-						<a href="#" class="list-group-item"><strong>100</strong> Following</a>
-					</div>
-				</div>
-
-				<div class="panel panel-transparent profile-skills">
-					<div class="panel-heading">
-						<span class="panel-title">Skills</span>
-					</div>
-					<div class="panel-body">
-						<span class="label label-primary">UI/UX</span>
-						<span class="label label-primary">Web design</span>
-						<span class="label label-primary">Photoshop</span>
-						<span class="label label-primary">HTML</span>
-						<span class="label label-primary">CSS</span>
-					</div>
-				</div>
+		
 
 				<div class="panel panel-transparent">
 					<div class="panel-heading">
-						<span class="panel-title">Social</span>
+						<span class="panel-title">Contact Information</span>
 					</div>
 					<div class="list-group">
 						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-twitter" style="color: #4ab6d5"></i> @dsteiner</a>
 						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-facebook-square" style="color: #1a7ab9"></i> Denise Steiner</a>
-						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-envelope" style="color: #888"></i> dsteiner@example.com</a>
+						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}</a>
 					</div>
 				</div>
 
@@ -67,24 +45,71 @@
 
 					<ul id="profile-tabs" class="nav nav-tabs">
 						<li class="active">
-							<a href="#profile-tabs-basic" data-toggle="tab">Basic Info</a>
+							<a href="#profile-tabs-basic" data-toggle="tab"><i class='fa fa-user'></i>&nbsp;Basic Info</a>
 						</li>
 						<li>
-							<a href="#profile-tabs-activity" data-toggle="tab">Timeline</a>
+							<a href="#profile-tabs-salary" data-toggle="tab"><i class='fa fa-money'></i>&nbsp;Salary Info</a>
 						</li>
 						<li>
-							<a href="#profile-tabs-followers" data-toggle="tab">Followers</a>
+							<a href="#profile-tabs-followers" data-toggle="tab"><i class='fa fa-certificate'></i>&nbsp;Trainings and Seminars</a>
 						</li>
 						<li>
-							<a href="#profile-tabs-following" data-toggle="tab">Following</a>
+							<a href="#profile-tabs-following" data-toggle="tab"><i class='fa fa-cog'></i>&nbsp; Settings</a>
 						</li>
 					</ul>
 
 					<div class="tab-content tab-content-bordered panel-padding">
-						<div class="tab-pane fade" id="profile-tabs-basic">
-
+						<div class="tab-pane active" id="profile-tabs-basic">
+						 <table class="table">
+						 	<tr>
+						 		<th>Full Address</th>
+						 		<td>{{ employee.full_address }}</td>
+						 	</tr>
+						 	<tr>
+						 		<th>Job Position</th>
+						 		<td>{{ employee.getJobPosition() }}</td>
+						 	</tr>
+						 	<tr>
+						 		<th>Department</th>
+						 		<td>{{ employee.getDepartment() }}</td>
+						 	</tr>
+					 		<tr>
+						 		<th>Branch</th>
+						 		<td>{{ employee.getBranch() }}</td>
+						 	</tr>
+						 </table>
 
 						</div> <!-- / .tab-pane -->
+						<div class="tab-pane " id="profile-tabs-salary">
+							 <table class="table">
+						 		<tr>
+						 			<th>Basic Pay</th>
+						 			<td>{{ employee.basic_pay }}</td>
+						 		</tr>
+							 	<tr>
+							 		<th>TIN Number</th>
+							 		<td>{{ employee.tin_number }}</td>
+							 	</tr>
+							 	<tr>
+							 		<th>Department</th>
+							 		<td>{{ employee.sss_number }}</td>
+							 	</tr>
+						 		<tr>
+							 		<th>Branch</th>
+							 		<td>{{ employee.pagibig_number }}</td>
+							 	</tr>
+						 		<tr>
+							 		<th>Dependents</th>
+							 		<td>{{ employee.dependents }}</td>
+							 	</tr>
+						 		<tr>
+							 		<th>Payroll Period</th>
+							 		<td>{{ employee.employee_type }}</td>
+							 	</tr>
+						 </table>
+
+						</div> <!-- / .tab-pane -->
+					
 						<div class="tab-pane fade" id="profile-tabs-activity">
 							<h1>Activity</h1>
 

@@ -64,6 +64,8 @@ Pigeon::map(function($r){
 
 
      $r->get('sss','MainController#test');
+
+     $r->get('media', 'ImageController');
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
     // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));
