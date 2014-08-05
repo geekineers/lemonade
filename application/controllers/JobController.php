@@ -14,6 +14,7 @@ class JobController extends BaseController {
 	}
 	public function index() 
 	{
+		$data['user'] = $this->sentry->getUser();
 		$data['groups'] = $this->jobPositionRepository->all();
 
 		// dd($data);
@@ -25,7 +26,7 @@ class JobController extends BaseController {
 	{
 	
 		// $data['permissions'] = $this->config->item('permissions');
-		// $data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->sentry->getUser();
 		$data['title'] = "Job Position";
 
 		$this->render('/job_position/add.twig.html', $data);

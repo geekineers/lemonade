@@ -6,7 +6,7 @@ class Migration_Add_department extends CI_Migration {
 
         public function up()
         {
-        		// $this->dbforge->drop_table('branches');
+        		$this->dbforge->drop_table('department');
                 $this->dbforge->add_field(array(
                         'id' => array(
                                 'type' => 'INT',
