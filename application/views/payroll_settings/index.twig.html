@@ -1,0 +1,83 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+<div class="row">
+	<section class="col-md-12 connectedSortable ui-sortable">
+		<div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#bir" data-toggle="tab">Widthholding Tax Tables</a></li>
+          		<li ><a href="#sss" data-toggle="tab">SSS Form table</a></li>
+          		<li ><a href="#ph" data-toggle="tab">PhilHealth Form table</a></li>
+          		<li class="pull-right">
+          			<a href="">Download the Latest BIR Tax table </a>
+          		</li>
+            </ul>
+            <div class="tab-content ">
+                <!-- bir tax table -->
+                <div class="tab-pane active" id="bir" style="position: relative; height: 300px;">
+
+                	<table class="table table-bordered center">
+                	       	{% for  key,tax in wtax %}
+		                		<tr>
+		                			<td>
+		                			<b>{{key}}</b>
+			                			{% for key,indexes in tax %}
+			                					<tr>
+			                						<td>{{key}}
+			                							  {% if key == "exemption_status" %}
+			                								{%for es in indexes%}
+			                									<td>{{es[0]}} <br> {{ (es[1]) * 100}}% over </td>
+			                								{%endfor%}
+			                							  {% endif %}
+			                						</td>
+			                					</tr>
+			                				
+			                			{% endfor%}
+		                			</td> 
+		                		</tr>
+		                	{% endfor %}
+	                	<!-- <tr>
+	                		<td>Daily</td>
+	                		<td>1</td>
+	                		<td>2</td>
+	                		<td>3</td>
+	                		<td>4</td>
+	                		<td>5</td>
+	                		<td>6</td>
+	                		<td>7</td>
+	                		<td>8</td>
+	                	</tr>	
+	                	<tr>
+	                		<td>Exemption</td>
+	                		<td>1</td>
+	                		<td>2</td>
+	                		<td>3</td>
+	                		<td>4</td>
+	                		<td>5</td>
+	                		<td>6</td>
+	                		<td>7</td>
+	                		<td>8</td>
+	                	</tr>
+	                	<tr>
+	                		<td>status</td>
+	                		<td>1</td>
+	                		<td>2</td>
+	                		<td>3</td>
+	                		<td>4</td>
+	                		<td>5</td>
+	                		<td>6</td>
+	                		<td>7</td>
+	                		<td>8</td>
+	                	</tr>		 -->
+                	</table>
+                </div>
+                <!-- sss table -->
+                <div class="tab-pane" id="sss" style="position: relative; height: 300px;">
+                </div>
+
+                <div class="tab-pane" id=""></div>
+            </div>
+        </div>
+	</section>
+</div>
+
+{% endblock %}
