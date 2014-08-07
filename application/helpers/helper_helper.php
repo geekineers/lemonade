@@ -258,7 +258,7 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 		}
 	}
 
-	return $wt;
+	return $wtax_list;
 }
 
 // get total withholdong tax

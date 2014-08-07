@@ -29,29 +29,37 @@ Pigeon::map(function($r){
      $r->post('branches/edit', 'BranchController#update');
      $r->get('branches/delete', 'BranchController#delete');
 
+     $r->get('payroll','PayrollController#index');
+     $r->get('payroll/payslip','PayrollController#payslip');
+     $r->post('payroll/payslip/generate','PayrollController#generatePayslip');
+     $r->get('payroll/gov-form','PayrollController#govform');
+     $r->get('payroll/bank','PayrollController#bank');
 
-     $r->get('roles', 'UserRolesController#index');
-     $r->get('roles/add', 'UserRolesController#add');
-     $r->post('roles/add', 'UserRolesController#save');
-     $r->get('roles/edit', 'UserRolesController#edit');
-     $r->post('roles/edit', 'UserRolesController#update');
-     $r->get('roles/delete', 'UserRolesController#delete');
+     /*Admin Settings */
+     $r->get('settings/roles', 'UserRolesController#index');
+     $r->get('settings/roles/add', 'UserRolesController#add');
+     $r->post('settings/roles/add', 'UserRolesController#save');
+     $r->get('settings/roles/edit', 'UserRolesController#edit');
+     $r->post('settings/roles/edit', 'UserRolesController#update');
+     $r->get('settings/roles/delete', 'UserRolesController#delete');
 
 
-     $r->get('job', 'jobController#index');
-     $r->get('job/add', 'jobController#add');
-     $r->post('job/add', 'jobController#save');
-     $r->get('job/edit', 'jobController#edit');
-     $r->post('job/edit', 'jobController#update');
-     $r->get('job/delete', 'jobControllerjob#delete');
+     $r->get('settings/job', 'jobController#index');
+     $r->get('settings/job/add', 'jobController#add');
+     $r->post('settings/job/add', 'jobController#save');
+     $r->get('settings/job/edit', 'jobController#edit');
+     $r->post('settings/job/edit', 'jobController#update');
+     $r->get('settings/job/delete', 'jobControllerjob#delete');
 
-      $r->get('department', 'DepartmentController#index');
-     $r->get('department/add', 'DepartmentController#add');
-     $r->post('department/add', 'DepartmentController#save');
-     $r->get('department/edit', 'DepartmentController#edit');
-     $r->post('department/edit', 'DepartmentController#update');
-     $r->get('department/delete', 'DepartmentController#delete');
+     $r->get('settings/department', 'DepartmentController#index');
+     $r->get('settings/department/add', 'DepartmentController#add');
+     $r->post('settings/department/add', 'DepartmentController#save');
+     $r->get('settings/department/edit', 'DepartmentController#edit');
+     $r->post('settings/department/edit', 'DepartmentController#update');
+     $r->get('settings/department/delete', 'DepartmentController#delete');
 
+     $r->get('settings/payroll','payrollSettingsController#index');
+     $r->get('settings/payroll','payrollSettingsController#index');
 
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
