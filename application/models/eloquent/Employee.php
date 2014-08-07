@@ -13,21 +13,37 @@ class Employee extends Eloquent {
 
   protected $fillable = [
                       'user_id',
+                      // Basic Info
                       'first_name',
                       'last_name',
                       'middle_name',
                       'full_address',
+                      'birthdate',
+                      'gender',
+                      'marital_status',
+
+                      // Employee Details 
+
+                      'employee_type',
+                      'payroll_period'
                       'job_position',
                       'department',
                       'role_id',
                       'branch_id',
+                      'date_hired',
+                      'date_ended',
+
+                      // Government Details
+
                       'basic_pay',
                       'tin_number',
                       'sss_number',
                       'pagibig_number',
                       'dependents',
+
+                      // Contact info
+
                       'contact_number',
-                      'employee_type', 
                       'profile_picture',
                       'fb',
                       'email', 
