@@ -64,6 +64,13 @@ class EmployeeController extends BaseController {
 
 	}
 
+	public function update()
+	{
+		$post = $this->input->post();
+		
+
+	}
+
 	public function save()
 	{
 

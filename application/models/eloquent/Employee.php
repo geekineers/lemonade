@@ -37,7 +37,7 @@ class Employee extends Eloquent {
 
  public function getName()
  {
-    return $this->first_name . ' ' . $this->last_name;
+    return $this->first_name .' ' . $this->middle_name . ' ' . $this->last_name;
  }               
  public function getJobPosition()
  {
@@ -50,6 +50,11 @@ class Employee extends Eloquent {
  public function getBranch()
  {
    return Branch::find($this->branch_id)->branch_name;
+ }
+
+ public function getPayrollPeriod()
+ {
+  return 'Monthly';
  }
 
 }

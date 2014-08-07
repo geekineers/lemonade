@@ -18,17 +18,19 @@
                             </span>
                         </div>
 </div>
-<table class="table">
+<table class="table table-bordered table-hover dataTable">
 	<tr>
 		<th></th>
 		<th>Name</th>
 		<th>Position</th>
 		<th>Branch</th>
-		<th>Option</th>
+		<th>Contact Number</th>
+		<th>Email Address</th>
+		<th></th>
 	</tr>
 	 {% for employee in employees %}
-	 	<tr>
-	 		<td>
+	 	<tr action="/employees/{{ employee.id }}/profile">
+	 			<td>
 	 			<center>
 		 			<img class="listing profile-img img img-circle" src="{{ employee.getProfilePicture() }}">
 	 				
@@ -37,11 +39,13 @@
 	 		<td>{{ employee.last_name }}, {{ employee.first_name }}</td>
 	 		<td>{{ employee.getJobPosition() }}</td>
 	 		<td>{{ employee.getBranch() }}</td>
+	 		<td>{{ employee.contact_number }}</td>
+	 		<td>{{ employee.email }}</td>
 	 		<td>
 	 			<a href="/employees/{{ employee.id }}/profile" class="btn btn-default">View</a>
-	 			<a href="/branches/edit?id={{ branch.id }}" class="btn btn-primary">Edit</a>
 	 			<a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger">Delete</a>
 	 		</td>
+	 	
 	 	</tr>
 	 {% endfor %}
 </table>
