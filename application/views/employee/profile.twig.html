@@ -21,10 +21,10 @@
 					</div>
 					<div class="panel-body">	
 						<label><i class="fa fa-calendar"></i> Date Hired</label>
-						<span>02/03/1992</span>
+						<span>{{ employee.getDateHired() }}</span>
 						<br>
 						<label><i class="fa fa-gift"></i> Birthdate</label>
-						<span>02/03/1992</span>
+						<span>{{ employee.getBirthdate() }}</span>
 					</div>
 				</div>
 
@@ -64,32 +64,35 @@
 					</ul>
 
 					<div class="tab-content tab-content-bordered panel-padding">
+						
 						<div class="tab-pane active" id="profile-tabs-basic">
-						 <div class="panel panel-default">
-						  <div class="panel-heading">Basic Information <button class="pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+					<!-- Basic Information -->
+						 <div class="basic-information panel panel-default">
+						  <div class="panel-heading">Basic Information <button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
 						 		<td><span class="form-label">Full Name</span>
 						 			<span class="profile-value">{{ employee.getName() }}</span>
-						 			<input type="text" name="first_name" class="edit-input " value="{{ employee.first_name }}">
-						 			<input type="text" name="middle_name" class="edit-input " value="{{ employee.middle_name }}">
-						 			<input type="text" name="last_name" class="edit-input " value="{{ employee.last_name }}">
+						 			<br>
+						 			<input type="text" name="first_name" class="edit-input  name-input" value="{{ employee.first_name }}">
+						 			<input type="text" name="middle_name" class="edit-input name-input " value="{{ employee.middle_name }}">
+						 			<input type="text" name="last_name" class="edit-input  name-input" value="{{ employee.last_name }}">
 						 		</td>
 						 		<td><span class="form-label">Birthdate</span>
-						 			<span class="profile-value">{{ employee.getBirthday() }}</span>
-						 			<input type="" class="edit-input" value="{{ employee.getBirthday() }}">
+						 			<span class="profile-value">{{ employee.getBirthdate() }}</span>
+						 			<input type="" class="edit-input" value="{{ employee.getBirthdate() }}">
 						 		</td>
 						 	</tr>
 						 	<tr>
-						 		<td><span class="form-label">Employee ID</span>
+						 		<td><span class="form-label">Employee ID</span>{{ employee.getEmployeeId() }}
 						 		<span class="profile-value">
-							 		{{ employee.getEmployeeId }}
+							 		{{ employee.getEmployeeId() }}
 						 		</span>
 						 		<input type="text" class="edit-input" value="{{ employee.getEmployeeId() }}">
 						 			
 						 		</td>
-						 		<td><span class="form-label">Gender</span>Male
+						 		<td><span class="form-label">Gender</span>
 						 			<span class="profile-value">
 						 				{{ employee.getGender() }}
 						 			</span>
@@ -112,11 +115,18 @@
 						 		</td>
 						 	</tr>
 						 </table>
-						  </div>
 
+							<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
+						  </div>
 						</div>
-							 <div class="panel panel-default">
-						  <div class="panel-heading">Employment Details <button class="pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+					
+
+						<!-- Employment Details -->
+							 <div class="employment-details panel panel-default">
+						  <div class="panel-heading">Employment Details <button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
@@ -134,15 +144,19 @@
 						 	<tr>
 						 		<td><span class="form-label">Position</span>
 						 			<span class="profile-value">{{ employee.getJobPosition() }}</span>
-						 			<select>
-						 				{% for position in positions %}
-						 					<option value="{{ position.id }}">{{ position.job_position }}</option>
+						 			<select class="form-control edit-input">
+						 				{% for position in job_positions %}
+						 					<option {% if position.id == employee.job_position %} {% endif %}value="{{ position.id }}">{{ position.job_position }}</option>
 						 				{% endfor %}
 						 			</select>
 						 		</td>
 						 		<td><span class="form-label">Department</span>
 						 			<span class="profile-value">{{ employee.getDepartment() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getDepartment() }}" >
+				 					<select class="form-control edit-input">
+						 				{% for department in departments %}
+						 					<option {% if department.id == employee.department %} {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
+						 				{% endfor %}
+						 			</select>
 						 		</td>
 						 	</tr>
 						 	<tr>
@@ -155,18 +169,33 @@
 						 			<input type="text" class="edit-input" value="{{ employee.getDateEnded() }}" >
 						 		</td>
 						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Branch</span>
+						 			<span class="profile-value">{{ employee.getBranch() }}</span>
+						 				<select class="form-control  edit-input">
+						 				{% for branch in branches %}
+						 					<option {% if branch.id == employee.branch %} {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
+						 				{% endfor %}
+						 			</select>
+						 		</td>
+						 	</tr>
 						 </table>
+						 	<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#employee-details" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
 						  </div>
 
 						</div>
-							 <div class="panel panel-default">
-						  <div class="panel-heading">Government Details<button class="pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						<!-- Government Details -->
+							 <div class="government-information panel panel-default">
+						  <div class="panel-heading">Government Details<button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
 						 		<td><span class="form-label">Tax Status</span>
-						 		<span class="profile-value">{{ employee.getTaxStatus() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getTaxStatus() }}" >
+						 		<span class="profile-value">{{ employee.getMaritalStatus() }}</span>
+						 			<input type="text" class="edit-input" value="{{ employee.getMaritalStatus() }}" >
 						 		</td>
 						 		<td><span class="form-label">TIN</span>
 						 			<span class="profile-value">{{ employee.getTin() }}</span>
@@ -185,6 +214,10 @@
 						 	</tr>
 						
 						 </table>
+						 	<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
 						  </div>
 
 						</div>
