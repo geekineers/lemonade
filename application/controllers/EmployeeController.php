@@ -57,7 +57,6 @@ class EmployeeController extends BaseController {
 		$data['branches'] = $this->branchesRepository->all();
 		$data['groups'] = $this->sentry->findAllGroups();
 		$data['job_positions'] = $this->jobPositionRepository->all();
-		
 		$data['departments'] = $this->departmentRepository->all();
 		// dd($data['job_position'][0]['job_position']);		
 		$this->render('employee/add.twig.html', $data);
@@ -66,8 +65,10 @@ class EmployeeController extends BaseController {
 
 	public function update()
 	{
+		$employee_id = $this->input->post('id');
 		$post = $this->input->post();
-		// $this->employeeRepository->where()
+		dd($post);
+		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 
 
 	}

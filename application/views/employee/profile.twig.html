@@ -1,7 +1,8 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
 <div class="profile-page" id="content-wrapper">
-	
+		<form method="post">
+		<input type="hidden" name="id" value="{{ employee.id }}" />		
 	 	<div class="profile-row">
 			<div class="left-col">
 				<div class="profile-block">
@@ -81,7 +82,7 @@
 						 		</td>
 						 		<td><span class="form-label">Birthdate</span>
 						 			<span class="profile-value">{{ employee.getBirthdate() }}</span>
-						 			<input type="" class="edit-input" value="{{ employee.getBirthdate() }}">
+						 			<input type="" name="birthdate" class="edit-input" value="{{ employee.getBirthdate() }}">
 						 		</td>
 						 	</tr>
 						 	<tr>
@@ -96,7 +97,7 @@
 						 			<span class="profile-value">
 						 				{{ employee.getGender() }}
 						 			</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getGender() }}"
+						 			<input type="text" name="gender" class="edit-input" value="{{ employee.getGender() }}"
 						 		</td>
 						 	</tr>
 						 	<tr>
@@ -111,7 +112,7 @@
 						 		<span class="profile-value">
 							 		Single
 						 		</span>
-						 		<input type="text" class="edit-input" value="{{ employee.getMaritalStatus() }}"	>
+						 		<input type="text" class="edit-input" name="marital_status" value="{{ employee.getMaritalStatus() }}"	>
 						 		</td>
 						 	</tr>
 						 </table>
@@ -132,7 +133,7 @@
 						 	<tr>
 						 		<td><span class="form-label">Employee Type</span>
 						 		<span class="profile-value">{{ employee.getEmployeeType() }}</span>
-						 		<input type="text" class="edit-input" value="{{  employee.getEmployeeType() }}" />
+						 		<input type="text" name="employee_type" class="edit-input" value="{{  employee.getEmployeeType() }}" />
 						 		</td>
 						 		<td><span class="form-label">Payroll Period</span>
 						 		<span class="profile-value">
@@ -144,7 +145,7 @@
 						 	<tr>
 						 		<td><span class="form-label">Position</span>
 						 			<span class="profile-value">{{ employee.getJobPosition() }}</span>
-						 			<select class="form-control edit-input">
+						 			<select name="job_position" class="form-control edit-input">
 						 				{% for position in job_positions %}
 						 					<option {% if position.id == employee.job_position %} {% endif %}value="{{ position.id }}">{{ position.job_position }}</option>
 						 				{% endfor %}
@@ -152,7 +153,7 @@
 						 		</td>
 						 		<td><span class="form-label">Department</span>
 						 			<span class="profile-value">{{ employee.getDepartment() }}</span>
-				 					<select class="form-control edit-input">
+				 					<select name="department" class="form-control edit-input">
 						 				{% for department in departments %}
 						 					<option {% if department.id == employee.department %} {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
 						 				{% endfor %}
@@ -162,17 +163,17 @@
 						 	<tr>
 						 		<td><span class="form-label">Date Hired</span>
 						 			<span class="profile-value">{{ employee.getDateHired() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getDateHired() }}" >
+						 			<input name="date_hired" type="text" class="edit-input" value="{{ employee.getDateHired() }}" >
 						 		</td>
 						 		<td><span class="form-label">Date Ended</span>
 						 			<span class="profile-value">{{ employee.getDateEnded() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getDateEnded() }}" >
+						 			<input name="date_ended" type="text" class="edit-input" value="{{ employee.getDateEnded() }}" >
 						 		</td>
 						 	</tr>
 						 	<tr>
 						 		<td><span class="form-label">Branch</span>
 						 			<span class="profile-value">{{ employee.getBranch() }}</span>
-						 				<select class="form-control  edit-input">
+						 				<select name="branch" class="form-control  edit-input">
 						 				{% for branch in branches %}
 						 					<option {% if branch.id == employee.branch %} {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
 						 				{% endfor %}
@@ -199,17 +200,17 @@
 						 		</td>
 						 		<td><span class="form-label">TIN</span>
 						 			<span class="profile-value">{{ employee.getTin() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getTin() }}" >
+						 			<input name="tin_number" type="text" class="edit-input" value="{{ employee.getTin() }}" >
 						 		</td>
 						 	</tr>
 						 	<tr>
 						 		<td><span class="form-label">Pagibig</span>
 						 		<span class="profile-value">{{ employee.getPagibig() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getPagibig() }}" >
+						 			<input name="pagibig_number" type="text" class="edit-input" value="{{ employee.getPagibig() }}" >
 						 		</td>
 						 		<td><span class="form-label">SSS</span>
 						 		<span class="profile-value">{{ employee.getSSS() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getSSS() }}" >
+						 			<input name="sss_number" type="text" class="edit-input" value="{{ employee.getSSS() }}" >
 						 		</td>
 						 	</tr>
 						
@@ -264,6 +265,6 @@
 			</div>
 		</div>
 
-
+		</form>s
 	</div>
 {% endblock %}
