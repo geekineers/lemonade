@@ -22,7 +22,8 @@ class MainController extends BaseController
 	{
 
 		// dd($this->sentry->getUser());
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = "Dashboard";
 
 		$this->render('index.twig.html', $data);

@@ -1,8 +1,7 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
 <div class="profile-page" id="content-wrapper">
-		<form method="post">
-		<input type="hidden" name="id" value="{{ employee.id }}" />		
+
 	 	<div class="profile-row">
 			<div class="left-col">
 				<div class="profile-block">
@@ -51,7 +50,7 @@
 
 					<ul id="profile-tabs" class="nav nav-tabs">
 						<li class="active">
-							<a href="#profile-tabs-basic" data-toggle="tab"><i class='fa fa-user'></i>&nbsp;201 File</a>
+							<a href="#profile-tabs-201" data-toggle="tab"><i class='fa fa-user'></i>&nbsp;201 File</a>
 						</li>
 						<li>
 							<a href="#profile-tabs-salary" data-toggle="tab"><i class='fa fa-money'></i>&nbsp;Salary Info</a>
@@ -60,211 +59,25 @@
 							<a href="#profile-tabs-training" data-toggle="tab"><i class='fa fa-certificate'></i>&nbsp;Trainings and Seminars</a>
 						</li>
 						<li>
+							<a href="#profile-tabs-documents" data-toggle="tab"><i class="fa fa-file"></i> Files and Documents</a>
+						</li>
+						<li>
 							<a href="#profile-tabs-following" data-toggle="tab"><i class='fa fa-cog'></i>&nbsp; Settings</a>
 						</li>
 					</ul>
 
 					<div class="tab-content tab-content-bordered panel-padding">
-						
-						<div class="tab-pane active" id="profile-tabs-basic">
-					<!-- Basic Information -->
-						 <div class="basic-information panel panel-default">
-						  <div class="panel-heading">Basic Information <button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
-						  <div class="panel-body">
-						  		 <table class="table">
-						 	<tr>
-						 		<td><span class="form-label">Full Name</span>
-						 			<span class="profile-value">{{ employee.getName() }}</span>
-						 			<br>
-						 			<input type="text" name="first_name" class="edit-input  name-input" value="{{ employee.first_name }}">
-						 			<input type="text" name="middle_name" class="edit-input name-input " value="{{ employee.middle_name }}">
-						 			<input type="text" name="last_name" class="edit-input  name-input" value="{{ employee.last_name }}">
-						 		</td>
-						 		<td><span class="form-label">Birthdate</span>
-						 			<span class="profile-value">{{ employee.getBirthdate() }}</span>
-						 			<input type="" name="birthdate" class="edit-input" value="{{ employee.getBirthdate() }}">
-						 		</td>
-						 	</tr>
-						 	<tr>
-						 		<td><span class="form-label">Employee ID</span>{{ employee.getEmployeeId() }}
-						 		<span class="profile-value">
-							 		{{ employee.getEmployeeId() }}
-						 		</span>
-						 		<input type="text" class="edit-input" value="{{ employee.getEmployeeId() }}">
-						 			
-						 		</td>
-						 		<td><span class="form-label">Gender</span>
-						 			<span class="profile-value">
-						 				{{ employee.getGender() }}
-						 			</span>
-						 			<input type="text" name="gender" class="edit-input" value="{{ employee.getGender() }}"
-						 		</td>
-						 	</tr>
-						 	<tr>
-						 		<td><span class="form-label">Full Address</span>
-						 			<span class="profile-value">
-							 			{{ employee.full_address }}
-						 			</span>
-						 			<input type="text" class="edit-input" value="{{ employee.full_address }}"
 
-						 		</td>
-						 		<td><span class="form-label">Marital Status</span>
-						 		<span class="profile-value">
-							 		Single
-						 		</span>
-						 		<input type="text" class="edit-input" name="marital_status" value="{{ employee.getMaritalStatus() }}"	>
-						 		</td>
-						 	</tr>
-						 </table>
-
-							<div class="save-cancel-btn pull-right">
-									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
-									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
-							</div>
-						  </div>
-						</div>
+						 {% include 'employee/panel/201.twig.html' %}
+						 {% include 'employee/panel/salary.twig.html' %}
+						 {% include 'employee/panel/trainings.twig.html' %}
+						 {% include 'employee/panel/documents.twig.html' %}
 					
-
-						<!-- Employment Details -->
-							 <div class="employment-details panel panel-default">
-						  <div class="panel-heading">Employment Details <button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
-						  <div class="panel-body">
-						  		 <table class="table">
-						 	<tr>
-						 		<td><span class="form-label">Employee Type</span>
-						 		<span class="profile-value">{{ employee.getEmployeeType() }}</span>
-						 		<input type="text" name="employee_type" class="edit-input" value="{{  employee.getEmployeeType() }}" />
-						 		</td>
-						 		<td><span class="form-label">Payroll Period</span>
-						 		<span class="profile-value">
-							 		{{ employee.getPayrollPeriod() }}	
-						 	     </span>
-						 	     <input type="text" class="edit-input" value="{{ employee.getPayrollPeriod() }}"
-						 		</td>
-						 	</tr>
-						 	<tr>
-						 		<td><span class="form-label">Position</span>
-						 			<span class="profile-value">{{ employee.getJobPosition() }}</span>
-						 			<select name="job_position" class="form-control edit-input">
-						 				{% for position in job_positions %}
-						 					<option {% if position.id == employee.job_position %} {% endif %}value="{{ position.id }}">{{ position.job_position }}</option>
-						 				{% endfor %}
-						 			</select>
-						 		</td>
-						 		<td><span class="form-label">Department</span>
-						 			<span class="profile-value">{{ employee.getDepartment() }}</span>
-				 					<select name="department" class="form-control edit-input">
-						 				{% for department in departments %}
-						 					<option {% if department.id == employee.department %} {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
-						 				{% endfor %}
-						 			</select>
-						 		</td>
-						 	</tr>
-						 	<tr>
-						 		<td><span class="form-label">Date Hired</span>
-						 			<span class="profile-value">{{ employee.getDateHired() }}</span>
-						 			<input name="date_hired" type="text" class="edit-input" value="{{ employee.getDateHired() }}" >
-						 		</td>
-						 		<td><span class="form-label">Date Ended</span>
-						 			<span class="profile-value">{{ employee.getDateEnded() }}</span>
-						 			<input name="date_ended" type="text" class="edit-input" value="{{ employee.getDateEnded() }}" >
-						 		</td>
-						 	</tr>
-						 	<tr>
-						 		<td><span class="form-label">Branch</span>
-						 			<span class="profile-value">{{ employee.getBranch() }}</span>
-						 				<select name="branch" class="form-control  edit-input">
-						 				{% for branch in branches %}
-						 					<option {% if branch.id == employee.branch %} {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
-						 				{% endfor %}
-						 			</select>
-						 		</td>
-						 	</tr>
-						 </table>
-						 	<div class="save-cancel-btn pull-right">
-									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
-									<a href="#employee-details" class="btn btn-sm btn-cancel btn-default">Cancel</a>
-							</div>
-						  </div>
-
-						</div>
-						<!-- Government Details -->
-							 <div class="government-information panel panel-default">
-						  <div class="panel-heading">Government Details<button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
-						  <div class="panel-body">
-						  		 <table class="table">
-						 	<tr>
-						 		<td><span class="form-label">Tax Status</span>
-						 		<span class="profile-value">{{ employee.getMaritalStatus() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getMaritalStatus() }}" >
-						 		</td>
-						 		<td><span class="form-label">TIN</span>
-						 			<span class="profile-value">{{ employee.getTin() }}</span>
-						 			<input name="tin_number" type="text" class="edit-input" value="{{ employee.getTin() }}" >
-						 		</td>
-						 	</tr>
-						 	<tr>
-						 		<td><span class="form-label">Pagibig</span>
-						 		<span class="profile-value">{{ employee.getPagibig() }}</span>
-						 			<input name="pagibig_number" type="text" class="edit-input" value="{{ employee.getPagibig() }}" >
-						 		</td>
-						 		<td><span class="form-label">SSS</span>
-						 		<span class="profile-value">{{ employee.getSSS() }}</span>
-						 			<input name="sss_number" type="text" class="edit-input" value="{{ employee.getSSS() }}" >
-						 		</td>
-						 	</tr>
-						
-						 </table>
-						 	<div class="save-cancel-btn pull-right">
-									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
-									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
-							</div>
-						  </div>
-
-						</div>
-
-						</div> <!-- / .tab-pane -->
-						<div class="tab-pane " id="profile-tabs-salary">
-							 <div class="panel panel-default">
-						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Earnings</div>
-						  	 <div class="panel-body">
-						  		 <table class="table">
-								<tr>
-						 			<td><span class="form-label">Basic Pay</span>{{ employee.basic_pay }}</td>
-						 			<td><span class="form-label">Payroll Period</span>{{ employee.getPayrollPeriod() }}</td>
-						 		</tr>
-							 	<tr>
-							 		<td><span class="form-label">Withholding Tax Type</span>Compensation</td>
-							 		<td><span class="form-label">Expanded Withholding Tax %</span>0%</td>
-							 	</tr>
-							 	<tr>
-							 		<td><span class="form-label">Entitled Night Differential</span>Yes</td>
-							 		<td><span class="form-label">Night Differential Rate %</span>0%</td>
-							 	</tr>
-						 	
-						 </table>
-						 </div>
-						 </div>
-						</div> <!-- / .tab-pane -->
-					
-						<div class="tab-pane fade" id="profile-tabs-activity">
-							<h1>Activity</h1>
-
-						</div> <!-- / .tab-pane -->
-
-						<div class="tab-pane" id="profile-tabs-training">
-							<div class="contaier">
-								<p><i>
-									No Certificates Yet.
-								</i></p>
-							</div>
-						</div>
-
 					</div> <!-- / .tab-content -->
 				</div>
 			</div>
 		</div>
 
-		</form>s
+
 	</div>
 {% endblock %}

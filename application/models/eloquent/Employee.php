@@ -122,4 +122,9 @@ class Employee extends Eloquent {
    return Branch::find($this->branch_id)->branch_name;
  }
 
+ public function getDocuments()
+ {
+  return Document::where('employee_id', '=', $this->id)->get();
+ }
+
 }
