@@ -25,7 +25,7 @@ class Employee extends Eloquent {
                       // Employee Details 
 
                       'employee_type',
-                      'payroll_period'
+                      'payroll_period',
                       'job_position',
                       'department',
                       'role_id',
