@@ -67,10 +67,10 @@ class EmployeeController extends BaseController {
 	{
 		$employee_id = $this->input->post('id');
 		$post = $this->input->post();
-		dd($post);
+		// dd($post);
 		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 
-
+		redirect('/employees/' . $employee_id . '/profile', 'location');
 	}
 
 	public function save()
