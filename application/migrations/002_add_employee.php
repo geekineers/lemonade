@@ -36,6 +36,29 @@ class Migration_Add_employee
                                 'type' => 'VARCHAR',
                                 'constraint' => '255',
                         ),
+
+                        'birthdate' => array(
+                                'type' => 'DATE'
+                            ),
+                        'gender' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => '100'
+                            ),
+                        'marital_status' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
+                            ),
+                        // Employee details
+
+                        'employee_type' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
+                            ),
+
+                        'payroll_period' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
+                            ),
                        'job_position' => array(
                                 'type' => 'INT',
                                 'constraint' => 5,
@@ -52,8 +75,14 @@ class Migration_Add_employee
                                	'type' => 'INT',
                                 'constraint' => 5,
                         ),
+                        'date_hired' => array(
+                                'type' => 'DATE'
+                            ),
+                        'date_ended' => array(
+                                'type' => 'DATE'
+                            ),
 
-                        // Salary Information
+                        // Governmanet Details
                         'basic_pay' => array(
                                 'type' => 'VARCHAR',
                                 'constraint' => '100',
@@ -81,22 +110,21 @@ class Migration_Add_employee
 
                         ), 
 
-                        'contact_number' => array(
-                        		'type' => 'VARCHAR',
-                        		'constraint' => '100',
-
-                        	),
-
-                        'employee_type' => array(
-                        		'type' => 'VARCHAR',
-                        		'constraint' => '100',
-
-                        	),	
+                  
                           'profile_picture' => array(
                                 'type' => 'VARCHAR',
                                 'constraint' => '100',
 
                             ),  
+
+                        // Contact Information
+                          
+                        'contact_number' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => '100',
+
+                            ),
+
 
                         'fb' => array(
                                 'type' => 'VARCHAR',

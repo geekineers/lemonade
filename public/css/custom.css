@@ -30,12 +30,16 @@ header .logo img{
 
 }
 
+.profile-page .form-label { 
+	font-weight: bold;
+	min-width: 150px;
+	margin-right: 10px;
+}
 .profile-full-name {
 	font-size:20px;
 	font-weight:300;
 	line-height:40px;
-	padding-top:15px;
-	padding-bottom:20px;
+		
 	position:relative;
 	border-bottom-width:2px;
 	margin-bottom:0;
@@ -113,12 +117,17 @@ header .logo img{
 	margin-bottom:30px;
 }
 
+
 .panel-padding {
 	padding: 20px;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	border-radius: 0 0 5px 5px;
+}
+
+.profile-page {
+	margin-top: 90px;
 }
 
 @media (min-width:768px) {
@@ -137,9 +146,8 @@ header .logo img{
 	}
 
 	.profile-full-name {
-		padding-left:240px;
-		padding-bottom:50px;
-		text-align:left;
+	
+		text-align:center;
 	}
 
 	.profile-row {
@@ -173,4 +181,7 @@ header .logo img{
 	color: white;
 	font-size: 18px;
 }
+
+
+
 
