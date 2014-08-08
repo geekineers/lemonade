@@ -10,6 +10,7 @@ class EmployeeController extends BaseController {
 				$branchesRepository,
 				$jobPositionRepository, 
 				$departmentRepository,
+				$documentRepository,
 				$fileSystem;
 
 	public function __construct()
@@ -27,6 +28,7 @@ class EmployeeController extends BaseController {
 		$this->jobPositionRepository = new JobPositionRepository();
 
 		$this->departmentRepository = new DepartmentRepository();
+		$this->documentRepository = new DocumentRepository();
 		$this->load->library('session'); 
 	}
 
@@ -39,7 +41,7 @@ class EmployeeController extends BaseController {
 		$data['alert_message'] = ($this->session->flashdata('message') == null)
 			? null
 			: $this->session->flashdata('message');
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title'] = "Employee";
 		$data['employees'] = $this->employeeRepository->all();
 
@@ -52,7 +54,7 @@ class EmployeeController extends BaseController {
 
 	public function add()
 	{
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title'] = "Employees";
 		$data['branches'] = $this->branchesRepository->all();
 		$data['groups'] = $this->sentry->findAllGroups();
@@ -66,7 +68,33 @@ class EmployeeController extends BaseController {
 	public function update()
 	{
 		$employee_id = $this->input->post('id');
-		$post = $this->input->post();
+		$post = array(
+		'first_name' => $this->input->post('first_name'),
+		'last_name' => $this->input->post('last_name'),
+		'middle_name' => $this->input->post('middle_name'),
+		'full_address' => $this->input->post('full_address'),
+		'birthdate' => $this->input->post('birthdate'),
+		'gender' => $this->input->post('gender'),
+		'marital_status' => $this->input->post('marital_status'),
+		// 'spouse_name' => $this->input->post('spouse_name'),
+		'dependents' => (int) $this->input->post('dependents'),
+
+		// Employee Details
+		'employee_type' => $this->input->post('employee_type'),
+		'payroll_period' => $this->input->post('payroll_period'),
+		'job_position' => (int) $this->input->post('job_position'),
+		'department' => (int) $this->input->post('department'),
+		'role_id' => (int) $this->input->post('role_id'),
+		'branch_id'=> (int) $this->input->post('branch_id'),
+		'date_hired' => $this->input->post('date_hired'),
+		// 'basic_pay' => $this->input->post('basic_pay'),
+		
+
+		// Government Details
+		'tin_number' => $this->input->post('tin_number'),
+		'sss_number' => $this->input->post('sss_number'),
+		'pagibig_number' => $this->input->post('pagibig_number'),
+			);
 		// dd($post);
 		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 
@@ -120,7 +148,7 @@ class EmployeeController extends BaseController {
 
 		// Creation of New Account 
 
-		if($email == "" || $email == null) 
+		if($email != "") 
 		{	
 			
 		   $user = $this->sentry->createUser(array(
@@ -214,10 +242,44 @@ class EmployeeController extends BaseController {
 
 	public function profile($id)
 	{
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['job_positions'] = $this->jobPositionRepository->all();
 		$data['branches'] = $this->branchesRepository->all();
 		$data['departments'] = $this->departmentRepository->all();
 		$data['employee'] = $this->employeeRepository->find($id);
+		// $data['documents'] = $this->employeeRepository->find($id);
 		$this->render('/employee/profile.twig.html', $data);
+	}
+
+	public function upload()
+	{	
+		$new_filename = uniqid();
+		$file = new \Upload\File('file', $this->fileSystem);
+		$file->setName($new_filename);
+		$data = array(
+			'employee_id'    => (int)$this->input->post('employee_id'),
+			'name'			  => (string)$this->input->post('name'),
+			'file_description' => (string)$this->input->post('description'),
+		    'file_name'       => (string)$file->getNameWithExtension(),
+		    'file_extension'  => (string)$file->getExtension(),
+		    'file_type'       => (string)$file->getMimetype(),
+		    'file_size'       => (string)$file->getSize()
+		);
+
+		try {
+		    // Success!
+		    $file->upload();
+		} catch (\Exception $e) {
+		    // Fail!
+		    $errors = $file->getErrors();
+		}
+
+		// dd($data);
+		$this->documentRepository->create($data);
+
+
+		redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
+
 	}
 }

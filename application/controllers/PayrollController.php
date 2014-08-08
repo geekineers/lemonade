@@ -9,11 +9,13 @@ class PayrollController extends BaseController
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
+		$this->employeeRepository = new EmployeeRepository();
 	}
 // GET
 	public function index()
 	{
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = 'Payroll Generation';
 	
 		$this->render('payroll/index.twig.html',$data);
@@ -21,7 +23,8 @@ class PayrollController extends BaseController
 // GET
 	public function payslip()
 	{
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = 'Payroll Generation';
 		$this->render('payroll/payslip.twig.html',$data);
 	}
@@ -33,14 +36,16 @@ class PayrollController extends BaseController
 // GET
 	public function govForm()
 	{
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = 'Payroll Generation';
 		$this->render('payroll/govform.twig.html',$data);
 	}
 // GET
 	public function bank()
 	{
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = 'Payroll Generation';
 		$this->render('payroll/govform.twig.html',$data);
 	}

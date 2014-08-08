@@ -74,6 +74,39 @@ INSERT INTO `department` VALUES (1,'IT Department','','2014-08-07 13:43:05','201
 UNLOCK TABLES;
 
 --
+-- Table structure for table `documents`
+--
+
+DROP TABLE IF EXISTS `documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `documents` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `employee_id` int(5) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `file_description` text,
+  `file_name` text NOT NULL,
+  `file_size` varchar(255) NOT NULL,
+  `file_type` varchar(255) NOT NULL,
+  `file_extension` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `documents`
+--
+
+LOCK TABLES `documents` WRITE;
+/*!40000 ALTER TABLE `documents` DISABLE KEYS */;
+INSERT INTO `documents` VALUES (1,1,'Resume File','asdasdsad','53e3cf238d3ad.pdf','222529','application/pdf','pdf','2014-08-08 03:10:27','2014-08-08 03:10:27',NULL);
+/*!40000 ALTER TABLE `documents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `employees`
 --
 
@@ -112,7 +145,7 @@ CREATE TABLE `employees` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +154,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'','Mark','Penaranda','Angel','#8 Robina Road','birthdate','Male','Single','','Regular','Daily',1,1,1,1,'date_hired','none','25,000','123123','123','13123',0,'53e3121e449fc.jpg','09066009622','eloisa.corpuz','mark@sourcescript.ph','2014-08-07 13:43:59','2014-08-07 13:43:59',NULL),(2,'','Eloisa ','Corpuz','Luzano','#8 Robina Road','02/07/1992','Female','Single','','Regular','Monthly',1,1,1,1,'07/07/1992','none','12,000','1212111','1212111','121211',0,'53e32f6e3da47.jpg','09066009622','eloisa.corpuz','eloisa@sourcescript.ph','2014-08-07 15:49:02','2014-08-07 15:49:02',NULL);
+INSERT INTO `employees` VALUES (1,'2','Mark','Penaranda','Angel','#8 Robina Roaddasd','birthdate','Male','Single','','Regular','Daily',1,1,0,1,'07/07/1992','none','25,000','123123','123','13123',0,'53e3121e449fc.jpg','09066009622','eloisa.corpuz','mark@sourcescript.ph','2014-08-07 13:43:59','2014-08-08 02:23:17',NULL),(2,'','Eloisa ','Corpuz','Luzanos','#8 Robina Road','02/07/1992','Female','Single','','Regular','Monthly',1,1,1,1,'07/07/1992','none','12,000','1212111','1212111','121211',0,'53e32f6e3da47.jpg','09066009622','eloisa.corpuz','eloisa@sourcescript.ph','2014-08-07 15:49:02','2014-08-07 17:53:26',NULL),(3,'','','','','','','','Single','','Regular','Daily',1,1,1,1,'','none','','','','',0,'53e3d5fd77504','','','','2014-08-08 03:39:41','2014-08-08 03:39:41',NULL),(4,'','John','Doe','Dee','Amsterdam','02/07/1992','Male','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25,000','123123','123','13123',4,'53e3dbefe96cb.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:05:07','2014-08-08 04:05:07',NULL),(5,'3','Jen','Dela Cruz','Dee ','Matatalaib Tarlac','02/07/1992','Female','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25,000','123123','123','13123',0,'53e3dd865bf56.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:11:50','2014-08-08 04:11:50',NULL);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,8 +232,36 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (4);
+INSERT INTO `migrations` VALUES (6);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payroll_settings`
+--
+
+DROP TABLE IF EXISTS `payroll_settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payroll_settings` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `form_name` varchar(100) NOT NULL,
+  `json_config` text,
+  `date_published` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payroll_settings`
+--
+
+LOCK TABLES `payroll_settings` WRITE;
+/*!40000 ALTER TABLE `payroll_settings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payroll_settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -222,7 +283,7 @@ CREATE TABLE `throttle` (
   `banned_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,7 +292,7 @@ CREATE TABLE `throttle` (
 
 LOCK TABLES `throttle` WRITE;
 /*!40000 ALTER TABLE `throttle` DISABLE KEYS */;
-INSERT INTO `throttle` VALUES (1,1,'::1',0,0,0,NULL,NULL,NULL),(2,2,'::1',0,0,0,NULL,NULL,NULL);
+INSERT INTO `throttle` VALUES (1,1,'::1',0,0,0,NULL,NULL,NULL),(2,2,'::1',0,0,0,NULL,NULL,NULL),(3,3,'::1',0,0,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `throttle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,7 +322,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_activation_code_index` (`activation_code`),
   KEY `users_reset_password_code_index` (`reset_password_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +331,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'admin@lemon.com','$2y$10$mOVSzydNV6stv5WcPGlxdeuVpDJZOxytzGc9UrVMHDBEEZohkJkG.',NULL,1,NULL,NULL,'2014-08-07 10:47:18','$2y$10$wOvZ./E60EnhaYCpl3nxs.UfvtCqnF1rnIoBupgD6ZAx6XT./izfq',NULL,'Admininstrator','Lemon','2014-07-25 18:50:46','2014-08-07 02:47:18');
+INSERT INTO `users` VALUES (2,'admin@lemon.com','$2y$10$mOVSzydNV6stv5WcPGlxdeuVpDJZOxytzGc9UrVMHDBEEZohkJkG.',NULL,1,NULL,NULL,'2014-08-08 08:31:46','$2y$10$B8Kc.zMj95y6Upnaygn2H.SC5swKuIU18YE0SyUwEzFTnxongTXQG',NULL,'Admininstrator','Lemon','2014-07-25 18:50:46','2014-08-08 00:31:46'),(3,'employee@lemon.com','$2y$10$flrt0fpK7mE2cxDPenqWCeDSkSeh8jq2.uDxlyED4h1Nrrt2B4VIO',NULL,1,NULL,NULL,'2014-08-08 04:13:16','$2y$10$fAqtBHdtPwc0dX/OYw4WeuQRy8MHJVNqABqjEYIRUb6ej8m2yV.aq',NULL,NULL,NULL,'2014-08-07 20:11:49','2014-08-07 20:13:16');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,7 +347,7 @@ CREATE TABLE `users_groups` (
   `user_id` int(10) unsigned NOT NULL,
   `group_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,6 +356,7 @@ CREATE TABLE `users_groups` (
 
 LOCK TABLES `users_groups` WRITE;
 /*!40000 ALTER TABLE `users_groups` DISABLE KEYS */;
+INSERT INTO `users_groups` VALUES (1,3,1);
 /*!40000 ALTER TABLE `users_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -307,4 +369,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-07 17:25:52
+-- Dump completed on 2014-08-08  8:36:32

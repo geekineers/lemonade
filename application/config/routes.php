@@ -69,7 +69,7 @@ Pigeon::map(function($r){
      $r->get('employees/delete', 'EmployeeController#delete');
      $r->get('employees/(:num)/profile', 'EmployeeController#profile');
      $r->post('employees/(:num)/profile', 'EmployeeController#update');
-
+     $r->post('employees/file/upload', 'EmployeeController#upload');
 
 
      $r->get('sss','MainController#test');
