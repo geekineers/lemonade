@@ -57,7 +57,6 @@ class EmployeeController extends BaseController {
 		$data['branches'] = $this->branchesRepository->all();
 		$data['groups'] = $this->sentry->findAllGroups();
 		$data['job_positions'] = $this->jobPositionRepository->all();
-		
 		$data['departments'] = $this->departmentRepository->all();
 		// dd($data['job_position'][0]['job_position']);		
 		$this->render('employee/add.twig.html', $data);
@@ -66,38 +65,50 @@ class EmployeeController extends BaseController {
 
 	public function update()
 	{
+		$employee_id = $this->input->post('id');
 		$post = $this->input->post();
-		
+		// dd($post);
+		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 
+		redirect('/employees/' . $employee_id . '/profile', 'location');
 	}
 
 	public function save()
 	{
 
 
-		//EMPLOYEE INFORMATION
+		// Basic Info
 		$first_name = $this->input->post('first_name');
 		$last_name = $this->input->post('last_name');
 		$middle_name = $this->input->post('middle_name');
 		$full_address = $this->input->post('full_address');
+		$birthdate = $this->input->post('birthdate');
+		$gender = $this->input->post('gender');
+		$marital_status = $this->input->post('marital_status');
+		$spouse_name = $this->input->post('spouse_name');
+		$dependents = (int) $this->input->post('dependents');
+
+		// Employee Details
+		$employee_type = $this->input->post('employee_type');
+		$payroll_period = $this->input->post('payroll_period');
 		$job_position = $this->input->post('job_position');
 		$department = $this->input->post('department');
 		$role_id = $this->input->post('role_id');
 		$branch_id = $this->input->post('branch_id');
+		$date_hired = $this->input->post('date_hire');
+		$basic_pay = $this->input->post('basic_pay');
 		
 
-		//Salary Information
-		$basic_pay = $this->input->post('basic_pay');
-		$payroll_period = $this->input->post('employee_type');
+		// Government Details
 		$tin_number = $this->input->post('tin_number');
 		$sss_number = $this->input->post('sss_number');
 		$pagibig_number = $this->input->post('pagibig_number');
-		$dependents = (int) $this->input->post('dependents');
 
 		//Contact Information
 
 		$email_address = $this->input->post('email_address');
 		$contact_number = $this->input->post('contact_number');
+		$fb = $this->input->post('fb');
 
 		//User Accounts
 		$email = $this->input->post('email');
@@ -149,7 +160,7 @@ class EmployeeController extends BaseController {
 
 		$filename = $file->getNameWithExtension();
 	
-		$save = $this->employeeRepository->create(
+		$save =$this->employeeRepository->create(
 				array(
 
 					'user_id'	=> (string) $user_id,
@@ -157,22 +168,32 @@ class EmployeeController extends BaseController {
 					'last_name' => (string) $last_name,
 					'middle_name' => (string) $middle_name,
 					'full_address' => (string) $full_address,
+					'birthdate' => (string) $birthdate,
+					'gender' => (string)$gender,
+					'marital_status' => (string)$marital_status,
+					'spouse_name' => (string)$spouse_name,
+					'employee_type' => (string)$employee_type,
+					'payroll_period' => (string)$payroll_period,
 					'job_position' => (string)$job_position,
 					'department' => (int) $department,
 					'role_id' => (int) $role_id,
 					'branch_id' => (int) $branch_id,
+					'date_hired' =>  (string) $date_hired,
+					'date_ended' =>  (string) "none",
 					'basic_pay' => (string) $basic_pay,
 					'tin_number' => (string)$tin_number,
 					'sss_number' => (string)$sss_number,
 					'pagibig_number' => (string)$pagibig_number,
 					'dependents' => (int)$dependents,
 					'contact_number' => (string)$contact_number,
-					'employee_type' => (string)$employee_type,
 					'profile_picture' => $filename,
 					'email'	=> (string) $email_address,
-					'fb'	=> 'mark.a.penaranda',
+					'fb'	=> (string)$fb,
 				)
 		);
+		
+	
+
 
 
 
@@ -193,6 +214,9 @@ class EmployeeController extends BaseController {
 
 	public function profile($id)
 	{
+		$data['job_positions'] = $this->jobPositionRepository->all();
+		$data['branches'] = $this->branchesRepository->all();
+		$data['departments'] = $this->departmentRepository->all();
 		$data['employee'] = $this->employeeRepository->find($id);
 		$this->render('/employee/profile.twig.html', $data);
 	}

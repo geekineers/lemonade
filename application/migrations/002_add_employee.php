@@ -7,7 +7,7 @@ class Migration_Add_employee
 
         public function up()
         {
-        		// $this->dbforge->drop_table('branches');
+        		$this->dbforge->drop_table('employees');
                 $this->dbforge->add_field(array(
                         'id' => array(
                                 'type' => 'INT',
@@ -38,7 +38,8 @@ class Migration_Add_employee
                         ),
 
                         'birthdate' => array(
-                                'type' => 'DATE'
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
                             ),
                         'gender' => array(
                                 'type' => 'VARCHAR',
@@ -47,6 +48,10 @@ class Migration_Add_employee
                         'marital_status' => array(
                                 'type' => 'VARCHAR',
                                 'constraint' => 100
+                            ),
+                        'spouse_name' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => 255
                             ),
                         // Employee details
 
@@ -76,10 +81,12 @@ class Migration_Add_employee
                                 'constraint' => 5,
                         ),
                         'date_hired' => array(
-                                'type' => 'DATE'
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
                             ),
                         'date_ended' => array(
-                                'type' => 'DATE'
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
                             ),
 
                         // Governmanet Details
@@ -118,7 +125,7 @@ class Migration_Add_employee
                             ),  
 
                         // Contact Information
-                          
+
                         'contact_number' => array(
                                 'type' => 'VARCHAR',
                                 'constraint' => '100',
