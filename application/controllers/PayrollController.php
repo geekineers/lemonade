@@ -4,11 +4,13 @@ require_once('BaseController.php');
 class PayrollController extends BaseController 
 {
 
-	protected $employeeRepository;
+	protected $payslipsRepository,$employeeRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
+		$this->payslipsRepository = new PayslipsRepository();
+		$this->employeeRepository = new EmployeeRepository();
 	}
 // GET
 	public function index()
@@ -28,7 +30,10 @@ class PayrollController extends BaseController
 // POST
 	public function generateSlip()
 	{
-
+		$data = [
+			'employees' => $this->employeeRepository->all(),
+		
+		];
 	}
 // GET
 	public function govForm()
