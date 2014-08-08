@@ -1,0 +1,161 @@
+<div class="tab-pane active" id="profile-tabs-201">
+					<!-- Basic Information -->
+						 <div class="basic-information panel panel-default">
+<form method="post">
+<input type="hidden" name="id" value="{{ employee.id }}" />		
+						  <div class="panel-heading">Basic Information <button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						  <div class="panel-body">
+						  		 <table class="table">
+						 	<tr>
+						 		<td><span class="form-label">Full Name</span>
+						 			<span class="profile-value">{{ employee.getName() }}</span>
+						 			<br>
+						 			<input type="text" name="first_name" class="edit-input  name-input" value="{{ employee.first_name }}">
+						 			<input type="text" name="middle_name" class="edit-input name-input " value="{{ employee.middle_name }}">
+						 			<input type="text" name="last_name" class="edit-input  name-input" value="{{ employee.last_name }}">
+						 		</td>
+						 		<td><span class="form-label">Birthdate</span>
+						 			<span class="profile-value">{{ employee.getBirthdate() }}</span>
+						 			<input type="" name="birthdate" class="edit-input" value="{{ employee.getBirthdate() }}">
+						 		</td>
+						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Employee ID</span>{{ employee.getEmployeeId() }}
+						 		<span class="profile-value">
+							 		{{ employee.getEmployeeId() }}
+						 		</span>
+						 		<input type="text" class="edit-input" value="{{ employee.getEmployeeId() }}">
+						 			
+						 		</td>
+						 		<td><span class="form-label">Gender</span>
+						 			<span class="profile-value">
+						 				{{ employee.getGender() }}
+						 			</span>
+						 			<input type="text" name="gender" class="edit-input" value="{{ employee.getGender() }}"
+						 		</td>
+						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Full Address</span>
+						 			<span class="profile-value">
+							 			{{ employee.full_address }}
+						 			</span>
+						 			<input type="text" class="edit-input" name="full_address" value="{{ employee.full_address }}"
+
+						 		</td>
+						 		<td><span class="form-label">Marital Status</span>
+						 		<span class="profile-value">
+							 		Single
+						 		</span>
+						 		<input type="text" class="edit-input" name="marital_status" value="{{ employee.getMaritalStatus() }}"	>
+						 		</td>
+						 	</tr>
+						 </table>
+
+							<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
+						  </div>
+						</div>
+					
+
+						<!-- Employment Details -->
+							 <div class="employment-details panel panel-default">
+						  <div class="panel-heading">Employment Details <button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						  <div class="panel-body">
+						  		 <table class="table">
+						 	<tr>
+						 		<td><span class="form-label">Employee Type</span>
+						 		<span class="profile-value">{{ employee.getEmployeeType() }}</span>
+						 		<input type="text" name="employee_type" class="edit-input" value="{{  employee.getEmployeeType() }}" />
+						 		</td>
+						 		<td><span class="form-label">Payroll Period</span>
+						 		<span class="profile-value">
+							 		{{ employee.getPayrollPeriod() }}	
+						 	     </span>
+						 	     <input type="text" name="payroll_period" class="edit-input" value="{{ employee.getPayrollPeriod() }}"
+						 		</td>
+						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Position</span>
+						 			<span class="profile-value">{{ employee.getJobPosition() }}</span>
+						 			<select name="job_position" class="form-control edit-input">
+						 				{% for position in job_positions %}
+						 					<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">{{ position.job_position }}</option>
+						 				{% endfor %}
+						 			</select>
+						 		</td>
+						 		<td><span class="form-label">Department</span>
+						 			<span class="profile-value">{{ employee.getDepartment() }}</span>
+				 					<select name="department" class="form-control edit-input">
+						 				{% for department in departments %}
+						 					<option {% if department.id == employee.department %} selected="selected" {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
+						 				{% endfor %}
+						 			</select>
+						 		</td>
+						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Date Hired</span>
+						 			<span class="profile-value">{{ employee.getDateHired() }}</span>
+						 			<input name="date_hired" type="text" class="edit-input" value="{{ employee.getDateHired() }}" >
+						 		</td>
+						 		<td><span class="form-label">Date Ended</span>
+						 			<span class="profile-value">{{ employee.getDateEnded() }}</span>
+						 			<input name="date_ended" type="text" class="edit-input" value="{{ employee.getDateEnded() }}" >
+						 		</td>
+						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Branch</span>
+						 			<span class="profile-value">{{ employee.getBranch() }}</span>
+						 				<select name="branch_id" class="form-control  edit-input">
+						 				{% for branch in branches %}
+						 					<option {% if branch.id == employee.branch_id %} selected="selected"  {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
+						 				{% endfor %}
+						 			</select>
+						 		</td>
+						 	</tr>
+						 </table>
+						 	<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#employee-details" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
+						  </div>
+
+						</div>
+						<!-- Government Details -->
+							 <div class="government-information panel panel-default">
+						  <div class="panel-heading">Government Details<button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						  <div class="panel-body">
+						  		 <table class="table">
+						 	<tr>
+						 		<td><span class="form-label">Tax Status</span>
+						 		<span class="profile-value">{{ employee.getMaritalStatus() }}</span>
+						 			<input type="text" class="edit-input" value="{{ employee.getMaritalStatus() }}" >
+						 		</td>
+						 		<td><span class="form-label">TIN</span>
+						 			<span class="profile-value">{{ employee.getTin() }}</span>
+						 			<input name="tin_number" type="text" class="edit-input" value="{{ employee.getTin() }}" >
+						 		</td>
+						 	</tr>
+						 	<tr>
+						 		<td><span class="form-label">Pagibig</span>
+						 		<span class="profile-value">{{ employee.getPagibig() }}</span>
+						 			<input name="pagibig_number" type="text" class="edit-input" value="{{ employee.getPagibig() }}" >
+						 		</td>
+						 		<td><span class="form-label">SSS</span>
+						 		<span class="profile-value">{{ employee.getSSS() }}</span>
+						 			<input name="sss_number" type="text" class="edit-input" value="{{ employee.getSSS() }}" >
+						 		</td>
+						 	</tr>
+						
+						 </table>
+						 	<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
+						  </div>
+
+</form>
+						</div>
+
+</div> <!-- / .tab-pane -->

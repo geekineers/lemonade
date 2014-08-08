@@ -9,4 +9,9 @@ class EmployeeRepository extends BaseRepository {
 
 	}
 
+	public function getLoginUser($sentry)
+	{
+		return Employee::where('user_id', '=', $sentry->id)->first();
+	}
+
 }

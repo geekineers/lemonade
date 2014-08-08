@@ -1,14 +1,22 @@
+	
 $(document).ready(function(){
-	$('#create_user').on('click', function(){
+	// if( $(this).is(':checked') ) {
+		// 	$('.user-account-form').fadeIn();		
+		// }
+		// else{
+		// 	$('.user-account-form').fadeOut();
+		// }
+
+	$('#create_user').on('click', function(event){
+		// event.preventDefault();
+		
 		if( $(this).is(':checked') ) {
 			$('.user-account-form').fadeIn();		
 		}
 		else{
 			$('.user-account-form').fadeOut();
 		}
-	});
-
-
+	})
 	$('.basic-information .edit-profile-btn').on('click', function(event){
 		event.preventDefault();
 		$('.basic-information .profile-value').fadeOut('fast');

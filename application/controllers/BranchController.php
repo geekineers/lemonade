@@ -13,6 +13,7 @@ class BranchController extends BaseController {
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->branchRepository = new BranchRepository();
+		$this->employeeRepository = new EmployeeRepository();
 		$this->load->library('session'); 
 
 	}
@@ -21,7 +22,8 @@ class BranchController extends BaseController {
 	{
 
 		$data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = "Branches";
 		$data['branches'] = $this->branchRepository->all();
 		$this->render('branch/index.twig.html', $data);
@@ -31,7 +33,8 @@ class BranchController extends BaseController {
 	public function add()
 	{
 
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = "Branches";
 		$this->render('branch/add.twig.html', $data);
 
@@ -53,7 +56,8 @@ class BranchController extends BaseController {
 	{
 		$id = $this->input->get('id');
 
-		$data['user'] = $this->sentry->getUser();
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$data['title'] = "Branches";
 		$data['branch'] = $this->branchRepository->find($id);
 

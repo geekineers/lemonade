@@ -59,7 +59,8 @@ Pigeon::map(function($r){
      $r->get('settings/department/delete', 'DepartmentController#delete');
 
      $r->get('settings/payroll','payrollSettingsController#index');
-     $r->get('settings/payroll','payrollSettingsController#index');
+     $r->get('settings/payroll-group','payrollSettingsController#payrollGroup');
+     $r->post('settings/payroll-group','payrollSettingsController#postPayrollGroup');
 
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
@@ -69,7 +70,7 @@ Pigeon::map(function($r){
      $r->get('employees/delete', 'EmployeeController#delete');
      $r->get('employees/(:num)/profile', 'EmployeeController#profile');
      $r->post('employees/(:num)/profile', 'EmployeeController#update');
-
+     $r->post('employees/file/upload', 'EmployeeController#upload');
 
 
      $r->get('sss','MainController#test');

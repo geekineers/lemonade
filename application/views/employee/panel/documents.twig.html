@@ -1,0 +1,108 @@
+	<div class="tab-pane" id="profile-tabs-documents">
+					{% if employee.getDocuments()|length <= 0  %}
+							<div class="">
+								
+								<center>
+								<p><i>
+									<i class="fa fa-info-circle"></i> No Files Yet.
+								</i></p>		
+								</center>
+							</div>
+					{% endif %}
+	
+    <div class="container-fluid" >
+        <div class="container container-pad" id="property-listings">
+            
+     
+            
+            <div class="row">
+                <div class="col-sm-6"> 
+
+                    <!-- Begin Listing: 609 W GRAVERS LN-->
+                    {% for document in employee.getDocuments() %}
+                    <div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing">
+                        <div class="media">
+                            <a class="pull-left" href="#" target="_parent">
+                            <img alt="image" class="img-responsive" src="/img/{% if document.file_extension == 'pdf' %}pdf.png{% endif %}"></a>
+
+                            <div class="clearfix visible-sm"></div>
+
+                            <div class="media-body fnt-smaller">
+                                <a href="#" target="_parent"></a>
+
+                                <h4 class="media-heading">
+                                  <a href="#" target="_parent">{{ document.name }} <small class="pull-right">{{ document.created_at }}</small></a></h4>
+
+
+                                <ul class="list-inline mrg-0 btm-mrg-10 clr-535353">
+                                    <li>{{ document.file_size }} bytes</li>
+
+                                    <li style="list-style: none">|</li>
+
+                                    <li>{{ document.file_type }}</li>
+
+                                    <li style="list-style: none">|</li>
+
+                                </ul>
+
+                                <p class="hidden-xs">{{ document.file_description }}</p>
+
+                                	<a href="/media?image={{ document.file_name }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Download File</a>
+                               
+                            </div>
+                        </div>
+                    </div><!-- End Listing-->
+
+
+                    {% endfor %}
+                </div>
+
+            </div><!-- End row -->
+        </div><!-- End container -->
+    </div>
+
+
+
+
+							</div>
+							<div class="row">
+								<center><a href="" class=" btn btn-success" data-toggle="modal" data-target="#uploadDocument">+1 Add File</a></center>
+	
+
+							</div>
+	</div>
+
+
+
+	<!-- Modal -->
+<form method="post" enctype="multipart/form-data" action="/employees/file/upload">
+	<input type="hidden" name="employee_id" value="{{ employee.id }}">
+	<div class="modal fade" id="uploadDocument" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Upload Documents</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group">
+      	<label>Name</label>
+      	<input type="text" name="name" class="form-control" placeholder="eg. Resume File" />
+      </div>
+      <div class="form-group">
+      	<label>Description</label>
+      	<textarea class="form-control" placeholder="Type something here..." name="description"></textarea>
+      </div>
+      <div class="form-group">
+      	<label>File</label>
+      	<input type="file" name="file" class="form-control" accept="application/pdf,.doc,.docs,.docx">
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Save">
+      </div>
+    </div>
+  </div>
+</div>
+</form>

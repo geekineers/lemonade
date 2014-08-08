@@ -9,13 +9,15 @@ class DepartmentController extends BaseController {
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->departmentRepository = new DepartmentRepository();
+		$this->employeeRepository = new EmployeeRepository();
 		$this->load->library('session'); 
 
 	}
 	public function index() 
 	{
 		$data['groups'] = $this->departmentRepository->all();
-
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		// dd($data);
 		$this->render('department/index.twig.html', $data);
 
@@ -27,7 +29,8 @@ class DepartmentController extends BaseController {
 		// $data['permissions'] = $this->config->item('permissions');
 		// $data['user'] = $this->sentry->getUser();
 		$data['title'] = "Deparment";
-
+$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		
 		$this->render('/department/add.twig.html', $data);
 
 	}

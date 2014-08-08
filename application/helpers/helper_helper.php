@@ -4,6 +4,11 @@ function ci_app_path($path = null) {
 }
 
 
+function toInt($number)
+{
+	return intval(str_replace( ',', '', $number));
+}
+
 
  /* SSS Contribution 2014 updated 
   * conv'ER'ted http://shancart'ER'.github.io/mr-data-converter/

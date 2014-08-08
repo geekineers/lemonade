@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "55ae8952c9e50a6254471683c6e6c1db",
+    "hash": "0e418c6dab0c7ec52945db8d86399e57",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -261,12 +261,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
-                "reference": "3442bda43f638237462223132ad48a0636b53190"
+                "reference": "1538a9b7257e31bfdec405f8fbd6d5ef2f8f74bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/events/zipball/3442bda43f638237462223132ad48a0636b53190",
-                "reference": "3442bda43f638237462223132ad48a0636b53190",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/1538a9b7257e31bfdec405f8fbd6d5ef2f8f74bc",
+                "reference": "1538a9b7257e31bfdec405f8fbd6d5ef2f8f74bc",
                 "shasum": ""
             },
             "require": {
@@ -292,12 +292,10 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Creator of Laravel"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-06-06 13:58:46"
+            "time": "2014-08-03 15:26:23"
         },
         {
             "name": "illuminate/support",
@@ -306,12 +304,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "d65bbe160acfbedcfa3ae42568ba619c5b67ef97"
+                "reference": "1bf9666e695685cc6281ffd131c81ff2a6f37fbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/d65bbe160acfbedcfa3ae42568ba619c5b67ef97",
-                "reference": "d65bbe160acfbedcfa3ae42568ba619c5b67ef97",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/1bf9666e695685cc6281ffd131c81ff2a6f37fbd",
+                "reference": "1bf9666e695685cc6281ffd131c81ff2a6f37fbd",
                 "shasum": ""
             },
             "require": {
@@ -345,7 +343,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-08-01 14:04:05"
+            "time": "2014-08-06 13:48:13"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -443,12 +441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "54da75aebfc50a73d4fe6915696bf78910a4347a"
+                "reference": "e2d2a250d963dd5bba4ad23fc01c7282fc042946"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/54da75aebfc50a73d4fe6915696bf78910a4347a",
-                "reference": "54da75aebfc50a73d4fe6915696bf78910a4347a",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/e2d2a250d963dd5bba4ad23fc01c7282fc042946",
+                "reference": "e2d2a250d963dd5bba4ad23fc01c7282fc042946",
                 "shasum": ""
             },
             "require": {
@@ -492,7 +490,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-08-03 08:10:53"
+            "time": "2014-08-06 06:46:32"
         }
     ],
     "packages-dev": [
@@ -527,7 +525,9 @@
             "time": "2012-08-25 12:49:29"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "codeguy/upload": 20
@@ -536,5 +536,7 @@
     "platform": {
         "php": ">=5.2.4"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
