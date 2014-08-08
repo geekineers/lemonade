@@ -44,12 +44,12 @@ Pigeon::map(function($r){
      $r->get('settings/roles/delete', 'UserRolesController#delete');
 
 
-     $r->get('settings/job', 'jobController#index');
-     $r->get('settings/job/add', 'jobController#add');
-     $r->post('settings/job/add', 'jobController#save');
-     $r->get('settings/job/edit', 'jobController#edit');
-     $r->post('settings/job/edit', 'jobController#update');
-     $r->get('settings/job/delete', 'jobControllerjob#delete');
+     $r->get('settings/job', 'JobController#index');
+     $r->get('settings/job/add', 'JobController#add');
+     $r->post('settings/job/add', 'JobController#save');
+     $r->get('settings/job/edit', 'JobController#edit');
+     $r->post('settings/job/edit', 'JobController#update');
+     $r->get('settings/job/delete', 'JobControllerjob#delete');
 
      $r->get('settings/department', 'DepartmentController#index');
      $r->get('settings/department/add', 'DepartmentController#add');
@@ -58,8 +58,16 @@ Pigeon::map(function($r){
      $r->post('settings/department/edit', 'DepartmentController#update');
      $r->get('settings/department/delete', 'DepartmentController#delete');
 
-     $r->get('settings/payroll','payrollSettingsController#index');
-     $r->get('settings/payroll','payrollSettingsController#index');
+     $r->get('settings/payroll','PayrollSettingsController#index');
+     $r->get('settings/payroll','PayrollSettingsController#index');
+
+     $r->get('settings/forms', 'FormSettingsController#index');
+     $r->get('settings/forms/new', 'FormSettingsController#create');
+     $r->get('settings/forms/(:num)/edit', 'FormSettingsController#edit');
+     $r->get('settings/forms/(:num)', 'FormSettingsController#show');
+     $r->post('settings/forms', 'FormSettingsController#store');
+     $r->put('settings/forms/(:num)', 'FormSettingsController#update');
+     $r->delete('settings/forms/(:num)', 'FormSettingsController#delete');
 
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
