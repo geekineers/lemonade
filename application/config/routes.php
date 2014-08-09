@@ -69,6 +69,10 @@ Pigeon::map(function($r){
      $r->put('settings/forms/(:num)', 'FormSettingsController#update');
      $r->delete('settings/forms/(:num)', 'FormSettingsController#delete');
 
+     $r->get('settings/deductions', 'DeductionController#index');
+     $r->post('settings/deductions/save', 'DeductionController#save');
+
+     
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
      $r->post('employees/add', 'EmployeeController#save');
@@ -78,6 +82,8 @@ Pigeon::map(function($r){
      $r->get('employees/(:num)/profile', 'EmployeeController#profile');
      $r->post('employees/(:num)/profile', 'EmployeeController#update');
      $r->post('employees/file/upload', 'EmployeeController#upload');
+
+     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
 
 
      $r->get('sss','MainController#test');

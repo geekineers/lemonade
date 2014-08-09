@@ -16,7 +16,12 @@ $(document).ready(function(){
 		else{
 			$('.user-account-form').fadeOut();
 		}
+	});
+
+	$('.datepicker').datepicker({
+		format: 'yyyy/mm/dd',
 	})
+
 	$('.basic-information .edit-profile-btn').on('click', function(event){
 		event.preventDefault();
 		$('.basic-information .profile-value').fadeOut('fast');
