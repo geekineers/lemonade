@@ -23,6 +23,7 @@ abstract class BaseController extends CI_Controller {
 	}
 
 
+
 	public function mustBeLoggedIn()
 	{
 		if(!$this->sentry->check()){

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e418c6dab0c7ec52945db8d86399e57",
+    "hash": "0d33b009a0ac430ed0f91f98b87be7b3",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -112,12 +112,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeguy/Upload.git",
-                "reference": "508ba2ba50119b6ab99a551806ef6b7d43c16b5c"
+                "reference": "497863fb8f582c6c85e01341c9732b5b64c86be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Upload/zipball/508ba2ba50119b6ab99a551806ef6b7d43c16b5c",
-                "reference": "508ba2ba50119b6ab99a551806ef6b7d43c16b5c",
+                "url": "https://api.github.com/repos/codeguy/Upload/zipball/497863fb8f582c6c85e01341c9732b5b64c86be9",
+                "reference": "497863fb8f582c6c85e01341c9732b5b64c86be9",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 {
                     "name": "Josh Lockhart",
                     "email": "info@joshlockhart.com",
-                    "homepage": "http://www.joshlockhart.com/"
+                    "homepage": "https://github.com/codeguy/"
                 }
             ],
             "description": "Handle file uploads with extensible validation and storage strategies",
@@ -151,7 +151,48 @@
                 "upload",
                 "validation"
             ],
-            "time": "2014-04-04 18:47:57"
+            "time": "2014-08-08 14:41:10"
+        },
+        {
+            "name": "dompdf/dompdf",
+            "version": "v0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/dompdf.git",
+                "reference": "cf7d8a0a27270418850cc7d7ea532159e5eeb3eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/cf7d8a0a27270418850cc7d7ea532159e5eeb3eb",
+                "reference": "cf7d8a0a27270418850cc7d7ea532159e5eeb3eb",
+                "shasum": ""
+            },
+            "require": {
+                "phenx/php-font-lib": "0.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "include/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                },
+                {
+                    "name": "Brian Sweeney",
+                    "email": "eclecticgeek@gmail.com"
+                }
+            ],
+            "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+            "homepage": "https://github.com/dompdf/dompdf",
+            "time": "2014-03-11 01:59:52"
         },
         {
             "name": "illuminate/container",
@@ -160,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "6336effea94a905b88b2a8c2828fab6f40659bdc"
+                "reference": "c490520f0a030360b9cf605d81721becbcce6573"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/6336effea94a905b88b2a8c2828fab6f40659bdc",
-                "reference": "6336effea94a905b88b2a8c2828fab6f40659bdc",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/c490520f0a030360b9cf605d81721becbcce6573",
+                "reference": "c490520f0a030360b9cf605d81721becbcce6573",
                 "shasum": ""
             },
             "require": {
@@ -189,12 +230,10 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com",
-                    "homepage": "https://github.com/taylorotwell",
-                    "role": "Creator of Laravel"
+                    "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-07-18 22:26:34"
+            "time": "2014-08-07 12:15:10"
         },
         {
             "name": "illuminate/database",
@@ -304,12 +343,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "1bf9666e695685cc6281ffd131c81ff2a6f37fbd"
+                "reference": "83792969d776b612f98201f91d7d94449b46696c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/1bf9666e695685cc6281ffd131c81ff2a6f37fbd",
-                "reference": "1bf9666e695685cc6281ffd131c81ff2a6f37fbd",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/83792969d776b612f98201f91d7d94449b46696c",
+                "reference": "83792969d776b612f98201f91d7d94449b46696c",
                 "shasum": ""
             },
             "require": {
@@ -343,7 +382,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-08-06 13:48:13"
+            "time": "2014-08-07 12:15:10"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -434,6 +473,40 @@
                 "time"
             ],
             "time": "2014-07-18 03:44:47"
+        },
+        {
+            "name": "phenx/php-font-lib",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PhenX/php-font-lib.git",
+                "reference": "c30c7fc00a6b0d863e9bb4c5d5dd015298b2dc82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/c30c7fc00a6b0d863e9bb4c5d5dd015298b2dc82",
+                "reference": "c30c7fc00a6b0d863e9bb4c5d5dd015298b2dc82",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classes/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                }
+            ],
+            "description": "A library to read, parse, export and make subsets of different types of font files.",
+            "homepage": "https://github.com/PhenX/php-font-lib",
+            "time": "2014-02-01 15:22:28"
         },
         {
             "name": "twig/twig",

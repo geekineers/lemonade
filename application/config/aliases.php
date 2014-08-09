@@ -4,3 +4,4 @@
  * |-----------------------------------------------
  */
 class_alias('Cartalyst\Sentry\Facades\CI\Sentry', 'Sentry');
+class_alias('Carbon\Carbon','Carbon');

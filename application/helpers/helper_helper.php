@@ -2,7 +2,21 @@
 function ci_app_path($path = null) {
 	return APPPATH.$path;
 }
+function pdf_create($html, $filename='', $stream=TRUE) 
+{
+ 
+    header("Content-Type: application/pdf");
+    require_once(APPPATH."helper/dompdf/dompdf/dompdf_config.inc.php");
 
+    $dompdf = new DOMPDF();
+    $dompdf->load_html($html);
+    $dompdf->render();
+    if ($stream) {
+        $dompdf->stream($filename.".pdf");
+    } else {
+        return $dompdf->output();
+    }
+}
 
 function toInt($number)
 {
@@ -148,7 +162,7 @@ function getPH($basic_salary)
 
 // withholding tax
 
-function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
+function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0) 
 {
 	$resultArray = array();
 	$wtax_list = array(
@@ -167,7 +181,12 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 										'Z' =>   array(1,0  ,33 ,99 ,231,462,825,1650),
 										'SME' => array(1,165,198,264,396,627,990,1815)
 						),
-					'employees_with_qualified_dependent' => ''
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
 				),
 			'monthly' => array (
 					'exemption_status' => array(
@@ -214,11 +233,15 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 	// Withholding Tax = ( ([Taxable Income] - [Bracket or Exemption] ) x [%over] ) + [Bracket Tax or Base Tax] 
 
 	$period = isset($period) || $period != null ? $period : 'monthly';
+	$period = strtolower($period);
+
 
 	// single or married
-	$tax = $dependents==0 ? $wtax_list[$period]['employees_without_qualified_dependent']['SME'] : $wtax_list[$period]['employees_with_qualified_dependent'][$dependents-1];
+	$tax = $dependents<=0 ? $wtax_list[$period]['employees_without_qualified_dependent']['SME'] : $wtax_list[$period]['employees_with_qualified_dependent'][$dependents-1];
+	
 	// exemtion status
 	$es  =  $wtax_list[$period]['exemption_status'];
+
 	// iterate
 	$wt = 0;
 	
@@ -263,36 +286,10 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 		}
 	}
 
-	return $wtax_list;
+	return $wt;
 }
 
 // get total withholdong tax
 //getWithholdingTax($salary,null,1,null,null,null);
-function getWithholdingTax( $salary = 0,$period = 'monthly',$dependents = 0, $philhealth = 0 , $pagibig = 0, $sss = 0 )
-{
 
-	$sss_val = $sss==null ? getSSS($salary)['EE'] : (int) $sss;
-
-	$philhealth_val = $philhealth==null ? getPH($salary)['Employee_Share'] : (int) $philhealth;
-	
-	$pagibig_val = $pagibig==null ? 100 : (int) $pagibig;
-
-	$curr_salary =    $salary - ($sss_val + $philhealth_val + $pagibig_val );
-	// return $curr_salary;
-	$deductions = ($sss_val + $philhealth_val + $pagibig_val );
-
-	$wt = getWTax( $curr_salary , $period ,$dependents);
-	return array(
-		    'gross' => number_format($salary,2),
-			'widthholding_tax' => number_format($wt),
-			'philhealth' => number_format($philhealth_val,2),
-			'SSS' => number_format($sss_val,2),
-			'pagibig'=> number_format($pagibig_val,2),
-			'basic' => number_format($salary,2),
-			'taxable' => number_format($curr_salary,2),
-			'total_deduc' => number_format($deductions,2),
-			'net' => number_format($salary-$deductions-$wt,2)
-		);
-}
-	
 

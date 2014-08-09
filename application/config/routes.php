@@ -35,6 +35,9 @@ Pigeon::map(function($r){
      $r->get('payroll/gov-form','PayrollController#govform');
      $r->get('payroll/bank','PayrollController#bank');
 
+
+     $r->get('testpdf','PayrollController#test');
+
      /*Admin Settings */
      $r->get('settings/roles', 'UserRolesController#index');
      $r->get('settings/roles/add', 'UserRolesController#add');
@@ -76,6 +79,8 @@ Pigeon::map(function($r){
      $r->get('sss','MainController#test');
 
      $r->get('media', 'ImageController');
+
+
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
     // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));

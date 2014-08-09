@@ -10,7 +10,7 @@
             </ul>
             <div class="tab-content ">
                
-                <div class="tab-pane active" id="sss" style="position: relative; height: 300px;">
+                <div class="tab-pane active" id="sss" style="position: relative; max-height: 400px;">
                 <button class="btn btn-success" data-toggle="modal" data-target="#add-group" >
                 	<i class="fa fa-plus"></i>
                 </button>
@@ -22,6 +22,7 @@
                                     <th>Company / branch name</th>
                                     <th>Period Type</th>
                                     <th>created at</th>
+                                    <th>Options</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,6 +33,14 @@
                                  		<td>{{ group.getBranch() }}</td>
                                  		<td>{{ group.period }}</td>
                                  		<td>{{ group.created_at }}</td>
+                                    <td>
+                                      <button class="btn">
+                                        <i class="fa fa-edit"></i>
+                                      </button>
+                                      <button class="btn btn-warning">
+                                        <i class="fa fa-trash-o"></i>
+                                      </button>
+                                    </td>
                                  	</tr>
                                  {% endfor %}
                                

@@ -1,7 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('BaseController.php');
 
-use nesbot\Carbon\Carbon as Carbon;
 
 class PayrollController extends BaseController 
 {
@@ -34,14 +33,23 @@ class PayrollController extends BaseController
 		$this->render('payroll/payslip.twig.html',$data);
 
 	}
+	public function test()
+	{
+
+		$data = [];
+		$html = $this->load->view('payroll/payslip_template',$data, true);
+		
+		$data = pdf_create($html, '', false);
+	    echo $data;
+	}
 // POST
 	public function generatePayslip()
 	{
-		$input  = $this->input->post();
-		$output = $this->payslipsRepository->generatePayslip($input);
-		 $this->output
-	    ->set_content_type('application/json')
-	    ->set_output(json_encode($output));
+
+		$this->load->helper(array('dompdf', 'file'));
+		
+		 $this->payslipsRepository->generatePayslip($this->input->post());
+		
 	}
 // GET
 	public function govForm()
