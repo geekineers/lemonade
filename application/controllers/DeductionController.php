@@ -47,7 +47,7 @@ class DeductionController extends BaseController {
 		// dd($save);
 		$this->session->set_flashdata('message', $deduction_name .' has been added.');
 
-		redirect('/deductions', 'location');
+		redirect('/settings/deductions', 'location');
 
 	}
 
