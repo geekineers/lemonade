@@ -1,7 +1,7 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
-<div class="row">
-	<a class="btn-add-branch btn btn-primary pull-right" href="/employees/add">+ Add Employee</a>
+<div class="row container">
+	<a class="btn-add-branch btn btn-success" href="/employees/add"><i class="fa fa-plus"></i></a>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -42,8 +42,8 @@
 	 		<td>{{ employee.contact_number }}</td>
 	 		<td>{{ employee.email }}</td>
 	 		<td>
-	 			<a href="/employees/{{ employee.id }}/profile" class="btn btn-default">View</a>
-	 			<a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger">Delete</a>
+	 			<a href="/employees/{{ employee.id }}/profile" class="btn btn-default"><i class="fa fa-folder-open-o"></i></a>
+	 			<a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
 	 		</td>
 	 	
 	 	</tr>

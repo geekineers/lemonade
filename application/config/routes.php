@@ -71,6 +71,10 @@ Pigeon::map(function($r){
      $r->post('employees/(:num)/profile', 'EmployeeController#update');
      $r->post('employees/file/upload', 'EmployeeController#upload');
 
+     $r->get('deductions', 'DeductionController#index');
+     $r->post('deductions/save', 'DeductionController#save');
+     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
+
 
      $r->get('sss','MainController#test');
 

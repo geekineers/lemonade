@@ -11,6 +11,7 @@ class EmployeeController extends BaseController {
 				$jobPositionRepository, 
 				$departmentRepository,
 				$documentRepository,
+				$deductionRepository,
 				$fileSystem;
 
 	public function __construct()
@@ -28,6 +29,7 @@ class EmployeeController extends BaseController {
 		$this->jobPositionRepository = new JobPositionRepository();
 
 		$this->departmentRepository = new DepartmentRepository();
+		$this->deductionRepository = new DeductionRepository();
 		$this->documentRepository = new DocumentRepository();
 		$this->load->library('session'); 
 	}
@@ -248,6 +250,7 @@ class EmployeeController extends BaseController {
 		$data['branches'] = $this->branchesRepository->all();
 		$data['departments'] = $this->departmentRepository->all();
 		$data['employee'] = $this->employeeRepository->find($id);
+		$data['deduction_types'] = $this->deductionRepository->all();
 		// $data['documents'] = $this->employeeRepository->find($id);
 		$this->render('/employee/profile.twig.html', $data);
 	}
