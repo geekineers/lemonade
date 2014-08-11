@@ -6,13 +6,13 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="/payroll" data-toggle="tab">Payroll</a></li>
                 <li ><a href="/payroll/payslip">Payslip</a></li>
-                <li ><a href="/payroll/gov-form" >Gov. Form</a></li>
-                <li ><a href="/payroll/bank">Bank</a></li>
+             <!--    <li ><a href="/payroll/gov-form" >Gov. Form</a></li>
+                <li ><a href="/payroll/bank">Bank</a></li> -->
             </ul>
             <div class="tab-content no-padding ">
                 <!-- bir tax table -->
                 <div class="tab-pane active" id="payroll" style="position: relative; height: 300px;">
-<<<<<<< HEAD
+
                 	<div class="box">
                                 <div class="box-header">
                                     <h3 class="box-title"></h3>
@@ -33,47 +33,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
                                            
+                                           	{% for group in payroll %}
+                                           	 <tr>
+                                           		<td>{{ group.getGroupName() }}</td>
+                                           		<td>{{ group.getGroupPeriod() }}</td>
+                                           		<td>{{ group.from }}</td>
+                                           		<td>{{ group.to }}</td>
+                                           		<td>{{ group.getBranch() }}</td>
+                                           		<td>		</td>
                                             </tr>
+                                           	{% endfor %}
                                            
                                             </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
-=======
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title"></h3>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
-                            <a class="btn btn-primary fa fa-plus ">&nbsp; Generate Payroll</a>
-                        </div>
-                        <div class="box-body table-responsive">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Payroll Group</th>
-                                        <th>Period</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Branch</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Trident</td>
-                                        <td>Internet
-                                            Explorer 4.0</td>
-                                        <td>Win 95+</td>
-                                        <td> 4</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
->>>>>>> 7e71f2572d31e482cad5b0b2f5860554d0fc130b
+
                 </div>
                 <!-- sss table -->
             </div>
@@ -81,7 +57,7 @@
 	</section>
 </div>
 
-<<<<<<< HEAD
+
 
 <div class="modal fade" id="generate-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -151,6 +127,3 @@
 </script>
 
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> 7e71f2572d31e482cad5b0b2f5860554d0fc130b

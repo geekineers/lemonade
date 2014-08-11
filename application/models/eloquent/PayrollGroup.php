@@ -37,5 +37,6 @@ class PayrollGroup extends Eloquent {
   }
 
 
+
 }
                       		

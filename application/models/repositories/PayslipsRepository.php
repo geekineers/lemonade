@@ -12,10 +12,22 @@ class PayslipsRepository extends BaseRepository {
         $this->payrollGroupRepository= new PayrollGroupRepository();
 	}
 
+	public function getAllPayslip()
+	{
+		return $this->all();
+	}
+
+	public function getAllPayrollGroupBySlips()
+	{
+		$slip = $this->groupBy('from')->groupBy('payroll_group');
+		return $slip->get();
+	}
+
+
 	public function generatePayslip(array $input)
 	{
 		// get payroll group
-		
+
 		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['group_name'])->first();
 		// emoloyee
 		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->get();
@@ -35,9 +47,31 @@ class PayslipsRepository extends BaseRepository {
 										null
 									 )
 			];
+			$payslip = $this->getWithholdingTax( 
+										toInt($employee->basic_pay) ,
+										$payrollGroup['period'] ,
+										intval($employee->dependents) ,
+										null ,
+										null ,
+										null
+									 );
+			$this->create([
+					'employee_id'  => $employee->id,
+                    'branch_id' => $payrollGroup['branch_id'],
+                    'payroll_group' => $payrollGroup['id'],
+                    'sss' => $payslip['SSS'],
+                    'philhealth' => $payslip['philhealth'],
+                    'pagibig' => $payslip['pagibig'],
+                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
+                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
+                    'net' => $payslip['net'],
+                    'gross'=>$payslip['gross'],
+                    'other_deductions' => 'not available',
+                    'prepared_by' => $payrollGroup['prepared_by']
+				]);
 
 		}
-
+		header("Content-Type: application/json");
 		echo json_encode($pays);
 	}
 
@@ -70,4 +104,4 @@ class PayslipsRepository extends BaseRepository {
 			);
 	}
 	
-}
+}	

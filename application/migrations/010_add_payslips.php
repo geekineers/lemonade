@@ -14,6 +14,7 @@ class Migration_Add_payslips extends CI_Migration {
                                 'unsigned' => TRUE,
                                 'auto_increment' => TRUE
                         ),
+
                         'employee_id' => array(
                                 'type' => 'INT',
                                 'null' => TRUE,
@@ -42,6 +43,25 @@ class Migration_Add_payslips extends CI_Migration {
                                 'type' => 'INT',
                                 'null' => TRUE
                         ),
+                        'from' => array(
+                                     'type' => 'DATE',
+                                     'null' => TRUE,
+
+                        ),
+                        'to' => array(
+                                     'type' => 'TEXT',
+                                     'null' => TRUE,
+
+                        ),
+                        'net' => array(
+                                     'type' => 'TEXT',
+                                     'null' => TRUE,
+
+                        ),
+                        'gross' => array(
+                                     'type' => 'DATE',
+                                     'null' => TRUE,
+                        ),
                         'prepared_by' => array(
                                 'type' => 'TEXT',
                                 'null' => TRUE,
@@ -49,15 +69,15 @@ class Migration_Add_payslips extends CI_Migration {
                         'created_at' => array(
                                  'type' => 'DATETIME',
                                 'null' => TRUE,
-                            ),
+                        ),
                           'updated_at' => array(
                             		 'type' => 'DATETIME',
                                 
-                        	),
-                          'deleted_at' => array(
+                        ),
+                        'deleted_at' => array(
                           			'type' => 'DATETIME',
                           			'null' => TRUE,
-                          	),
+                        ),
 
 
                 ));

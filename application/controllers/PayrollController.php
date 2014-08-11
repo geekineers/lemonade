@@ -22,6 +22,9 @@ class PayrollController extends BaseController
 		
 		$data['title'] = 'Payroll Generation';
 		$data['payrollgroup'] = $this->payrollGroupRepository->all();
+
+		$data['payroll'] = $this->payslipsRepository->getAllPayrollGroupBySlips();
+		
 		$this->render('payroll/index.twig.html',$data);
 	}
 // GET
@@ -30,17 +33,26 @@ class PayrollController extends BaseController
 	 	$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser()) ;
 		
 		$data['title'] = 'Payroll Generation';
+		
+		$data['payslips'] = $this->payslipsRepository->getAllPayslip();
+
 		$this->render('payroll/payslip.twig.html',$data);
 
+	}
+	public function slip()
+	{
+		$data = [];
+		$html = $this->load->view('/payroll/payslip_template',$data, true);
+		
+		$data = pdf_create($html, '', false);
+	    echo $data;
+		
 	}
 	public function test()
 	{
 
-		$data = [];
-		$html = $this->load->view('payroll/payslip_template',$data, true);
-		
-		$data = pdf_create($html, '', false);
-	    echo $data;
+		// dd('08-21-2014')->toDateTimeString());
+
 	}
 // POST
 	public function generatePayslip()
@@ -48,7 +60,7 @@ class PayrollController extends BaseController
 
 		$this->load->helper(array('dompdf', 'file'));
 		
-		 $this->payslipsRepository->generatePayslip($this->input->post());
+		$this->payslipsRepository->generatePayslip($this->input->post());
 		
 	}
 // GET

@@ -19,14 +19,40 @@ class Payslips extends Eloquent {
                         'philhealth',
                         'pagibig',
                         'other_deductions',
-                        'prepared_by'
+                        'prepared_by',
+                        'from',
+                        'to',
+                        'net',
+                        'gross'
                ];
 
 
+
+  public function getGroupName()
+  {
+    return PayrollGroup::where('id','=',$this->payroll_group)->first()->group_name;
+  }
+
+  public function getGroupPeriod()
+  {
+    return PayrollGroup::where('id','=',$this->payroll_group)->first()->period;
+  }
+
+  public function getName()
+  {
+    $first_name = Employee::where('id','=',$this->employee_id)->first()->first_name;
+    $last_name = Employee::where('id','=',$this->employee_id)->first()->last_name;
+     return $first_name.' '.$last_name;
+  }
+
+  public function getBranch()
+  {
+        return Branch::find($this->branch_id)->branch_name;
+  }
   
   public function setPasswordAttribute($password)
   {
-  		$this->attributes['password'] = md5($password);
+      $this->attributes['password'] = md5($password);
   }
 
-}
+} 

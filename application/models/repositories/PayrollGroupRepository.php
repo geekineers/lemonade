@@ -8,6 +8,7 @@ class PayrollGroupRepository extends BaseRepository{
 		$this->class = new PayrollGroup;
 	}
 
+	
 
 
 }
