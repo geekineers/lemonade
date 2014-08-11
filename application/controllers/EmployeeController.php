@@ -11,6 +11,8 @@ class EmployeeController extends BaseController {
 				$jobPositionRepository, 
 				$departmentRepository,
 				$documentRepository,
+				$deductionRepository,
+				$basicPayAdjustmentRepository,
 				$fileSystem;
 
 	public function __construct()
@@ -28,7 +30,9 @@ class EmployeeController extends BaseController {
 		$this->jobPositionRepository = new JobPositionRepository();
 
 		$this->departmentRepository = new DepartmentRepository();
+		$this->deductionRepository = new DeductionRepository();
 		$this->documentRepository = new DocumentRepository();
+		$this->basicPayAdjustmentRepository = new BasicPayAdjustmentRepository();
 		$this->load->library('session'); 
 	}
 
@@ -99,6 +103,13 @@ class EmployeeController extends BaseController {
 		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 
 		redirect('/employees/' . $employee_id . '/profile', 'location');
+	}
+
+	public function updateSalary()
+	{
+		$employee_id = $this->input->post('employee_id');
+		$post = $this->input->post();
+		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 	}
 
 	public function save()
@@ -248,6 +259,7 @@ class EmployeeController extends BaseController {
 		$data['branches'] = $this->branchesRepository->all();
 		$data['departments'] = $this->departmentRepository->all();
 		$data['employee'] = $this->employeeRepository->find($id);
+		$data['deduction_types'] = $this->deductionRepository->all();
 		// $data['documents'] = $this->employeeRepository->find($id);
 		$this->render('/employee/profile.twig.html', $data);
 	}
@@ -282,4 +294,39 @@ class EmployeeController extends BaseController {
 		redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
 	}
+
+	public function adjustBasicPay()
+	{
+
+
+		$employee_id = $this->input->post('employee_id');
+		$current_basic_pay = str_replace(',', '', $this->input->post('current_basic_pay'));
+		$new_basic_pay = str_replace(',', '', $this->input->post('new_basic_pay'));
+		$effective_date = $this->input->post('effective_date');
+		$adjustment_date = $this->input->post('adjustment_date');
+		$adjustment_reason = $this->input->post('adjustment_reason');
+		$created_by = $this->sentry->getUser()->id;
+
+		$post = array(
+				'employee_id' => (int)$employee_id,
+				'current_basic_pay' => floatval($current_basic_pay),
+				'new_basic_pay' => floatval($new_basic_pay),
+				'effective_date' => $effective_date,
+				'adjustment_date' => $adjustment_date,
+				'adjustment_reason' => $adjustment_reason,
+				'created_by' => $created_by,
+				
+			);
+		// $post = $this->input->post();
+
+		// dd($post);
+
+		$this->basicPayAdjustmentRepository->create($post);
+		redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
+
+
+
+	}
+
+
 }

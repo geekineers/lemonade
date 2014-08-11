@@ -45,7 +45,7 @@ $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser()
 		$job  =  $this->departmentRepository->createNotExist($input);
 		if($job){
 			$this->session->set_flashdata('message',$input['department_name']  .' has been added.');
-			redirect('/department');
+			redirect('/settings/department');
 		}
 		else{
 			$this->session->set_flashdata('message',$input['department_name']  .' is already in here.');
