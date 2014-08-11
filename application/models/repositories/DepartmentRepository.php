@@ -7,6 +7,7 @@ class DepartmentRepository extends BaseRepository {
 	{
 		$this->class = new Department();
 	}
+
 	public function createNotExist(array $input)
 	{
 		try{
@@ -26,5 +27,5 @@ class DepartmentRepository extends BaseRepository {
     		exit();
     	}
 	}
-	
+
 }

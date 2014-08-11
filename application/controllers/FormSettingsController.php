@@ -12,6 +12,7 @@ class FormSettingsController extends BaseController {
 		$this->mustBeLoggedIn();
 		$this->load->library('session');
 
+		$this->formRepository = new FormRepository();
 		$this->employeeRepository = new EmployeeRepository();
 
 	}
@@ -21,8 +22,9 @@ class FormSettingsController extends BaseController {
 		$title = 'Forms';
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		$forms = $this->formRepository->all();
 
-		$this->render('form_settings/index.twig.html', compact('user', 'title'));
+		$this->render('form_settings/index.twig.html', compact('user', 'title', 'forms'));
 	}
 
 	public function create()
@@ -48,17 +50,44 @@ class FormSettingsController extends BaseController {
 
 	public function store()
 	{
+		$data = [
+			'form_name' => $this->input->post('form-name'),
+			'form_content' => $this->input->post('form-content'),
+			'user_id' => $this->sentry->getUser()->id
+		];
 
+		$form  =  $this->formRepository->create($data);
+		if($form){
+			$this->session->set_flashdata('message',$data['form_name']  .' has been added.');
+			redirect('/settings/forms');
+		}
+		else{
+			$this->session->set_flashdata('message', 'There was an error.');
+			redirect('/settings/forms/new');
+		}
 	}
 
 	public function update()
 	{
+		$data = [
+			'form_name' => $this->input->post('form-name'),
+			'form_content' => $this->input->post('form-content'),
+			'user_id' => $this->sentry->getUser()->id
+		];
 
+		//TODO UPDATE HERE
 	}
 
-	public function delete()
+	public function delete($id)
 	{
+		if($this->formRepository->delete($id)) {
+			$this->session->set_flashdata('message', 'Form has been deleted.');
+		} else {
+			$this->session->set_flashdata('message', 'There was an error.');
 
+		}
+
+		redirect('/settings/forms');
 	}
 
 }
