@@ -22,6 +22,20 @@ $(document).ready(function(){
 		format: 'yyyy/mm/dd',
 	})
 
+	$('.earnings .edit-profile-btn').on('click', function(event){
+		event.preventDefault();
+		$('.earnings .profile-value').fadeOut('fast');
+		$('.earnings .edit-input').fadeIn();
+		$('.earnings .save-cancel-btn').fadeIn();
+	});
+	$('.earnings .btn-cancel').on('click', function(event){
+		event.preventDefault();
+		$('.earnings .edit-input').fadeOut('fast');
+		$('.earnings .save-cancel-btn').fadeOut('fast');
+		$('.earnings .profile-value').fadeIn();
+	});
+
+
 	$('.basic-information .edit-profile-btn').on('click', function(event){
 		event.preventDefault();
 		$('.basic-information .profile-value').fadeOut('fast');

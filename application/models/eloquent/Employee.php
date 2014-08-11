@@ -133,4 +133,31 @@ class Employee extends Eloquent {
   return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
  }
 
+ public function getBasicPay($format=true)
+ {
+  if (count($this->getBasicPayAdjustments()) > 0){
+      $adjustment =  BasicPayAdjustment::where('effective_date', '<=', date('Y-m-d'))->orderBy('id', 'desc')->first();
+  
+      if($adjustment){
+        if($format){
+         return number_format($adjustment->new_basic_pay, 2,'.', ',');
+        }
+
+        return $adjustment->new_basic_pay;
+      }
+  }
+
+  if($format){
+   return number_format($this->basic_pay, 2,'.', ',');
+    }
+  
+  return $this->basic_pay;
+
+ }
+
+ public function getBasicPayAdjustments($limit = 5, $skip = 0)
+ {
+  return BasicPayAdjustment::where('employee_id', '=', $this->id)->orderBy('id', 'desc')->take($limit)->skip($skip)->get();
+ }
+
 }

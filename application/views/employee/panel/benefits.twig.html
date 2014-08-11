@@ -1,4 +1,8 @@
 	<div class="tab-pane" id="profile-tabs-benefits">
+
+		 <div class="employment-details panel panel-default">
+						  <div class="panel-heading"> Deductions </div>
+						  <div class="panel-body">
 			{% if employee.getDeductions()|length <= 0  %}
 							<div class="">
 								
@@ -8,15 +12,36 @@
 								</i></p>		
 								</center>
 							</div>
-			{% endif %}
+	{% else %}	
 
-
+<table class="table table-bordered table-hover dataTable">
+	<tr>
+		<th>Name</th>
+		<th>Recurring</th>
+		<th>Amount</th>
+		<th>Percentage % (if percentage type )</th>
+		<th>Valid from</th>
+		<th>Valid to</th>
+	</tr>
+	{% for deduction in employee.getDeductions() %}
+		<tr>
+			<td>{{ deduction.getName() }}</td>
+			<td>{{ deduction.recurring }}</td>
+			<td>{{ deduction.amount }}</td>
+			<td>{{ deduction.percentage }}% of {{ deduction.basis }}</td>
+			<td>{{ deduction.valid_from }}</td>
+			<td>{{ deduction.valid_to }}</td>
+		</tr>
+	{% endfor %}
+</table>
+	{% endif %}
 			<div class="row">
 				<center><a href="" class=" btn btn-success" data-toggle="modal" data-target="#addDeductions">+1 Add Deduction</a></center>
 			</div>
 	</div>
 
-
+</div>
+</div>
 
 	<form method="post" enctype="multipart/form-data" action="/deductions/employee_add">
 	<input type="hidden" value="{{ employee.id }}" name="employee_id">
