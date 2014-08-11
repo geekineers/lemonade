@@ -6,7 +6,7 @@ function pdf_create($html, $filename='', $stream=TRUE)
 {
  
     header("Content-Type: application/pdf");
-    require_once(APPPATH."vendor/dompdf/dompdf/dompdf_config.inc.php");
+    require_once(APPPATH."helpers/dompdf/dompdf/dompdf_config.inc.php");
 
     $dompdf = new DOMPDF();
     $dompdf->load_html($html);
