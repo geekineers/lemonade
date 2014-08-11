@@ -10,22 +10,17 @@
     <table id="example1" class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Payroll Group</th>
-                <th>Period</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Branch</th>
-                <th>Detail</th>
+                <th>Name</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
+        {% for form in forms %}
             <tr>
-                <td>Trident</td>
-                <td>Internet
-                    Explorer 4.0</td>
-                <td>Win 95+</td>
-                <td> 4</td>
+                <td>{{ form['form_name'] }}</td>
+                <td></td>
             </tr>
+        {% endfor %}
         </tbody>
     </table>
 	</div>
