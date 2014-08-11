@@ -83,6 +83,8 @@ Pigeon::map(function($r){
      $r->post('employees/(:num)/profile', 'EmployeeController#update');
      $r->post('employees/file/upload', 'EmployeeController#upload');
      $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
+     $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
+
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
 
