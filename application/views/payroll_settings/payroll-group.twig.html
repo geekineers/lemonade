@@ -1,0 +1,113 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+<div class="row">
+	<section class="col-md-12 connectedSortable ui-sortable">
+		<div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+
+            	<li class="active"><a href="#payroll-group"  data-toggle="tab">Payroll Group</a></li>
+          		
+            </ul>
+            <div class="tab-content ">
+               
+                <div class="tab-pane active" id="sss" style="position: relative; max-height: 400px;">
+                <button class="btn btn-success" data-toggle="modal" data-target="#add-group" >
+                	<i class="fa fa-plus"></i>
+                </button>
+                	 <div class="box-body table-responsive">
+                        <table id="example2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Payroll Group Name</th>
+                                    <th>Company / branch name</th>
+                                    <th>Period Type</th>
+                                    <th>created at</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                 {% for group in groups %}
+                                 	<tr>
+                                 		<td>{{ group.group_name }}</td>
+                                 		<td>{{ group.getBranch() }}</td>
+                                 		<td>{{ group.period }}</td>
+                                 		<td>{{ group.created_at }}</td>
+                                    <td>
+                                      <button class="btn">
+                                        <i class="fa fa-edit"></i>
+                                      </button>
+                                      <button class="btn btn-warning">
+                                        <i class="fa fa-trash-o"></i>
+                                      </button>
+                                    </td>
+                                 	</tr>
+                                 {% endfor %}
+                               
+                                 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+	</section>
+</div>
+
+
+<div class="modal fade" id="add-group" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+                    <form role="form" method="post">
+						<div class="modal-header">Generate Payroll</div>
+						<div class="modal-body">
+
+							<div class="form-group">
+			                    <label>Group name</label>
+			                    <input class="form-control" type="text" name="group-name"></input>
+			                </div>
+			                <div class="form-group">
+		                        <label>Period Type:</label>
+		                        <select class="form-control" name="period">
+		                           <option >Daily</option>
+		                           <option>Weekly</option>
+		                           <option>Semi-monthly</option>
+		                           <option>Monthly</option>
+		                        </select>
+		                    </div>
+			                <div class="form-group">
+		                        <label>Branch:</label>
+		                        <select class="form-control" name="branch-id">
+		                           {% for branch in branches %}
+		                           		<option value="{{branch.id}}">{{ branch.branch_name }}</option>
+		                           {% endfor %}
+		                        </select>
+		                    </div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn"  data-dismiss="modal">close</button>
+							<button class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+			</div>
+		</div>
+</div>
+
+<!-- scripts -->
+<script src="/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+<script type="text/javascript">
+	(function($){
+		$('#example2').dataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false
+        });
+	})(jQuery);
+</script>
+
+{% endblock %}

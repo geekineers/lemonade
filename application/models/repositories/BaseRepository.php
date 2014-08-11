@@ -115,6 +115,11 @@ abstract class BaseRepository {
         return $this->class->orderBy($column, $order);
     }
 
+    public function groupBy($group)
+    {
+        return $this->class->groupBy($group);
+    }
+
     public function onlyTrashed()
     {
         return $this->onlyTrashed();
