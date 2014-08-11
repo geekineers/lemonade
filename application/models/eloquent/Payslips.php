@@ -26,7 +26,10 @@ class Payslips extends Eloquent {
                         'gross'
                ];
 
-
+  public function getEmployee()
+  {
+    return Employee::where('id','=',$this->employee_id)->first();
+  }
 
   public function getGroupName()
   {

@@ -12,6 +12,10 @@ class PayslipsRepository extends BaseRepository {
         $this->payrollGroupRepository= new PayrollGroupRepository();
 	}
 
+	public function getSlipById($id)
+	{
+		return $this->where('id','=',$id)->first();
+	}
 	public function getAllPayslip()
 	{
 		return $this->all();

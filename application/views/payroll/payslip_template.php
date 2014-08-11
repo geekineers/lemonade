@@ -4,96 +4,138 @@
         <meta charset="UTF-8">
         <title>Payslip </title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
+      <style>
+        table {
+  width:100%;
+    
+}
+table thead {
+  background-color:#DBDBDB;
+  text-align:left;
+}
+table tr td {
+  font-family:'calibri';
+  padding-left: 20px;
+  line-height: 20px;
+}
+table.bordered thead {
+  background-color:#DBDBDB
+}
+table tr{
+  padding: 0;
+  margin:0;
+}
+table.bordered tr td{
+background-color:#F2F2F2;
+  margin:0;
+   padding-left: 20px;
+}
+      </style>
     </head>
-    <body class="bg-white ">
-   		<div class="col-md-8 slip">
-			<div class="box box-primary">
-                <div class="box-header">
-                    <h3 class="box-title">Pay Slip</h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                    <div class="col-md-5">
-                    	<label>Name:</label>
-                    	<span>Onar De Jesus</span>
-                    </div>
-                    <div class="col-md-5">
-                        <label>TIN:</label>
-                        <span>2323</span>
-                    </div>
+    <body >
+      <h3>Lemonade </h3>
+      <table style="font-size:12px">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Middle Name</th>
+          </tr>
+        </thead>
+        
+        <tr>
+          <td><?php echo $employee->id; ?></td>
+          <td><?php echo $employee->first_name; ?></td>
+          <td><?php echo $employee->last_name; ?></td>
+          <td><?php echo $employee->middle_name; ?></td>
+        </tr>
+     
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Position</th>
+            <th>Department</th>
+            <th>Branch</th>
+          </tr>  
+        </thead>
+        
+        <tr>
+          <td> <?php echo $employee->marital_status; ?></td>
+          <td><?php echo $employee->getJobPosition(); ?></td>
+          <td><?php echo $employee->getDepartment(); ?></td>
+          <td><?php echo $employee->getBranch(); ?></td>
+        </tr>
+     
+        <thead>
+          <tr>
+            <th>TIN</th>
+            <th>SSS</th>
+            <th>HDMF</th>
+            <th>PHILHEALTH</th>
+          </tr>  
+        </thead>
+        
+        <tr>
+          <td> <?php echo $employee->tin_number; ?></td>
+          <td><?php echo $employee->sss_number; ?></td>
+          <td><?php echo $employee->pagibig_number; ?></td>
+          <td><?php echo $employee->philhealth_number==null ? 'n/a' : $employee->philhealth_number; ?></td>
+        </tr>
+      </table>
+      <div style="height: 30px;"></div>
+      <table class="bordered">
+        <tr>
+          <td>Basic Salary</td>
+          <td> <?php echo $employee->getBasicPay(); ?></td></td>
+        </tr>
+        <tr>
+          <td>Allowance</td>
+          <td>25,000</td>
+        </tr>
+        <tr>
+          <td>SSS</td>
+          <td>25,000</td>
+        </tr>
+        <tr>
+          <td>Paghealth</td>
+          <td>25,000</td>
+        </tr>
+        <tr>
+          <td>Pag ibig</td>
+          <td>25,000</td>
+        </tr>
+        <tr>
+          <td>Gross Pay</td>
+          <td>25,000</td>
+        </tr>
+        <tr >
+          <td style="background-color:#E2FF3D !important">Net Pay</td>
+          <td style="background-color:#E2FF3D !important">25,000</td>
+        </tr>
+      </table>
+      
+    <table class="bordered" style="margin-top:30px;background-color:#DBDBDB">
+      <thead>
+         <tr>
+          <td>Payroll Date</td>
+          <td>Prepared By</td>
+        </tr>
+        <tr>
+          <td>2302-23-23</td>
+          <td>Onardejsus</td>
+        </tr>
+      </thead>  
+     
+     </table
+      
+      
+     
+      
+      
+      
 
-                    <div class="col-md-5">
-                        <label>SSS:</label>
-                        <span>2323</span>
-                    </div>
-
-                    <div class="col-md-5">
-                        <label>Pag - ibig:</label>
-                        <span>2323</span>
-                    </div>
-                    <div class="col-md-5">
-                        <label>PhilHealth:</label>
-                        <span>2323</span>
-                    </div>
-
-                	<table class="table table-bordered" border="2" style="border:2px">
-
-            			<tr class="table-head">
-            				<td>Earnings</td>
-            				<td>Amount</td>
-            			</tr>
-                		
-                		<tr>
-                			<td>Basic Pay:</td>
-                			<td></td>
-                		</tr>
-                		<tr>
-                			<td>Gross Pay:</td>
-                			<td> </td>
-                		</tr>
-                		
-                		<tr class="table-head">
-            				<td>Deductions</td>
-            				<td>Amount</td>
-            			</tr>
-                		<tr>
-                			<td>SSS Contribution:</td>
-                			<td> </td>
-                		</tr>
-                		<tr>
-                			<td>PhilHealth Contribution:</td>
-                			<td></td>
-                		</tr>
-                		<tr>
-                			<td>PAG-IBIG Contribution:</td>
-                			<td></td>
-                		</tr>
-                		<tr>
-                			<td>Total Deductions:</td>
-                			<td></td>
-                		</tr>
-                        <tr class="table-head">
-                            <td></td>
-                            <td></td>
-                        </tr>
-                         <tr>
-                            <td>Taxable Pay:</td>
-                            <td> </td>
-                        </tr>
-                        <tr>
-                            <td>Withholding Tax:</td>
-                            <td></td>
-                        </tr>
-                		<tr style="border-top: 2px solid black;">
-                			<td>Net Pay:</td>
-                			<td></td>
-                		</tr>
-                	</table>
-                	
-                </div>
-           </div>
-   
-         </div>
+              
       
     </body>
 </html>

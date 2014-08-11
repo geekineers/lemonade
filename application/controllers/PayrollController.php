@@ -39,13 +39,19 @@ class PayrollController extends BaseController
 		$this->render('payroll/payslip.twig.html',$data);
 
 	}
-	public function slip()
+	public function slip($id)
 	{
-		$data = [];
-		$html = $this->load->view('/payroll/payslip_template',$data, true);
 		
-		$data = pdf_create($html, '', false);
-	    echo $data;
+		$slip =  $this->payslipsRepository->getSlipById($id);
+		// dd($slip);
+		$data = [
+			'employee' => $slip->getEmployee(),
+			'payslip' => $slip
+		];
+		$html = $this->load->view('payroll/payslip_template',$data, true);
+		// dd($html);
+		$pdf = pdf_create($html, '', false);
+	    echo $pdf;
 		
 	}
 	public function test()
