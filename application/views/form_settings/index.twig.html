@@ -18,7 +18,15 @@
         {% for form in forms %}
             <tr>
                 <td>{{ form['form_name'] }}</td>
-                <td></td>
+                <td>
+                    <a href="/settings/forms/{{ form['id'] }}/edit" class="btn btn-info">
+                        Edit
+                    </a>
+                    <form action="/settings/forms/{{ form['id'] }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-warning"> Delete </button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

@@ -69,12 +69,25 @@ class FormSettingsController extends BaseController {
 
 	public function update()
 	{
+		$data = [
+			'form_name' => $this->input->post('form-name'),
+			'form_content' => $this->input->post('form-content'),
+			'user_id' => $this->sentry->getUser()->id
+		];
 
+		//TODO UPDATE HERE
 	}
 
-	public function delete()
+	public function delete($id)
 	{
+		if($this->formRepository->delete($id)) {
+			$this->session->set_flashdata('message', 'Form has been deleted.');
+		} else {
+			$this->session->set_flashdata('message', 'There was an error.');
 
+		}
+
+		redirect('/settings/forms');
 	}
 
 }
