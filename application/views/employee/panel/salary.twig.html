@@ -1,22 +1,148 @@
 				<div class="tab-pane " id="profile-tabs-salary">
 							 <div class="panel panel-default">
-						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Earnings</div>
+						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Basic Pay Adjustments
+
+						  		<button data-toggle="modal" data-target="#addNewDeductions" class="btn btn-default btn-xs pull-right"><i class="fa fa-plus"></i></button>
+						  		<span style="margin-right:10px;" class="pull-right">Current Basic Pay : <b>PHP {{ employee.getBasicPay() }}</b></span>
+						  		</div>
+						  	 <div class="panel-body">
+						  		<table class="table table-bordered table-hover dataTable">
+									<tr>
+										<th>Current Basic Pay</th>
+										<th>New Basic Pay</th>
+										<th>Effective Date</th>
+										<th>Adjustment Date</th>
+										<th>Adjustment Reason</th>
+										<th>Created By</th>
+									</tr>
+									{% for basic_pay in employee.getBasicPayAdjustments %}
+										<tr>
+											<td>{{ basic_pay.getCurrentBasicPay() }}</td>
+											<td>{{ basic_pay.getNewBasicPay() }}</td>
+											<td>{{ basic_pay.effective_date }}</td>
+											<td>{{ basic_pay.adjustment_date }}</td>
+											<td>{{ basic_pay.adjustment_reason }}</td>
+											<td>{{ basic_pay.getCreatedBy() }}</td>
+										</tr>
+									{% endfor %}
+								</table>
+						 </div>
+						 </div>
+
+
+		 				 <div class="earnings panel panel-default">
+		 				 	<form method="post" action="" >
+		 				 		<input type="hidden" value="{{ employee.id }}" name="employee_id">
+						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Earnings
+						  		<button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
+						  		</div>
 						  	 <div class="panel-body">
 						  		 <table class="table">
 								<tr>
-						 			<td><span class="form-label">Basic Pay</span>{{ employee.basic_pay }}</td>
+						 			<td><span class="form-label">Basic Pay</span>{{ employee.getBasicPay() }}</td>
 						 			<td><span class="form-label">Payroll Period</span>{{ employee.getPayrollPeriod() }}</td>
 						 		</tr>
 							 	<tr>
-							 		<td><span class="form-label">Withholding Tax Type</span>Compensation</td>
-							 		<td><span class="form-label">Expanded Withholding Tax %</span>0%</td>
+							 		<td><span class="form-label">Withholding Tax Type</span>
+							 		<span class="profile-value">
+							 			{{ employee.withholding_tax_type }}
+							 		</span>
+							 		<select name="withholding_tax_type" class="form-control edit-input">
+							 			<option value="Compensation" {% if employee.withholding_tax_type == "Compensation" %}selected{% endif %} >Compensation</option>
+							 			<option value="Expanded" {% if employee.withholding_tax_type == "Expanded" %}selected{% endif %} >Expanded</option>
+							 		</select>
+							 		</td>
+							 		<td><span class="form-label">Expanded Withholding Tax %</span>
+							 		<span class="profile-value">{{  employee.expandedwithholdingtax }}%</span>
+							 		<input class="edit-input" name="expanded_withholding_tax" />
+							 		</td>
 							 	</tr>
 							 	<tr>
-							 		<td><span class="form-label">Entitled Night Differential</span>Yes</td>
-							 		<td><span class="form-label">Night Differential Rate %</span>0%</td>
+							 		<td><span class="form-label">Entitled Night Differential</span>
+							 		<span class="profile-value">{{ employee.getEntitledNightDifferential() }}</span>
+							 		<select class="edit-input" name="entitled_night_differential">
+							 			<option value="1" {% if employee.entitled_night_differential %} selected {% endif %}>Yes</option>
+							 			<option value="0" {% if employee.entitled_night_differential == 0 %} selected {% endif %} >No</option>
+							 		</select>
+							 		</td>
+							 		<td><span class="form-label">Night Differential Rate %</span>
+							 		<span class="profile-view">{{ employee.night_differential_rate }}%</span>
+							 		<input class="edit-input"  value="{{ employee.night_differential_rate }}"  name="night_differential_rate" />
+							 		</td>
+							 	</tr>
+						 	 	<tr>
+							 		<td><span class="form-label">Entitled Overtime Pay</span>
+				 			 		<span class="profile-value">{{ employee.getEntitledOvertimePay() }}</span>
+							 		<select class="edit-input" name="entitled_overtime_pay">
+							 			<option value="1" {% if employee.entitled_overtime_pay %} selected {% endif %}>Yes</option>
+							 			<option value="0" {% if employee.entitled_overtime_pay == 0 %} selected {% endif %} >No</option>
+							 		</select>
+							 		</td>
+							 		<td><span class="form-label">Overtime Pay Rate %</span>
+							 		<span class="profile-view">{{ employee.overtime_pay_rate }}%</span>
+							 		<input class="edit-input"  value="{{ employee.overtime_pay_rate }}"  name="overtime_pay_rate" />
+							 		</td>
+							 	</tr>
+						 	 	<tr>
+							 		<td><span class="form-label">Timesheet Required</span>
+					 				<span class="profile-value">{{ employee.getTimesheetRequired() }}</span>
+							 		<select class="edit-input">
+							 			<option value="1" {% if employee.timesheet_required %} selected {% endif %}>Yes</option>
+							 			<option value="0" {% if employee.timesheet_required == 0 %} selected {% endif %} >No</option>
+							 		</select>
+							 		</td>
+							 		<td></td>
 							 	</tr>
 						 	
 						 </table>
+						 	<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
+							</form>
 						 </div>
 						 </div>
+
 						</div> <!-- / .tab-pane -->
+
+	<!-- Modal -->
+<form method="post" enctype="multipart/form-data" action="/employees/adjust-basic-pay">
+<input type="hidden" value="{{ employee.id }}" name="employee_id" />
+	<div class="modal fade" id="addNewDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Adjust Basic Pay</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group">
+      	<label>Current Basic Pay</label>
+      	<input type="text" name="current_basic_pay" class="form-control" readonly="" value="{{ employee.getBasicPay(false) }}" />
+      </div>
+      <hr>
+      <div class="form-group">
+      	<label>New Basic Pay</label>
+      	<input type="text" name="new_basic_pay" class="form-control"/>
+      </div>
+      <div class="form-group">
+      	<label>Effective Date</label>
+      	<input class="datepicker form-control" name="effective_date" />
+      </div>
+     <div class="form-group">
+      	<label>Adjustment Date</label>
+      	<input class="datepicker form-control" name="adjustment_date" />
+      </div>
+       <div class="form-group">
+      	<label>Adjustment Reason</label>
+      	<textarea class="form-control" name="adjustment_reason"></textarea>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Save">
+      </div>
+    </div>
+  </div>
+</div>
+</form>

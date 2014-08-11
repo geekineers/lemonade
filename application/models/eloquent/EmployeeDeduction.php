@@ -23,4 +23,9 @@ class EmployeeDeduction extends Eloquent {
   					     ];
 
 
+   public function getName()
+   {
+   	 return Deduction::find($this->deduction_id)->deduction_name;
+   }
+
 }
