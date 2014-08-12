@@ -17,6 +17,7 @@ Pigeon::map(function($r){
      $r->get('auth', 'AuthController#index');
      $r->post('auth', 'AuthController#login');
      $r->get('auth/logout', 'AuthController#logout');
+     $r->get('auth/time-in', 'AuthController#timeIn');
 
      $r->get('dashboard', 'MainController#dashboard');
 

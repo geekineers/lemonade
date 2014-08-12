@@ -10,7 +10,7 @@ class Timesheet extends Eloquent {
   	 public $table = "timesheet";
 	 protected $datas = ['deleted_at'];
 
-  protected $fillable = ['id', 'employee_id', 'source', 'time_in', 'time_out'];
+  protected $fillable = ['id', 'employee_id', 'source', 'time_in', 'time_out', 'cookie_registry'];
 
   public function setPasswordAttribute($password)
   {

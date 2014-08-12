@@ -14,6 +14,10 @@ class Migration_Add_timesheet extends CI_Migration {
                                 'unsigned' => TRUE,
                                 'auto_increment' => TRUE
                         ),
+                        'cookie_registry' => array(
+                                'type' => 'VARCHAR',
+                                'constraint' => 255
+                            ),
                         'employee_id' => array(
                                 'type' => 'INT',
                                 'constraint' => '5',

@@ -3,14 +3,15 @@ require_once('BaseController.php');
 
 class AuthController extends BaseController {
 
-	protected $userRepository;
+	protected $userRepository,
+			  $timeSheetRepository;
 
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->userRepository = new UserRepository();
-
+		$this->timeSheetRepository = new TimesheetRepository();
 	}
 
 
@@ -33,8 +34,9 @@ class AuthController extends BaseController {
 
     		// Authenticate the user
     		$user = $this->sentry->authenticate($credentials, false);
-		    // Log the user in
-		    $this->sentry->login($user, false);
+    	  // Log the user in
+		   $login =  $this->sentry->login($user, true);
+		  
 
 
 
@@ -42,14 +44,17 @@ class AuthController extends BaseController {
 		catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
 		{
 		    echo 'Login field is required.';
+			redirect('/auth');
 		}
 		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
 		    echo 'User not found.';
+		    redirect('/auth');
 		}
 		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
 		{
 		    echo 'User not activated.';
+		    redirect('/auth');
 		}
 
 		// Following is only needed if throttle is enabled
@@ -58,18 +63,32 @@ class AuthController extends BaseController {
 		    $time = $throttle->getSuspensionTime();
 
 		    echo "User is suspended for [$time] minutes.";
+		    redirect('/auth');
 		}
 		catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
 		{
 		    echo 'User is banned.';
+		    redirect('/auth');
 		}
 
-		redirect('/dashboard');
+			redirect('/auth/time-in');
+
+	}
+
+	public function timeIn()
+	{
+		// Time in User
+		   $sentry_user = $this->sentry->getUser();
+		  // dd($cookie);
+		   $this->timeSheetRepository->timeIn($sentry_user);
+
+		   	redirect('/dashboard');
 
 	}
 
 	public function logout()
 	{
+		$this->timeSheetRepository->timeOut();
 		$this->sentry->logout();
 		redirect('/auth');
 	}
