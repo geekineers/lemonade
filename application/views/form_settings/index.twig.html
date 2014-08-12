@@ -1,4 +1,36 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
-<div class="row"></div>
+<div class="row">
+    <div class="col-sm-12">
+            <a class="btn-add-branch btn btn-primary pull-right" href="/settings/forms/new">+ Add Form</a>
+    </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for form in forms %}
+            <tr>
+                <td>{{ form['form_name'] }}</td>
+                <td>
+                    <a href="/settings/forms/{{ form['id'] }}/edit" class="btn btn-info">
+                        Edit
+                    </a>
+                    <form action="/settings/forms/{{ form['id'] }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-warning"> Delete </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+	</div>
+</div>
 {% endblock %}
