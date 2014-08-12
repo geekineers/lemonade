@@ -1,4 +1,4 @@
-<?php ?>
+
 <html >
     <head>
         <meta charset="UTF-8">
@@ -33,7 +33,7 @@ background-color:#F2F2F2;
       </style>
     </head>
     <body >
-      <h3>Lemonade </h3>
+      <h3><img src="img/logo.png"> </h3>
       <table style="font-size:12px">
         <thead>
           <tr>
@@ -87,31 +87,35 @@ background-color:#F2F2F2;
       <table class="bordered">
         <tr>
           <td>Basic Salary</td>
-          <td> <?php echo $employee->getBasicPay(); ?></td></td>
+          <td> <?php echo $employee->getBasicPay(); ?></td>
         </tr>
         <tr>
           <td>Allowance</td>
-          <td>25,000</td>
+          <td><?php echo $employee->getAllowance(); ?> </td>
         </tr>
         <tr>
           <td>SSS</td>
-          <td>25,000</td>
+          <td><?php echo $payslip->sss; ?></td>
         </tr>
         <tr>
-          <td>Paghealth</td>
-          <td>25,000</td>
+          <td>Philhealth</td>
+          <td><?php echo $payslip->philhealth; ?></td>
         </tr>
         <tr>
           <td>Pag ibig</td>
-          <td>25,000</td>
+          <td><?php echo $payslip->pagibig; ?></td>
         </tr>
         <tr>
           <td>Gross Pay</td>
-          <td>25,000</td>
+          <td><?php echo $payslip->gross; ?></td>
+        </tr>
+         <tr>
+          <td>Withholding Tax</td>
+          <td><?php echo $payslip->widthholding_tax; ?></td>
         </tr>
         <tr >
           <td style="background-color:#E2FF3D !important">Net Pay</td>
-          <td style="background-color:#E2FF3D !important">25,000</td>
+          <td style="background-color:#E2FF3D !important"><?php echo $payslip->net; ?></td>
         </tr>
       </table>
       
@@ -122,8 +126,8 @@ background-color:#F2F2F2;
           <td>Prepared By</td>
         </tr>
         <tr>
-          <td>2302-23-23</td>
-          <td>Onardejsus</td>
+          <td><?php echo $payslip->getPayrollDate(); ?></td>
+          <td><?php echo $payslip->getPreparedBy(); ?></td>
         </tr>
       </thead>  
      

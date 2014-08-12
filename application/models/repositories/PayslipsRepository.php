@@ -41,7 +41,7 @@ class PayslipsRepository extends BaseRepository {
 			
 			$pays[] = [
 				'employees_id' => $employee->id,
-				'basic_pay' => toInt($employee->basic_pay),
+				'basic_pay' => toInt($employee->getBasicPay()),
 				'payslip' => $this->getWithholdingTax( 
 										toInt($employee->basic_pay) ,
 										$payrollGroup['period'] ,

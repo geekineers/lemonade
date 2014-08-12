@@ -45,5 +45,7 @@ class PayrollSettingsController extends BaseController
                 'period' => $this->input->post('period'),
                 'prepared_by' =>  $this->sentry->getUser()->id
 			]);
+
+		redirect('/settings/payroll-group');
 	}
 }

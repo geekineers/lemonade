@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Add_payslips extends CI_Migration {
+class Migration_Add_slips extends CI_Migration {
 
         public function up()
         {
@@ -70,16 +70,14 @@ class Migration_Add_payslips extends CI_Migration {
                                  'type' => 'DATETIME',
                                 'null' => TRUE,
                         ),
-                          'updated_at' => array(
+                        'updated_at' => array(
                             		 'type' => 'DATETIME',
                                 
                         ),
                         'deleted_at' => array(
                           			'type' => 'DATETIME',
                           			'null' => TRUE,
-                        ),
-
-
+                        )
                 ));
                 $this->dbforge->add_key('id', TRUE);
                 $this->dbforge->create_table('payslips');
