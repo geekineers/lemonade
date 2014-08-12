@@ -3,8 +3,11 @@ header .logo img{
 	width: 100%;
 	height: 60px;
 
+
 }
 
+.box-warning .box-header { background-color: #DBCC18 !important;}
+.btn-custom { background-color : #DBCC18; color : white;}
 .skin-blue .navbar {
 	background-color: #DBCC18;
 }

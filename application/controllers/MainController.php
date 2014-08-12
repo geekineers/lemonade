@@ -20,15 +20,25 @@ class MainController extends BaseController
 
 	public function dashboard()
 	{
-
-		// dd($this->sentry->getUser());
-		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
+
+		// dd($this->session->all_userdata()['session_id']);
+		// dd($this->sentry->getUser());
+		// dd($this->input->cookie('cartalyst_sentry'));
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		$data['datetime'] = array(
+				'time' => date('h:i:s A'),
+				'day' => date('l'),
+				'month' => date('M'),
+				'date' => date('d')
+
+			);
 		$data['title'] = "Dashboard";
 
 		$this->render('index.twig.html', $data);
 	}
 
+	
 	public function test()
 	{
 
@@ -50,4 +60,7 @@ class MainController extends BaseController
 		$this->render('slip.twig.html',$data);
 
 	}
+
+
+
 }

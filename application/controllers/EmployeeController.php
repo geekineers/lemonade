@@ -105,11 +105,21 @@ class EmployeeController extends BaseController {
 		redirect('/employees/' . $employee_id . '/profile', 'location');
 	}
 
-	public function updateSalary()
+	public function updateSalary($id)
 	{
-		$employee_id = $this->input->post('employee_id');
-		$post = $this->input->post();
-		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
+		$employee_id = $id;
+		// $post = $this->input->post();
+		$post = array(
+				'withholding_tax_type' => $this->input->post('withholding_tax_type'),
+				'expanded_withholding_tax' => floatval($this->input->post('expanded_withholding_tax')),
+				'entitled_night_differential' => (int)$this->input->post('entitled_night_differential'),
+				'night_differential_rate' => floatval($this->input->post('night_differential_rate')),
+				'entitled_overtime_pay' => (int) $this->input->post('entitled_overtime_pay'),
+				'overtime_pay_rate' => floatval($this->input->post('overtime_pay')),
+			);
+		// dd($post);
+		$update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
+		dd($update);
 	}
 
 	public function save()

@@ -164,4 +164,23 @@ class Employee extends Eloquent {
   return BasicPayAdjustment::where('employee_id', '=', $this->id)->orderBy('id', 'desc')->take($limit)->skip($skip)->get();
  }
 
+ public function getEntitledNightDifferential()
+ {
+    if($this->entitled_night_differential) return 'Yes';
+    return 'No';
+ }
+ public function getEntitledOvertimePay()
+ {
+    if($this->entitled_overtime_pay) return 'Yes';
+    return 'No';
+ } 
+ public function getTimesheetRequired()
+ {
+    if($this->timesheet_required) return 'Yes';
+    return 'No';
+ }
+
+
+
+
 }

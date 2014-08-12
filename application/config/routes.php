@@ -17,6 +17,7 @@ Pigeon::map(function($r){
      $r->get('auth', 'AuthController#index');
      $r->post('auth', 'AuthController#login');
      $r->get('auth/logout', 'AuthController#logout');
+     $r->get('auth/time-in', 'AuthController#timeIn');
 
      $r->get('dashboard', 'MainController#dashboard');
 
@@ -89,6 +90,10 @@ Pigeon::map(function($r){
      $r->post('employees/(:num)/profile', 'EmployeeController#update');
      $r->post('employees/file/upload', 'EmployeeController#upload');
      $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
+     $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
+
+
+     $r->get('timesheet', 'TimesheetController#index');
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
 
