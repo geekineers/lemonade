@@ -59,7 +59,6 @@
         </div>
 	</section>
 </div>
-<<<<<<< HEAD
 
 
 
@@ -84,7 +83,7 @@
 	                            <div class="input-group-addon">
 	                                <i class="fa fa-clock-o"></i>
 	                            </div>
-	                            <input type="text" class="form-control pull-right" id="payrolltime">
+	                            <input type="text" class="form-control pull-right" placeholder="must choose date range" id="payrolltime">
 	                        </div>
 	                    </div>
 					</div>
@@ -100,36 +99,45 @@
 <script type="text/javascript"  src="/js/plugins/daterangepicker/daterangepicker.js" ></script>
 <script type="text/javascript">
 	(function($){
-		var alerttpl = '<div class="alert alert-danger alert-dismissable"> '+
+		var alerttpl = '<div class="alert alert-info alert-dismissable"> '+
 	                        '<i class="fa fa-ban"></i> '+
 	                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
-	                        '<b>Alert!</b> Complete the field'+
+	                        '<b></b> Loading...'+
 	                   '</div>'; 
 
-		$('#payrolltime').daterangepicker({},function(start, end, label){
-			
-			var start = moment(start).format('MM-DD-YYYY'),
-				end   = moment(end).format('MM-DD-YYYY');
-			$('#generate-payroll').on('click',function(){
-
-				var group_name = $('#group_name').val();
-
-				var data = {
-					'group_name' : group_name,
-					'start' : start,
-					'end'   : end
-				};
-
-				$.post('payroll/payslip/generate',data,function(res){
-					console.log(res);
+		$('#payrolltime').daterangepicker({
+			'endDate': parseInt(moment().format('DD'))>15 ? moment().format('MM')+'-30-'+moment().format('YYYY') :  moment().format('MM')+'-15-'+moment().format('YYYY') 
 				});
+		$('.applyBtn').click(function(){
 
-			});
-		});
+			 var start = moment($('.daterangepicker_start_input input').val()).format('MM-DD-YYYY'),
+					end   = moment($('.daterangepicker_end_input input').val()).format('MM-DD-YYYY');
+					console.log(end);
+				$('#generate-payroll').on('click',function(){
+
+					var group_name = $('#group_name').val();
+
+					var data = {
+						'group_name' : group_name,
+						'start' : start,
+						'end'   : end
+					};
+
+					$('#generate-modal .modal-body').prepend(alerttpl);
+					$.post('/payroll/payslip/generate',data,function(res){
+					}).success(function(){
+						$('#payrolltime').val('')
+						$('#generate-modal').modal('hide')
+						
+						window.location.reload();
+					});
+
+				});
+			
+		 });
 
 	})(jQuery);
 </script>
 
-=======
->>>>>>> 7cd6465346e273e7676b3cff8acb9160e1614287
+
 {% endblock %}

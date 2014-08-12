@@ -50,6 +50,8 @@ class PayrollController extends BaseController
 		];
 		$html = $this->load->view('payroll/payslip_template',$data, true);
 		// dd($html);
+		// $html = "dsadas";
+		// dd($html);
 		$pdf = pdf_create($html, '', false);
 	    echo $pdf;
 		
@@ -57,8 +59,12 @@ class PayrollController extends BaseController
 	public function test()
 	{
 
-		// dd('08-21-2014')->toDateTimeString());
-
+			// $html = $this->load->view('payroll/payslip_template',$data, true);
+		// dd($html);
+		$html = "dsadas";
+		// dd($html);
+		$pdf = pdf_create($html, '', false);
+	    echo $pdf->render();
 	}
 // POST
 	public function generatePayslip()

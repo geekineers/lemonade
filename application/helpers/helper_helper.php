@@ -2,18 +2,24 @@
 function ci_app_path($path = null) {
 	return APPPATH.$path;
 }
-function pdf_create($html, $filename='', $stream=TRUE) 
+
+function pdf_create($html, $filename='s', $stream=TRUE) 
 {
- 
-    header("Content-Type: application/pdf");
+
+
+      
     require_once(APPPATH."helpers/dompdf/dompdf/dompdf_config.inc.php");
+	 
 
     $dompdf = new DOMPDF();
+ 
     $dompdf->load_html($html);
     $dompdf->render();
+ 
     if ($stream) {
-        $dompdf->stream($filename.".pdf");
+     $dompdf->stream($filename.".pdf");
     } else {
+	 header("Content-Type: application/pdf");
         return $dompdf->output();
     }
 }

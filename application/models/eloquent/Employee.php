@@ -127,6 +127,10 @@ class Employee extends Eloquent {
   return Document::where('employee_id', '=', $this->id)->get();
  }
 
+ public function getAllowance()
+ {
+  
+ }
 
  public function getDeductions()
  {
