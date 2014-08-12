@@ -4,11 +4,14 @@ require_once('BaseController.php');
 class PayrollSettingsController extends BaseController 
 {
 
-	protected $employeeRepository;
+	protected $employeeRepository,$branchRepository,$payrollGroupRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
+		$this->branchRepository = new BranchRepository();
+		$this->payrollGroupRepository= new PayrollGroupRepository();
+
 	}
 
 	public function index()
@@ -22,5 +25,27 @@ class PayrollSettingsController extends BaseController
 	 //    ->set_output(json_encode($data['wtax']));
 			// dd(iterator_to_array($data['wtax']));
 		$this->render('payroll_settings/index.twig.html',$data);
+	}
+
+	public function payrollGroup()
+	{
+
+		$data['user'] = $this->sentry->getUser();
+		$data['title'] = 'Payroll Settings';
+		$data['branches'] = $this->branchRepository->all();
+		$data['groups'] = $this->payrollGroupRepository->all();
+		$this->render('payroll_settings/payroll-group.twig.html',$data);
+	}
+
+	public function postPayrollGroup()
+	{
+		$this->payrollGroupRepository->create([
+				'branch_id' => $this->input->post('branch-id'),
+                'group_name' => $this->input->post('group-name'),
+                'period' => $this->input->post('period'),
+                'prepared_by' =>  $this->sentry->getUser()->id
+			]);
+
+		redirect('/settings/payroll-group');
 	}
 }

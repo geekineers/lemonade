@@ -38,7 +38,7 @@ class Migration_Add_salaryconfig extends CI_Migration {
                        'timesheet_required' => array(
                                                         'type' => 'INT',
                                                         'constraint' => 5,
-                                                    ),
+                                                    )
 
 
 

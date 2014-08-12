@@ -35,6 +35,10 @@ Pigeon::map(function($r){
      $r->get('payroll/gov-form','PayrollController#govform');
      $r->get('payroll/bank','PayrollController#bank');
 
+     $r->get('payroll/payslip/(:num)','PayrollController#slip');
+
+     $r->get('testpdf','PayrollController#test');
+
      /*Admin Settings */
      $r->get('settings/roles', 'UserRolesController#index');
      $r->get('settings/roles/add', 'UserRolesController#add');
@@ -58,8 +62,10 @@ Pigeon::map(function($r){
      $r->post('settings/department/edit', 'DepartmentController#update');
      $r->get('settings/department/delete', 'DepartmentController#delete');
 
-     $r->get('settings/payroll','PayrollSettingsController#index');
-     $r->get('settings/payroll','PayrollSettingsController#index');
+
+     $r->get('settings/payroll','payrollSettingsController#index');
+     $r->get('settings/payroll-group','payrollSettingsController#payrollGroup');
+     $r->post('settings/payroll-group','payrollSettingsController#postPayrollGroup');
 
      $r->get('settings/forms', 'FormSettingsController#index');
      $r->get('settings/forms/new', 'FormSettingsController#create');
@@ -90,6 +96,8 @@ Pigeon::map(function($r){
      $r->get('sss','MainController#test');
 
      $r->get('media', 'ImageController');
+
+
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
     // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));

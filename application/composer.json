@@ -7,7 +7,9 @@
 		"twig/twig": "1.*",
 		"cartalyst/sentry": "2.1.*",
 		"illuminate/database": "4.2.7",
-		"php": ">=5.2.4"
+		"php": ">=5.2.4",
+		"nesbot/Carbon": "*",
+		"dompdf/dompdf" : "0.6.*"
 	},
 	"autoload": {
         "classmap": [
