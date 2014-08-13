@@ -26,4 +26,16 @@ class Timesheet extends Eloquent {
   	return $this->time_out;
   }
 
+  public function getTimeDiff()
+  {
+
+  	$time_out = ($this->time_out == null) ? date('Y-m-d H:i:s') : $this->time_out;
+
+  	$datetime_in = new DateTime($this->time_in);
+  	$datetime_out = new DateTime($time_out);
+  	
+  	$interval = $datetime_in->diff($datetime_out);
+  	return $interval->format('%H:%I:%s');
+  }
+
 }
