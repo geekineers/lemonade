@@ -16,8 +16,9 @@ class TimesheetController extends BaseController
 
 	public function index()
 	{
-	
-		$data = [];
+
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		$data['timesheets'] = $this->timesheetRepository->orderBy('id', 'desc')->get();
 		$this->render('/timesheet/index.twig.html', $data);
 	}
 

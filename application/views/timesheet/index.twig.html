@@ -25,8 +25,18 @@
 		<th>Position</th>
 		<th>Time In</th>
 		<th>Time Out</th>
-		<th>Date</th>
+		<th>Hours</th>
 	</tr>
+	{% for time in timesheets %}
+		<tr>
+			<td></td>
+			<td>{{ time.getEmployee.getName() }}</td>
+			<td>{{ time.getEmployee.getJobPosition() }}</td>
+			<td>{{ time.time_in }}</td>
+			<td>{{ time.getTimeOut() }}</td>
+			<td>{{ time.getTimeDiff() }}</td>
+		</tr>
 
+	{% endfor %}
 </table>
 {% endblock %}
