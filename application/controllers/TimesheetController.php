@@ -17,7 +17,7 @@ class TimesheetController extends BaseController
 	public function index()
 	{
 	
-		$data = [];
+		$data['timesheets'] = $this->timesheetRepository->all();
 		$this->render('/timesheet/index.twig.html', $data);
 	}
 

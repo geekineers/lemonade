@@ -27,6 +27,16 @@
 		<th>Time Out</th>
 		<th>Date</th>
 	</tr>
+	{% for time in timesheets %}
+		<tr>
+			<td></td>
+			<td>{{ time.getEmployee.getName() }}</td>
+			<td>{{ time.getEmployee.getJobPosition() }}</td>
+			<td>{{ time.time_in }}</td>
+			<td>{{ time.getTimeOut() }}</td>
+			
+		</tr>
 
+	{% endfor %}
 </table>
 {% endblock %}
