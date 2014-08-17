@@ -38,41 +38,43 @@ class PayslipsRepository extends BaseRepository {
 			
 		$pays = [];
 		foreach ($employees as $employee) {
-			
-			$pays[] = [
-				'employees_id' => $employee->id,
-				'basic_pay' => toInt($employee->getBasicPay()),
-				'payslip' => $this->getWithholdingTax( 
-										toInt($employee->basic_pay) ,
-										$payrollGroup['period'] ,
-										intval($employee->dependents) ,
-										null ,
-										null ,
-										null
-									 )
-			];
-			$payslip = $this->getWithholdingTax( 
-										toInt($employee->basic_pay) ,
-										$payrollGroup['period'] ,
-										intval($employee->dependents) ,
-										null ,
-										null ,
-										null
-									 );
-			$this->create([
-					'employee_id'  => $employee->id,
-                    'branch_id' => $payrollGroup['branch_id'],
-                    'payroll_group' => $payrollGroup['id'],
-                    'sss' => $payslip['SSS'],
-                    'philhealth' => $payslip['philhealth'],
-                    'pagibig' => $payslip['pagibig'],
-                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
-                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
-                    'net' => $payslip['net'],
-                    'gross'=>$payslip['gross'],
-                    'other_deductions' => 'not available',
-                    'prepared_by' => $payrollGroup['prepared_by']
-				]);
+			if($employee->period == $payrollGroup['period'])
+			{
+				$pays[] = [
+					'employees_id' => $employee->id,
+					'basic_pay' => toInt($employee->getBasicPay()),
+					'payslip' => $this->getWithholdingTax( 
+											toInt($employee->basic_pay) ,
+											$payrollGroup['period'] ,
+											intval($employee->dependents) ,
+											null ,
+											null ,
+											null
+										 )
+				];
+				$payslip = $this->getWithholdingTax( 
+											toInt($employee->basic_pay) ,
+											$payrollGroup['period'] ,
+											intval($employee->dependents) ,
+											null ,
+											null ,
+											null
+										 );
+				$this->create([
+						'employee_id'  => $employee->id,
+	                    'branch_id' => $payrollGroup['branch_id'],
+	                    'payroll_group' => $payrollGroup['id'],
+	                    'sss' => $payslip['SSS'],
+	                    'philhealth' => $payslip['philhealth'],
+	                    'pagibig' => $payslip['pagibig'],
+	                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
+	                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
+	                    'net' => $payslip['net'],
+	                    'gross'=>$payslip['gross'],
+	                    'other_deductions' => 'not available',
+	                    'prepared_by' => $payrollGroup['prepared_by']
+					]);
+			}
 
 		}
 		header("Content-Type: application/json");
