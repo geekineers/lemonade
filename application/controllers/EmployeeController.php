@@ -71,6 +71,7 @@ class EmployeeController extends BaseController {
 
 	public function update()
 	{
+
 		$employee_id = $this->input->post('id');
 		$post = array(
 		'first_name' => $this->input->post('first_name'),
@@ -91,6 +92,8 @@ class EmployeeController extends BaseController {
 		'role_id' => (int) $this->input->post('role_id'),
 		'branch_id'=> (int) $this->input->post('branch_id'),
 		'date_hired' => $this->input->post('date_hired'),
+		'timeshift_start' => date("H:i:s", strtotime($this->input->post('timeshift_start'))),
+		'timeshift_end' => date("H:i:s", strtotime($this->input->post('timeshift_end'))),
 		// 'basic_pay' => $this->input->post('basic_pay'),
 		
 

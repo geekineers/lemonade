@@ -22,6 +22,8 @@ $(document).ready(function(){
 		format: 'yyyy/mm/dd',
 	})
 
+	$('.timepicker').timepicker();
+
 	$('.earnings .edit-profile-btn').on('click', function(event){
 		event.preventDefault();
 		$('.earnings .profile-value').fadeOut('fast');
@@ -53,10 +55,12 @@ $(document).ready(function(){
 		event.preventDefault();
 		$('.employment-details .profile-value').fadeOut('fast');
 		$('.employment-details .edit-input').fadeIn();
+		$('.employment-details .edit-time').css({"visibility":"visible"});
 		$('.employment-details .save-cancel-btn').fadeIn();
 	});
 	$('.employment-details .btn-cancel').on('click', function(event){
 		event.preventDefault();
+		$('.employment-details .edit-time').css({"visibility":"hidden"});
 		$('.employment-details .edit-input').fadeOut('fast');
 		$('.employment-details .save-cancel-btn').fadeOut('fast');
 		$('.employment-details .profile-value').fadeIn();

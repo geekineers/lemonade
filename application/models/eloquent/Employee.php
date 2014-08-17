@@ -138,8 +138,8 @@ class Employee extends Eloquent {
   if($from == null or $to == null) return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
 
   return EmployeeDeduction::where('employee_id', '=', $this->id)
-                          ->where('valid_from' ' <=' , $to)  
-                          ->where('valid_to' ' >=' , $from)  
+                          ->where('valid_from', '<=' , $to)  
+                          ->where('valid_to', '>=' , $from)  
                           ->get();
  }
 
@@ -224,6 +224,20 @@ public function getUnderTimeDeductionRate($per_unit)
 {
   return getDeductionRate($this->basic_pay, $this->payroll_period, $per_unit);
 
+
+}
+
+public function getTimeShiftStart($military_format = false)
+{
+  if($military_format) return $this->timeshift_start;
+  return date('h:i a', strtotime($this->timeshift_start));
+}
+
+
+public function getTimeShiftEnd($military_format = false)
+{
+  if($military_format) return $this->timeshift_end;
+  return date('h:i a', strtotime($this->timeshift_end));
 }
 
 }
