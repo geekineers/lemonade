@@ -122,6 +122,24 @@ class EmployeeController extends BaseController {
 		dd($update);
 	}
 
+	public function updateContributions($id)
+	{
+		$employee_id = $id;
+
+		$post = array(
+				'deduct_sss' => (boolean) $this->input->post('deduct_sss'),
+				'deduct_hdmf' => (boolean) $this->input->post('deduct_hdmf'),
+				'deduct_philhealth' => (boolean) $this->input->post('deduct_philhealth'),
+				'fixed_sss_amount' => floatval($this->input->post('fixed_sss_amount')),
+				'fixed_hdmf_amount' => floatval($this->input->post('fixed_hdmf_amount')),
+				'fixed_philhealth_amount' => floatval($this->input->post('fixed_philhealth_amount')),
+			);
+
+		$update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
+		redirect('/employees/' . $employee_id . '/profile', 'location');
+
+	}
+
 	public function save()
 	{
 

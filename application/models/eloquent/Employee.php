@@ -180,7 +180,36 @@ class Employee extends Eloquent {
     return 'No';
  }
 
+public function getDeductSSS($english_format = true)
+{
+    if($english_format){
+      if($this->deduct_sss) return 'Yes';
+      return 'No';
+    }
 
+    return $this->deduct_sss;
 
+}
+
+public function getDeductHDMF($english_format = true)
+{
+    if($english_format){
+      if($this->deduct_hdmf) return 'Yes';
+      return 'No';
+    }
+
+    return $this->deduct_hdmf;
+}
+
+public function getDeductPhilhealth($english_format = true)
+{
+    if($english_format){
+      if($this->deduct_philhealth) return 'Yes';
+      return 'No';
+    }
+
+    return $this->deduct_philhealth;
+    
+}
 
 }

@@ -91,6 +91,7 @@ Pigeon::map(function($r){
      $r->post('employees/file/upload', 'EmployeeController#upload');
      $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
      $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
+     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 
 
      $r->get('timesheet', 'TimesheetController#index');
