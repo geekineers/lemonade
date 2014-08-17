@@ -210,6 +210,14 @@ public function getDeductPhilhealth($english_format = true)
 
     return $this->deduct_philhealth;
     
+
+
+}
+
+public function getUnderTimeDeductionRate($per_unit)
+{
+  return getDeductionRate($this->basic_pay, $this->payroll_period, $per_unit);
+
 }
 
 }
