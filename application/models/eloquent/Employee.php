@@ -132,9 +132,15 @@ class Employee extends Eloquent {
   
  }
 
- public function getDeductions()
+ public function getDeductions($from = null, $to = null)
  {
-  return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
+
+  if($from == null or $to == null) return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
+
+  return EmployeeDeduction::where('employee_id', '=', $this->id)
+                          ->where('valid_from' ' <=' , $to)  
+                          ->where('valid_to' ' >=' , $from)  
+                          ->get();
  }
 
  public function getBasicPay($format=true)
