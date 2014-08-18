@@ -143,6 +143,18 @@ class Employee extends Eloquent {
                           ->get();
  }
 
+public function getAllowances($from = null, $to = null)
+ {
+
+  if($from == null or $to == null) return EmployeeAllowance::where('employee_id', '=', $this->id)->get();
+
+  return EmployeeAllowance::where('employee_id', '=', $this->id)
+                          ->where('valid_from', '<=' , $to)  
+                          ->where('valid_to', '>=' , $from)  
+                          ->get();
+ }
+
+
  public function getBasicPay($format=true)
  {
   if (count($this->getBasicPayAdjustments()) > 0){

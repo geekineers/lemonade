@@ -12,6 +12,7 @@ class EmployeeController extends BaseController {
 				$departmentRepository,
 				$documentRepository,
 				$deductionRepository,
+				$allowanceRepository,
 				$basicPayAdjustmentRepository,
 				$fileSystem;
 
@@ -31,6 +32,7 @@ class EmployeeController extends BaseController {
 
 		$this->departmentRepository = new DepartmentRepository();
 		$this->deductionRepository = new DeductionRepository();
+		$this->allowanceRepository = new AllowanceRepository();
 		$this->documentRepository = new DocumentRepository();
 		$this->basicPayAdjustmentRepository = new BasicPayAdjustmentRepository();
 		$this->load->library('session'); 
@@ -291,6 +293,7 @@ class EmployeeController extends BaseController {
 		$data['departments'] = $this->departmentRepository->all();
 		$data['employee'] = $this->employeeRepository->find($id);
 		$data['deduction_types'] = $this->deductionRepository->all();
+		$data['allowance_types'] = $this->allowanceRepository->all();
 		// $data['documents'] = $this->employeeRepository->find($id);
 		$this->render('/employee/profile.twig.html', $data);
 	}
