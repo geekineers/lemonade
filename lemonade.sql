@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.6.20, for osx10.8 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.20, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: lemonade_dev
 -- ------------------------------------------------------
@@ -14,6 +14,34 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `allowances`
+--
+
+DROP TABLE IF EXISTS `allowances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `allowances` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `allowance_name` varchar(100) NOT NULL,
+  `created_by` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allowances`
+--
+
+LOCK TABLES `allowances` WRITE;
+/*!40000 ALTER TABLE `allowances` DISABLE KEYS */;
+INSERT INTO `allowances` VALUES (1,'Food Meal','1','2014-08-18 13:01:14','2014-08-18 13:01:14',NULL);
+/*!40000 ALTER TABLE `allowances` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `basic_pay_adjustments`
@@ -76,6 +104,37 @@ LOCK TABLES `branches` WRITE;
 /*!40000 ALTER TABLE `branches` DISABLE KEYS */;
 INSERT INTO `branches` VALUES (1,'Capas Branch','','','','2014-08-07 13:42:38','2014-08-07 13:42:38',NULL);
 /*!40000 ALTER TABLE `branches` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `companies`
+--
+
+DROP TABLE IF EXISTS `companies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `companies` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `company_name` varchar(100) NOT NULL,
+  `company_description` text,
+  `company_address` text NOT NULL,
+  `company_contact_number` varchar(30) NOT NULL,
+  `company_logo` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `companies`
+--
+
+LOCK TABLES `companies` WRITE;
+/*!40000 ALTER TABLE `companies` DISABLE KEYS */;
+INSERT INTO `companies` VALUES (1,'Lemonade Company','aldkasjdlas                                                \r\n                                            ','#8 Robina road Novalicjes','info@8layer.com','53f1a80551652.png','2014-08-18 15:15:17','2014-08-18 15:15:17',NULL);
+/*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -169,6 +228,38 @@ INSERT INTO `documents` VALUES (1,1,'Resume File','asdasdsad','53e3cf238d3ad.pdf
 UNLOCK TABLES;
 
 --
+-- Table structure for table `employee_allowances`
+--
+
+DROP TABLE IF EXISTS `employee_allowances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee_allowances` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `employee_id` int(5) NOT NULL,
+  `allowance_id` int(5) NOT NULL,
+  `recurring` varchar(100) NOT NULL,
+  `amount` float NOT NULL,
+  `valid_from` date NOT NULL,
+  `valid_to` date NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee_allowances`
+--
+
+LOCK TABLES `employee_allowances` WRITE;
+/*!40000 ALTER TABLE `employee_allowances` DISABLE KEYS */;
+INSERT INTO `employee_allowances` VALUES (1,1,1,'Yes',1500,'2014-08-14','2015-04-09','2014-08-18 13:03:23','2014-08-18 13:03:23',NULL);
+/*!40000 ALTER TABLE `employee_allowances` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `employee_deductions`
 --
 
@@ -180,10 +271,7 @@ CREATE TABLE `employee_deductions` (
   `employee_id` int(5) NOT NULL,
   `deduction_id` int(5) NOT NULL,
   `recurring` varchar(100) NOT NULL,
-  `deduction_type` varchar(100) NOT NULL,
   `amount` float NOT NULL,
-  `percentage` float NOT NULL,
-  `basis` varchar(100) NOT NULL,
   `valid_from` date NOT NULL,
   `valid_to` date NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -199,7 +287,7 @@ CREATE TABLE `employee_deductions` (
 
 LOCK TABLES `employee_deductions` WRITE;
 /*!40000 ALTER TABLE `employee_deductions` DISABLE KEYS */;
-INSERT INTO `employee_deductions` VALUES (1,1,1,'Yes','fix_amount',25000,123,'gross','2014-08-01','2014-07-31','2014-08-09 18:57:12','2014-08-09 18:57:12',NULL);
+INSERT INTO `employee_deductions` VALUES (1,1,1,'Yes',500,'2014-08-14','2015-02-19','2014-08-18 12:50:09','2014-08-18 12:50:09',NULL);
 /*!40000 ALTER TABLE `employee_deductions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,6 +336,14 @@ CREATE TABLE `employees` (
   `entitled_overtime_pay` int(5) DEFAULT NULL,
   `overtime_pay_rate` float DEFAULT NULL,
   `timesheet_required` int(5) DEFAULT NULL,
+  `deduct_sss` tinyint(1) DEFAULT NULL,
+  `fixed_sss_amount` float DEFAULT NULL,
+  `deduct_hdmf` tinyint(1) DEFAULT NULL,
+  `fixed_hdmf_amount` float DEFAULT NULL,
+  `deduct_philhealth` tinyint(1) DEFAULT NULL,
+  `fixed_philhealth_amount` float DEFAULT NULL,
+  `timeshift_start` time DEFAULT NULL,
+  `timeshift_end` time DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -258,8 +354,36 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'2','Mark','Penaranda','Angel','#8 Robina Roaddasdzdczxc','birthdate','Male','Single','','Regular','Daily',1,1,0,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3121e449fc.jpg','09066009622','eloisa.corpuz','mark@sourcescript.ph','2014-08-07 13:43:59','2014-08-11 14:14:22',NULL,'Compensation',0,1,0,0,0,NULL),(2,'','Eloisa ','Corpuz','Luzanos','#8 Robina Road','02/07/1992','Female','Single','','Regular','Monthly',1,1,1,1,'07/07/1992','none','25000','1212111','1212111','121211',0,'53e32f6e3da47.jpg','09066009622','eloisa.corpuz','eloisa@sourcescript.ph','2014-08-07 15:49:02','2014-08-07 17:53:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'','John','Doe','Dee','Amsterdam','02/07/1992','Male','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',4,'53e3dbefe96cb.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:05:07','2014-08-08 04:05:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'3','Jen','Dela Cruz','Dee ','Matatalaib Tarlac','02/07/1992','Female','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3dd865bf56.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:11:50','2014-08-08 04:11:50',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `employees` VALUES (1,'2','Mark','Penaranda','Angel','#8 Robina Roaddasdzdczxc','birthdate','Male','Single','','Regular','Daily',1,1,0,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3121e449fc.jpg','09066009622','eloisa.corpuz','mark@sourcescript.ph','2014-08-07 13:43:59','2014-08-18 05:37:24',NULL,'Compensation',0,1,0,0,0,NULL,1,0,1,0,1,0,'05:30:00','23:30:00'),(2,'','Eloisa ','Corpuz','Luzanos','#8 Robina Road','02/07/1992','Female','Single','','Regular','Monthly',1,1,1,1,'07/07/1992','none','25000','1212111','1212111','121211',0,'53e32f6e3da47.jpg','09066009622','eloisa.corpuz','eloisa@sourcescript.ph','2014-08-07 15:49:02','2014-08-07 17:53:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'','John','Doe','Dee','Amsterdam','02/07/1992','Male','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',4,'53e3dbefe96cb.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:05:07','2014-08-08 04:05:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'3','Jen','Dela Cruz','Dee ','Matatalaib Tarlac','02/07/1992','Female','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3dd865bf56.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:11:50','2014-08-08 04:11:50',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `forms`
+--
+
+DROP TABLE IF EXISTS `forms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `forms` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `form_name` varchar(100) NOT NULL,
+  `form_content` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `forms`
+--
+
+LOCK TABLES `forms` WRITE;
+/*!40000 ALTER TABLE `forms` DISABLE KEYS */;
+/*!40000 ALTER TABLE `forms` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -336,7 +460,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (14),(0);
+INSERT INTO `migrations` VALUES (19),(19);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +481,7 @@ CREATE TABLE `payroll_group` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,6 +490,7 @@ CREATE TABLE `payroll_group` (
 
 LOCK TABLES `payroll_group` WRITE;
 /*!40000 ALTER TABLE `payroll_group` DISABLE KEYS */;
+INSERT INTO `payroll_group` VALUES (1,1,'Regular','Monthly','2','2014-08-18 12:07:10','2014-08-18 12:07:10',NULL);
 /*!40000 ALTER TABLE `payroll_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,7 +609,7 @@ CREATE TABLE `timesheet` (
   `deleted_at` datetime DEFAULT NULL,
   `cookie_registry` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -493,7 +618,7 @@ CREATE TABLE `timesheet` (
 
 LOCK TABLES `timesheet` WRITE;
 /*!40000 ALTER TABLE `timesheet` DISABLE KEYS */;
-INSERT INTO `timesheet` VALUES (10,1,'Payroll Login','2014-08-12 03:28:53','2014-08-12 03:29:18','2014-08-12 03:28:53','2014-08-12 03:29:18',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$wfYofwIBvdHcFSrWHQOMY.YJBFNCv6gxZiA1KbhRN8P3I4NJhIBnm\";}'),(11,1,'Payroll Login','2014-08-12 03:29:43','2014-08-12 03:30:09','2014-08-12 03:29:43','2014-08-12 03:30:09',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$GnurC6PxCVVJlzo4IqDRgOyC6cAlSg9sRa0FO4d3WqR8i1hXh63gm\";}'),(12,1,'Payroll Login','2014-08-12 03:57:40','2014-08-12 03:58:31','2014-08-12 03:57:40','2014-08-12 03:58:31',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$nYQtGEXJ4PEEM2C5e0KlyunHDoV/Kjsr21LsKvU7Bw70v32ZKMdJS\";}'),(13,1,'Payroll Login','2014-08-12 03:58:58','2014-08-13 11:27:43','2014-08-12 03:58:58','2014-08-13 11:27:43',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$lh2Vt3diQ7KGSdNNn9OOV.pipDeL6rWEb15L62r1CfypbBdsHxm1W\";}'),(14,1,'Payroll Login','2014-08-13 11:27:58','2014-08-13 11:31:36','2014-08-13 11:27:58','2014-08-13 11:31:36',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$CjH68c6U8YkD0sZ1yCWaHuf9SqOFsfaQgLojOhy2eyMEmZhGiqplS\";}'),(15,1,'Payroll Login','2014-08-13 11:31:54',NULL,'2014-08-13 11:31:54','2014-08-13 11:31:54',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$/jBdgOJ9KE5JdBrcdEaniewJBINKHD29piZsjrnSKIV/1VtNn7xYq\";}');
+INSERT INTO `timesheet` VALUES (10,1,'Payroll Login','2014-08-12 03:28:53','2014-08-12 03:29:18','2014-08-12 03:28:53','2014-08-12 03:29:18',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$wfYofwIBvdHcFSrWHQOMY.YJBFNCv6gxZiA1KbhRN8P3I4NJhIBnm\";}'),(11,1,'Payroll Login','2014-08-12 03:29:43','2014-08-12 03:30:09','2014-08-12 03:29:43','2014-08-12 03:30:09',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$GnurC6PxCVVJlzo4IqDRgOyC6cAlSg9sRa0FO4d3WqR8i1hXh63gm\";}'),(12,1,'Payroll Login','2014-08-12 03:57:40','2014-08-12 03:58:31','2014-08-12 03:57:40','2014-08-12 03:58:31',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$nYQtGEXJ4PEEM2C5e0KlyunHDoV/Kjsr21LsKvU7Bw70v32ZKMdJS\";}'),(13,1,'Payroll Login','2014-08-12 03:58:58','2014-08-13 11:27:43','2014-08-12 03:58:58','2014-08-13 11:27:43',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$lh2Vt3diQ7KGSdNNn9OOV.pipDeL6rWEb15L62r1CfypbBdsHxm1W\";}'),(14,1,'Payroll Login','2014-08-13 11:27:58','2014-08-13 11:31:36','2014-08-13 11:27:58','2014-08-13 11:31:36',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$CjH68c6U8YkD0sZ1yCWaHuf9SqOFsfaQgLojOhy2eyMEmZhGiqplS\";}'),(15,1,'Payroll Login','2014-08-13 11:31:54',NULL,'2014-08-13 11:31:54','2014-08-13 11:31:54',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$/jBdgOJ9KE5JdBrcdEaniewJBINKHD29piZsjrnSKIV/1VtNn7xYq\";}'),(16,1,'Payroll Login','2014-08-17 13:47:50',NULL,'2014-08-17 13:47:50','2014-08-17 13:47:50',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$yP4s2aFcnpwTIDtrpyBS9.lBQxUNNo1J4bSZQVq5XnbW57xt3toHW\";}');
 /*!40000 ALTER TABLE `timesheet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,7 +657,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'admin@lemon.com','$2y$10$mOVSzydNV6stv5WcPGlxdeuVpDJZOxytzGc9UrVMHDBEEZohkJkG.',NULL,1,NULL,NULL,'2014-08-13 11:31:54','$2y$10$/jBdgOJ9KE5JdBrcdEaniewJBINKHD29piZsjrnSKIV/1VtNn7xYq',NULL,'Admininstrator','Lemon','2014-07-25 18:50:46','2014-08-13 03:31:54'),(3,'employee@lemon.com','$2y$10$flrt0fpK7mE2cxDPenqWCeDSkSeh8jq2.uDxlyED4h1Nrrt2B4VIO',NULL,1,NULL,NULL,'2014-08-08 04:13:16','$2y$10$fAqtBHdtPwc0dX/OYw4WeuQRy8MHJVNqABqjEYIRUb6ej8m2yV.aq',NULL,NULL,NULL,'2014-08-07 20:11:49','2014-08-07 20:13:16');
+INSERT INTO `users` VALUES (2,'admin@lemon.com','$2y$10$mOVSzydNV6stv5WcPGlxdeuVpDJZOxytzGc9UrVMHDBEEZohkJkG.',NULL,1,NULL,NULL,'2014-08-17 13:47:50','$2y$10$yP4s2aFcnpwTIDtrpyBS9.lBQxUNNo1J4bSZQVq5XnbW57xt3toHW',NULL,'Admininstrator','Lemon','2014-07-25 18:50:46','2014-08-17 05:47:50'),(3,'employee@lemon.com','$2y$10$flrt0fpK7mE2cxDPenqWCeDSkSeh8jq2.uDxlyED4h1Nrrt2B4VIO',NULL,1,NULL,NULL,'2014-08-08 04:13:16','$2y$10$fAqtBHdtPwc0dX/OYw4WeuQRy8MHJVNqABqjEYIRUb6ej8m2yV.aq',NULL,NULL,NULL,'2014-08-07 20:11:49','2014-08-07 20:13:16');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -570,4 +695,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-13 11:35:39
+-- Dump completed on 2014-08-18 16:18:48
