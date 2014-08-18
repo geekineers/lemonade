@@ -194,6 +194,51 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 							  array(1,12500,13333,15000,18333,24167,33333,54167)
 					 )
 				),
+			'weekly' =>  array (
+					'exemption_status' => array(
+								array(0.00,0),
+								array(0.00,0.05),
+								array(9.62,0.10),
+								array(48.08,0.15),
+								array(163.46,0.20),
+								array(432.69,0.25),
+								array(961.54,0.30),
+								array(2403.85,0.32)
+						),
+					'employees_without_qualified_dependent' => array(
+										'Z' =>   array(1,0  ,192 ,577,1346,2692,4808,9615),
+										'SME' => array(1,962,1154,1538,2308,3654,5769,10577)
+						),
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
+				),
+			'semi-monthly' =>  array (
+					'exemption_status' => array(
+								array(0.00,0),
+								array(0.00,0.05),
+								array(9.62,0.10),
+								array(48.08,0.15),
+								array(163.46,0.20),
+								array(432.69,0.25),
+								array(961.54,0.30),
+								array(2403.85,0.32)
+						),
+					'employees_without_qualified_dependent' => array(
+										'Z' =>   array(1,0  ,192 ,577,1346,2692,4808,9615),
+										'SME' => array(1,962,1154,1538,2308,3654,5769,10577)
+						),
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
+				),
+			
 			'monthly' => array (
 					'exemption_status' => array(
 								array(0.00,0), // 1

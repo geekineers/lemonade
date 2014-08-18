@@ -18,6 +18,10 @@ table tr td {
   padding-left: 20px;
   line-height: 20px;
 }
+table.bordered {
+  width: 100%;
+  /*float:right;*/
+}
 table.bordered thead {
   background-color:#DBDBDB
 }
@@ -52,8 +56,7 @@ background-color:#F2F2F2;
           <td>
             <div class="address">
               <p>
-                Barangangay bagbag sany jose delmonthsdsds
-                sdsadsdasdasdasdsadasdsadadasd
+                Address
               </p>
             </div>
             
@@ -88,71 +91,47 @@ background-color:#F2F2F2;
 
       <div style="height: 10px; margin:10px 0px; background-color:yellow"></div>
 
-      <table class="bordered">
+
+
+<div style="max-width:49%;left:0">
+   <table class="bordered" >
         <thead>
           <tr >
             <td  colspan="2">INCOME</td>
-            <td  colspan="2">DEDUCTION</td>
           </tr>
         </thead>
-        <tr>
 
-          <td>Basic Salary</td>
-          <td> <?php echo $employee->getBasicPay(); ?></td>
-
-          <td>Absent</td>
-          <td> <?php echo $employee->getBasicPay(); ?></td>
-        </tr>
-        <tr>
-          <td>Allowance</td>
-          <td><?php echo $employee->getAllowance(); ?> </td>
-
-           <td>Undertime</td>
-          <td><?php echo '0' ?> </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-
-          <td>SSS</td>
-          <td><?php echo $payslip->sss; ?></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-
-          <td>Philhealth</td>
-          <td><?php echo $payslip->philhealth; ?></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-
-          <td>Pag ibig</td>
-          <td><?php echo $payslip->pagibig; ?></td>
-        </tr>
-        
-         <tr>
-          <td></td>
-          <td></td>
-
-          <td>Withholding Tax</td>
-          <td><?php echo $payslip->widthholding_tax; ?></td>
-        </tr>
-        <tr>
-
-          <td>Gross Pay</td>
-          <td><?php echo $payslip->gross; ?></td>
-          
-          <td>Total Deductions</td>
-          <td></td>
-        </tr>
+        <!-- foreach -->
+          <tr>
+            <td>Basic Salary</td>
+            <td></td>
+          </tr>
+        <!-- endforeach -->
+   </table>
+</div>
+<div style="max-width:49%;position:absolute;right:0;top:163">
+  <table class="bordered">
+     <thead>
         <tr >
+          <td  colspan="2">DEDUCTION</td>
+        </tr>
+      </thead>
+
+      <!-- foreach -->
+        <tr>
+          <td>SSS</td>
+          <td>Value</td>
+        </tr>
+      <!-- end -->
+  </table>
+</div>
+
+
+
+       <!--  <tr >
           <td style="background-color:#E2FF3D !important" colspan="2">Net Pay</td>
           <td style="background-color:#E2FF3D !important" colspan="2"><?php echo $payslip->net; ?></td>
-        </tr>
-      </table>
-      
+        </tr> -->
     <table class="bordered" style="margin-top:30px;background-color:#DBDBDB">
       <thead>
          <tr>        
