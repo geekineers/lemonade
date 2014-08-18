@@ -33,6 +33,7 @@ background-color:#F2F2F2;
         .address {
           max-width: 300px;
           float:right;
+          font-size: 12px
         }
         .address p {
           text-align:right;
@@ -40,6 +41,9 @@ background-color:#F2F2F2;
       </style>
     </head>
     <body >
+      <span style="position:absolute;right:0;">
+        Employee's Copy
+      </span>
       <table>
         <tr>
           <td>
