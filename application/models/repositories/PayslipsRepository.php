@@ -16,9 +16,16 @@ class PayslipsRepository extends BaseRepository {
 	{
 		return $this->where('id','=',$id)->first();
 	}
+
+
 	public function getAllPayslip()
 	{
 		return $this->all();
+	}
+
+	public function getPayslipById($id)
+	{
+		return $this->where('payroll_group','=',$id)->get();
 	}
 
 	public function getAllPayrollGroupBySlips()
@@ -34,45 +41,49 @@ class PayslipsRepository extends BaseRepository {
 
 		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['group_name'])->first();
 		// emoloyee
+
 		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->get();
 			
 		$pays = [];
+		// dd($employees[0]->payroll_period.' = '.$payrollGroup['period'] );
 		foreach ($employees as $employee) {
-			
-			$pays[] = [
-				'employees_id' => $employee->id,
-				'basic_pay' => toInt($employee->getBasicPay()),
-				'payslip' => $this->getWithholdingTax( 
-										toInt($employee->basic_pay) ,
-										$payrollGroup['period'] ,
-										intval($employee->dependents) ,
-										null ,
-										null ,
-										null
-									 )
-			];
-			$payslip = $this->getWithholdingTax( 
-										toInt($employee->basic_pay) ,
-										$payrollGroup['period'] ,
-										intval($employee->dependents) ,
-										null ,
-										null ,
-										null
-									 );
-			$this->create([
-					'employee_id'  => $employee->id,
-                    'branch_id' => $payrollGroup['branch_id'],
-                    'payroll_group' => $payrollGroup['id'],
-                    'sss' => $payslip['SSS'],
-                    'philhealth' => $payslip['philhealth'],
-                    'pagibig' => $payslip['pagibig'],
-                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
-                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
-                    'net' => $payslip['net'],
-                    'gross'=>$payslip['gross'],
-                    'other_deductions' => 'not available',
-                    'prepared_by' => $payrollGroup['prepared_by']
-				]);
+			if($employee->payroll_period == $payrollGroup['period'])
+			{
+				$pays[] = [
+					'employees_id' => $employee->id,
+					'basic_pay' => toInt($employee->getBasicPay()),
+					'payslip' => $this->getWithholdingTax( 
+											toInt($employee->basic_pay) ,
+											$payrollGroup['period'] ,
+											intval($employee->dependents) ,
+											null ,
+											null ,
+											null
+										 )
+				];
+				$payslip = $this->getWithholdingTax( 
+											toInt($employee->basic_pay) ,
+											$payrollGroup['period'] ,
+											intval($employee->dependents) ,
+											null ,
+											null ,
+											null
+										 );
+				$this->create([
+						'employee_id'  => $employee->id,
+	                    'branch_id' => $payrollGroup['branch_id'],
+	                    'payroll_group' => $payrollGroup['id'],
+	                    'sss' => $payslip['SSS'],
+	                    'philhealth' => $payslip['philhealth'],
+	                    'pagibig' => $payslip['pagibig'],
+	                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
+	                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
+	                    'net' => $payslip['net'],
+	                    'gross'=>$payslip['gross'],
+	                    'other_deductions' => 'not available',
+	                    'prepared_by' => $payrollGroup['prepared_by']
+					]);
+			}
 
 		}
 		header("Content-Type: application/json");
