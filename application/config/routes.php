@@ -23,12 +23,12 @@ Pigeon::map(function($r){
 
      $r->get('slip','MainController#slip');
 
-     $r->get('branches', 'BranchController#index');
-     $r->get('branches/add', 'BranchController#add');
-     $r->post('branches/add', 'BranchController#save');
-     $r->get('branches/edit', 'BranchController#edit');
-     $r->post('branches/edit', 'BranchController#update');
-     $r->get('branches/delete', 'BranchController#delete');
+     $r->get('settings/branches', 'BranchController#index');
+     $r->get('settings/branches/add', 'BranchController#add');
+     $r->post('settings/branches/add', 'BranchController#save');
+     $r->get('settings/branches/edit', 'BranchController#edit');
+     $r->post('settings/branches/edit', 'BranchController#update');
+     $r->get('settings/branches/delete', 'BranchController#delete');
 
      $r->get('payroll','PayrollController#index');
      $r->get('payroll/payslip','PayrollController#payslip');
@@ -84,6 +84,8 @@ Pigeon::map(function($r){
      $r->get('settings/allowances', 'AllowanceController#index');
      $r->post('settings/allowances/save', 'AllowanceController#save');
 
+     $r->get('settings/company', 'CompanyController#index');
+     $r->post('settings/company', 'CompanyController#save');
 
 
      $r->get('employees', 'EmployeeController#index');
