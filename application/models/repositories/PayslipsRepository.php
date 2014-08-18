@@ -16,9 +16,16 @@ class PayslipsRepository extends BaseRepository {
 	{
 		return $this->where('id','=',$id)->first();
 	}
+
+
 	public function getAllPayslip()
 	{
 		return $this->all();
+	}
+
+	public function getPayslipById($id)
+	{
+		return $this->where('payroll_group','=',$id)->get();
 	}
 
 	public function getAllPayrollGroupBySlips()

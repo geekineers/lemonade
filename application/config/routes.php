@@ -36,6 +36,8 @@ Pigeon::map(function($r){
      $r->get('payroll/gov-form','PayrollController#govform');
      $r->get('payroll/bank','PayrollController#bank');
 
+     $r->get('payroll/group/(:num)','PayrollController#groupList');
+
      $r->get('payroll/payslip/(:num)','PayrollController#slip');
 
      $r->get('testpdf','PayrollController#test');
