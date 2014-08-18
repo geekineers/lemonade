@@ -27,4 +27,10 @@ class EmployeeAllowance extends Eloquent {
    	 return Allowance::find($this->allowance_id)->allowance_name;
    }
 
+    public function getAmount($number_format = true)
+   {
+     if($number_format) return number_format($this->amount);
+     return $this->amount;
+   }
+   
 }

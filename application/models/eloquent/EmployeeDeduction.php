@@ -28,4 +28,10 @@ class EmployeeDeduction extends Eloquent {
    	 return Deduction::find($this->deduction_id)->deduction_name;
    }
 
+   public function getAmount($number_format = true)
+   {
+     if($number_format) return number_format($this->amount);
+     return $this->amount;
+   }
+
 }

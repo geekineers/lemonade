@@ -104,8 +104,17 @@ background-color:#F2F2F2;
         <!-- foreach -->
           <tr>
             <td>Basic Salary</td>
-            <td></td>
+            <td><?php echo $employee->getBasicPay(); ?></td>
           </tr>
+
+         <?php foreach ($employee->getAllowances() as $allowance) { ?>
+        <tr>
+          <td><?php echo $allowance->getName(); ?></td>
+          <td><?php echo $allowance->getAmount(); ?></td>
+        </tr>
+         
+         
+         <? } ?>
         <!-- endforeach -->
    </table>
 </div>
@@ -118,10 +127,14 @@ background-color:#F2F2F2;
       </thead>
 
       <!-- foreach -->
+        <?php foreach ($employee->getDeductions() as $deduction) { ?>
         <tr>
-          <td>SSS</td>
-          <td>Value</td>
+          <td><?php echo $deduction->getName(); ?></td>
+          <td><?php echo $deduction->getAmount(); ?></td>
         </tr>
+         
+         
+         <? } ?>
       <!-- end -->
   </table>
 </div>

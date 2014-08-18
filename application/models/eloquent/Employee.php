@@ -127,9 +127,25 @@ class Employee extends Eloquent {
   return Document::where('employee_id', '=', $this->id)->get();
  }
 
- public function getAllowance()
+
+
+ public function getContributions()
  {
-  
+
+ }
+
+ public function getTotalDeductions($from= null, $to= null, $number_format=false)
+ {
+    $deductions = $this->getDeductions($from, $to);
+    $total = 0;
+
+    foreach ($deductions as $deduction) {
+      $total += $deduction->amount;
+    }
+
+    if($number_format) return number_format($total);
+    return $total;
+
  }
 
  public function getDeductions($from = null, $to = null)
@@ -141,6 +157,20 @@ class Employee extends Eloquent {
                           ->where('valid_from', '<=' , $to)  
                           ->where('valid_to', '>=' , $from)  
                           ->get();
+ }
+
+ public function getTotalAllowances($from= null, $to= null, $number_format=false)
+ {
+    $allowances = $this->getAllowances($from, $to);
+    $total = 0;
+
+    foreach ($allowances as $allowance) {
+      $total += $allowance->amount;
+    }
+
+    if($number_format) return number_format($total);
+    return $total;
+
  }
 
 public function getAllowances($from = null, $to = null)
@@ -251,5 +281,7 @@ public function getTimeShiftEnd($military_format = false)
   if($military_format) return $this->timeshift_end;
   return date('h:i a', strtotime($this->timeshift_end));
 }
+
+
 
 }
