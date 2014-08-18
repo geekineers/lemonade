@@ -34,11 +34,13 @@ class PayslipsRepository extends BaseRepository {
 
 		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['group_name'])->first();
 		// emoloyee
+
 		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->get();
 			
 		$pays = [];
+		// dd($employees[0]->payroll_period.' = '.$payrollGroup['period'] );
 		foreach ($employees as $employee) {
-			if($employee->period == $payrollGroup['period'])
+			if($employee->payroll_period == $payrollGroup['period'])
 			{
 				$pays[] = [
 					'employees_id' => $employee->id,
