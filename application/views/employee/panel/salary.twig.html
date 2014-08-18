@@ -102,7 +102,69 @@
 							</form>
 						 </div>
 						 </div>
+ <div class="earnings panel panel-default">
+		 				 	<form method="post" action="/employees/{{ employee.id }}/update-contributions" >
 
+						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Contributions
+						  		<button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
+						  		</div>
+						  	 <div class="panel-body">
+						  		 <table class="table">
+									<tr>
+										<td>
+											<span class="form-label">Deduct SSS Contribution</span>
+											<span class="profile-value">{{ employee.getDeductSSS() }}</span>
+											<select name="deduct_sss" class="edit-input">
+												<option value="1">Yes</option>
+												<option value="0">No</option>
+											</select>
+										</td>
+										<td>
+											<span class="form-label">SSS Fixed Amount</span>
+											<span class="profile-value">{{ employee.fixed_sss_amount }}</span>
+											<input class="edit-input" name="fixed_sss_amount">
+
+										</td>
+									</tr>	
+									<tr>
+										<td>
+											<span class="form-label">Deduct HDMF Contribution</span>
+											<span class="profile-value">{{ employee.getDeductHDMF() }}</span>
+											<select name="deduct_hdmf" class="edit-input">
+												<option value="1">Yes</option>
+												<option value="0">No</option>
+											</select>
+										</td>
+										<td>
+											<span class="form-label">HDMF Fixed Amount</span>
+											<span class="profile-value">{{ employee.fixed_hdmf_amount }}</span>
+											<input class="edit-input" name="fixed_hdmf_amount">
+										</td>
+									</tr>	
+									<tr>
+										<td>
+											<span class="form-label">Deduct Philhealth Contribution</span>
+											<span class="profile-value">{{ employee.getDeductPhilhealth() }}</span>
+											<select name="deduct_philhealth" class="edit-input">
+												<option value="1">Yes</option>
+												<option value="0">No</option>
+											</select>
+										</td>
+										<td>
+											<span class="form-label">Philhealth Fixed Amount</span>
+											<span class="profile-value">{{ employee.fixed_philhealth_amount }}</span>
+											<input class="edit-input" name="fixed_philhealth_amount">
+										</td>
+									</tr>	
+								
+								 </table>
+						 	<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
+							</form>
+						 </div>
+						 </div>
 						</div> <!-- / .tab-pane -->
 
 	<!-- Modal -->

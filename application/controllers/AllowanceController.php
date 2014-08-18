@@ -4,10 +4,10 @@ require_once('BaseController.php');
 
 
 
-class DeductionController extends BaseController {
+class AllowanceController extends BaseController {
 	
 	protected $branchRepository;
-	protected $deductionRepository;
+	protected $allowanceRepository;
 	protected $employeeRepository;
 	protected $employeeDeductionRepository;
 
@@ -17,8 +17,8 @@ class DeductionController extends BaseController {
 		$this->mustBeLoggedIn();
 		$this->branchRepository = new BranchRepository();
 		$this->employeeRepository = new EmployeeRepository();
-		$this->deductionRepository = new DeductionRepository();
-		$this->employeeDeductionRepository = new EmployeeDeductionRepository();
+		$this->allowanceRepository = new AllowanceRepository();
+		$this->employeeAllowanceRepository = new EmployeeAllowanceRepository();
 		$this->load->library('session'); 
 
 	}
@@ -29,9 +29,9 @@ class DeductionController extends BaseController {
 		$data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
-		$data['title'] = "Deductions";
-		$data['deductions'] = $this->deductionRepository->all();
-		$this->render('deductions/index.twig.html', $data);
+		$data['title'] = "Allowances";
+		$data['allowances'] = $this->allowanceRepository->all();
+		$this->render('allowance/index.twig.html', $data);
 
 	}
 
@@ -39,23 +39,23 @@ class DeductionController extends BaseController {
 
 	public function save()
 	{
-		$deduction_name = $this->input->post('deduction_name');
+		$allowance_name = $this->input->post('allowance_name');
 		$post = $this->input->post();
 		$post['created_by'] = $this->employeeRepository->getLoginUser($this->sentry->getUser())->id;
 		// dd($post);
-		$save = $this->deductionRepository->create($post);
+		$save = $this->allowanceRepository->create($post);
 		// dd($save);
-		$this->session->set_flashdata('message', $deduction_name .' has been added.');
+		$this->session->set_flashdata('message', $allowance_name .' has been added.');
 
-		redirect('/settings/deductions', 'location');
+		redirect('/settings/allowances', 'location');
 
 	}
 
 
-	public function addEmployeeDeduction()
+	public function addEmployeeAllowance()
 	{
 		$employee_id = $this->input->post('employee_id');
-		$deduction_id = $this->input->post('deduction_id');
+		$allowance_id = $this->input->post('allowance_id');
 		$amount = $this->input->post('amount');
 		$recurring = $this->input->post('recurring');
 		$valid_from = $this->input->post('valid_from');
@@ -64,7 +64,7 @@ class DeductionController extends BaseController {
 
 		$post = array(
 				'employee_id' => (int) $employee_id,
-				'deduction_id' => (int) $deduction_id,
+				'allowance_id' => (int) $allowance_id,
 				'recurring' => $recurring,
 				'amount' => floatval($amount),
 				'valid_from' => $valid_from,
@@ -74,9 +74,10 @@ class DeductionController extends BaseController {
 
 		// dd($post);
 
-		$this->employeeDeductionRepository->create($post);
+		$this->employeeAllowanceRepository->create($post);
 
-		redirect('/employees/' . $employee_id  . '/profile', 'location');
+
+		redirect('/employees/' .  $employee_id  . '/profile', 'location');
 
 	}
 

@@ -1,0 +1,63 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+
+<div class="row container">
+	<a class="btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-plus"></i></a>
+	{% if alert_message != null %}
+	<div class="col-md-7 alert alert-success alert-dismissable">
+                                        <i class="fa fa-check"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <b>Success!</b> {{ alert_message }}.
+    </div>
+    {% endif %}
+</div>
+<table class="table table-bordered table-hovered">
+	<tr>
+		<th>Name</th>
+		<th>Created By</th>
+		<th>Option</th>
+	</tr>
+	 {% for allowance in allowances %}
+	 	<tr>
+	 		<td>{{ allowance.allowance_name }}</td>
+	 		<td>{{ allowance.getCreator() }}</td>
+	 		<td>
+	 			<a href="/allowances/edit?id={{ allowance.id }}" class="btn btn-primary">Edit</a>
+	 			<a href="/allowances/delete?id={{ allowance.id }}" class="btn btn-danger">Delete</a>
+	 		</td>
+	 	</tr>
+	 {% endfor %}
+</table>
+
+
+	<!-- Modal -->
+<form method="post" enctype="multipart/form-data" action="/settings/allowances/save">
+
+	<div class="modal fade" id="addNewDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">New Allowance Type</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group">
+      	<label>Name</label>
+      	<input type="text" name="allowance_name" class="form-control" placeholder="eg. Transportation" />
+      </div>
+  
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Save">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+{% endblock %}
+
+

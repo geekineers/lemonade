@@ -36,6 +36,10 @@ class PayrollGroup extends Eloquent {
         return Branch::find($this->branch_id)->branch_name;
   }
 
+  public function getDate()
+  {
+        return date_format( date_create($this->from),'Y/m/d') .'-'.  date_format( date_create($this->to),'Y/m/d');;
+  }
 
 
 }

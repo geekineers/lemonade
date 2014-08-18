@@ -14,7 +14,8 @@ class Migration_Add_forms extends CI_Migration {
                                 'auto_increment' => TRUE
                         ),
                         'form_name' => array(
-                                'type' => 'VARCHAR'
+                                'type' => 'VARCHAR',
+                                'constraint' => 100
                             ),
                         'form_content' => array(
                                 'type' => 'TEXT'

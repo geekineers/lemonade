@@ -5,19 +5,18 @@ require_once('connection.php');
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class EmployeeDeduction extends Eloquent {
+class EmployeeAllowance extends Eloquent {
 	use SoftDeletingTrait;
-  	 public $table = "employee_deductions";
+  	 public $table = "employee_allowances";
 	 protected $datas = ['deleted_at'];
 
 
   protected $fillable = ['employee_id',
-  						 'deduction_id',
+  						 'allowance_id',
   						 'recurring',
-  						 'deduction_type',
+  						
   						 'amount',
-  						 'percentage',
-  						 'basis',
+  				
   						 'valid_from',
   						 'valid_to'
   					     ];
@@ -25,13 +24,13 @@ class EmployeeDeduction extends Eloquent {
 
    public function getName()
    {
-   	 return Deduction::find($this->deduction_id)->deduction_name;
+   	 return Allowance::find($this->allowance_id)->allowance_name;
    }
 
-   public function getAmount($number_format = true)
+    public function getAmount($number_format = true)
    {
      if($number_format) return number_format($this->amount);
      return $this->amount;
    }
-
+   
 }

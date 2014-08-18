@@ -127,15 +127,63 @@ class Employee extends Eloquent {
   return Document::where('employee_id', '=', $this->id)->get();
  }
 
- public function getAllowance()
+
+
+ public function getContributions()
  {
-  
+
  }
 
- public function getDeductions()
+ public function getTotalDeductions($from= null, $to= null, $number_format=false)
  {
-  return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
+    $deductions = $this->getDeductions($from, $to);
+    $total = 0;
+
+    foreach ($deductions as $deduction) {
+      $total += $deduction->amount;
+    }
+
+    if($number_format) return number_format($total);
+    return $total;
+
  }
+
+ public function getDeductions($from = null, $to = null)
+ {
+
+  if($from == null or $to == null) return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
+
+  return EmployeeDeduction::where('employee_id', '=', $this->id)
+                          ->where('valid_from', '<=' , $to)  
+                          ->where('valid_to', '>=' , $from)  
+                          ->get();
+ }
+
+ public function getTotalAllowances($from= null, $to= null, $number_format=false)
+ {
+    $allowances = $this->getAllowances($from, $to);
+    $total = 0;
+
+    foreach ($allowances as $allowance) {
+      $total += $allowance->amount;
+    }
+
+    if($number_format) return number_format($total);
+    return $total;
+
+ }
+
+public function getAllowances($from = null, $to = null)
+ {
+
+  if($from == null or $to == null) return EmployeeAllowance::where('employee_id', '=', $this->id)->get();
+
+  return EmployeeAllowance::where('employee_id', '=', $this->id)
+                          ->where('valid_from', '<=' , $to)  
+                          ->where('valid_to', '>=' , $from)  
+                          ->get();
+ }
+
 
  public function getBasicPay($format=true)
  {
@@ -180,6 +228,59 @@ class Employee extends Eloquent {
     return 'No';
  }
 
+public function getDeductSSS($english_format = true)
+{
+    if($english_format){
+      if($this->deduct_sss) return 'Yes';
+      return 'No';
+    }
+
+    return $this->deduct_sss;
+
+}
+
+public function getDeductHDMF($english_format = true)
+{
+    if($english_format){
+      if($this->deduct_hdmf) return 'Yes';
+      return 'No';
+    }
+
+    return $this->deduct_hdmf;
+}
+
+public function getDeductPhilhealth($english_format = true)
+{
+    if($english_format){
+      if($this->deduct_philhealth) return 'Yes';
+      return 'No';
+    }
+
+    return $this->deduct_philhealth;
+    
+
+
+}
+
+public function getUnderTimeDeductionRate($per_unit)
+{
+  return getDeductionRate($this->basic_pay, $this->payroll_period, $per_unit);
+
+
+}
+
+public function getTimeShiftStart($military_format = false)
+{
+  if($military_format) return $this->timeshift_start;
+  return date('h:i a', strtotime($this->timeshift_start));
+}
+
+
+public function getTimeShiftEnd($military_format = false)
+{
+  if($military_format) return $this->timeshift_end;
+  return date('h:i a', strtotime($this->timeshift_end));
+}
 
 
 

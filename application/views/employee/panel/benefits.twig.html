@@ -1,7 +1,51 @@
 	<div class="tab-pane" id="profile-tabs-benefits">
+<!-- allowance -->
+     <div class="employment-details panel panel-default">
+              <div class="panel-heading"><i class="fa fa-plus"></i> Allowance </div>
+              <div class="panel-body">
+      {% if employee.getAllowances()|length <= 0  %}
+              <div class="">
+                
+                <center>
+                <p><i>
+                  <i class="fa fa-info-circle"></i> No Allowance Yet.
+                </i></p>    
+                </center>
+              </div>
+  {% else %}  
+
+<table class="table table-bordered table-hover dataTable">
+  <tr>
+    <th>Name</th>
+    <th>Recurring</th>
+    <th>Amount</th>
+    <th>Valid from</th>
+    <th>Valid to</th>
+  </tr>
+  {% for allowance in employee.getAllowances() %}
+    <tr>
+      <td>{{ allowance.getName() }}</td>
+      <td>{{ allowance.recurring }}</td>
+      <td>{{ allowance.amount }}</td>
+      <td>{{ allowance.valid_from }}</td>
+      <td>{{ allowance.valid_to }}</td>
+    </tr>
+  {% endfor %}
+</table>
+  {% endif %}
+      <div class="row">
+        <center><a href="" class=" btn btn-success" data-toggle="modal" data-target="#addAllowances">+1 Add Allowance</a></center>
+      </div>
+  </div>
+
+</div>
+
+<!-- Deductions -->
+
+
 
 		 <div class="employment-details panel panel-default">
-						  <div class="panel-heading"> Deductions </div>
+						  <div class="panel-heading"><i class="fa fa-minus"></i> Deductions </div>
 						  <div class="panel-body">
 			{% if employee.getDeductions()|length <= 0  %}
 							<div class="">
@@ -19,7 +63,6 @@
 		<th>Name</th>
 		<th>Recurring</th>
 		<th>Amount</th>
-		<th>Percentage % (if percentage type )</th>
 		<th>Valid from</th>
 		<th>Valid to</th>
 	</tr>
@@ -28,7 +71,6 @@
 			<td>{{ deduction.getName() }}</td>
 			<td>{{ deduction.recurring }}</td>
 			<td>{{ deduction.amount }}</td>
-			<td>{{ deduction.percentage }}% of {{ deduction.basis }}</td>
 			<td>{{ deduction.valid_from }}</td>
 			<td>{{ deduction.valid_to }}</td>
 		</tr>
@@ -41,6 +83,8 @@
 	</div>
 
 </div>
+
+
 </div>
 
 	<form method="post" enctype="multipart/form-data" action="/deductions/employee_add">
@@ -69,24 +113,8 @@
       	</select>
       </div>
       <div class="form-group">
-      	<label>Type</label>
-      	<input type="radio" name="deduction_type" value="fix_amount"> Fix Amount
-      	<input type="radio" name="deduction_type" value="percentage"> Percentage
-      </div>
-      <div class="form-group">
       		<label>Amount</label>
       		<input type="text" class="form-control" name="amount">
-      </div>
-      <div class="form-group">
-      	<label>Percentage</label>
-      	<input class="form-control" name="percentage" />
-      </div>
-    	<div class="form-group">
-      	<label>Basis</label>
-      	<select class="form-control" name="basis">
-      		<option value="gross">Gross Pay</option>
-      		<option value="net">Net Pay</option>
-      	</select>
       </div>
     	<div class="form-group">
     		<label>Valid from</label>
@@ -96,6 +124,56 @@
     		<label>Valid to</label>
     		<input type="text" name="valid_to" class="form-control datepicker" />
     	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Save">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+
+
+  <form method="post" enctype="multipart/form-data" action="/allowances/employee_add">
+  <input type="hidden" value="{{ employee.id }}" name="employee_id">
+  <div class="modal fade" id="addAllowances" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Allowance</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group">
+        <label>Name</label>
+        <select class="form-control" name="allowance_id">
+          {% for allowance in allowance_types %}
+            <option value="{{ allowance.id }}">{{ allowance.allowance_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Recurring</label>
+        <select class="form-control" name="recurring">
+          <option value="Yes">Yes</option>
+          <option value="No" >No</option>
+        </select>
+      </div>
+      <div class="form-group">
+          <label>Amount</label>
+          <input type="text" class="form-control" name="amount">
+      </div>
+      <div class="form-group">
+        <label>Valid from</label>
+        <input type="text" name="valid_from" class="form-control datepicker" />
+      </div>
+      <div class="form-group">
+        <label>Valid to</label>
+        <input type="text" name="valid_to" class="form-control datepicker" />
+      </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

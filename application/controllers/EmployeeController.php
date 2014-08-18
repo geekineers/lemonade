@@ -12,6 +12,7 @@ class EmployeeController extends BaseController {
 				$departmentRepository,
 				$documentRepository,
 				$deductionRepository,
+				$allowanceRepository,
 				$basicPayAdjustmentRepository,
 				$fileSystem;
 
@@ -31,6 +32,7 @@ class EmployeeController extends BaseController {
 
 		$this->departmentRepository = new DepartmentRepository();
 		$this->deductionRepository = new DeductionRepository();
+		$this->allowanceRepository = new AllowanceRepository();
 		$this->documentRepository = new DocumentRepository();
 		$this->basicPayAdjustmentRepository = new BasicPayAdjustmentRepository();
 		$this->load->library('session'); 
@@ -71,6 +73,7 @@ class EmployeeController extends BaseController {
 
 	public function update()
 	{
+
 		$employee_id = $this->input->post('id');
 		$post = array(
 		'first_name' => $this->input->post('first_name'),
@@ -91,6 +94,8 @@ class EmployeeController extends BaseController {
 		'role_id' => (int) $this->input->post('role_id'),
 		'branch_id'=> (int) $this->input->post('branch_id'),
 		'date_hired' => $this->input->post('date_hired'),
+		'timeshift_start' => date("H:i:s", strtotime($this->input->post('timeshift_start'))),
+		'timeshift_end' => date("H:i:s", strtotime($this->input->post('timeshift_end'))),
 		// 'basic_pay' => $this->input->post('basic_pay'),
 		
 
@@ -120,6 +125,24 @@ class EmployeeController extends BaseController {
 		// dd($post);
 		$update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
 		dd($update);
+	}
+
+	public function updateContributions($id)
+	{
+		$employee_id = $id;
+
+		$post = array(
+				'deduct_sss' => (boolean) $this->input->post('deduct_sss'),
+				'deduct_hdmf' => (boolean) $this->input->post('deduct_hdmf'),
+				'deduct_philhealth' => (boolean) $this->input->post('deduct_philhealth'),
+				'fixed_sss_amount' => floatval($this->input->post('fixed_sss_amount')),
+				'fixed_hdmf_amount' => floatval($this->input->post('fixed_hdmf_amount')),
+				'fixed_philhealth_amount' => floatval($this->input->post('fixed_philhealth_amount')),
+			);
+
+		$update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
+		redirect('/employees/' . $employee_id . '/profile', 'location');
+
 	}
 
 	public function save()
@@ -270,6 +293,7 @@ class EmployeeController extends BaseController {
 		$data['departments'] = $this->departmentRepository->all();
 		$data['employee'] = $this->employeeRepository->find($id);
 		$data['deduction_types'] = $this->deductionRepository->all();
+		$data['allowance_types'] = $this->allowanceRepository->all();
 		// $data['documents'] = $this->employeeRepository->find($id);
 		$this->render('/employee/profile.twig.html', $data);
 	}

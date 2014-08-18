@@ -36,6 +36,8 @@ Pigeon::map(function($r){
      $r->get('payroll/gov-form','PayrollController#govform');
      $r->get('payroll/bank','PayrollController#bank');
 
+     $r->get('payroll/group/(:num)','PayrollController#groupList');
+
      $r->get('payroll/payslip/(:num)','PayrollController#slip');
 
      $r->get('testpdf','PayrollController#test');
@@ -79,6 +81,10 @@ Pigeon::map(function($r){
      $r->get('settings/deductions', 'DeductionController#index');
      $r->post('settings/deductions/save', 'DeductionController#save');
 
+     $r->get('settings/allowances', 'AllowanceController#index');
+     $r->post('settings/allowances/save', 'AllowanceController#save');
+
+
 
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
@@ -91,11 +97,13 @@ Pigeon::map(function($r){
      $r->post('employees/file/upload', 'EmployeeController#upload');
      $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
      $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
+     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 
 
      $r->get('timesheet', 'TimesheetController#index');
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
+     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
 
      $r->get('sss','MainController#test');
