@@ -40,6 +40,8 @@ Pigeon::map(function($r){
 
      $r->get('payroll/payslip/(:num)','PayrollController#slip');
 
+     $r->get('payroll/masterlist/(:num)','PayrollController#masterList');
+
      $r->get('testpdf','PayrollController#test');
 
      /*Admin Settings */

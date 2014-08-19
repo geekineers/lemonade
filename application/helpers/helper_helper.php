@@ -4,7 +4,7 @@ function ci_app_path($path = null) {
 	return APPPATH.$path;
 }
 
-function pdf_create($html, $filename='s', $stream=TRUE) 
+function pdf_create($html, $filename='s', $stream=TRUE, $landscape = FALSE) 
 {
 
 
@@ -15,13 +15,27 @@ function pdf_create($html, $filename='s', $stream=TRUE)
     $dompdf = new DOMPDF();
  
     $dompdf->load_html($html);
-    $dompdf->render();
+
+    if( $landscape ) 
+    {
+    	$dompdf->set_paper('a4', 'landscape');
+    	$dompdf->render();
+    }
+    else
+    {
+    	$dompdf->render();
+    }
  
-    if ($stream) {
+    if ( $stream ) {
+
      $dompdf->stream($filename.".pdf");
+    
     } else {
+	 
 	 header("Content-Type: application/pdf");
+     
         return $dompdf->output();
+    
     }
 }
 
