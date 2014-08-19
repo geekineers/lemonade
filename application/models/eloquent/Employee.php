@@ -282,6 +282,39 @@ public function getTimeShiftEnd($military_format = false)
   return date('h:i a', strtotime($this->timeshift_end));
 }
 
+public function getLate($from, $to, $unit)
+{
+  $days  = createDateRangeArray($from, $to);
+  $timeShiftStart = $this->getTimeShiftStart(true);
+  // dd($timeShiftStart);
+  $totalLate = 0;
+
+  foreach ($days as $day) {
+    $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
+    $endDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
+
+    $result = Timesheet::whereBetween('time_in', [$startDate, $endDate])->first();
+    // dd($result);
+    if($result){
+    $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_in);
+    
+    $arrival_time = $resultDate->format('H:i:s');
+    $late = getLateInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
+ 
+    $totalLate += $late; 
+      
+    }
+  }
+  // dd($totalLate);
+
+  return $totalLate;
+}
+
+
+public function getLateDeduction($from, $to, $unit)
+{
+  return $this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit);
+}
 
 
 }
