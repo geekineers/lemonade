@@ -64,10 +64,18 @@ class Employee extends Eloquent {
  {
   return $this->full_address;
  }
- public function getBirthdate()
+ public function getBirthdate($format = false)
  {
+  if($format) return date('d M Y', strtotime($this->birthdate));
   return $this->birthdate;
  }
+
+ public function getAge()
+ {
+   $birthdate = new Carbon($this->birthdate);
+   return $birthdate->age . 'yrs old';
+ }
+
  public function getGender()
  {
   return $this->gender;
@@ -369,6 +377,16 @@ public function getTax()
         'total_deduc' => number_format( $total_deductions,2),
         'net' => number_format($net,2)
       );
+
+}
+
+public function getOverTimePayRate()
+{
+
+}
+
+public function getOvertime()
+{
 
 }
 

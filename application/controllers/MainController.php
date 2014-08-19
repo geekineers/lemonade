@@ -20,7 +20,8 @@ class MainController extends BaseController
 
 	public function dashboard()
 	{
-		
+
+		// dd($this->employeeRepository->getNearBirthday());
 
 		// dd($this->session->all_userdata()['session_id']);
 		// dd($this->sentry->getUser());
@@ -34,6 +35,8 @@ class MainController extends BaseController
 
 			);
 		$data['title'] = "Dashboard";
+		$data['birthdays'] = $this->employeeRepository->getNearBirthday();
+
 
 		$this->render('index.twig.html', $data);
 	}
