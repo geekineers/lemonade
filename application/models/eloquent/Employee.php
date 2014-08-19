@@ -143,7 +143,7 @@ class Employee extends Eloquent {
       $total += $deduction->amount;
     }
 
-    if($number_format) return number_format($total);
+    if($number_format) return number_format($total,2);
     return $total;
 
  }
@@ -159,7 +159,7 @@ class Employee extends Eloquent {
                           ->get();
  }
 
- public function getTotalAllowances($from= null, $to= null, $number_format=false)
+ public function getTotalAllowances($from= null, $to= null, $number_format=true)
  {
     $allowances = $this->getAllowances($from, $to);
     $total = 0;
@@ -168,8 +168,26 @@ class Employee extends Eloquent {
       $total += $allowance->amount;
     }
 
-    if($number_format) return number_format($total);
+    if($number_format) return number_format($total,2);
     return $total;
+
+ }
+
+ public function getGross($format = true)
+ {
+    
+    $total_Allowance = 0;
+    $total = 0;
+    
+    $total = intval($this->getTotalAllowances(null,null,false)) + intval($this->getBasicPay(false));
+
+    if($format)
+    {
+      return number_format($total,2);
+    } else {
+
+      return $total; 
+    }
 
  }
 
@@ -177,11 +195,12 @@ public function getAllowances($from = null, $to = null)
  {
 
   if($from == null or $to == null) return EmployeeAllowance::where('employee_id', '=', $this->id)->get();
-
-  return EmployeeAllowance::where('employee_id', '=', $this->id)
+  
+  $allowance = EmployeeAllowance::where('employee_id', '=', $this->id)
                           ->where('valid_from', '<=' , $to)  
                           ->where('valid_to', '>=' , $from)  
                           ->get();
+   return $allowances;
  }
 
 
@@ -282,6 +301,7 @@ public function getTimeShiftEnd($military_format = false)
   return date('h:i a', strtotime($this->timeshift_end));
 }
 
+
 public function getLate($from, $to, $unit)
 {
   $days  = createDateRangeArray($from, $to);
@@ -314,6 +334,42 @@ public function getLate($from, $to, $unit)
 public function getLateDeduction($from, $to, $unit)
 {
   return $this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit);
+}
+public function getTax()
+{
+    $salary = intval($this->getBasicPay(false));
+    $dependents = $this->dependents;
+    $period = $this->period;
+
+    $sss_val = $this->fixed_sss_amount==null ? getSSS($salary)['EE'] : (int) $sss;
+
+    $philhealth_val =$this->fixed_philhealth_amount==null ? getPH($salary)['Employee_Share'] : (int) $philhealth;
+    
+    $pagibig_val = $this->fixed_hdmf_amount==null ? 100 : (int) $pagibig;
+
+    $curr_salary =    $salary - ($sss_val + $philhealth_val + $pagibig_val );
+    // return $curr_salary;
+
+    $wt = getWTax( $curr_salary , $period , $dependents);
+
+    $deductions = ($sss_val + $philhealth_val + $pagibig_val +  intval($this->getTotalDeductions())  ) ;
+
+    $total_deductions = $deductions + $wt;
+
+    $net = intval($this->getGross(false)) - $total_deductions;
+
+    return array(
+        'gross' => number_format($salary,2),
+        'widthholding_tax' => number_format($wt,2),
+        'philhealth' => number_format($philhealth_val,2),
+        'SSS' => number_format($sss_val,2),
+        'pagibig'=> number_format($pagibig_val,2),
+        'basic' => number_format($salary,2),
+        'taxable' => number_format($curr_salary,2),
+        'total_deduc' => number_format( $total_deductions,2),
+        'net' => number_format($net,2)
+      );
+
 }
 
 
