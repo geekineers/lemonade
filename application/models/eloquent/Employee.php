@@ -277,8 +277,6 @@ public function getDeductPhilhealth($english_format = true)
 
     return $this->deduct_philhealth;
     
-
-
 }
 
 public function getUnderTimeDeductionRate($per_unit)

@@ -27,11 +27,28 @@ class PayrollController extends BaseController
 		
 		$this->render('payroll/index.twig.html',$data);
 	}
+	public function masterList($id)
+	{
+		$slip =  $this->payslipsRepository->getPayslipById($id);
+		// dd($slip);
+		$data = [
+			'payslip' => $slip
+		];
+		$html = $this->load->view('payroll/masterlist',$data, true);
+		// dd($html);
+		// $html = "dsadas";
+		// dd($html);
+		$pdf = pdf_create($html, '', false,true);
+	    echo $pdf;
+	}
 	public function groupList($id)
 	{
+
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser()) ;
 		// dd($this->payrollGroupRepository->getDate($id));
 		$data['title'] = $this->payrollGroupRepository->where('id','=',$id)->first()->period;
+
+		$data['id'] = $id;
 		
 		$data['payslips'] = $this->payslipsRepository->getPayslipById($id);
 
