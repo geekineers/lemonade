@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
                                 <div class="box-body">
-                                 	{% if employee.getDeductions()|length <= 0  %}
+                                 	{% if memos|length <= 0  %}
 									<div class="">
 								
 										<center>
@@ -50,6 +50,23 @@
 										</center>
 									</div>
 								{% endif %}	
+                                              <div class="box-body chat" id="chat-box" >
+                                
+                              
+                                {% for memo in memos %}
+                                           <div class="item">
+                                        <img src="{{ memo.getTo().getProfilePicture() }}" alt="user image" class="offline">
+                                        <p class="message">
+                                            <a href="#" class="name">
+                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ memo.getPostTimeDiff() }}</small>
+                                                {{ memo.getTo().getName() }}
+                                            </a>
+                                             {{ memo.getMessage() }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                                </div><!-- /.box-body -->
+
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
 		</div>

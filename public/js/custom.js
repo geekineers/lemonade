@@ -19,8 +19,10 @@ $(document).ready(function(){
 	});
 
 	$('.datepicker').datepicker({
-		format: 'yyyy/mm/dd',
-	})
+		format: 'yyyy-mm-dd',
+	});
+
+
 
 	$('.timepicker').timepicker();
 
@@ -78,4 +80,12 @@ $(document).ready(function(){
 		$('.government-information .save-cancel-btn').fadeOut('fast');
 		$('.government-information .profile-value').fadeIn();
 	});
+
+
+	$('#memo-create').on('click', function(){
+		var data = { to : $('#memo-to').val(), message : $('#memo-message').val() }
+		$.post('/memo/add', data, function(res){ if(res){ $.notfy('Memo Successfully Sent!') }  });
+	});
+
+
 });

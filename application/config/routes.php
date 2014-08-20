@@ -114,6 +114,9 @@ Pigeon::map(function($r){
 
      $r->get('media', 'ImageController');
 
+     $r->post('memo/add', 'MemoController#add');
+
+     $r->get('my-payslip', 'PayrollController#myPaySlips');
 
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
