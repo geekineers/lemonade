@@ -18,13 +18,13 @@ class PayrollSettingsController extends BaseController
 	{
 		$data['user'] = $this->sentry->getUser();
 		$data['title'] = 'Payroll Settings';
-		$data['wtax'] = getWTax();
+		$data['wtax'] = taxlist();
 		
-		// $this->output
-	 //    ->set_content_type('application/json')
-	 //    ->set_output(json_encode($data['wtax']));
-			// dd(iterator_to_array($data['wtax']));
-		$this->render('payroll_settings/index.twig.html',$data);
+		$this->output
+	    ->set_content_type('application/json')
+	    ->set_output(json_encode(iterator_to_array($data['wtax'])));
+			// dd());
+		// $this->render('payroll_settings/index.twig.html',$data);
 	}
 
 	public function payrollGroup()

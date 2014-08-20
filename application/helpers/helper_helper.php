@@ -181,7 +181,119 @@ function getPH($basic_salary)
 
 
 // withholding tax
+function taxlist()
+{
+	$wtax_list = array(
+			'daily' => array (
+					'exemption_status' => array(
+								array(0.00,0),
+								array(0.00,0.05),
+								array(1.65,0.10),
+								array(8.25,0.15),
+								array(28.05,0.20),
+								array(74.26,0.25),
+								array(165.02,0.30),
+								array(412.54,0.32)
+						),
+					'employees_without_qualified_dependent' => array(
+										'Z' =>   array(1,0  ,33 ,99 ,231,462,825,1650),
+										'SME' => array(1,165,198,264,396,627,990,1815)
+						),
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
+				),
+			'weekly' =>  array (
+					'exemption_status' => array(
+								array(0.00,0),
+								array(0.00,0.05),
+								array(9.62,0.10),
+								array(48.08,0.15),
+								array(163.46,0.20),
+								array(432.69,0.25),
+								array(961.54,0.30),
+								array(2403.85,0.32)
+						),
+					'employees_without_qualified_dependent' => array(
+										'Z' =>   array(1,0  ,192 ,577,1346,2692,4808,9615),
+										'SME' => array(1,962,1154,1538,2308,3654,5769,10577)
+						),
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
+				),
+			'semi-monthly' =>  array (
+					'exemption_status' => array(
+								array(0.00,0),
+								array(0.00,0.05),
+								array(9.62,0.10),
+								array(48.08,0.15),
+								array(163.46,0.20),
+								array(432.69,0.25),
+								array(961.54,0.30),
+								array(2403.85,0.32)
+						),
+					'employees_without_qualified_dependent' => array(
+										'Z' =>   array(1,0  ,192 ,577,1346,2692,4808,9615),
+										'SME' => array(1,962,1154,1538,2308,3654,5769,10577)
+						),
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
+				),
+			
+			'monthly' => array (
+					'exemption_status' => array(
+								array(0.00,0), // 1
+								array(0.00,0.05), // 2
+								array(41.67,0.10), // 3
+								array(208.33,0.15), // 4
+								array(708.33,0.20), // 5
+								array(1875.00,0.25), // 6
+								array(4166.67,0.30), // 7
+								array(10416.67,0.32) // 8
+						),
+					'employees_without_qualified_dependent' => array(
 
+										'Z' =>   array(
+												1,   // 1 
+												0,   // 2
+												833 , // 3 
+												25000 , // 4 
+												5833 , // 5
+												11667, // 6 
+												20833,  // 7
+												41667  // 8
+											),
+										'SME' => array(
+											1,  // 1
+											4167, //2 
+											5000, //3
+											6667  , //4
+											10000, //5
+											15833, //6
+											25000, //7
+											45883) //8
+						),
+					'employees_with_qualified_dependent' => array(
+							  array(1,6250,7083,8750,12083,17917,27083,47917),
+							  array(1,8333,9167,10833,14167,20000,29167,50000),
+							  array(1,10417,11250,12917,16250,22083,31250,52083),
+							  array(1,12500,13333,15000,18333,24167,33333,54167)
+					 )
+				)
+		);
+	return $wtax_list;
+}
 function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0) 
 {
 	$resultArray = array();
