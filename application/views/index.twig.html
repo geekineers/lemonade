@@ -15,13 +15,31 @@
                                 </div>
                                 <div class="box-body">
                                  	{% if employee.getDeductions()|length <= 0  %}
-									<div class="">
-								
-										<center>
-										<p><i>
-											<i class="fa fa-info-circle"></i> No Announcements Yet.
-										</i></p>		
-										</center>
+									   <center>
+                                            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>                           
+                                       </center>
+                                    <div class="">
+                                        {% if announcements|length <= 0  %}
+                                            <center>
+                                                <p><i>
+                                                    <i class="fa fa-info-circle"></i> No Announcements Yet.</i> 
+                                                </p>        
+                                            </center>
+                                        {% endif %} 
+								         {% for announcement in announcements %}
+    										<div class="item">
+                                                  
+                                                <p class="message">
+                                                    <a href="#" class="name">
+                                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ announcement.getPostTimeDiff() }} posted by {{announcement.getAuthor().getName() }}</small>
+                                                        {{ announcement.title }}
+                                                    </a><br>
+                                                     {{ announcement.getMessage() }}
+                                                </p>
+                                            </div>
+                                        {% endfor %}
+
+                                      
 									</div>
 								{% endif %}	
                                 </div><!-- /.box-body -->
@@ -54,7 +72,7 @@
                                 
                               
                                 {% for memo in memos %}
-                                           <div class="item">
+                                     <div class="item">
                                         <img src="{{ memo.getTo().getProfilePicture() }}" alt="user image" class="offline">
                                         <p class="message">
                                             <a href="#" class="name">
@@ -137,6 +155,37 @@
     </div>
  
 </div>   
+<div class="modal fade" id="post-announcment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="box box-primary">
+        <div class="box-header">
+          <button type="button" style="padding: 8px;" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h3 class="box-title">New Announcement</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+        <form role="form" action="/announcement" method="post">
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input type="text" class="form-control" name="title" id="exampleInputEmail1" placeholder="Enter title">
+                </div>
+                <div class="form-group">
+                   Content
+                   <textarea class="form-control" rows="3" name="content" placeholder="content"></textarea>
+                </div>
+                
+            </div><!-- /.box-body -->
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    
+</script>
 
 {% endblock %}
 

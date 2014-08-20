@@ -21,6 +21,8 @@ Pigeon::map(function($r){
 
      $r->get('dashboard', 'MainController#dashboard');
 
+     $r->post('announcement','AnnouncementController#save');
+
      $r->get('slip','MainController#slip');
 
      $r->get('settings/branches', 'BranchController#index');

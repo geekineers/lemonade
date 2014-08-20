@@ -6,13 +6,14 @@ class MainController extends BaseController
 
 	protected $employeeRepository;
 	protected $memoRepository;
+	protected $announcementRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->employeeRepository = new EmployeeRepository();
 		$this->memoRepository = new MemoRepository();
-
+		$this->announcementRepository = new AnnouncementRepository();
 	}
 
 	public function index()
@@ -39,7 +40,8 @@ class MainController extends BaseController
 		$data['title'] = "Dashboard";
 		$data['birthdays'] = $this->employeeRepository->getNearBirthday();
 		$data['memos'] = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->get();
-
+		$data['announcements'] = $this->announcementRepository->getAllAnnouncement();
+		
 		$this->render('index.twig.html', $data);
 	}
 
