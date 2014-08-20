@@ -64,10 +64,18 @@ class Employee extends Eloquent {
  {
   return $this->full_address;
  }
- public function getBirthdate()
+ public function getBirthdate($format = false)
  {
+  if($format) return date('d M Y', strtotime($this->birthdate));
   return $this->birthdate;
  }
+
+ public function getAge()
+ {
+   $birthdate = new Carbon($this->birthdate);
+   return $birthdate->age . 'yrs old';
+ }
+
  public function getGender()
  {
   return $this->gender;
@@ -299,6 +307,40 @@ public function getTimeShiftEnd($military_format = false)
   return date('h:i a', strtotime($this->timeshift_end));
 }
 
+
+public function getLate($from, $to, $unit)
+{
+  $days  = createDateRangeArray($from, $to);
+  $timeShiftStart = $this->getTimeShiftStart(true);
+  // dd($timeShiftStart);
+  $totalLate = 0;
+
+  foreach ($days as $day) {
+    $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
+    $endDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
+
+    $result = Timesheet::whereBetween('time_in', [$startDate, $endDate])->first();
+    // dd($result);
+    if($result){
+    $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_in);
+    
+    $arrival_time = $resultDate->format('H:i:s');
+    $late = getLateInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
+ 
+    $totalLate += $late; 
+      
+    }
+  }
+  // dd($totalLate);
+
+  return $totalLate;
+}
+
+
+public function getLateDeduction($from, $to, $unit)
+{
+  return $this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit);
+}
 public function getTax()
 {
     $salary = intval($this->getBasicPay(false));
@@ -333,6 +375,17 @@ public function getTax()
         'total_deduc' => number_format( $total_deductions,2),
         'net' => number_format($net,2)
       );
+
+}
+
+public function getOverTimePayRate()
+{
+
+}
+
+public function getOvertime()
+{
+
 }
 
 

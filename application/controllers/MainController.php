@@ -5,11 +5,13 @@ class MainController extends BaseController
 {
 
 	protected $employeeRepository;
+	protected $memoRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->employeeRepository = new EmployeeRepository();
+		$this->memoRepository = new MemoRepository();
 
 	}
 
@@ -20,7 +22,8 @@ class MainController extends BaseController
 
 	public function dashboard()
 	{
-		
+
+		// dd($this->employeeRepository->getNearBirthday());
 
 		// dd($this->session->all_userdata()['session_id']);
 		// dd($this->sentry->getUser());
@@ -34,6 +37,8 @@ class MainController extends BaseController
 
 			);
 		$data['title'] = "Dashboard";
+		$data['birthdays'] = $this->employeeRepository->getNearBirthday();
+		$data['memos'] = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->get();
 
 		$this->render('index.twig.html', $data);
 	}

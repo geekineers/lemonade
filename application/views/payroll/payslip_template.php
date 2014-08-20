@@ -147,6 +147,10 @@ background-color:#F2F2F2;
           </tr>
         <?php } ?>
 
+        <tr>
+          <td>Late Deduction</td>
+          <td><?php echo $employee->getLateDeduction($payslip->from, $payslip->to, 'minute'); ?></td>
+        </tr>
 
         <tr>
           <td>SSS</td>

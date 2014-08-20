@@ -68,4 +68,6 @@ class Payslips extends Eloquent {
       $this->attributes['password'] = md5($password);
   }
 
+  
+
 } 

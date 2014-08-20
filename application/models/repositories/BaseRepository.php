@@ -105,7 +105,7 @@ abstract class BaseRepository {
         return $this->class->paginate($limit);
     }
 
-    public function where($column, $operator, $value)
+    public function where($column, $operator = null, $value = null)
     {
         return $this->class->where($column, $operator, $value);
     }
@@ -123,5 +123,10 @@ abstract class BaseRepository {
     public function onlyTrashed()
     {
         return $this->onlyTrashed();
+    }
+
+    public function whereRaw($sql, $array_binding)
+    {
+        return $this->class->whereRaw($sql, $array_binding);
     }
 }
