@@ -2,22 +2,7 @@
 {% block content %}
 <div class="row">
 	<section class="col-md-12 connectedSortable ui-sortable">
-		<div class="nav-tabs-custom">
-            <a href="/payroll">Go Back</a>
-            <div class="tab-content no-padding">
-                <!-- bir tax table -->
-                <div class="tab-pane active" id="payroll" style="position: relative; height: 400px;">
-                	<div class="box">
-                                <div class="box-header">
-                                    <!-- <h3 class="box-title"></h3> -->
-                                    <div class="col-md-4" style="margin-top:20px"> 
-                                        <a href="/payroll/masterlist/{{ id }}" class="btn btn-info" target="_blank">
-                                            <i class="fa  fa-arrow-circle-o-down"></i>
-                                            Download the Employee's Masterlist</a>
-                                    </div>
-                                </div><!-- /.box-header -->
-                                <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+		  <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -33,22 +18,13 @@
                                                 <td>{{ payslip.from }} - {{ payslip.to }}</td>
                                                 <td>{{ payslip.getBranch() }}</td>
                                                 <td> 
-                                                <a href="/payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>
+                                                <a href="payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>
                                                 </td>
+                                              
                                             </tr>
                                         {% endfor %}
+                                           
                                     </table>
-                                        
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-                </div>
-                <!-- sss table -->
-                <div class="tab-pane" id="sss" style="position: relative; height: 300px;">
-                </div>
-
-                <div class="tab-pane" id=""></div>
-            </div>
-        </div>
 	</section>
 </div>
 

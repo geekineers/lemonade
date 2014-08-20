@@ -19,8 +19,10 @@ $(document).ready(function(){
 	});
 
 	$('.datepicker').datepicker({
-		format: 'yyyy/mm/dd',
-	})
+		format: 'yyyy-mm-dd',
+	});
+
+
 
 	$('.timepicker').timepicker();
 
@@ -78,4 +80,22 @@ $(document).ready(function(){
 		$('.government-information .save-cancel-btn').fadeOut('fast');
 		$('.government-information .profile-value').fadeIn();
 	});
+
+	$('.send-memo').on('click', function(){
+		var value = $(this).attr('data-value');
+		var name = $(this).attr('data-name');
+
+		$('#memo-to').attr('data-value', value);
+		$('#memo-to').val(name);
+
+
+		$('#createMemo').modal('show');
+	});
+
+	$('#memo-create').on('click', function(){
+		var data = { to : $('#memo-to').attr('data-value'), message : $('#memo-message').val() }
+		$.post('/memo/add', data, function(res){  $('#createMemo').modal('hide'); $.notify('Memo Successfully Sent!', 'success'); });
+	});
+
+
 });

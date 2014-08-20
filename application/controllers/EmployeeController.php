@@ -41,9 +41,6 @@ class EmployeeController extends BaseController {
 
 	public function index()
 	{
-		// // dd(FileSystem);
-		// dd(realpath(APPPATH.'../uploads/'));
-
 		$data['alert_message'] = ($this->session->flashdata('message') == null)
 			? null
 			: $this->session->flashdata('message');

@@ -21,6 +21,8 @@ Pigeon::map(function($r){
 
      $r->get('dashboard', 'MainController#dashboard');
 
+     $r->post('announcement','AnnouncementController#save');
+
      $r->get('slip','MainController#slip');
 
      $r->get('settings/branches', 'BranchController#index');
@@ -39,6 +41,8 @@ Pigeon::map(function($r){
      $r->get('payroll/group/(:num)','PayrollController#groupList');
 
      $r->get('payroll/payslip/(:num)','PayrollController#slip');
+
+     $r->get('payroll/masterlist/(:num)','PayrollController#masterList');
 
      $r->get('testpdf','PayrollController#test');
 
@@ -112,6 +116,9 @@ Pigeon::map(function($r){
 
      $r->get('media', 'ImageController');
 
+     $r->post('memo/add', 'MemoController#add');
+
+     $r->get('my-payslip', 'PayrollController#myPaySlips');
 
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));

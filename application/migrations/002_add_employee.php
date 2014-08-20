@@ -38,8 +38,7 @@ class Migration_Add_employee
                         ),
 
                         'birthdate' => array(
-                                'type' => 'VARCHAR',
-                                'constraint' => 100
+                                'type' => 'DATE'
                             ),
                         'gender' => array(
                                 'type' => 'VARCHAR',
@@ -81,12 +80,10 @@ class Migration_Add_employee
                                 'constraint' => 5,
                         ),
                         'date_hired' => array(
-                                'type' => 'VARCHAR',
-                                'constraint' => 100
+                                'type' => 'DATE'
                             ),
                         'date_ended' => array(
-                                'type' => 'VARCHAR',
-                                'constraint' => 100
+                                'type' => 'DATE'
                             ),
 
                         // Governmanet Details
