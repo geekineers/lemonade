@@ -81,10 +81,20 @@ $(document).ready(function(){
 		$('.government-information .profile-value').fadeIn();
 	});
 
+	$('.send-memo').on('click', function(){
+		var value = $(this).attr('data-value');
+		var name = $(this).attr('data-name');
+
+		$('#memo-to').attr('data-value', value);
+		$('#memo-to').val(name);
+
+
+		$('#createMemo').modal('show');
+	});
 
 	$('#memo-create').on('click', function(){
-		var data = { to : $('#memo-to').val(), message : $('#memo-message').val() }
-		$.post('/memo/add', data, function(res){ if(res){ $.notfy('Memo Successfully Sent!') }  });
+		var data = { to : $('#memo-to').attr('data-value'), message : $('#memo-message').val() }
+		$.post('/memo/add', data, function(res){  $('#createMemo').modal('hide'); $.notify('Memo Successfully Sent!', 'success'); });
 	});
 
 

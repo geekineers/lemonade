@@ -308,7 +308,7 @@ public function getTimeShiftEnd($military_format = false)
 }
 
 
-public function getLate($from, $to, $unit)
+public function getLate($from, $to, $unit= 'minute')
 {
   $days  = createDateRangeArray($from, $to);
   $timeShiftStart = $this->getTimeShiftStart(true);

@@ -12,7 +12,7 @@
 						<span class="text-semibold">{{ employee.getName() }}</span>
 					</div>
 					<a href="mailto:{{ employee.email }}" class="btn btn-success"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Send Email</a>&nbsp;&nbsp;
-					<a href="#" class="btn" data-toggle="modal" data-target="#createMemo"><i class="fa fa-comment"></i></a>
+					<a href="#" class="btn send-memo" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}"><i class="fa fa-comment"></i></a>
 				</div>
 
 				<div class="panel panel-transparent">
