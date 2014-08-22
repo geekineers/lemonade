@@ -1,7 +1,7 @@
 <?php
 require_once('BaseController.php');
 
-class FormSettingsController extends BaseController {
+class FormsController extends BaseController {
 
 	protected $formRepository;
 	protected $employeeRepository;
@@ -22,9 +22,10 @@ class FormSettingsController extends BaseController {
 		$title = 'Forms';
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-		$forms = $this->formRepository->all();
+		// $forms = $this->formRepository->all();
 
-		$this->render('form_settings/index.twig.html', compact('user', 'title', 'forms'));
+		$data['employees'] = $this->employeeRepository->all();
+		$this->render('forms/index.twig.html',$data);
 	}
 
 	public function create()
@@ -50,7 +51,6 @@ class FormSettingsController extends BaseController {
 
 	public function store()
 	{
-
 		$data = [
 			'form_name' => $this->input->post('form-name'),
 			'form_content' => $this->input->post('form-content'),
@@ -89,6 +89,21 @@ class FormSettingsController extends BaseController {
 		}
 
 		redirect('/settings/forms');
+	}
+
+	public function restGetUser()
+	{
+		$user = $this->employeeRepository->getUserById($this->input->get('id'));
+
+		$data = [
+			'first_name' => $user->first_name,
+			'last_name'	 => $user->last_name,
+			'department' => $user->getDepartment(),
+			'position' 	 => $user->getJobPosition()
+		];
+		$this->output
+	    ->set_content_type('application/json')
+	    ->set_output(json_encode($data));
 	}
 
 }

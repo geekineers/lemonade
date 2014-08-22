@@ -7,6 +7,18 @@ $(document).ready(function(){
 		// 	$('.user-account-form').fadeOut();
 		// }
 
+	
+	$.fn.loading = function(options){
+		option = typeof options == "undefined" ? true : options;
+		if(option){
+			$(this).append($('<div/>',{class:'overlay'})).append($('<div/>',{class:'loading-img'}))
+			return option;
+		}else{
+			$('.overlay,.loading-img').remove();
+			return false;
+		}
+	};
+
 	$('#create_user').on('click', function(event){
 		// event.preventDefault();
 		
