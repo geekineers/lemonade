@@ -289,7 +289,7 @@ public function getDeductPhilhealth($english_format = true)
 
 public function getUnderTimeDeductionRate($per_unit)
 {
-  return getDeductionRate($this->basic_pay, $this->payroll_period, $per_unit);
+  return getRate($this->basic_pay, $this->payroll_period, $per_unit);
 
 
 }
@@ -325,7 +325,7 @@ public function getLate($from, $to, $unit= 'minute')
     $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_in);
     
     $arrival_time = $resultDate->format('H:i:s');
-    $late = getLateInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
+    $late = getInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
  
     $totalLate += $late; 
       
@@ -388,5 +388,121 @@ public function getOvertime()
 
 }
 
+public function getHourlyRate()
+{
+  $basic_pay = $this->basic_pay;
+  $payroll_period = $this->payroll_period;
+
+  return getRate($basic_salary, $payroll_period, 'hour');
+
+}
+
+public function getDailyRate()
+{
+  $basic_pay = $this->basic_pay;
+  $payroll_period = $this->payroll_period;
+
+  return getRate($basic_salary, $payroll_period, 'daily');
+
+}
+
+public function getNightly($from, $to, $unit='minute')
+{
+
+  $from = DateTime::createFromFormat('Y-m-d H:i:s', $from . ' 00:00:00');
+  $to = DateTime::createFromFormat('Y-m-d H:i:s', $to . ' 23:59:59');
+
+  $attendances = Timesheet::whereBetween('time_in', [$from, $to])
+                           ->where('employee_id', $this->id)
+                           ->get();
+
+  $night_diff_start = date('H:i', strtotime('22:00:00'));
+  $night_diff_end = date('H:i', strtotime('10:00:00'));                         
+  // dd($night_diff_start, $night_diff_end);
+
+  // $date = 01:00
+  // 22:00 < 01:00 > 06:00
+
+
+
+
+  $total_night_difference = 0;
+
+  foreach ($attendances as $attendance) {
+    $time_in_day = date('Y-m-d', strtotime($attendance->time_in));
+    $time_out_day = date('Y-m-d', strtotime($attendance->time_out));
+    $time_in_hours = date('H:i', strtotime($attendance->time_in));
+   
+    if($time_in_day == $time_out_day && ($time_in_hours < '22:00')){
+      $day2 = date('Y-m-d', strtotime($attendance->time_in ));
+    $date = new DateTime($day2);
+      $date->sub(new DateInterval('P1D'));
+      $day = $date->format('Y-m-d');
+    }
+    else{
+      $day = date('Y-m-d', strtotime($attendance->time_in ));
+    $date = new DateTime($day);
+       $date->add(new DateInterval('P1D'));
+      $day2 = $date->format('Y-m-d');
+    }
+ 
+    // dd($day, $day2);
+    $night_diff_start = date('Y-m-d H:i', strtotime($day . ' 22:00:00'));
+    $night_diff_end = date('Y-m-d H:i', strtotime($day2 . ' 06:00:00'));  
+    $time_in = date('Y-m-d H:i', strtotime($attendance->time_in));
+    $time_out = date('Y-m-d H:i', strtotime($attendance->time_out));
+
+
+    if($time_in >= $night_diff_start || $time_in < $night_diff_end){
+        $interval = getInterval($attendance->time_in, $attendance->time_out, $unit);
+        $total_night_difference += $interval;    
+
+    }
+    else if($time_in >= $night_diff_start || $time_in >= $night_diff_end)
+    {
+       $interval = getInterval($attendance->time_in, '06:00', $unit);
+       $total_night_difference += $interval;
+    }
+    else if($time_in < $night_diff_start && ($time_out >= $night_diff_start || $time_out <= $night_diff_end) )
+    {
+      $night_diff_start = date('Y-m-d H:i', strtotime('2014-01-01 22:00'));
+      $time_out = date('Y-m-d H:i', strtotime('2014-01-01: 22:00'));
+      $interval = getInterval($night_diff_start, $time_out, $unit);
+      $total_night_difference += $interval;
+
+    }
+    else if($time_in <$night_diff_start && $time_out >= $night_diff_end)
+    {
+      $interval = getInterval($night_diff_start, $night_diff_end, $unit);
+      $total_night_difference += $interval;
+    }
+
+    
+  }
+
+  return $total_night_difference;
+
+}
+
+public function getNightlyRate()
+{
+  if($this->entitled_night_differential){
+    if($this->night_differential_rate) {
+        $rate = str_replace('%', '', $this->night_differential_rate) / 100;
+        // $nrate = 1 + $rate;
+        return $this->getHourlyRate() * $rate;
+    }
+    else{
+       return $this->getHourlyRate() * 0.1;
+    }
+  }
+
+  return 0;
+}
+
+public function getNightDifferentialAmount($from, $to, $unit)
+{
+        return getNightly($from, $to, $unit) * getNightlyRate();
+}
 
 }

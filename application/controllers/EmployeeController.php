@@ -41,6 +41,10 @@ class EmployeeController extends BaseController {
 
 	public function index()
 	{
+		$e = Employee::first();
+		dd($e->getNightly('2014-08-10', '2014-08-15'));
+
+
 		$data['alert_message'] = ($this->session->flashdata('message') == null)
 			? null
 			: $this->session->flashdata('message');
