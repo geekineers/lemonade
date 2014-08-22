@@ -5,6 +5,7 @@ class FormsController extends BaseController {
 
 	protected $formRepository;
 	protected $employeeRepository;
+	protected $formApplicationRepository;
 
 	public function __construct()
 	{
@@ -14,8 +15,8 @@ class FormsController extends BaseController {
 
 		$this->formRepository = new FormRepository();
 		$this->employeeRepository = new EmployeeRepository();
-
-	}
+		$this->formApplicationRepository = new FormApplicationRepository();
+	}	
 
 	public function index()
 	{
@@ -23,16 +24,9 @@ class FormsController extends BaseController {
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		// $forms = $this->formRepository->all();
-
+		$data['title'] = $title;
 		$data['employees'] = $this->employeeRepository->all();
 		$this->render('forms/index.twig.html',$data);
-	}
-
-	public function create()
-	{
-		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
-		$this->render('form_settings/create.twig.html', compact('user'));
 	}
 
 	public function edit()
@@ -51,21 +45,27 @@ class FormsController extends BaseController {
 
 	public function store()
 	{
+		
 		$data = [
-			'form_name' => $this->input->post('form-name'),
-			'form_content' => $this->input->post('form-content'),
-			'user_id' => $this->sentry->getUser()->id
+			'employee_id' => $this->input->post('employee_id'),
+			'prepared_by' =>$this->employeeRepository->getLoginUser($this->sentry->getUser())->id,
+			'from' => $this->input->post('from'),
+			'to'	=> $this->input->post('to'),
+			'effective_date' =>$this->input->post('data'),
+			'status' => 'not-yet-approved',
+			'form_data' => (string) json_encode($this->input->post('form_data')),
+			'form_type' => $this->input->post('form_type')
 		];
 
-		$form  =  $this->formRepository->create($data);
-		if($form){
-			$this->session->set_flashdata('message',$data['form_name']  .' has been added.');
-			redirect('/settings/forms');
-		}
-		else{
-			$this->session->set_flashdata('message', 'There was an error.');
-			redirect('/settings/forms/new');
-		}
+		$form  =  $this->formApplicationRepository->create($data);
+		// if($form){
+		// 	$this->session->set_flashdata('message',$data['form_name']  .' has been added.');
+		// 	redirect('/settings/forms');
+		// }
+		// else{
+		// 	$this->session->set_flashdata('message', 'There was an error.');
+		// 	redirect('/settings/forms/new');
+		// }
 	}
 
 	public function update()
@@ -104,6 +104,17 @@ class FormsController extends BaseController {
 		$this->output
 	    ->set_content_type('application/json')
 	    ->set_output(json_encode($data));
+	}
+
+	public function formTemplate()
+	{
+		$template = $this->input->get('template_name');
+
+		if( $template == 'ob' )
+		{
+			return $this->load->view('forms/ob_form');
+		}
+
 	}
 
 }

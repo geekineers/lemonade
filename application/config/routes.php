@@ -108,6 +108,8 @@ Pigeon::map(function($r){
 
      $r->get('forms','FormsController#index');
      $r->get('forms/rest-get-user','FormsController#restGetUser');
+     $r->get('forms/rest-form-template','FormsController#formTemplate');
+     $r->post('forms/save-form','FormsController#store');
 
      $r->get('timesheet', 'TimesheetController#index');
 
