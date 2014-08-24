@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Payroll_Period extends Eloquent {
 	use SoftDeletingTrait;
-  	 public $table = "job_position";
+  	 public $table = "payroll_period";
 	 protected $datas = ['deleted_at'];
 
 
-    protected $fillable = ['job_position', 'job_description',  'created_at',
+    protected $fillable = [
+    		   'period_name', 
+    		   'created_by',  
+    		   'created_at',
                'updated_at'];
 
-  public function setPasswordAttribute($password)
-  {
-  		$this->attributes['password'] = md5($password);
-  }
+
 
 }
