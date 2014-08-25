@@ -94,6 +94,7 @@ Pigeon::map(function($r){
 
      $r->get('employees', 'EmployeeController#index');
      $r->get('employees/add', 'EmployeeController#add');
+     $r->get('employees/search', 'EmployeeController#search');
      $r->post('employees/add', 'EmployeeController#save');
      $r->get('employees/edit', 'EmployeeController#edit');
      $r->post('employees/edit', 'EmployeeController#update');

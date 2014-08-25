@@ -1,7 +1,7 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
 <div class="row">
-	<a class="btn-add-branch btn btn-primary pull-right" href="/branches/add">+ Add Branch</a>
+	<a class="btn-add-branch btn btn-primary pull-right" href="/settings/branches/add">+ Add Branch</a>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -23,8 +23,8 @@
 	 		<td>{{ branch.branch_address }}</td>
 	 		<td></td>
 	 		<td>
-	 			<a href="/branches/edit?id={{ branch.id }}" class="btn btn-primary">Edit</a>
-	 			<a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger">Delete</a>
+	 			<a href="/settings/branches/edit?id={{ branch.id }}" class="btn btn-primary">Edit</a>
+	 			<a href="/settings/branches/delete?id={{ branch.id }}" class="btn btn-danger">Delete</a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}

@@ -1,6 +1,6 @@
 <?php
 
-function getDeductionRate($basic_salary, $payroll_period, $per_unit, $number_format = true)
+function getRate($basic_salary, $payroll_period, $per_unit, $number_format = true)
 {
 	$basic_salary = floatval($basic_salary);
 	// dd($payroll_period);
@@ -9,6 +9,12 @@ function getDeductionRate($basic_salary, $payroll_period, $per_unit, $number_for
 			$amount = $basic_salary * 12;
 			$amount = $amount / 260;
 			$amount = $amount / 8;
+
+			if($per_unit == 'daily')
+			{
+				if($number_format) return number_format($amount, 2);
+				return $amount;
+			} 			
 
 			if($per_unit == 'hour')
 			{
@@ -28,6 +34,12 @@ function getDeductionRate($basic_salary, $payroll_period, $per_unit, $number_for
 			$amount = $amount / 260;
 			$amount = $amount / 8;
 
+			if($per_unit == 'daily')
+			{
+				if($number_format) return number_format($amount, 2);
+				return $amount;
+			} 
+
 			if($per_unit == 'hour')
 			{
 				if($number_format) return number_format($amount, 2);
@@ -43,6 +55,12 @@ function getDeductionRate($basic_salary, $payroll_period, $per_unit, $number_for
 			break;
 		case 'Daily':
 			$amount = $basic_salary / 8;
+			
+			if($per_unit == 'hour')
+			{
+				if($number_format) return number_format($amount, 2);
+				return $amount;
+			} 
 
 			if($per_unit == 'hour')
 			{
@@ -95,7 +113,7 @@ function getDeductionRate($basic_salary, $payroll_period, $per_unit, $number_for
 	    return $aryRange;
 	}
 
-function getLateInterval($right_time, $arrive_time, $unit)
+function getInterval($right_time, $arrive_time, $unit)
 {
 	// dd(Carbon::now());
 	$right_time = new Carbon($right_time);

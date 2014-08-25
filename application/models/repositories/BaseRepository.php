@@ -110,6 +110,11 @@ abstract class BaseRepository {
         return $this->class->where($column, $operator, $value);
     }
 
+   public function orWhere($column, $operator = null, $value = null)
+    {
+        return $this->class->orWhere($column, $operator, $value);
+    }
+
     public function orderBy($column, $order)
     {
         return $this->class->orderBy($column, $order);

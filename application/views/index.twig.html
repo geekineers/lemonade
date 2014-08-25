@@ -30,7 +30,7 @@
     										<div class="item">
                                                   
                                                 <p class="message">
-                                                    <a href="#" class="name">
+                                                    <a href="{{ announcement.getAuthor().getProfileLink() }}" class="name">
                                                         <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ announcement.getPostTimeDiff() }} posted by {{announcement.getAuthor().getName() }}</small>
                                                         {{ announcement.title }}
                                                     </a><br>
@@ -73,11 +73,11 @@
                               
                                 {% for memo in memos %}
                                      <div class="item">
-                                        <img src="{{ memo.getTo().getProfilePicture() }}" alt="user image" class="offline">
+                                        <img src="{{ memo.getFrom().getProfilePicture() }}" alt="user image" class="offline">
                                         <p class="message">
-                                            <a href="#" class="name">
+                                            <a href="{{ memo.getFrom().getProfileLink() }}" class="name">
                                                 <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ memo.getPostTimeDiff() }}</small>
-                                                {{ memo.getTo().getName() }}
+                                                {{ memo.getFrom().getName() }}
                                             </a>
                                              {{ memo.getMessage() }}
                                         </p>
@@ -140,7 +140,7 @@
                                            <div class="item">
                                         <img src="{{ birthday.getProfilePicture() }}" alt="user image" class="offline">
                                         <p class="message">
-                                            <a href="#" class="name">
+                                            <a href="{{ birthday.getProfileLink() }}" class="name">
                                              <!--    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> -->
                                                 {{ birthday.getName() }}
                                             </a>
