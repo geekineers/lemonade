@@ -24,6 +24,11 @@ class FormsController extends BaseController {
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		// $forms = $this->formRepository->all();
+		$data['form_types'] = [
+			['name'=>'OB Form','string_key'=>'ob'],
+			['name'=>'OT Form','string_key'=>'ot'],
+			['name'=>'Undertime Form','string_key'=>'undertime']
+		];
 		$data['title'] = $title;
 		$data['employees'] = $this->employeeRepository->all();
 		$this->render('forms/index.twig.html',$data);
@@ -86,7 +91,7 @@ class FormsController extends BaseController {
 		} else {
 			$this->session->set_flashdata('message', 'There was an error.');
 
-		}
+		} 
 
 		redirect('/settings/forms');
 	}
@@ -113,6 +118,14 @@ class FormsController extends BaseController {
 		if( $template == 'ob' )
 		{
 			return $this->load->view('forms/ob_form');
+		}
+		else if ( $template == 'ot')
+		{
+			return $this->load->view('forms/ot_form');
+		}
+		else if ( $template == 'undertime')
+		{
+			return $this->load->view('forms/undertime_form');
 		}
 
 	}
