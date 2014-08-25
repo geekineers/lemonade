@@ -27,7 +27,9 @@ class FormsController extends BaseController {
 		$data['form_types'] = [
 			['name'=>'OB Form','string_key'=>'ob'],
 			['name'=>'OT Form','string_key'=>'ot'],
-			['name'=>'Undertime Form','string_key'=>'undertime']
+			['name'=>'Undertime Form','string_key'=>'undertime'],
+			['name'=>'Leave Form','string_key'=>'leave']
+
 		];
 		$data['title'] = $title;
 		$data['employees'] = $this->employeeRepository->all();
@@ -126,6 +128,10 @@ class FormsController extends BaseController {
 		else if ( $template == 'undertime')
 		{
 			return $this->load->view('forms/undertime_form');
+		}
+		else if ( $template == 'leave' )
+		{
+			return $this->load->view('forms/leave_form');
 		}
 
 	}

@@ -87,8 +87,8 @@
         'form_data' : {
           'client_name' : $('.client_name').val(),
           'total_hours' : total_hrs,
-          'night_shift_total_hrs',$('.night_shift_total_hrs').val(),
-          'remarks' : $('.remarks').val(),
+          'night_shift_total_hrs':$('.night_shift_total_hrs').val(),
+          'remarks' : $('.remarks').val()
         }
       };
 

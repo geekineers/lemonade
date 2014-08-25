@@ -12,7 +12,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control date" data-inputmask="'alias': 'MM-SS'" data-mask="">
+                                <input type="text" class="form-control timepicker">
                             </div>
                         </div>
                         <div class="col-md-2 ">
@@ -21,7 +21,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control date" data-inputmask="'alias': 'MM-SS'" data-mask="">
+                                <input type="text" class="form-control timepicker">
                             </div>
                         </div>
                        <div class="col-md-3">
@@ -37,7 +37,7 @@
                         <div class="col-md-2 ">
                             <label>Remarks: </label>
                             <input type="text" class="form-control remarks" placeholder="example: Juan Dela Cruz">
-                        </div>q"form-group row">
+                        </div>
                     </div>
 
                     <div class="form-group row">
@@ -52,11 +52,16 @@
 <script src="/js/plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
 <script src="/js/plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
 <script src="/js/plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
+
+<script src="/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
 <script type="text/javascript"  src="/js/plugins/daterangepicker/daterangepicker.js" ></script>
 <script type="text/javascript">
   (function(){
     var from,to,total_hrs;
     $('input').inputmask(); 
+    $('.timepicker').timepicker({
+                    showInputs: false
+                });
     $('.time').daterangepicker({datePicker:false,timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'},function(start,end,label){
         var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
 
