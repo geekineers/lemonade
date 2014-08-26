@@ -38,7 +38,7 @@ class PayrollController extends BaseController
 		// dd($html);
 		// $html = "dsadas";
 		// dd($html);
-		$pdf = pdf_create($html, '', false,true);
+		$pdf = pdf_create($html, '', false ,true	);
 	    echo $pdf;
 	}
 	public function groupList($id)
