@@ -554,14 +554,58 @@ class Employee extends Eloquent
         return $daily_rate*0.3;
     }
 
-    // public function getAbsent($from, $to, $weekend_include=false)
-    // {
-    //     $total_absent = 0;
-    //     if($this->getTimesheetRequired()){
-    //         Timesheet::where('employee_id', $this->id)
-    //               ->where('time_in', )
-    //     }
-    //     return 0;
-    // }
+    public function getRegularHolidayAttendance($from, $to)
+    {
+        return Holiday::whereBetween('holiday_from', [$from, $to])
+            ->where('holiday_type', 'regular')
+            ->count();
+    }
+
+    public function getSpecialHolidayAttendance($from, $to)
+    {
+        return Holiday::whereBetween('holiday_from', [$from, $to])
+            ->where('holiday_type', 'special non-working')
+            ->count();
+
+    }
+
+    public function getAbsent($from, $to, $weekend_include = false)
+    {
+        $total_absent = 0;
+        if (!$this->getTimesheetRequired()) {
+            return 0;
+        }
+
+        $date_range = createDateRangeArray($from, $to);
+        foreach ($date_range as $date) {
+        	$date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+        	$date_range_end = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+        	$dt = new Carbon($date);
+        	if($dt->isWeekday()){
+        		$attended = Timesheet::where('employee_id', '=', $this->id)
+        			   ->whereBetween('time_in', [$date_range_start, $date_range_end])
+        			   ->count();
+
+        		if($attended){
+        			$total_absent += 1;
+        		}
+        	}
+        	if($dt->isWeekend() && $weekend_include){
+        		$attended = Timesheet::where('employee_id', '=', $this->id)
+        			   ->whereBetween('time_in', [$date_range_start, $date_range_end])
+        			   ->count();
+
+        		if($attended){
+        			$total_absent += 1;
+        		}
+        	}
+        }
+
+    }
+
+    public function getAbsentDeduction()
+    {
+    	return $this->getDailyRate() * $this->getAbsent();
+    }
 
 }
