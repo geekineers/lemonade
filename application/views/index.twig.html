@@ -10,14 +10,14 @@
                     <div class="box-tools pull-right">
                         <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
-                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                        <button class=" btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
                         </button>
                     </div>
                 </div>
                 <div class="box-body">
                     {% if employee.getDeductions()|length
                     <=0 %} <center>
-                        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>
+                        <button class="post_announcement btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>
                         </center>
                         <div class="">
                             {% if announcements|length

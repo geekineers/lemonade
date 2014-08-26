@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row container">
-	<a class="btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-plus"></i></a>
+	<a class="deduction_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-plus"></i></a>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -25,7 +25,7 @@
 	 		<td>{{ deduction.getCreator() }}</td>
 	 		<td>
 	 			<a href="/deductions/edit?id={{ deduction.id }}" class="btn btn-primary">Edit</a>
-	 			<a href="/deductions/delete?id={{ deduction.id }}" class="btn btn-danger">Delete</a>
+	 			<a href="/deductions/delete?id={{ deduction.id }}" class="deduction_delete btn btn-danger">Delete</a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}

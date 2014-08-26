@@ -21,7 +21,8 @@ class HumanResourceController extends BaseController {
 	public function index()
 	{
 		$title = 'Forms';
-
+		 $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+       
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 	
 		$data['forms'] = $this->formApplicationRepository->all();

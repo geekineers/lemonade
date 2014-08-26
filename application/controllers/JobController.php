@@ -18,7 +18,7 @@ class JobController extends BaseController {
 	public function index()
 	{
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
+		$data['title'] = "Job Positions";
 		$data['groups'] = $this->jobPositionRepository->all();
 
 		// dd($data);
@@ -48,12 +48,12 @@ class JobController extends BaseController {
 		$job  =  $this->jobPositionRepository->createNotExist($input);
 		if($job){
 			$this->session->set_flashdata('message',$input['job_position']  .' has been added.');
-			redirect('/job');
+			redirect('/settings/job');
 		}
 		else{
 			$this->session->set_flashdata('message',$input['job_position']  .' is already in here.');
 
-			redirect('/job/add');
+			redirect('/settings/job/add');
 		}
 	}
 }

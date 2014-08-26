@@ -1,45 +1,45 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-abstract class BaseController extends CI_Controller {
+abstract class BaseController extends CI_Controller
+{
 
-	protected $sentry;
+    protected $sentry;
 
-	public function __construct()
-	{
-	
-		parent::__construct();
-		$this->sentry = Sentry::createSentry();
-	}
-	public function render($template, $data = [])
-	{
-		$loader = new Twig_Loader_Filesystem(APPPATH.'views');
-		$twig = new Twig_Environment($loader, array(
-		    // 'cache' => APPPATH.'/cache/views',
-		    'cache' => false
-		));
+    public function __construct()
+    {
 
-		echo $twig->render($template, $data);
-	}
+        parent::__construct();
+        $this->sentry = Sentry::createSentry();
+    
+        $user = $this->sentry->getUser();
+    	// dd($user->getGroups()[0]['name']);
+    }
+    public function render($template, $data = [])
+    {
+        $loader = new Twig_Loader_Filesystem(APPPATH.'views');
+        $twig   = new Twig_Environment($loader, array(
+                // 'cache' => APPPATH.'/cache/views',
+                'cache' => false
+            ));
 
+        echo $twig->render($template, $data);
+    }
 
+    public function mustBeLoggedIn()
+    {
+        if (!$this->sentry->check()) {
+            redirect('/auth', 'location');
+        }
 
-	public function mustBeLoggedIn()
-	{
-		if(!$this->sentry->check()){
-			redirect('/auth', 'location');
-		}
+    }
+    public function mustBeLoggedOut()
+    {
+        if ($this->sentry->check()) {
+            redirect('/dashboard', 'location');
+        }
 
-	}
-	public function mustBeLoggedOut()
-	{
-		if($this->sentry->check()){
-			redirect('/dashboard', 'location');
-		}
-
-	}
-
-
+    }
 
 }
 

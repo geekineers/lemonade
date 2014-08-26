@@ -12,11 +12,11 @@
 						<span class="text-semibold">{{ employee.getName() }}</span>
 					</div>
 					<a href="mailto:{{ employee.email }}" class="btn btn-success"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Send Email</a>&nbsp;&nbsp;
-					<a href="#" class="btn send-memo" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}"><i class="fa fa-comment"></i></a>
+					<a href="#" class="employee_send_memo btn send-memo" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}"><i class="fa fa-comment"></i></a>
 
 					<!-- -->
 					<br>
-					<a href="#" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}" class="btn sched-evaluation-btn btn-info"><i class="fa fa-calendar"></i> Schedule for Evaluation</a>
+					<a href="#" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}" class="employee_schedule_evaluation btn sched-evaluation-btn btn-info"><i class="fa fa-calendar"></i> Schedule for Evaluation</a>
 				</div>
 
 				<div class="panel panel-transparent">

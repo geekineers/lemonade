@@ -1,8 +1,8 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 
 <div class="row container">
-    <a class="btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewHoliday"><i class="fa fa-plus"></i></a>
-    <a class="btn btn-primary edit-btn" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-edit"></i></a>
+    <a class="holiday_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewHoliday"><i class="fa fa-plus"></i></a>
+    <a class="holiday_create btn btn-primary edit-btn" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-edit"></i></a>
 <form method="post" action="/settings/holidays/update/{{ year }}">
     <input type="submit" class="save-cancel-btn btn btn-default" value="Save"/>
     {% if alert_message != null %}

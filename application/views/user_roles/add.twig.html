@@ -10,13 +10,13 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Role Name</label>
-                                            <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                            <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter Role">
                                         </div>
                                     <h4 class="box-title">User Permission</h4> 
                                      {% for permission in permissions %}
                                            <div class="form-group">
                                               <div class="icheckbox flat-red">
-                                             <input name='permissions[{{ permission }}]' type="checkbox" class="form-control flat-red">
+                                             <input name='permissions[{{ permission }}]' type="checkbox" class=" flat-red">
                                              {{ permission }}  
                                            </div> 
                                         {% endfor %}
@@ -25,6 +25,9 @@
                                     <div class="box-footer">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
+
+                            </div>
+                            </form>
                             
          </div>
 	</div>

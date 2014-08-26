@@ -4,13 +4,73 @@ use Upload\Storage\FileSystem as FileSystem;
 
 class EmployeeRepository extends BaseRepository {
 
+	protected $fileSystem;
 	public function __construct()
 	{
 		$this->class = new Employee();
-
+		$path             = realpath(APPPATH.'../uploads/');
+        $this->fileSystem = new FileSystem($path);
 	}
 
-	public function updateEmployee201($employee_id, $data)
+	public function getAllPermissions()
+	{
+		return [
+
+		'user_view',
+		'user_create',
+		'user_delete',
+		'branch_create',
+		'branch_delete',
+		'branch_view',
+		'job_position_create',
+		'job_position_view',
+		'job_position_delete',
+		'job_position_delete',
+		'department_create',
+		'department_view',
+		'department_delete',
+		'payroll_group_create',
+		'payroll_group_view',
+		
+		'company_setting_edit',
+
+		'deductions_create',
+		'deductions_view',
+		'deductions_delete',
+
+		'allowance_create',
+		'allowance_view',
+		'allowance_delete',
+
+		'holiday_create',
+		'holiday_delete',
+
+		'employee_create',
+		'employee_view',
+		'employee_delete',
+		'employee_edit',
+		'employee_schedule_evaluation',
+		'employee_send_memo',
+		
+		'employee_add_allowance',
+		'employee_add_deductions',
+		'employee_add_deductions',
+		'employee_add_files',
+
+		'post_announcement',
+
+		'generate_payroll',
+
+		'settings_view',
+
+		'timesheet_import',		
+		'timesheet_view',
+		// 'branch.delete',
+	
+];
+	}
+
+	public function updateEmployee201($employee_id, $data, $sentry)
 	{
 		$post = array(
 		'first_name' => $data['first_name'],
@@ -42,8 +102,14 @@ class EmployeeRepository extends BaseRepository {
 		'pagibig_number' => $data['pagibig_number'],
 			);
 		// dd($post);
-		$this->employeeRepository->where('id', '=', $employee_id)->update($post);
 
+		$employee = $this->where('id', '=', $employee_id);
+		$user = $sentry->findUserById($employee->first()->user_id);
+
+		$employee->update($post);
+
+		$group = $sentry->findGroupById($data['role_id']);
+	 	$user->addGroup($group);
 	}
 
 	public function createEmployee($data, $sentry)
@@ -181,8 +247,13 @@ class EmployeeRepository extends BaseRepository {
 
 	public function getLoginUser($sentry)
 	{
-		
-		return Employee::where('user_id', '=', $sentry->id)->first();
+
+		// dd($sentry);
+		$employee =  Employee::where('user_id', '=', $sentry->id)->first();
+		$group = $sentry->getGroups()[0];
+		$employee->permissions = $group->getPermissions();
+		$employee->all_permissions = $this->getAllPermissions();
+		return $employee;
 	}
 
 	public function getUserById($id)

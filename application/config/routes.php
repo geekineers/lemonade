@@ -151,6 +151,7 @@ Pigeon::map(function ($r) {
      $r->post('evaluations/save', 'EvaluationController#store');
 
      $r->get('timesheet', 'TimesheetController#index');
+     $r->get('my-timesheet', 'TimesheetController#myTimesheet');
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
      $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');

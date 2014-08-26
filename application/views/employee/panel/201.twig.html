@@ -3,7 +3,7 @@
 						 <div class="basic-information panel panel-default">
 <form method="post">
 <input type="hidden" name="id" value="{{ employee.id }}" />		
-						  <div class="panel-heading">Basic Information <button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						  <div class="panel-heading">Basic Information <button class=" employee_edit employee_edit edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
@@ -48,6 +48,23 @@
 						 		</span>
 						 		<input type="text" class="edit-input" name="marital_status" value="{{ employee.getMaritalStatus() }}"	>
 						 		</td>
+						 	
+						 	</tr>
+						 	<tr>
+						 			<td><span class="form-label">Dependents </span>
+						 		<span class="profile-value">
+							 		{{ employee.dependents }}
+						 		</span>
+						 		     <select class="form-control edit-input" name="dependents">
+                                <option {% if employee.dependets==0 %} selected="true" {% endif %} value="0">0</option>
+                                <option {% if employee.dependets==1 %} selected="true" {% endif %} value="1">1</option>
+                                <option {% if employee.dependets==1 %} selected="true" {% endif %} value="2">2</option>
+                                <option {% if employee.dependets==1 %} selected="true" {% endif %} value="3">3</option>
+                                <option {% if employee.dependets==1 %} selected="true" {% endif %} value="4">4</option>
+                            </select>
+						 		</td>
+
+						 		<td></td>
 						 	</tr>
 						 </table>
 
@@ -61,7 +78,7 @@
 
 						<!-- Employment Details -->
 							 <div class="employment-details panel panel-default">
-						  <div class="panel-heading">Employment Details <button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						  <div class="panel-heading">Employment Details <button class="pull-right employee_edit edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
@@ -131,7 +148,15 @@
 						 				{% endfor %}
 						 			</select>
 						 		</td>
-						 		<td></td>
+						 		<td>
+						 			<span class="form-label">Employee Role</span>
+						 			<span class="profile-value">{{ employee.getRole().name }}</span>
+						 			<select name="role_id" class="form-control  edit-input">
+						 				{% for role in employee.getAllRoles %}
+						 					<option {% if role.id == employee.getRole().id %} selected="selected"  {% endif %}value="{{ role.id }}">{{ role.name }}</option>
+						 				{% endfor %}
+						 			</select>
+						 		</td>
 						 	</tr>
 						 </table>
 						 	<div class="save-cancel-btn pull-right">
@@ -143,7 +168,7 @@
 						</div>
 						<!-- Government Details -->
 							 <div class="government-information panel panel-default">
-						  <div class="panel-heading">Government Details<button class="pull-right edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
+						  <div class="panel-heading">Government Details<button class="pull-right employee_edit edit-profile-btn btn btn-xs btn-default"><i class="fa fa-edit"></i></button></div>
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
