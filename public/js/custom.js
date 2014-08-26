@@ -1,32 +1,30 @@
-	$(document).ready(function() {
 
-	    // Search 
-	    $('.search').on('keyup', function() {
-	        var data = $(this).val();
-	        var url = $(this).attr('data-url');
-	        $.get(url, {
-	            search: data
-	        }, function(response) {
-	            $('tbody').html(response);
-	        });
+$(document).ready(function(){
+	
+	// Search 
+	$('.search').on('keyup', function(){
+		var data = $(this).val();
+		var url = $(this).attr('data-url');
+		$.get(url, {search : data}, function(response){
+			$('tbody').html(response);
+		});
 
-	    });
+	});	
 
-	    $('#create_user').on('click', function(event) {
-	        // event.preventDefault();
+	
+	$.fn.loading = function(options){
+		option = typeof options == "undefined" ? true : options;
+	
+		if(option){
+			$(this).append($('<div/>',{class:'overlay'})).append($('<div/>',{class:'loading-img'}))
+			return option;
+		}else{
+			$('.overlay,.loading-img').remove();
+			return false;
+		}
+	};
 
-	        if ($(this).is(':checked')) {
-	            $('.user-account-form').fadeIn();
-	        } else {
-	            $('.user-account-form').fadeOut();
-	        }
-	    });
-
-	    $('.datepicker').datepicker({
-	        format: 'yyyy-mm-dd',
-	    });
-
-
+	
 
 	    $('.timepicker').timepicker();
 
@@ -148,5 +146,6 @@
 	        });
 	        $('.save-cancel-btn').fadeIn();
 	    });
+
 
 	});

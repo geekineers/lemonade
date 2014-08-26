@@ -6,6 +6,7 @@ class Migration_Add_announcement extends CI_Migration {
 
         public function up()
         {
+                $this->dbforge->drop_table('announcement');
                 $this->dbforge->add_field(array(
                         'id' => array(
                                 'type' => 'INT',

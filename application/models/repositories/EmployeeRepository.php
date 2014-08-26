@@ -185,6 +185,11 @@ class EmployeeRepository extends BaseRepository {
 		return Employee::where('user_id', '=', $sentry->id)->first();
 	}
 
+	public function getUserById($id)
+	{
+		return Employee::where('id', '=', $id)->first();
+	}
+
 	public function getNearBirthday()
 	{
 

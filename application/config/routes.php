@@ -119,19 +119,42 @@ Pigeon::map(function ($r) {
 
 	$r->get('media', 'ImageController');
 
-	$r->post('memo/add', 'MemoController#add');
 
-	$r->get('my-payslip', 'PayrollController#myPaySlips');
+     $r->get('hr','HumanResourceController#index');
+     $r->get('hr/form-application','HumanResourceController#application');
+     $r->post('hr/approved','HumanResourceController#approve');
 
-	// $r->post('posts', 'Posts#create' );
-	// $r->put('posts/(:num)', array( 'Posts', 'update' ));
-	// $r->delete('posts/(:num)', array( 'Posts', 'delete' ));
 
-	// $r->resources('posts');
+     $r->get('forms','FormsController#index');
+     $r->get('forms/rest-get-user','FormsController#restGetUser');
+     $r->get('forms/rest-form-template','FormsController#formTemplate');
+     $r->post('forms/save-form','FormsController#store');
 
-	// $r->resources('posts', function($r){
-	//     $r->resources('comments');
-	// });
+     $r->post('evaluations/save', 'EvaluationController#store');
+
+     $r->get('timesheet', 'TimesheetController#index');
+
+     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
+     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
+
+
+     $r->get('sss','MainController#test');
+
+     $r->get('media', 'ImageController');
+
+     $r->post('memo/add', 'MemoController#add');
+
+     $r->get('my-payslip', 'PayrollController#myPaySlips');
+
+    // $r->post('posts', 'Posts#create' );
+    // $r->put('posts/(:num)', array( 'Posts', 'update' ));
+    // $r->delete('posts/(:num)', array( 'Posts', 'delete' ));
+
+    // $r->resources('posts');
+
+    // $r->resources('posts', function($r){
+    //     $r->resources('comments');
+    // });
 });
 
 $route = Pigeon::draw();
