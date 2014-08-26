@@ -119,6 +119,7 @@ Pigeon::map(function ($r) {
 
 	$r->get('media', 'ImageController');
 
+<<<<<<< HEAD
 
 
      $r->get('employees', 'EmployeeController#index');
@@ -134,6 +135,8 @@ Pigeon::map(function ($r) {
      $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
      $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
      $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
+=======
+>>>>>>> 9c97e03f9eda1c8d4556d9dbf0c247ac2ddb234a
 
      $r->get('hr','HumanResourceController#index');
      $r->get('hr/form-application','HumanResourceController#application');
