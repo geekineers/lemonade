@@ -332,6 +332,13 @@ class Employee extends Eloquent
         return date('h:i a', strtotime($this->timeshift_end));
     }
 
+    /**
+     * return number late of an employee in a given date range and return the specified unit
+     * @param  [type] $from
+     * @param  [type] $to
+     * @param  string $unit (minute|hours)
+     * @return [int]
+     */
     public function getLate($from, $to, $unit = 'minute')
     {
         $days           = createDateRangeArray($from, $to);
@@ -360,10 +367,18 @@ class Employee extends Eloquent
         return $totalLate;
     }
 
+    /**
+     * get the late deduction of an employee from a given date range
+     * @param  [string/date] $from
+     * @param  [string/date] $to
+     * @param  [string] $unit (minute|hours)
+     * @return [float]
+     */
     public function getLateDeduction($from, $to, $unit)
     {
-        return $this->getLate($from, $to, $unit)*$this->getUnderTimeDeductionRate($unit);
+        return floatval($this->getLate($from, $to, $unit)*$this->getUnderTimeDeductionRate($unit));
     }
+
     public function getTax()
     {
         $salary     = intval($this->getBasicPay(false));
@@ -400,7 +415,10 @@ class Employee extends Eloquent
         );
 
     }
-
+    /**
+     * return overtime pay rate
+     * @return [float]
+     */
     public function getOverTimePayRate()
     {
         if ($this->entitled_overtime_pay) {
@@ -414,7 +432,12 @@ class Employee extends Eloquent
         }
 
     }
-
+    /**
+     * return total overtime of an employee from a given date range
+     * @param  [date/string] $from
+     * @param  [date/string] $to
+     * @return [int]
+     */
     public function getOvertime($from, $to)
     {
         $total_overtime = 0;
@@ -437,6 +460,15 @@ class Employee extends Eloquent
         return $total_overtime;
     }
 
+    /**
+     * return overtime pay of an employee from a given date range
+     * @return [float]
+     */
+    public function getOvertimePay()
+    {
+        return floatval($this->getOverTimePayRate()*$this->getOvertime());
+    }
+
     public function getHourlyRate()
     {
         $basic_pay      = $this->basic_pay;
@@ -445,7 +477,10 @@ class Employee extends Eloquent
         return getRate($basic_salary, $payroll_period, 'hour');
 
     }
-
+    /**
+     * return Daily Rate of an employee
+     * @return [int]
+     */
     public function getDailyRate()
     {
         $basic_pay      = $this->basic_pay;
@@ -455,8 +490,13 @@ class Employee extends Eloquent
 
     }
 
-    // $employee->getNightly(Jan1, Jan3)
-
+    /**
+     * returns the night differential of certian employee from the given date range
+     * @param  [type] $from
+     * @param  [type] $to
+     * @param  string $unit (minute|hours)
+     * @return [int]
+     */
     public function getNightly($from, $to, $unit = 'minute')
     {
 
@@ -469,10 +509,6 @@ class Employee extends Eloquent
 
         $night_diff_start = date('H:i', strtotime('22:00:00'));
         $night_diff_end   = date('H:i', strtotime('10:00:00'));
-        // dd($night_diff_start, $night_diff_end);
-
-        // $date = 01:00
-        // 22:00 < 01:00 > 06:00
 
         $total_night_difference = 0;
 
@@ -493,7 +529,6 @@ class Employee extends Eloquent
                 $day2 = $date->format('Y-m-d');
             }
 
-            // dd($day, $day2);
             $night_diff_start = date('Y-m-d H:i', strtotime($day.' 22:00:00'));
             $night_diff_end   = date('Y-m-d H:i', strtotime($day2.' 06:00:00'));
             $time_in          = date('Y-m-d H:i', strtotime($attendance->time_in));
@@ -522,7 +557,10 @@ class Employee extends Eloquent
         return $total_night_difference;
 
     }
-
+    /**
+     * Night Differential Rate of an Employee
+     * @return [float]
+     */
     public function getNightlyRate()
     {
         if ($this->entitled_night_differential) {
@@ -537,38 +575,93 @@ class Employee extends Eloquent
 
         return 0;
     }
-
-    public function getNightDifferentialAmount($from, $to, $unit)
+    /**
+     * Night Diffrential for the certain date range
+     * @param  [string/date] $from
+     * @param  [string/date] $to
+     * @param  [string] $unit (minute|hours)
+     * @return [int]
+     */
+    public function getNightDifferentialPay($from, $to, $unit)
     {
-        return getNightly($from, $to, $unit)*getNightlyRate();
+        return floatval($this->getNightly($from, $to, $unit)*$this->getNightlyRate());
     }
 
     public function getRegularHolidayRate()
     {
         return $this->getDailyRate();
     }
+    /**
+     * Regular Holiday Rate
+     * @param  [date/string] $from
+     * @param  [date/string] $to
+     * @return [float] total regular holiday pay
+     */
+    public function getRegularHolidayPay($from, $to)
+    {
+        return floatval($this->getRegularHolidayRate()*$this->getRegularHolidayAttendance($from, $to));
 
+    }
+    /**
+     * special holiday rate
+     * @return [float]
+     */
     public function getSpecialHolidayRate()
     {
         $daily_rate = floatval($this->getDailyRate());
         return $daily_rate*0.3;
     }
-
+    /**
+     * total regular attendance from date range given
+     * @param  [date/string] $from
+     * @param  [date/string] $to
+     * @return [int]
+     */
     public function getRegularHolidayAttendance($from, $to)
     {
+        $from = date('Y-m-d', strtotime($from));
+        $to   = date('Y-m-d', strtotime($to));
+
         return Holiday::whereBetween('holiday_from', [$from, $to])
             ->where('holiday_type', 'regular')
             ->count();
     }
 
+    /**
+     * total special holiday attendance from date range given
+     * @param  [string/date] $from
+     * @param  [string/date] $to
+     * @return int
+     */
     public function getSpecialHolidayAttendance($from, $to)
     {
+        $from = date('Y-m-d', strtotime($from));
+        $to   = date('Y-m-d', strtotime($to));
         return Holiday::whereBetween('holiday_from', [$from, $to])
             ->where('holiday_type', 'special non-working')
             ->count();
 
     }
 
+    /**
+     *  Special Holiday Pay
+     * @param (string/date) $from
+     * @param (string/date) $to
+     * @return (float) total pay for special holidays
+     */
+
+    public function getSpecialHolidayPay($from, $to)
+    {
+        return floatval($this->getSpecialHolidayRate()*$this->getSpecialHolidayAttendance($from, $to));
+    }
+
+    /**
+     * total absent from range given
+     * @param  [type]  $from
+     * @param  [type]  $to
+     * @param  boolean $weekend_include
+     * @return int
+     */
     public function getAbsent($from, $to, $weekend_include = false)
     {
         $total_absent = 0;
@@ -578,34 +671,41 @@ class Employee extends Eloquent
 
         $date_range = createDateRangeArray($from, $to);
         foreach ($date_range as $date) {
-        	$date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
-        	$date_range_end = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
-        	$dt = new Carbon($date);
-        	if($dt->isWeekday()){
-        		$attended = Timesheet::where('employee_id', '=', $this->id)
-        			   ->whereBetween('time_in', [$date_range_start, $date_range_end])
-        			   ->count();
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_end));
+            $dt               = new Carbon($date);
+            if ($dt->isWeekday()) {
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
 
-        		if($attended){
-        			$total_absent += 1;
-        		}
-        	}
-        	if($dt->isWeekend() && $weekend_include){
-        		$attended = Timesheet::where('employee_id', '=', $this->id)
-        			   ->whereBetween('time_in', [$date_range_start, $date_range_end])
-        			   ->count();
+                if ($attended) {
+                    $total_absent += 1;
+                }
+            }
+            if ($dt->isWeekend() && $weekend_include) {
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
 
-        		if($attended){
-        			$total_absent += 1;
-        		}
-        	}
+                if ($attended) {
+                    $total_absent += 1;
+                }
+            }
         }
 
     }
-
-    public function getAbsentDeduction()
+    /**
+     * getAbsentDeduction - get total Absent deduction
+     * @param  [type]  $from
+     * @param  [type]  $to
+     * @param  boolean $weekend_include
+     * @return [float]
+     */
+    public function getAbsentDeduction($from, $to, $weekend_include = false)
     {
-    	return $this->getDailyRate() * $this->getAbsent();
+        return floatval($this->getDailyRate()*$this->getAbsent($from, $to, $weekend_include));
+
     }
 
 }
