@@ -26,5 +26,10 @@ class FormApplicationRepository extends BaseRepository {
 
 
 	}
+
+	public function getStatus()
+	{
+		
+	}
 	
 }

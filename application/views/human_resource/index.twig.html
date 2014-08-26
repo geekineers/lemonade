@@ -82,7 +82,6 @@
                         .find('ul')
                         .append($('<li/>',{ css :{ "text-transform": "capitalize" }, text : data.form_type + ' form '  } ))
                         .append($('<li/>',{ text : 'Effective date : '+ moment(data.effective_date).format('YYYY-MM-DD') } ) )
-                        .append($('<li/>',{ text : 'Effective date : '+ moment(data.effective_date).format('YYYY-MM-DD') } ) )
                     $.each(JSON.parse(data.form_data),function(ar,i){
                      $('#approve-modal .modal-body')
                         .find('ul').append($('<li/>',{ css :{ "text-transform": "capitalize" }, text : ar.split("_").join(" ") + ' : ' + i  } ))
