@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d33b009a0ac430ed0f91f98b87be7b3",
+    "hash": "51a61b588152b89115b0946cdc990ec8",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "c490520f0a030360b9cf605d81721becbcce6573"
+                "reference": "523a0ccd3f2b27db9006cfdb7535618a45dbf344"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/c490520f0a030360b9cf605d81721becbcce6573",
-                "reference": "c490520f0a030360b9cf605d81721becbcce6573",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/523a0ccd3f2b27db9006cfdb7535618a45dbf344",
+                "reference": "523a0ccd3f2b27db9006cfdb7535618a45dbf344",
                 "shasum": ""
             },
             "require": {
@@ -233,7 +233,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-08-07 12:15:10"
+            "time": "2014-08-19 09:58:31"
         },
         {
             "name": "illuminate/database",
@@ -300,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
-                "reference": "1538a9b7257e31bfdec405f8fbd6d5ef2f8f74bc"
+                "reference": "19f93bcd692a52b39f1bd125f6f112eda0c1b8b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/events/zipball/1538a9b7257e31bfdec405f8fbd6d5ef2f8f74bc",
-                "reference": "1538a9b7257e31bfdec405f8fbd6d5ef2f8f74bc",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/19f93bcd692a52b39f1bd125f6f112eda0c1b8b0",
+                "reference": "19f93bcd692a52b39f1bd125f6f112eda0c1b8b0",
                 "shasum": ""
             },
             "require": {
@@ -334,7 +334,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-08-03 15:26:23"
+            "time": "2014-08-17 14:08:00"
         },
         {
             "name": "illuminate/support",
@@ -343,12 +343,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "83792969d776b612f98201f91d7d94449b46696c"
+                "reference": "e5d23e31ee79059ceae6830e6438644ebcf17324"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/83792969d776b612f98201f91d7d94449b46696c",
-                "reference": "83792969d776b612f98201f91d7d94449b46696c",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/e5d23e31ee79059ceae6830e6438644ebcf17324",
+                "reference": "e5d23e31ee79059ceae6830e6438644ebcf17324",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +382,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-08-07 12:15:10"
+            "time": "2014-08-22 14:04:02"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -509,6 +509,59 @@
             "time": "2014-02-01 15:22:28"
         },
         {
+            "name": "respect/validation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Respect/Validation.git",
+                "reference": "3e31d979925b366dfd92d2ac25fb8545c2b3c7fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/3e31d979925b366dfd92d2ac25fb8545c2b3c7fb",
+                "reference": "3e31d979925b366dfd92d2ac25fb8545c2b3c7fb",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "symfony/validator": "~2.1",
+                "zendframework/zend-validator": "~2.0"
+            },
+            "suggest": {
+                "ext-bcmath": "Arbitrary Precision Mathematics",
+                "ext-mbstring": "Multibyte String Functions"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Respect\\Validation\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD Style"
+            ],
+            "authors": [
+                {
+                    "name": "Respect/Validation Contributors",
+                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+                }
+            ],
+            "description": "The most awesome validation engine ever created for PHP",
+            "homepage": "http://respect.li",
+            "keywords": [
+                "respect",
+                "validation",
+                "validator"
+            ],
+            "time": "2014-08-05 16:48:57"
+        },
+        {
             "name": "twig/twig",
             "version": "dev-master",
             "source": {
@@ -598,18 +651,15 @@
             "time": "2012-08-25 12:49:29"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "codeguy/upload": 20
+        "codeguy/upload": 20,
+        "respect/validation": 20
     },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.2.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

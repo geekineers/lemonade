@@ -116,6 +116,8 @@ Pigeon::map(function($r){
      $r->get('forms/rest-form-template','FormsController#formTemplate');
      $r->post('forms/save-form','FormsController#store');
 
+     $r->post('evaluations/save', 'EvaluationController#store');
+
      $r->get('timesheet', 'TimesheetController#index');
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');

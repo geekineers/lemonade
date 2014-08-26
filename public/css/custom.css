@@ -334,8 +334,11 @@ a {
 .tabs-below > .nav-tabs > li > a:focus {
   border-top-color: #ddd;
   border-bo
+}
 
 
 
-
+.sched-evaluation-btn { margin: 10px;
+padding: 5px;
+}
 
