@@ -12,6 +12,7 @@ class MainController extends BaseController
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->employeeRepository = new EmployeeRepository();
+		$this->evaluationRepository = new EvaluationRepository();
 		$this->memoRepository = new MemoRepository();
 		$this->announcementRepository = new AnnouncementRepository();
 	}
@@ -24,11 +25,7 @@ class MainController extends BaseController
 	public function dashboard()
 	{
 
-		// dd($this->employeeRepository->getNearBirthday());
-
-		// dd($this->session->all_userdata()['session_id']);
-		// dd($this->sentry->getUser());
-		// dd($this->input->cookie('cartalyst_sentry'));
+		
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['datetime'] = array(
 				'time' => date('h:i:s A'),
@@ -37,6 +34,7 @@ class MainController extends BaseController
 				'date' => date('d')
 
 			);
+		$data['evaluations_trainings'] = $this->evaluationRepository->getMyEval($data['user']->id);
 		$data['title'] = "Dashboard";
 		$data['birthdays'] = $this->employeeRepository->getNearBirthday();
 		$data['memos'] = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->get();

@@ -2,6 +2,9 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
 
+// use Illuminate\Validation\Validator;
+// use Illuminate\Validation\Factory as Validator;
+use Respect\Validation\Validator as Validator;
 use Upload\Storage\FileSystem as FileSystem;
 
 class EmployeeController extends BaseController
@@ -19,6 +22,7 @@ class EmployeeController extends BaseController
 
     public function __construct()
     {
+        
         parent::__construct();
 
         $this->mustBeLoggedIn();

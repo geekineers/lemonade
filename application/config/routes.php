@@ -107,6 +107,8 @@ Pigeon::map(function($r){
      $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 
 
+     $r->post('evaluations/save', 'EvaluationController#store');
+
      $r->get('timesheet', 'TimesheetController#index');
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');

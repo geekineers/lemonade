@@ -1,191 +1,250 @@
-{% extends "layout/main.twig.html" %}
-{% block content %}
+{% extends "layout/main.twig.html" %} {% block content %}
 
 <div class="dashboard row">
-	<div class="col-md-8">
-		<div class="col-md-12">
-			 <!-- Warning box -->
-                            <div class="box box-solid box-warning">
-                                <div class="box-header">
-                                    <h3 class="box-title">Announcements</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                 	{% if employee.getDeductions()|length <= 0  %}
-									   <center>
-                                            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>                           
-                                       </center>
-                                    <div class="">
-                                        {% if announcements|length <= 0  %}
-                                            <center>
-                                                <p><i>
-                                                    <i class="fa fa-info-circle"></i> No Announcements Yet.</i> 
-                                                </p>        
-                                            </center>
-                                        {% endif %} 
-								         {% for announcement in announcements %}
-    										<div class="item">
-                                                  
-                                                <p class="message">
-                                                    <a href="{{ announcement.getAuthor().getProfileLink() }}" class="name">
-                                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ announcement.getPostTimeDiff() }} posted by {{announcement.getAuthor().getName() }}</small>
-                                                        {{ announcement.title }}
-                                                    </a><br>
-                                                     {{ announcement.getMessage() }}
-                                                </p>
-                                            </div>
-                                        {% endfor %}
+    <div class="col-md-8">
+        <div class="col-md-12">
+            <!-- Warning box -->
+            <div class="box box-solid box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">Announcements</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    {% if employee.getDeductions()|length
+                    <=0 %} <center>
+                        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>
+                        </center>
+                        <div class="">
+                            {% if announcements|length
+                            <=0 %} <center>
+                                <p><i>
+                                                    <i class="fa fa-info-circle"></i> No Announcements Yet.</i>
+                                </p>
+                                </center>
+                                {% endif %} {% for announcement in announcements %}
+                                <div class="item">
 
-                                      
-									</div>
-								{% endif %}	
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-		</div>
-
-
-				<div class="col-md-12">
-			 <!-- Warning box -->
-                            <div class="box box-solid box-warning">
-                                <div class="box-header">
-                                    <h3 class="box-title">Memo</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                 	{% if memos|length <= 0  %}
-									<div class="">
-								
-										<center>
-										<p><i>
-											<i class="fa fa-info-circle"></i> No Memo Yet.
-										</i></p>		
-										</center>
-									</div>
-								{% endif %}	
-                                              <div class="box-body chat" id="chat-box" >
-                                
-                              
-                                {% for memo in memos %}
-                                     <div class="item">
-                                        <img src="{{ memo.getFrom().getProfilePicture() }}" alt="user image" class="offline">
-                                        <p class="message">
-                                            <a href="{{ memo.getFrom().getProfileLink() }}" class="name">
-                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ memo.getPostTimeDiff() }}</small>
-                                                {{ memo.getFrom().getName() }}
-                                            </a>
-                                             {{ memo.getMessage() }}
-                                        </p>
-                                    </div>
-                                {% endfor %}
-                                </div><!-- /.box-body -->
-
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-		</div>
-                           
-    </div>
-    <div class="col-md-4">
-    	<div class="">
-                            <!-- small box -->
-                            <div class="small-box bg-teal">
-                                <div class="inner">
-                                    <h3>
-                                        {{ datetime.time }}
-                                    </h3>
-                                    <p>
-                                        {{ datetime.day }}
+                                    <p class="message">
+                                        <a href="{{ announcement.getAuthor().getProfileLink() }}" class="name">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ announcement.getPostTimeDiff() }} posted by {{announcement.getAuthor().getName() }}</small>
+                                            {{ announcement.title }}
+                                        </a>
+                                        <br>{{ announcement.getMessage() }}
                                     </p>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-ios7-alarm-outline"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
+                                {% endfor %}
+
+
+                        </div>
+                        {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+
+
+        <div class="col-md-12">
+            <!-- Warning box -->
+            <div class="box box-solid box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">Memo</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    {% if memos|length
+                    <=0 %} <div class="">
+
+                        <center>
+                            <p><i>
+                                            <i class="fa fa-info-circle"></i> No Memo Yet.
+                                </i>
+                            </p>
+                        </center>
+                </div>
+                {% endif %}
+                <div class="box-body chat" id="chat-box">
+
+
+                    {% for memo in memos %}
+                    <div class="item">
+                        <img src="{{ memo.getFrom().getProfilePicture() }}" alt="user image" class="offline">
+                        <p class="message">
+                            <a href="{{ memo.getFrom().getProfileLink() }}" class="name">
+                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ memo.getPostTimeDiff() }}</small>
+                                {{ memo.getFrom().getName() }}
+                            </a>
+                            {{ memo.getMessage() }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+</div>
+<div class="col-md-4">
+    <div class="">
+        <!-- small box -->
+        <div class="small-box bg-teal">
+            <div class="inner">
+                <h3>
+                    {{ datetime.time }}
+                </h3>
+                <p>
+                    {{ datetime.day }}
+                </p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-ios7-alarm-outline"></i>
+            </div>
+            <a href="#" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
                                 </a>
-                            </div>
-                        </div>
-
-
-                <div class="">
-             <!-- Warning box -->
-                <div class="box box-solid box-warning">
-                                <div class="box-header">
-                                    <h3 class="box-title"><i class="fa fa-gift"></i> Upcomming Birthdays</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    {% if birthdays |length <= 0  %}
-                                    <div class="">
-                                
-                                        <center>
-                                        <p><i>
-                                            <i class="fa fa-info-circle"></i> No Upcomming Birthdays.
-                                        </i></p>        
-                                        </center>
-                                    </div>
-                                {% endif %} 
-                                <div class="box-body chat" id="chat-box" >
-                                
-                              
-                                {% for birthday in birthdays %}
-                                           <div class="item">
-                                        <img src="{{ birthday.getProfilePicture() }}" alt="user image" class="offline">
-                                        <p class="message">
-                                            <a href="{{ birthday.getProfileLink() }}" class="name">
-                                             <!--    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> -->
-                                                {{ birthday.getName() }}
-                                            </a>
-                                             {{ birthday.getBirthdate(true) }} - {{ birthday.getAge() }}
-                                        </p>
-                                    </div>
-                                {% endfor %}
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
         </div>
-   		
     </div>
- 
-</div>   
-<div class="modal fade" id="post-announcment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="box box-primary">
-        <div class="box-header">
-          <button type="button" style="padding: 8px;" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h3 class="box-title">New Announcement</h3>
-        </div><!-- /.box-header -->
-        <!-- form start -->
-        <form role="form" action="/announcement" method="post">
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                    <input type="text" class="form-control" name="title" id="exampleInputEmail1" placeholder="Enter title">
-                </div>
-                <div class="form-group">
-                   Content
-                   <textarea class="form-control" rows="3" name="content" placeholder="content"></textarea>
-                </div>
-                
-            </div><!-- /.box-body -->
 
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+
+    <div class="">
+        <!-- Warning box -->
+        <div class="box box-solid box-warning">
+            <div class="box-header">
+                <h3 class="box-title"><i class="fa fa-gift"></i> Upcomming Birthdays</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
-        </form>
+            <div class="box-body">
+                {% if birthdays |length
+                <=0 %} <div class="">
+
+                    <center>
+                        <p><i>
+                                            <i class="fa fa-info-circle"></i> No Upcomming Birthdays.
+                            </i>
+                        </p>
+                    </center>
+            </div>
+            {% endif %}
+            <div class="box-body chat" id="chat-box">
+
+
+                {% for birthday in birthdays %}
+                <div class="item">
+                    <img src="{{ birthday.getProfilePicture() }}" alt="user image" class="offline">
+                    <p class="message">
+                        <a href="{{ birthday.getProfileLink() }}" class="name">
+                            <!--    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> -->
+                            {{ birthday.getName() }}
+                        </a>
+                        {{ birthday.getBirthdate(true) }} - {{ birthday.getAge() }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
     </div>
-  </div>
+ <div class="">
+        <!-- Warning box -->
+        <div class="box box-solid box-warning">
+            <div class="box-header">
+                <h3 class="box-title"><i class="fa fa-calendar"></i> Trainings & Evaluation</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                {% if evaluations_trainings |length
+                <=0 %} <div class="">
+
+                    <center>
+                        <p><i>
+                                            <i class="fa fa-info-circle"></i> No Upcomming Evaluation/Training.
+                            </i>
+                        </p>
+                    </center>
+            </div>
+            {% endif %}
+            <div class="box-body chat" id="chat-box">
+
+
+                {% for evaluation in evaluations_trainings %}
+                <div class="item">
+                    <p class="message">
+                        <a href="#" class="name">
+                            <!--    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> -->
+                            {{ evaluation.getName() }}
+                        </a>
+                        {{ evaluation.getDateFromDiff() }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+
+</div>
+<div class="modal fade" id="post-announcment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="box box-primary">
+            <div class="box-header">
+                <button type="button" style="padding: 8px;" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h3 class="box-title">New Announcement</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="/announcement" method="post">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Title</label>
+                        <input type="text" class="form-control" name="title" id="exampleInputEmail1" placeholder="Enter title">
+                    </div>
+                    <div class="form-group">
+                        Content
+                        <textarea class="form-control" rows="3" name="content" placeholder="content"></textarea>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-    
 </script>
 
 {% endblock %}
-
