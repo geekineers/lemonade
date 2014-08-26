@@ -14,4 +14,12 @@ class Form_Application extends Eloquent {
 
   protected $fillable = ['employee_id', 'prepared_by', 'effective_date','from','to','status','form_data','form_type'];
 
+  public function getEmployee()
+  {
+  	return Employee::find($this->employee_id)->getName();
+  }
+  public function getPreparedBy()
+  {
+  	return Employee::find($this->prepared_by)->getName();
+  }
 }

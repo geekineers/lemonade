@@ -14,7 +14,7 @@
                     
                         <div class="form-group row">
                             <div class="col-md-6 ">
-                                <label>Employee: </label>
+                                <label  class="control-label">Employee: </label>
                                  <select required name="job_position" class="form-control " id="employee_name" placeholder="">
                                      <option value="" disabled selected>select employee</option>
                                     {% for employee in employees %}
@@ -23,7 +23,7 @@
                                  </select>
                             </div>
                              <div class="col-md-6">
-                                <label>Type of form</label>
+                                <label  class="control-label">Type of form</label>
                                 <select required name="department" class="form-control " id="type_of_form" placeholder="">
                                     <option value="" disabled selected>select form</option>
                                     {% for form_type in form_types %}

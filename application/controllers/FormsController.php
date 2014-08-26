@@ -58,7 +58,7 @@ class FormsController extends BaseController {
 			'prepared_by' =>$this->employeeRepository->getLoginUser($this->sentry->getUser())->id,
 			'from' => $this->input->post('from'),
 			'to'	=> $this->input->post('to'),
-			'effective_date' =>$this->input->post('data'),
+			'effective_date' =>$this->input->post('date'),
 			'status' => 'not-yet-approved',
 			'form_data' => (string) json_encode($this->input->post('form_data')),
 			'form_type' => $this->input->post('form_type')
@@ -75,17 +75,7 @@ class FormsController extends BaseController {
 		// }
 	}
 
-	public function update()
-	{
-		$data = [
-			'form_name' => $this->input->post('form-name'),
-			'form_content' => $this->input->post('form-content'),
-			'user_id' => $this->sentry->getUser()->id
-		];
-
-		//TODO UPDATE HERE
-	}
-
+	
 	public function delete($id)
 	{
 		if($this->formRepository->delete($id)) {

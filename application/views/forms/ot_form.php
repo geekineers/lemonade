@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>Reason: </label>
-                            <input type="text" class="form-control client_name" placeholder="example: Juan Dela Cruz">
+                            <input type="text" class="form-control reason" placeholder="example: Juan Dela Cruz">
                           
                         </div>
                         <div class="col-md-4 ">
@@ -34,10 +34,6 @@
                         <div class="col-md-2 ">
                             <label>Overtime Total hrs: </label>
                             <input type="text" class="form-control total_hrs" class="total-hours" placeholder="" value="0">
-                        </div>
-                        <div class="col-md-2 ">
-                            <label>Night Differential Total hrs: </label>
-                            <input type="text" class="form-control night_shift_total_hrs" class="total-hours" placeholder="" value="0">
                         </div>
                         <div class="col-md-2 ">
                             <label>Remarks: </label>
@@ -62,6 +58,7 @@
 <script type="text/javascript"  src="/js/plugins/daterangepicker/daterangepicker.js" ></script>
 <script type="text/javascript">
   (function(){
+     $('#employee_name').parent().removeClass('has-error');
     var from,to,total_hrs;
     $('input').inputmask(); 
     $('.time').daterangepicker({datePicker:false,timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'},function(start,end,label){
@@ -80,23 +77,29 @@
       $('.ob').loading();
       var data = {
         'employee_id' : $('#employee_name').val(),
-        'date' : moment($('.date').val(),"YYYY-MM-DD"),
+        'date' : moment($('.date').val(),"YYYY-MM-DD").format('YYYY-MM-DD'),
         'from' : from,
         'to'  : to ,
         'form_type' : 'ot',
         'form_data' : {
-          'client_name' : $('.client_name').val(),
-          'total_hours' : total_hrs,
-          'night_shift_total_hrs':$('.night_shift_total_hrs').val(),
-          'remarks' : $('.remarks').val()
+            reason: $('.reason').val(),
+            total_hrs :  $('.total_hrs').val(),
+            remarks : $('.remarks').val()
         }
       };
-
-      $.post('forms/save-form',data,function(response){
-
-        $('.ob').loading(false);
-        console.log(response);
-      });
+    
+    if($('#employee_name').val()=="" || $('#employee_name').val()==null){
+            $('#employee_name').parent().addClass('has-error');
+             $('.ob').loading(false);
+        }else{
+            $('#employee_name').parent().removeClass('has-error');
+          $.post('forms/save-form',data,function(response){
+            $('.ob').loading(false);
+            console.log(response);
+            
+            window.location.href = "hr";
+          });
+        }
     });
   })();
 </script>

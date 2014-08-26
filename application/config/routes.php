@@ -106,6 +106,10 @@ Pigeon::map(function($r){
      $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
      $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 
+     $r->get('hr','HumanResourceController#index');
+     $r->get('hr/form-application','HumanResourceController#application');
+     $r->post('hr/approved','HumanResourceController#approve');
+
 
      $r->get('forms','FormsController#index');
      $r->get('forms/rest-get-user','FormsController#restGetUser');

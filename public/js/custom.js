@@ -14,6 +14,7 @@ $(document).ready(function(){
 	
 	$.fn.loading = function(options){
 		option = typeof options == "undefined" ? true : options;
+	
 		if(option){
 			$(this).append($('<div/>',{class:'overlay'})).append($('<div/>',{class:'loading-img'}))
 			return option;
