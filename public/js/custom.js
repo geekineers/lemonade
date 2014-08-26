@@ -138,5 +138,15 @@
 	        });
 	    });
 
+	      $('.edit-btn').on('click', function(event) {
+	        event.preventDefault();
+	        $(this).fadeOut('fast');
+	        $('.profile-value').fadeOut('fast');
+	        $('.edit-input').fadeIn();
+	        $('.edit-time').css({
+	            "visibility": "visible"
+	        });
+	        $('.save-cancel-btn').fadeIn();
+	    });
 
 	});
