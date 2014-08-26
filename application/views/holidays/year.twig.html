@@ -1,0 +1,111 @@
+{% extends "layout/main.twig.html" %} {% block content %}
+
+<div class="row container">
+    <a class="btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewHoliday"><i class="fa fa-plus"></i></a>
+    <a class="btn btn-primary edit-btn" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-edit"></i></a>
+<form method="post" action="/settings/holidays/update/{{ year }}">
+    <input type="submit" class="save-cancel-btn btn btn-default" value="Save"/>
+    {% if alert_message != null %}
+    <div class="col-md-7 alert alert-success alert-dismissable">
+        <i class="fa fa-check"></i>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <b>Success!</b> {{ alert_message }}.
+    </div>
+    {% endif %}
+</div>
+<table class="table table-bordered table-hovered">
+    <tr>
+        <th>Year</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>From</th>
+        <th>To</th>
+    </tr>
+    {% for holiday in holidays %}
+    <tr>
+        <input type="hidden" value="{{ holiday.id }}" name="holiday[{{ loop.index0 }}][id]">
+        <td>
+            <span class="profile-value">
+                {{ holiday.year }}
+            </span>
+            <input type="text" class="form-control edit-input" name="holiday[{{ loop.index0 }}][year]" value="{{ holiday.year }}" />
+        </td>
+        <td>
+            <span class="profile-value">
+                {{ holiday.holiday_name }}
+            </span>
+            <input type="text" class="form-control edit-input" name="holiday[{{ loop.index0 }}][holiday_name]" value="{{ holiday.holiday_name }}" />
+        </td>
+        <td>
+            <span class="profile-value">
+                {{ holiday.holiday_type }}
+            </span>
+            <input type="text" class="form-control edit-input" name="holiday[{{ loop.index0 }}][holiday_type]" value="{{ holiday.holiday_type }}" />
+        </td>
+
+        <td>
+            <span class="profile-value">
+                {{ holiday.holiday_from }}
+            </span>
+            <input type="text" class="datepicker form-control edit-input" name="holiday[{{ loop.index0 }}][holiday_from]" value="{{ holiday.holiday_from }}" />
+        </td>
+        <td>
+            <span class="profile-value">
+                {{ holiday.holiday_to }}
+            </span>
+            <input type="text" class="datepicker form-control edit-input" name="holiday[{{ loop.index0 }}][holiday_to]" value="{{ holiday.holiday_to }}" />
+        </td>
+
+
+    </tr>
+    {% endfor %}
+</table>
+</form>
+
+
+
+
+<form method="post" enctype="multipart/form-data" action="/settings/holidays/save/{{ year }}">
+
+    <div class="modal fade" id="addNewHoliday" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">New Holiday</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="year" value="{{ year }}" />
+                    <input type="hidden" name="holiday_year_id" value="{{ year }}" />
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="holiday_name" class="form-control" placeholder="eg. New Year's Day" />
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <input type="text" class="form-control" name="holiday_type">
+                    </div>
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" class="datepicker form-control" name="holiday_from">
+                    </div>
+
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" class="datepicker form-control" name="holiday_to">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

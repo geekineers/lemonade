@@ -9,7 +9,9 @@
 		"illuminate/database": "4.2.7",
 		"php": ">=5.2.4",
 		"nesbot/Carbon": "*",
-		"dompdf/dompdf" : "0.6.*"
+		"dompdf/dompdf" : "0.6.*",
+		"respect/validation": "0.7.*@dev",
+		"php-curl-class/php-curl-class": "dev-master"
 	},
 	"autoload": {
         "classmap": [

@@ -50,6 +50,7 @@ class FormSettingsController extends BaseController {
 
 	public function store()
 	{
+
 		$data = [
 			'form_name' => $this->input->post('form-name'),
 			'form_content' => $this->input->post('form-content'),

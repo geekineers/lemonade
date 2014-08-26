@@ -1,0 +1,29 @@
+ <tr>
+		<th></th>
+		<th>Name</th>
+		<th>Position</th>
+		<th>Branch</th>
+		<th>Contact Number</th>
+		<th>Email Address</th>
+		<th></th>
+</tr>
+ {% for employee in employees %}
+	 	<tr action="/employees/{{ employee.id }}/profile">
+	 			<td>
+	 			<center>
+		 			<img class="listing profile-img img img-circle" src="{{ employee.getProfilePicture() }}">
+	 				
+	 			</center>
+	 		</td>
+	 		<td>{{ employee.last_name }}, {{ employee.first_name }}</td>
+	 		<td>{{ employee.getJobPosition() }}</td>
+	 		<td>{{ employee.getBranch() }}</td>
+	 		<td>{{ employee.contact_number }}</td>
+	 		<td>{{ employee.email }}</td>
+	 		<td>
+	 			<a href="/employees/{{ employee.id }}/profile" class="btn btn-default"><i class="fa fa-folder-open-o"></i></a>
+	 			<a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+	 		</td>
+	 	
+	 	</tr>
+	 {% endfor %}

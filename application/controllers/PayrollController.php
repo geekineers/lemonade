@@ -123,7 +123,7 @@ class PayrollController extends BaseController
 	public function myPaySlips()
 	{
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-		$data['my_payslips'] = $this->payslipsRepository->where('employee_id', '=', $data['user']->id)->get();
+		$data['payslips'] = $this->payslipsRepository->where('employee_id', '=', $data['user']->id)->get();
 		$data['title'] = 'My Payslips';
 		$this->render('payroll/mypayslip.twig.html', $data);
 	

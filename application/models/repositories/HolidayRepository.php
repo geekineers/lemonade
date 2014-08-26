@@ -1,0 +1,55 @@
+<?php
+use Holiday as Holiday;
+use \Curl\Curl;
+
+class HolidayRepository extends BaseRepository {
+
+	protected $sentry;
+
+	public function __construct($sentry)
+	{
+		$this->class = new Holiday();
+		$this->sentry = $sentry;
+
+	}
+
+
+	public function generateHoliday($year)
+	{
+   	$curl = new Curl();
+   	$holidays = $curl->get('http://juanholiday.sourcescript.ph/api/' . $year);
+	// dd($holidays);
+	HolidayYear::create([
+			'year' => $year,
+			'created_by' => $this->sentry->getUser()->id
+		]);
+
+	foreach ($holidays as $holiday) {
+		
+		$this->create([
+				'year' => $year,
+				'holiday_year_id' => $year,
+				'holiday_name' => $holiday->name,
+				'holiday_type' => $holiday->type,
+				'holiday_from' => $holiday->from,
+				'holiday_to'   => $holiday->to
+			]);
+
+	}
+
+	return true;
+
+	}
+
+	public function getAllHoliday($year){
+		return $this->where('year', $year)->orderBy('holiday_from', 'asc')->get();
+	}
+
+	public function updateDays($holidays)
+	{
+		foreach ($holidays as $holiday) {
+			$this->where('id', '=', $holiday['id'])->update($holiday);
+		}
+	}
+
+}
