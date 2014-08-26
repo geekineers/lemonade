@@ -403,12 +403,38 @@ class Employee extends Eloquent
 
     public function getOverTimePayRate()
     {
+        if ($this->entitled_overtime_pay) {
+            if ($this->overtime_pay_rate) {
+                $rate = str_replace('%', '', $this->overtime_pay_rate)/100;
+                // $nrate = 1 + $rate;
+                return $this->getHourlyRate()*$rate;
+            } else {
+                return $this->getHourlyRate()*0.1;
+            }
+        }
 
     }
 
-    public function getOvertime()
+    public function getOvertime($from, $to)
     {
+        $total_overtime = 0;
+        $from           = date('Y-m-d H:i:s', strtotime($from));
+        $to             = date('Y-m-d H:i:s', strtotime($to));
 
+        $overtimes = Form_Application::where('employee_id', '=', $this->id)
+                                                                      ->where('form_type', '=', 'ot')
+                                                                      ->where('status', '=', 'approved')
+                                                                      ->whereBetween('from', [$from, $to])
+                                                                      ->get();
+
+        foreach ($overtimes as $ot) {
+            $ot_to   = new Carbon($ot->to);
+            $ot_from = new Carbon($ot->from);
+            $diff    = $ot_to->diffInHours($ot_from);
+            $total_overtime += $diff;
+        }
+
+        return $total_overtime;
     }
 
     public function getHourlyRate()
@@ -428,6 +454,8 @@ class Employee extends Eloquent
         return getRate($basic_salary, $payroll_period, 'daily');
 
     }
+
+    // $employee->getNightly(Jan1, Jan3)
 
     public function getNightly($from, $to, $unit = 'minute')
     {
@@ -525,5 +553,15 @@ class Employee extends Eloquent
         $daily_rate = floatval($this->getDailyRate());
         return $daily_rate*0.3;
     }
+
+    // public function getAbsent($from, $to, $weekend_include=false)
+    // {
+    //     $total_absent = 0;
+    //     if($this->getTimesheetRequired()){
+    //         Timesheet::where('employee_id', $this->id)
+    //               ->where('time_in', )
+    //     }
+    //     return 0;
+    // }
 
 }
