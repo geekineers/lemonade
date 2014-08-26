@@ -6,11 +6,15 @@ require_once ('connection.php');
 
 // use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Cartalyst\Sentry\Groups\Eloquent\Group;
 
 class Employee extends Eloquent
 {
     // use SoftDeletingTrait;
     protected $table = "employees";
+    
+
+
     // protected $datas = ['deleted_at'];
 
     protected $fillable = [
@@ -52,6 +56,11 @@ class Employee extends Eloquent
         'email',
 
     ];
+
+    public function getGroup()
+    {
+    	
+    }
 
     public function getDateHired()
     {
@@ -98,6 +107,22 @@ class Employee extends Eloquent
     {
         return $this->employee_type;
     }
+
+    public function getRole()
+    {
+    	$group = Group::where('id','=',$this->role_id)->first();
+	if($group)
+    		return $group;
+    	else
+    		return 'None'; 
+    }
+
+    public function getAllRoles()
+    {
+    	$groups = Group::all();
+    	return $groups;
+    }
+
     public function getPayrollPeriod()
     {
         return $this->payroll_period;
@@ -132,6 +157,7 @@ class Employee extends Eloquent
 
     public function getProfilePicture()
     {
+
         return '/media?image='.$this->profile_picture;
     }
     public function getBranch()

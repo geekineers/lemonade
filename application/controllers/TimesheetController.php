@@ -18,10 +18,18 @@ class TimesheetController extends BaseController
 	{
 
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		$data['title'] = "All Timesheets";
 		$data['timesheets'] = $this->timesheetRepository->orderBy('id', 'desc')->get();
 		$this->render('/timesheet/index.twig.html', $data);
 	}
 
 
+	public function myTimesheet()
+	{
+		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		$data['title'] = "My Timesheets";
+		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '=', $data['user']->id)->orderBy('id', 'desc')->get();
+		$this->render('/timesheet/my_timesheet.twig.html', $data);
+	}
 
 }

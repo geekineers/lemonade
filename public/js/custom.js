@@ -11,6 +11,32 @@ $(document).ready(function(){
 
 	});	
 
+	$('.select_all').on('click', function(event){
+		// event.preventDefault();
+		
+		if( $(this).is(':checked') ) {
+			$('.flat-red').attr('checked', true);		
+		}
+		else{
+			$('.flat-red').attr('checked', false);		
+		}
+	});
+
+	$('#create_user').on('click', function(event){
+		// event.preventDefault();
+		
+		if( $(this).is(':checked') ) {
+			$('.user-account-form').fadeIn();		
+		}
+		else{
+			$('.user-account-form').fadeOut();
+		}
+	});
+
+	$('.datepicker').datepicker({
+		format: 'yyyy-mm-dd'
+	});
+
 	
 	$.fn.loading = function(options){
 		option = typeof options == "undefined" ? true : options;
@@ -27,6 +53,7 @@ $(document).ready(function(){
 	
 
 	    $('.timepicker').timepicker();
+
 
 	    $('.earnings .edit-profile-btn').on('click', function(event) {
 	        event.preventDefault();
