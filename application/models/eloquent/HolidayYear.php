@@ -5,13 +5,13 @@ require_once('connection.php');
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class HolidayYear extends Eloquent {
+class HolidayYear extends BaseModel {
 	use SoftDeletingTrait;
   	 public $table = "holiday_years";
 	 protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['year', 'created_by'];
+  protected $fillable = ['year', 'created_by', 'company_id'];
 
   public function getCreator()
   {

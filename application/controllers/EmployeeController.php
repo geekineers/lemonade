@@ -46,7 +46,6 @@ class EmployeeController extends BaseController
 
     public function index()
     {
-    	
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ?null
         :$this->session->flashdata('message');

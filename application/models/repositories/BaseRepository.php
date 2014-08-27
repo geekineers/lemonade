@@ -6,6 +6,7 @@ abstract class BaseRepository {
     protected $validator;
     protected $class;
 
+    
     public function create(array $input)
     {
         // dd($input);

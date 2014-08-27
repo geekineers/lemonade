@@ -7,13 +7,13 @@ require_once ('connection.php');
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Holiday extends Eloquent
+class Holiday extends BaseModel
 {
     use SoftDeletingTrait;
     public $table    = "holidays";
     protected $datas = ['deleted_at'];
 
-    protected $fillable = ['year', 'holiday_year_id', 'holiday_name', 'holiday_type', 'holiday_from', 'holiday_to'];
+    protected $fillable = ['year', 'holiday_year_id', 'holiday_name', 'holiday_type', 'holiday_from', 'holiday_to', 'company_id'];
 
 
     public function getDay()

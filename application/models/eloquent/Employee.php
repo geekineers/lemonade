@@ -8,7 +8,7 @@ require_once ('connection.php');
 use Cartalyst\Sentry\Groups\Eloquent\Group;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Employee extends Eloquent
+class Employee extends BaseModel
 {
     // use SoftDeletingTrait;
     protected $table = "employees";
