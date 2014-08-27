@@ -2,6 +2,7 @@
 require_once('BaseController.php');
 
 
+
 class PayrollController extends BaseController 
 {
 
@@ -18,6 +19,7 @@ class PayrollController extends BaseController
 // GET
 	public function index()
 	{
+
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
 		$data['title'] = 'Payroll Generation';
@@ -38,6 +40,7 @@ class PayrollController extends BaseController
 		// dd($html);
 		// $html = "dsadas";
 		// dd($html);
+		echo $html;
 		$pdf = pdf_create($html, '', false ,true	);
 	    echo $pdf;
 	}
@@ -80,7 +83,7 @@ class PayrollController extends BaseController
 		// dd($html);
 		// $html = "dsadas";
 		// dd($html);
-		$pdf = pdf_create($html, '', false);
+		$pdf = pdf_create($html, '', false,true);
 	    echo $pdf;
 		
 	}
@@ -103,14 +106,7 @@ class PayrollController extends BaseController
 		$this->payslipsRepository->generatePayslip($this->input->post());
 		
 	}
-// GET
-	public function govForm()
-	{
-		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-		
-		$data['title'] = 'Payroll Generation';
-		$this->render('payroll/govform.twig.html',$data);
-	}
+
 // GET
 	public function bank()
 	{
@@ -129,5 +125,13 @@ class PayrollController extends BaseController
 	
 	}
 
+// GET
+	public function govform($id)
+	{
 
+	
+		$form = $this->input->get('form');
+
+		$this->payslipsRepository->generateGovermentForms($id,$form);
+	}
 }

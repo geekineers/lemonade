@@ -76,7 +76,7 @@
              <td><?php echo $slip->getEmployee()->getBasicPay(); ?></td>
              <td><?php echo $slip->getEmployee()->getTotalAllowances(); ?></td>
              <td><?php echo $slip->getEmployee()->getGross(); ?></td>
-             <td><?php echo number_format($slip->sss,2); ?></td>
+             <td><?php echo number_format(isset($slip->sss) ? $slip->sss : 0 ,2); ?></td>
              <td><?php echo number_format($slip->pagibig,2); ?></td>
              <td><?php echo number_format($slip->philhealth,2); ?></td>
              <td><?php echo number_format($slip->getEmployee()->getTotalDeductions(),2); ?></td>

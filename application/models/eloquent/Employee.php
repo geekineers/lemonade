@@ -225,7 +225,7 @@ class Employee extends Eloquent
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = intval($this->getTotalAllowances(null, null, false))+intval($this->getBasicPay(false));
+        $total = intval($this->getTotalAllowances(null, null, false)) + intval($this->getBasicPay(false));
 
         if ($format) {
             return number_format($total, 2);
@@ -512,7 +512,7 @@ class Employee extends Eloquent
         $basic_pay      = $this->basic_pay;
         $payroll_period = $this->payroll_period;
 
-        return getRate($basic_salary, $payroll_period, 'daily');
+        return getRate($basic_pay, $payroll_period, 'daily');
 
     }
 
@@ -719,6 +719,7 @@ class Employee extends Eloquent
                 }
             }
         }
+        return $total_absent;
 
     }
     /**

@@ -41,6 +41,8 @@ class PayrollGroup extends Eloquent {
         return date_format( date_create($this->from),'Y/m/d') .'-'.  date_format( date_create($this->to),'Y/m/d');;
   }
 
+ 
+
 
 }
                       		

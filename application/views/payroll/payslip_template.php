@@ -41,10 +41,15 @@ background-color:#F2F2F2;
         }
         .address p {
           text-align:right;
+
+        }
+        .slip{
+          max-width: 600px;
         }
       </style>
     </head>
     <body >
+    <div class="slip">
       <span style="position:absolute;right:0;">
         Employee's Copy
       </span>
@@ -93,45 +98,7 @@ background-color:#F2F2F2;
 
 
 
-<div style="max-width:49%;left:0">
-   <table class="bordered" >
-        <thead>
-          <tr >
-            <td  colspan="2">INCOME</td>
-          </tr>
-        </thead>
-
-        <!-- foreach -->
-          <tr>
-            <td>Basic Salary</td>
-            <td><?php echo $employee->getBasicPay(); ?></td>
-          </tr>
-
-         <?php foreach ($employee->getAllowances() as $allowance) { ?>
-            <tr>
-              <td><?php echo $allowance->getName(); ?></td>
-              <td><?php echo $allowance->getAmount(); ?></td>
-            </tr>
-             
-         
-         <?php } ?>
-          <tr>
-            <td>Total Allowances</td>
-            <td>
-              <?php echo $employee->getTotalAllowances() ?>
-            </td>
-          </tr>
-
-          <tr>
-            <td ><b style="padding:15px ;font-size:20px">Gross Pay</b></td>
-            <td>
-              <?php echo  $employee->getGross() ?>
-            </td>
-          </tr>
-        <!-- endforeach -->
-   </table>
-</div>
-<div style="max-width:49%;position:absolute;right:0;top:163">
+<div style="max-width:49%;position:absolute;left:300px">
   <table class="bordered">
      <thead>
         <tr >
@@ -152,6 +119,10 @@ background-color:#F2F2F2;
           <td><?php echo $employee->getLateDeduction($payslip->from, $payslip->to, 'minute'); ?></td>
         </tr>
 
+         <tr>
+          <td>Absent</td>
+          <td><?php echo $employee->getAbsentDeduction($payslip->from, $payslip->to); ?></td>
+        </tr>
         <tr>
           <td>SSS</td>
           <td><?php echo number_format($payslip->sss,2) ?></td>
@@ -177,8 +148,59 @@ background-color:#F2F2F2;
 
       <!-- end -->
   </table>
-</div>
 
+</div>
+<div style="max-width:49%;left:0">
+   <table class="bordered" >
+        <thead>
+          <tr >
+            <td  colspan="2">INCOME</td>
+          </tr>
+        </thead>
+
+        <!-- foreach -->
+          <tr>
+            <td>Basic Salary</td>
+            <td><?php echo $employee->getBasicPay(); ?></td>
+          </tr>
+
+         <?php foreach ($employee->getAllowances() as $allowance) { ?>
+            <tr>
+              <td><?php echo $allowance->getName(); ?></td>
+              <td><?php echo $allowance->getAmount(); ?></td>
+            </tr>
+             
+         
+         <?php } ?>
+          <tr>
+            <td >Overtime</td>
+            <td>
+              <?php echo $employee->getOvertime($payslip->from,$payslip->to)  ?>
+            </td>
+          </tr>
+
+         
+          
+          <tr>
+            <td>Total Allowances</td>
+            <td>
+              <?php echo $employee->getTotalAllowances() ?>
+            </td>
+          </tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr>
+            <td ><b style="padding:15px ;font-size:20px">Gross Pay</b></td>
+            <td>
+              <?php echo  $payslip->getGross() ?>
+            </td>
+          </tr>
+        <!-- endforeach -->
+   </table>
+</div>
 
     <table style="width:100%;position:absolute;top:500px;">
       <tr>
@@ -210,6 +232,6 @@ background-color:#F2F2F2;
       
 
               
-      
+  </div>
     </body>
 </html>

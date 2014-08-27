@@ -34,7 +34,7 @@ Pigeon::map(function ($r) {
 	$r->get('payroll', 'PayrollController#index');
 	$r->get('payroll/payslip', 'PayrollController#payslip');
 	$r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
-	$r->get('payroll/gov-form', 'PayrollController#govform');
+	$r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
 	$r->get('payroll/bank', 'PayrollController#bank');
 
 	$r->get('payroll/group/(:num)', 'PayrollController#groupList');
@@ -42,6 +42,8 @@ Pigeon::map(function ($r) {
 	$r->get('payroll/payslip/(:num)', 'PayrollController#slip');
 
 	$r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
+
+
 
 	$r->get('testpdf', 'PayrollController#test');
 
@@ -119,7 +121,6 @@ Pigeon::map(function ($r) {
 
 	$r->get('media', 'ImageController');
 
-<<<<<<< HEAD
 
 
      $r->get('employees', 'EmployeeController#index');
@@ -135,8 +136,7 @@ Pigeon::map(function ($r) {
      $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
      $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
      $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
-=======
->>>>>>> 9c97e03f9eda1c8d4556d9dbf0c247ac2ddb234a
+
 
      $r->get('hr','HumanResourceController#index');
      $r->get('hr/form-application','HumanResourceController#application');
