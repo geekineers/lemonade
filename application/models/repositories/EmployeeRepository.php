@@ -280,6 +280,14 @@ class EmployeeRepository extends BaseRepository {
 
 
 	}
+
+	public function deleteEmployee($id)
+	{
+		$employee = Employee::find($id);
+		return $employee->delete();
+
+
+	}
 					
 
 }

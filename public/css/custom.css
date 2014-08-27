@@ -5,6 +5,7 @@ header .logo img{
 
 
 }
+.req-label {color: rgb(168, 9, 9);}
 
 .dashboard .box-warning .box-header { background-color: #DBCC18 !important;}
 .btn-custom { background-color : #DBCC18; color : white;}
