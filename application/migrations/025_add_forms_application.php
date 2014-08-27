@@ -6,6 +6,7 @@ class Migration_Add_forms_application extends CI_Migration {
 
         public function up()
         {
+            $this->dbforge->drop_table('form_application');
                 $this->dbforge->add_field(array(
                         'id' => array(
                                 'type' => 'INT',
@@ -15,7 +16,7 @@ class Migration_Add_forms_application extends CI_Migration {
                         ),
                         'form_type' => array(
                                 'type' => 'TEXT', 
-                        );
+                        ),
                         'employee_id' => array(
                                 'type' => 'INT',
                                 'null' => TRUE,
