@@ -175,22 +175,6 @@ class Employee extends Eloquent
 
     }
 
-    public function getTotalDeductions($from = null, $to = null, $number_format = false)
-    {
-        $deductions = $this->getDeductions($from, $to);
-        $total      = 0;
-
-        foreach ($deductions as $deduction) {
-            $total += $deduction->amount;
-        }
-
-        if ($number_format) {return number_format($total, 2);
-        }
-
-        return $total;
-
-    }
-
     public function getDeductions($from = null, $to = null)
     {
 
@@ -201,6 +185,19 @@ class Employee extends Eloquent
                                                                  ->where('valid_from', '<=', $to)
                                                                  ->where('valid_to', '>=', $from)
                                                                  ->get();
+    }
+
+    public function getTotalDeductions($from = null, $to = null, $number_format = true){
+            $deductions = $this->getDeductions($from, $to);
+        $total      = 0;
+       foreach ($deductions as $deduction) {
+            $total += $deduction->amount;
+        }
+
+        if ($number_format) {return number_format($total, 2);
+        }
+
+        return $total;
     }
 
     public function getTotalAllowances($from = null, $to = null, $number_format = true)
@@ -411,11 +408,11 @@ class Employee extends Eloquent
         $dependents = $this->dependents;
         $period     = $this->period;
 
-        $sss_val = $this->fixed_sss_amount == null?getSSS($salary)['EE']:(int) $sss;
+        $sss_val = $this->fixed_sss_amount == null? getSSS($salary)['EE']:(int) $this->fixed_sss_amount;
 
-        $philhealth_val = $this->fixed_philhealth_amount == null?getPH($salary)['Employee_Share']:(int) $philhealth;
+        $philhealth_val = $this->fixed_philhealth_amount == null?getPH($salary)['Employee_Share']:(int) $this->fixed_philhealth_amount;
 
-        $pagibig_val = $this->fixed_hdmf_amount == null?100:(int) $pagibig;
+        $pagibig_val = $this->fixed_hdmf_amount == null?100:(int)$this->fixed_hdmf_amount;
 
         $curr_salary = $salary-($sss_val+$philhealth_val+$pagibig_val);
         // return $curr_salary;

@@ -17,15 +17,24 @@ class PayslipsRepository extends BaseRepository {
 		return $this->where('id','=',$id)->first();
 	}
 
+	public function getTotalCompensationPerGroup($from,$to,$id)
+	{
+		$slips = $this->where('id','=',$id)
+					->whereBetween('from',['from','to'])
+					->get();
+
+	}
 	
 	public function getAllPayslip()
 	{
 		return $this->all();
 	}
 
-	public function getPayslipById($id)
+	public function getPayslipById($id,$from,$to)
 	{
-		return $this->where('payroll_group','=',$id)->groupBy('from')->get();
+		return $this->where('payroll_group','=',$id)
+					->where('from','=',$from)
+					->groupBy('from')->get();
 	}
 
 	public function getAllPayrollGroupBySlips()
@@ -73,20 +82,20 @@ class PayslipsRepository extends BaseRepository {
 											null ,
 											null
 										 );
-				// $this->create([
-				// 		'employee_id'  => $employee->id,
-	   //                  'branch_id' => $payrollGroup['branch_id'],
-	   //                  'payroll_group' => $payrollGroup['id'],
-	   //                  'sss' => $payslip['SSS'],
-	   //                  'philhealth' => $payslip['philhealth'],
-	   //                  'pagibig' => $payslip['pagibig'],
-	   //                  'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
-	   //                  'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
-	   //                  'net' => $payslip['net'],
-	   //                  'gross'=>$payslip['gross'],
-	   //                  'other_deductions' => 'not available',
-	   //                  'prepared_by' => $payrollGroup['prepared_by']
-				// 	]);
+				$this->create([
+						'employee_id'  => $employee->id,
+	                    'branch_id' => $payrollGroup['branch_id'],
+	                    'payroll_group' => $payrollGroup['id'],
+	                    'sss' => $payslip['SSS'],
+	                    'philhealth' => $payslip['philhealth'],
+	                    'pagibig' => $payslip['pagibig'],
+	                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
+	                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
+	                    'net' => $payslip['net'],
+	                    'gross'=>$payslip['gross'],
+	                    'other_deductions' => 'not available',
+	                    'prepared_by' => $payrollGroup['prepared_by']
+					]);
 			}
 
 		}
@@ -179,6 +188,71 @@ class PayslipsRepository extends BaseRepository {
 						$pdf->Write(0,$data);
 					
 			    	}
+			    }else{
+				    $pdf->useTemplate($templateId);
+
+				    $pdf->SetFont('Helvetica');
+				    $pdf->SetXY(5, 5);
+				    $pdf->Write(8, 'A complete document imported with FPDI');
+			    }
+			}
+			
+			$pdf->Output();
+		}
+		else if ($type=='1601E')
+		{
+			$pageCount = $pdf->setSourceFile('pdf_template/1601E.pdf');
+			// iterate through all pages
+			$templateArr = [];
+			for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+			    // import a page
+			    $templateId = $pdf->importPage($pageNo);
+			    // get the size of the imported page
+			    $size = $pdf->getTemplateSize($templateId);
+			    $templateArr[] = $templateId;
+			    // create a page (landscape or portrait depending on the imported page size)
+			    if ($size['w'] > $size['h']) {
+			        $pdf->AddPage('L', array($size['w'], $size['h']));
+			    } else {
+			        $pdf->AddPage('P', array($size['w'], $size['h']));
+			    }
+
+			    // use the imported page
+			    // fill first page 
+			    if($templateId==1){
+			    	
+			    	$pdf->useTemplate($templateId);
+			    	$pdf->SetFont('Helvetica');
+					
+					$pdf->SetTextColor(0,0, 0);
+
+
+
+					// month
+					$data = date("m", strtotime($slips[0]->to));
+					$pdf->SetFontSize('14');
+					$pdf->SetXY(45, 56); 
+					$pdf->Write(0,$data);
+					// year
+					$data = date("Y", strtotime($slips[0]->to));
+					$pdf->SetFontSize('14');
+					$pdf->SetXY(55, 56); 
+					$pdf->Write(0,$data);
+					// polt
+					$pdf->SetFontSize('14');
+					$pdf->SetXY(106, 56); 
+					$pdf->Write(0,'X');
+					// group
+					$pdf->SetFontSize('14');
+					$pdf->SetXY(20, 79); 
+					$pdf->Write(0, Company::first()->company_name);
+			    	
+
+			    	// group
+					$pdf->SetFontSize('14');
+					$pdf->SetXY(20, 89); 
+					$pdf->Write(0, $group->getBranchAddress());
+			    	
 			    }else{
 				    $pdf->useTemplate($templateId);
 

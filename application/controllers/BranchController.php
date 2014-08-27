@@ -6,7 +6,7 @@ class BranchController extends BaseController
 {
 
     protected $branchRepository;
-
+    protected $employeeRepository;
     public function __construct()
     {
         parent::__construct();
@@ -68,7 +68,7 @@ class BranchController extends BaseController
     {
         $branch_name = $this->input->post('branch_name');
         $id          = $this->input->post('id');
-        $save        = $this->branchRepository->update($this->input->post(), $id);
+        $save        = $this->branchRepository->find($id)->update($this->input->post());
         $this->session->set_flashdata('message', $branch_name.' has been updated.');
         redirect('/branches', 'location');
 

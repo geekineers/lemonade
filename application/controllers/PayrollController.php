@@ -47,13 +47,16 @@ class PayrollController extends BaseController
 	public function groupList($id)
 	{
 
+		$from = $this->input->get('from');
+		$to = $this->input->get('to');
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser()) ;
 		// dd($this->payrollGroupRepository->getDate($id));
-		$data['title'] = $this->payrollGroupRepository->where('id','=',$id)->first()->period;
+		$group = $this->payrollGroupRepository->where('id','=',$id)->first();
+		$data['title'] = $group->period;
 
 		$data['id'] = $id;
 		
-		$data['payslips'] = $this->payslipsRepository->getPayslipById($id);
+		$data['payslips'] = $this->payslipsRepository->getPayslipById($id,$from,$to);
 
 		$this->render('payroll/group-slip.twig.html',$data);
 
@@ -74,15 +77,13 @@ class PayrollController extends BaseController
 	{
 		
 		$slip =  $this->payslipsRepository->getSlipById($id);
-		// dd($slip);
+	
 		$data = [
 			'employee' => $slip->getEmployee(),
 			'payslip' => $slip
 		];
 		$html = $this->load->view('payroll/payslip_template',$data, true);
-		// dd($html);
-		// $html = "dsadas";
-		// dd($html);
+	
 		$pdf = pdf_create($html, '', false,true);
 	    echo $pdf;
 		
@@ -90,8 +91,6 @@ class PayrollController extends BaseController
 	public function test()
 	{
 
-			// $html = $this->load->view('payroll/payslip_template',$data, true);
-		// dd($html);
 		$html = "dsadas";
 		// dd($html);
 		$pdf = pdf_create($html, '', false);
