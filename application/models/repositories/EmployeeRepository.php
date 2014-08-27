@@ -108,6 +108,12 @@ class EmployeeRepository extends BaseRepository {
 
 		$employee->update($post);
 
+		foreach ($user->getGroups() as $group) {
+				
+				$group = $sentry->findGroupById($group['id']);
+				$user->removeGroup($group);
+		}
+
 		$group = $sentry->findGroupById($data['role_id']);
 	 	$user->addGroup($group);
 	}
@@ -288,6 +294,18 @@ class EmployeeRepository extends BaseRepository {
 
 
 	}
-					
+
+
+	public function getAllExpandedBIR()
+	{
+		return Employee::where('withholding_tax_type', '=', 'Expanded')->get();
+	}
+	
+
+
+	public function getAllCompensatedBIR()
+	{
+		return Employee::where('withholding_tax_type', '=', 'Compensation')->get();
+	}				
 
 }
