@@ -5,15 +5,13 @@ if (!defined('BASEPATH')) {exit('No direct script access allowed');
 require_once ('connection.php');
 
 // use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 use Cartalyst\Sentry\Groups\Eloquent\Group;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Employee extends Eloquent
 {
     // use SoftDeletingTrait;
     protected $table = "employees";
-    
-
 
     // protected $datas = ['deleted_at'];
 
@@ -59,7 +57,7 @@ class Employee extends Eloquent
 
     public function getGroup()
     {
-    	
+
     }
 
     public function getDateHired()
@@ -110,17 +108,19 @@ class Employee extends Eloquent
 
     public function getRole()
     {
-    	$group = Group::where('id','=',$this->role_id)->first();
-	if($group)
-    		return $group;
-    	else
-    		return 'None'; 
+        $group = Group::where('id', '=', $this->role_id)->first();
+        if ($group) {
+            return $group;
+        } else {
+
+            return 'None';
+        }
     }
 
     public function getAllRoles()
     {
-    	$groups = Group::all();
-    	return $groups;
+        $groups = Group::all();
+        return $groups;
     }
 
     public function getPayrollPeriod()
@@ -700,15 +700,7 @@ class Employee extends Eloquent
             $date_range_start = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_end));
             $dt               = new Carbon($date);
-            if ($dt->isWeekday()) {
-                $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                                                      ->count();
 
-                if ($attended) {
-                    $total_absent += 1;
-                }
-            }
             if ($dt->isWeekend() && $weekend_include) {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
@@ -717,9 +709,19 @@ class Employee extends Eloquent
                 if ($attended) {
                     $total_absent += 1;
                 }
+            } else {
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
+
+                if ($attended) {
+                    $total_absent += 1;
+                }
+
             }
         }
 
+        return $total_absent;
     }
     /**
      * getAbsentDeduction - get total Absent deduction
