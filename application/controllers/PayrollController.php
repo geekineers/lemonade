@@ -55,7 +55,8 @@ class PayrollController extends BaseController
 		$data['title'] = $group->period;
 
 		$data['id'] = $id;
-		
+		$data['from'] = $from;
+		$data['to'] = $to;
 		$data['payslips'] = $this->payslipsRepository->getPayslipById($id,$from,$to);
 
 		$this->render('payroll/group-slip.twig.html',$data);
@@ -130,7 +131,8 @@ class PayrollController extends BaseController
 
 	
 		$form = $this->input->get('form');
-
-		$this->payslipsRepository->generateGovermentForms($id,$form);
+		$from = $this->input->get('from');
+		$to = $this->input->get('to');
+		$this->payslipsRepository->generateGovermentForms($id,$form,$from,$to);
 	}
 }

@@ -138,10 +138,10 @@ class PayslipsRepository extends BaseRepository {
 	}
 	
 
-	public function generateGovermentForms($id,$type)
+	public function generateGovermentForms($id,$type,$from,$to)
 	{
 		$pdf = new FPDI();
-		$slips = $this->getPayslipById($id);
+		$slips = $this->getPayslipById($id,$from,$to);
 		$group = PayrollGroup::where('id','=',$id)->first();
 		// set the sourcefile
 		// $pdf->setSourceFile($pdf_template);
