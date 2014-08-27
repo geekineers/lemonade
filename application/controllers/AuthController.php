@@ -95,7 +95,7 @@ class AuthController extends BaseController {
 		    
 		}
 		
-			redirect('/auth/time-in');
+			redirect('/dashboard');
 
 	}
 

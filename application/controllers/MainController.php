@@ -7,6 +7,7 @@ class MainController extends BaseController
 	protected $employeeRepository;
 	protected $memoRepository;
 	protected $announcementRepository;
+	protected $holidayRepository;
 	public function __construct()
 	{	
 		parent::__construct();
@@ -14,7 +15,9 @@ class MainController extends BaseController
 		$this->employeeRepository = new EmployeeRepository();
 		$this->evaluationRepository = new EvaluationRepository();
 		$this->memoRepository = new MemoRepository();
+		$this->holidayRepository = new HolidayRepository($this->sentry);
 		$this->announcementRepository = new AnnouncementRepository();
+		$this->load->library('session');
 	}
 
 	public function index()
@@ -34,10 +37,12 @@ class MainController extends BaseController
 				'date' => date('d')
 
 			);
+		$data['time_in_status'] = $this->session->userdata('time_in_status');
 		$data['evaluations_trainings'] = $this->evaluationRepository->getMyEval($data['user']->id);
 		$data['title'] = "Dashboard";
 		$data['birthdays'] = $this->employeeRepository->getNearBirthday();
 		$data['memos'] = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->get();
+		$data['holidays'] = $this->holidayRepository->whereBetween('holiday_from', [date('Y-m-d'), date('Y-m-d', strtotime('+1 year'))])->take(3)->get();
 		$data['announcements'] = $this->announcementRepository->getAllAnnouncement();
 		
 		$this->render('index.twig.html', $data);
