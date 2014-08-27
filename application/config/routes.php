@@ -88,7 +88,8 @@ Pigeon::map(function ($r) {
 	$r->post('settings/allowances/save', 'AllowanceController#save');
 
 	$r->get('settings/company', 'CompanyController#index');
-	$r->post('settings/company', 'CompanyController#save');
+    $r->post('settings/company', 'CompanyController#save');
+	$r->post('settings/company/edit', 'CompanyController#update');
 
     $r->get('settings/holidays', 'HolidayController#index');
     $r->post('settings/holidays/generate', 'HolidayController#generateYear');

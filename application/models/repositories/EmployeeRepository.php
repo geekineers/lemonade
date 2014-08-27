@@ -12,6 +12,11 @@ class EmployeeRepository extends BaseRepository {
         $this->fileSystem = new FileSystem($path);
 	}
 
+	public function all()
+	{
+
+	}
+
 	public function getAllPermissions()
 	{
 		return [
