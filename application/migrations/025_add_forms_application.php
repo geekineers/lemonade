@@ -6,7 +6,7 @@ class Migration_Add_forms_application extends CI_Migration {
 
         public function up()
         {
-            $this->dbforge->drop_table('form_application');
+                // $this->dbforge->drop_table('form_application');
                 $this->dbforge->add_field(array(
                         'id' => array(
                                 'type' => 'INT',

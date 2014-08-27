@@ -419,6 +419,39 @@ INSERT INTO `evaluations` VALUES (1,'Promotion Review',1,1,'2014-08-05 00:00:00'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `form_application`
+--
+
+DROP TABLE IF EXISTS `form_application`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `form_application` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `form_type` text NOT NULL,
+  `employee_id` int(11) DEFAULT NULL,
+  `prepared_by` int(11) DEFAULT NULL,
+  `effective_date` datetime NOT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `status` text NOT NULL,
+  `form_data` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `form_application`
+--
+
+LOCK TABLES `form_application` WRITE;
+/*!40000 ALTER TABLE `form_application` DISABLE KEYS */;
+/*!40000 ALTER TABLE `form_application` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `forms`
 --
 
@@ -609,7 +642,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (24),(24);
+INSERT INTO `migrations` VALUES (25),(25);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -844,4 +877,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-27 14:17:04
+-- Dump completed on 2014-08-27 15:01:52
