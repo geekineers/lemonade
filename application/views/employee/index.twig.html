@@ -43,7 +43,7 @@
         <td>{{ employee.email }}</td>
         <td>
             <a href="/employees/{{ employee.id }}/profile" class="btn btn-default"><i class="fa fa-folder-open-o"></i></a>
-            <a href="/branches/delete?id={{ branch.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+            <a  onclick="return confirm('Are you sure?')"  href="/employees/delete?token={{ employee.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
         </td>
 
     </tr>

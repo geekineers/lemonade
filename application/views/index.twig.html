@@ -96,12 +96,70 @@
         </div>
         <!-- /.box -->
     </div>
+    <div class="col-md-12">
+        <!-- Warning box -->
+        <div class="box box-solid box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Events</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                {% if holidays|length
+                <=0 %} <div class="">
+
+                    <center>
+                        <p><i>
+                                            <i class="fa fa-info-circle"></i> No Upcoming Events Yet.
+                            </i>
+                        </p>
+                    </center>
+            </div>
+            {% endif %}
+            <div class="box-body chat" id="chat-box">
+
+                <ul class="event-list">
+                     {% for holiday in holidays %}
+                    <li>
+                        <time datetime="{{ holiday.holiday_from }}">
+                            <span class="day">{{ holiday.getDay() }}</span>
+                            <span class="month">{{ holiday.getMonth() }}</span>
+                            <span class="year">{{ holiday.getYear() }}</span>
+                            <span class="time">ALL DAY</span>
+                        </time>
+                        <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
+                        <div class="info">
+                            <h2 class="title">{{ holiday.holiday_name }}</h2>
+                            <p class="desc">{{ holiday.holiday_type }}</p>
+                        </div>
+                        <div class="social">
+                          
+                        </div>
+                    </li>
+                         {% endfor %}
+                </ul>
+               
+        
+           
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
 
 </div>
 <div class="col-md-4">
     <div class="">
         <!-- small box -->
-        <div class="small-box bg-teal">
+        <div class="small-box {% if time_in_status %} bg-green {% else %}bg-teal{% endif %}">
             <div class="inner">
                 <h3>
                     {{ datetime.time }}
@@ -113,9 +171,17 @@
             <div class="icon">
                 <i class="ion ion-ios7-alarm-outline"></i>
             </div>
-            <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
+            {% if time_in_status %} 
+                    <a href="/timeout" class="small-box-footer">
+                                    <b>Time Out</b> <i class="fa fa-arrow-circle-right"></i>
+                    
                                 </a>
+            {%  else %}
+            <a href="/timein" class="small-box-footer">
+                                    <b>Time In</b> <i class="fa fa-arrow-circle-right"></i>
+                    
+                                </a>
+            {% endif %}
         </div>
     </div>
 
@@ -164,7 +230,7 @@
         </div>
         <!-- /.box -->
     </div>
- <div class="">
+    <div class="">
         <!-- Warning box -->
         <div class="box box-solid box-warning">
             <div class="box-header">

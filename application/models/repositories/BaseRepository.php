@@ -85,6 +85,10 @@ abstract class BaseRepository {
         return $this->class->withTrashed();
     }
 
+    public function whereBetween( $column, $values, $boolean = "and", $not = false){
+        return $this->class->whereBetween( $column, $values, $boolean, $not);
+    }
+
     public function withTrashedRelationship(array $relationship)
     {
         $rel = [];

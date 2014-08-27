@@ -216,4 +216,13 @@ class EmployeeController extends BaseController
 
     }
 
+
+    public function delete()
+    {
+    	$id = $this->input->get('token');
+    	$this->employeeRepository->deleteEmployee($id);
+
+    	redirect('/employees');
+    }
+
 }

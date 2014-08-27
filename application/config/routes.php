@@ -152,6 +152,9 @@ Pigeon::map(function ($r) {
 
      $r->get('timesheet', 'TimesheetController#index');
      $r->get('my-timesheet', 'TimesheetController#myTimesheet');
+     $r->get('timein', 'TimesheetController#timein');
+     $r->get('timeout', 'TimesheetController#timeout');
+   
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
      $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');

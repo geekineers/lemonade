@@ -12,13 +12,16 @@ class AuthController extends BaseController {
 		parent::__construct();
 		$this->userRepository = new UserRepository();
 		$this->timeSheetRepository = new TimesheetRepository();
+		$this->load->library('session'); 
 	}
 
 
 	public function index()
 	{
+		$data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+		
 		$this->mustBeLoggedOut();
-		$this->render('login.twig.html');
+		$this->render('login.twig.html', $data);
 	}
 
 	public function login()
@@ -41,37 +44,58 @@ class AuthController extends BaseController {
 
 
 		}
-		catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
-		{
-		    echo 'Login field is required.';
-			redirect('/auth');
-		}
+	
 		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-		    echo 'User not found.';
-		    redirect('/auth');
+			$message = 'User not found.';
+    		$this->session->set_flashdata('message', $message);
+
+		    redirect('/auth', 'location');
 		}
 		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
 		{
 		    echo 'User not activated.';
 		    redirect('/auth');
+		    	$message = 'User not activated.';
+    		$this->session->set_flashdata('message', $message);
+
+		    redirect('/auth', 'location');
+
 		}
 
 		// Following is only needed if throttle is enabled
 		catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
 		{
-		    $time = $throttle->getSuspensionTime();
+		   
 
-		    echo "User is suspended for [$time] minutes.";
-		    redirect('/auth');
+		   echo "User is suspended for [$time] minutes.";
+    		$this->session->set_flashdata('message', $message);
+
+		    redirect('/auth', 'location');
+		    
 		}
 		catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
 		{
-		    echo 'User is banned.';
-		    redirect('/auth');
-		}
+		 
 
-			redirect('/auth/time-in');
+		   	$message = 'User not activated.';
+    		$this->session->set_flashdata('message', $message);
+
+		    redirect('/auth', 'location');
+		    
+		}
+				catch (Exception $e)
+		{
+		 
+
+		   	$message = 'Login Failed.';
+    		$this->session->set_flashdata('message', $message);
+
+		    redirect('/auth', 'location');
+		    
+		}
+		
+			redirect('/dashboard');
 
 	}
 

@@ -15,4 +15,21 @@ class Holiday extends Eloquent
 
     protected $fillable = ['year', 'holiday_year_id', 'holiday_name', 'holiday_type', 'holiday_from', 'holiday_to'];
 
+
+    public function getDay()
+    {
+    	return date('j', strtotime($this->holiday_from));
+    }
+
+    public function getMonth()
+    {
+    	return date('M', strtotime($this->holiday_from));
+    }
+
+    public function getYear()
+    {
+    	return date('Y', strtotime($this->holiday_from));
+    }
+
+
 }
