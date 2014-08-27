@@ -1,0 +1,43 @@
+{% extends "layout/main.twig.html" %} {% block content %}
+<div class="col-md-6">
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title">User Role Info</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form role="form" method="post">
+            <input type="hidden" value="{{ group.id }}" name="id" />
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Role Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter Role" value="{{ group.name }}">
+                </div>
+                <h4 class="box-title">User Permission</h4>
+                   <input type="checkbox" class="select_all"> Select All
+                   <hr>
+                {% for permission in all_permissions %}
+                <div class="form-group">
+                    <div class="icheckbox flat-red">
+                        <input 
+                    {% if permission in userpermissions|keys %} 
+                        checked="true" 
+                        {% endif %}
+                        name='permissions[{{ permission }}]' type="checkbox" class=" flat-red">{{ permission }}
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}

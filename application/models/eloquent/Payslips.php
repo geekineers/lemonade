@@ -68,6 +68,21 @@ class Payslips extends Eloquent {
       $this->attributes['password'] = md5($password);
   }
 
-  
+  public function getGross($format = true)
+  {
+
+      $total_Allowance = 0;
+      $total           = 0;
+
+      $total = $this->getEmployee()->getOvertime($this->from,$this->to) + intval($this->getEmployee()->getTotalAllowances(null, null, false)) + intval($this->getEmployee()->getBasicPay(false));
+
+      if ($format) {
+          return number_format($total, 2);
+      } else {
+
+          return $total;
+      }
+
+  }
 
 } 

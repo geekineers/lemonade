@@ -2,7 +2,7 @@
 							 <div class="panel panel-default">
 						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Basic Pay Adjustments
 
-						  		<button data-toggle="modal" data-target="#addNewDeductions" class="btn btn-default btn-xs pull-right"><i class="fa fa-plus"></i></button>
+						  		<button data-toggle="modal" data-target="#addNewDeductions" class="employee_edit btn btn-default btn-xs pull-right"><i class="fa fa-plus"></i></button>
 						  		<span style="margin-right:10px;" class="pull-right">Current Basic Pay : <b>PHP {{ employee.getBasicPay() }}</b></span>
 						  		</div>
 						  	 <div class="panel-body">
@@ -34,7 +34,7 @@
 		 				 	<form method="post" action="/employees/{{ employee.id }}/update-salary" >
 
 						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Earnings
-						  		<button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
+						  		<button class="employee_edit edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
 						  		</div>
 						  	 <div class="panel-body">
 						  		 <table class="table">
@@ -106,7 +106,7 @@
 		 				 	<form method="post" action="/employees/{{ employee.id }}/update-contributions" >
 
 						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Contributions
-						  		<button class="edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
+						  		<button class="employee_edit edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
 						  		</div>
 						  	 <div class="panel-body">
 						  		 <table class="table">

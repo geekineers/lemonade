@@ -50,32 +50,33 @@
     <table>
        <thead>
         <tr>
-           <th>EMP NO. </th>
-           <th>NAME </th>
-           <th>DESIGNATION</th>
-           <th>BASIC SALARY</th>
-           <th>TOTAL ALLOWANCE</th>
-           <th>GROSS</th>
+           <th>Position</th>
+           <th>Emp. No. </th>
+           <th>Employee Name </th>
+           <th>Basic Salary</th>
+           <th>Tax Status</th>
+           <th>Allowance</th>
+           <th>SSS Loans</th>
 
            <th>SSS</th>
-           <th>HDMF</th>
            <th>PHILHEALTH</th>
-           <th>MISC.</th>
-           <th>WITHHOLDING TAX</th>
-           <th>TOTAL DEDUCTION</th>
-           <th>NET</th>
+           <th>Pag-ibig</th>
+           <th>Absent</th>
+           <th>Late</th>
+           <th>Tax</th>
+           <th>Total</th>
         </tr>
        </thead>
        <tbody>
         <?php foreach ($payslip as $slip ) : ?>     
            <tr>
+             <td><?php echo $slip->getEmployee()->getJobPosition(); ?></td>
              <td><?php echo $slip->getEmployee()->id; ?></td>
              <td><?php echo $slip->getEmployee()->getName(); ?></td>
-             <td><?php echo $slip->getEmployee()->getJobPosition(); ?></td>
              <td><?php echo $slip->getEmployee()->getBasicPay(); ?></td>
              <td><?php echo $slip->getEmployee()->getTotalAllowances(); ?></td>
              <td><?php echo $slip->getEmployee()->getGross(); ?></td>
-             <td><?php echo number_format($slip->sss,2); ?></td>
+             <td><?php echo number_format(isset($slip->sss) ? $slip->sss : 0 ,2); ?></td>
              <td><?php echo number_format($slip->pagibig,2); ?></td>
              <td><?php echo number_format($slip->philhealth,2); ?></td>
              <td><?php echo number_format($slip->getEmployee()->getTotalDeductions(),2); ?></td>

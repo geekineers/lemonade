@@ -7,6 +7,7 @@ require_once ('BaseController.php');
 use Respect\Validation\Validator as Validator;
 use Upload\Storage\FileSystem as FileSystem;
 
+
 class EmployeeController extends BaseController
 {
 
@@ -45,7 +46,7 @@ class EmployeeController extends BaseController
 
     public function index()
     {
-
+    	
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ?null
         :$this->session->flashdata('message');
@@ -91,7 +92,7 @@ class EmployeeController extends BaseController
 
         $employee_id = $this->input->post('id');
         $data        = $this->input->post();
-        $this->employeeRepository->updateEmployee201($employee_id, $data);
+        $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
         redirect('/employees/'.$employee_id.'/profile', 'location');
     }
 
@@ -139,6 +140,9 @@ class EmployeeController extends BaseController
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);
+        
+        $data['employee']->getRole();
+
         $this->render('/employee/profile.twig.html', $data);
     }
 
@@ -210,6 +214,15 @@ class EmployeeController extends BaseController
 
         return $this->render('/employee/search.twig.html', $data);
 
+    }
+
+
+    public function delete()
+    {
+    	$id = $this->input->get('token');
+    	$this->employeeRepository->deleteEmployee($id);
+
+    	redirect('/employees');
     }
 
 }

@@ -5,12 +5,14 @@ if (!defined('BASEPATH')) {exit('No direct script access allowed');
 require_once ('connection.php');
 
 // use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Cartalyst\Sentry\Groups\Eloquent\Group;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Employee extends Eloquent
 {
     // use SoftDeletingTrait;
     protected $table = "employees";
+
     // protected $datas = ['deleted_at'];
 
     protected $fillable = [
@@ -52,6 +54,11 @@ class Employee extends Eloquent
         'email',
 
     ];
+
+    public function getGroup()
+    {
+
+    }
 
     public function getDateHired()
     {
@@ -98,6 +105,24 @@ class Employee extends Eloquent
     {
         return $this->employee_type;
     }
+
+    public function getRole()
+    {
+        $group = Group::where('id', '=', $this->role_id)->first();
+        if ($group) {
+            return $group;
+        } else {
+
+            return 'None';
+        }
+    }
+
+    public function getAllRoles()
+    {
+        $groups = Group::all();
+        return $groups;
+    }
+
     public function getPayrollPeriod()
     {
         return $this->payroll_period;
@@ -132,6 +157,7 @@ class Employee extends Eloquent
 
     public function getProfilePicture()
     {
+
         return '/media?image='.$this->profile_picture;
     }
     public function getBranch()
@@ -149,22 +175,6 @@ class Employee extends Eloquent
 
     }
 
-    public function getTotalDeductions($from = null, $to = null, $number_format = false)
-    {
-        $deductions = $this->getDeductions($from, $to);
-        $total      = 0;
-
-        foreach ($deductions as $deduction) {
-            $total += $deduction->amount;
-        }
-
-        if ($number_format) {return number_format($total, 2);
-        }
-
-        return $total;
-
-    }
-
     public function getDeductions($from = null, $to = null)
     {
 
@@ -175,6 +185,19 @@ class Employee extends Eloquent
                                                                  ->where('valid_from', '<=', $to)
                                                                  ->where('valid_to', '>=', $from)
                                                                  ->get();
+    }
+
+    public function getTotalDeductions($from = null, $to = null, $number_format = true){
+            $deductions = $this->getDeductions($from, $to);
+        $total      = 0;
+       foreach ($deductions as $deduction) {
+            $total += $deduction->amount;
+        }
+
+        if ($number_format) {return number_format($total, 2);
+        }
+
+        return $total;
     }
 
     public function getTotalAllowances($from = null, $to = null, $number_format = true)
@@ -199,7 +222,7 @@ class Employee extends Eloquent
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = intval($this->getTotalAllowances(null, null, false))+intval($this->getBasicPay(false));
+        $total = intval($this->getTotalAllowances(null, null, false)) + intval($this->getBasicPay(false));
 
         if ($format) {
             return number_format($total, 2);
@@ -385,11 +408,11 @@ class Employee extends Eloquent
         $dependents = $this->dependents;
         $period     = $this->period;
 
-        $sss_val = $this->fixed_sss_amount == null?getSSS($salary)['EE']:(int) $sss;
+        $sss_val = $this->fixed_sss_amount == null? getSSS($salary)['EE']:(int) $this->fixed_sss_amount;
 
-        $philhealth_val = $this->fixed_philhealth_amount == null?getPH($salary)['Employee_Share']:(int) $philhealth;
+        $philhealth_val = $this->fixed_philhealth_amount == null?getPH($salary)['Employee_Share']:(int) $this->fixed_philhealth_amount;
 
-        $pagibig_val = $this->fixed_hdmf_amount == null?100:(int) $pagibig;
+        $pagibig_val = $this->fixed_hdmf_amount == null?100:(int)$this->fixed_hdmf_amount;
 
         $curr_salary = $salary-($sss_val+$philhealth_val+$pagibig_val);
         // return $curr_salary;
@@ -486,7 +509,7 @@ class Employee extends Eloquent
         $basic_pay      = $this->basic_pay;
         $payroll_period = $this->payroll_period;
 
-        return getRate($basic_salary, $payroll_period, 'daily');
+        return getRate($basic_pay, $payroll_period, 'daily');
 
     }
 
@@ -674,15 +697,7 @@ class Employee extends Eloquent
             $date_range_start = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_end));
             $dt               = new Carbon($date);
-            if ($dt->isWeekday()) {
-                $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                                                      ->count();
 
-                if ($attended) {
-                    $total_absent += 1;
-                }
-            }
             if ($dt->isWeekend() && $weekend_include) {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
@@ -691,9 +706,20 @@ class Employee extends Eloquent
                 if ($attended) {
                     $total_absent += 1;
                 }
+            } else {
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
+
+                if ($attended) {
+                    $total_absent += 1;
+                }
+
             }
         }
+        return $total_absent;
 
+        return $total_absent;
     }
     /**
      * getAbsentDeduction - get total Absent deduction

@@ -113,7 +113,7 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('helper','url','cookie', 'calculator');
+$autoload['helper'] = array('helper','url','cookie', 'calculator','fpdf');
 
 
 /*

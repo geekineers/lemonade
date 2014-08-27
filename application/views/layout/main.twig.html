@@ -20,7 +20,19 @@
         <link rel="stylesheet" type="text/css" href="/css/daterangepicker/daterangepicker-bs3.css" />
              <!-- DATA TABLES -->
         <link href="/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+         
 
+         {% for permission in user.all_permissions %}
+            {% if permission in user.permissions|keys %}   
+                
+            {% else %}
+            .{{permission}} { display : none;}
+            {% endif %}  
+
+         {% endfor %}
+
+        </style>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -54,6 +66,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
                                 <span>{{ user.first_name }} <i class="caret"></i></span>
+                               
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->

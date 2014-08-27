@@ -2,6 +2,7 @@
 require_once('BaseController.php');
 
 
+
 class PayrollController extends BaseController 
 {
 
@@ -18,6 +19,7 @@ class PayrollController extends BaseController
 // GET
 	public function index()
 	{
+
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
 		$data['title'] = 'Payroll Generation';
@@ -38,19 +40,23 @@ class PayrollController extends BaseController
 		// dd($html);
 		// $html = "dsadas";
 		// dd($html);
-		$pdf = pdf_create($html, '', false,true);
+		echo $html;
+		$pdf = pdf_create($html, '', false ,true	);
 	    echo $pdf;
 	}
 	public function groupList($id)
 	{
 
+		$from = $this->input->get('from');
+		$to = $this->input->get('to');
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser()) ;
 		// dd($this->payrollGroupRepository->getDate($id));
-		$data['title'] = $this->payrollGroupRepository->where('id','=',$id)->first()->period;
+		$group = $this->payrollGroupRepository->where('id','=',$id)->first();
+		$data['title'] = $group->period;
 
 		$data['id'] = $id;
 		
-		$data['payslips'] = $this->payslipsRepository->getPayslipById($id);
+		$data['payslips'] = $this->payslipsRepository->getPayslipById($id,$from,$to);
 
 		$this->render('payroll/group-slip.twig.html',$data);
 
@@ -71,24 +77,20 @@ class PayrollController extends BaseController
 	{
 		
 		$slip =  $this->payslipsRepository->getSlipById($id);
-		// dd($slip);
+	
 		$data = [
 			'employee' => $slip->getEmployee(),
 			'payslip' => $slip
 		];
 		$html = $this->load->view('payroll/payslip_template',$data, true);
-		// dd($html);
-		// $html = "dsadas";
-		// dd($html);
-		$pdf = pdf_create($html, '', false);
+	
+		$pdf = pdf_create($html, '', false,true);
 	    echo $pdf;
 		
 	}
 	public function test()
 	{
 
-			// $html = $this->load->view('payroll/payslip_template',$data, true);
-		// dd($html);
 		$html = "dsadas";
 		// dd($html);
 		$pdf = pdf_create($html, '', false);
@@ -103,14 +105,7 @@ class PayrollController extends BaseController
 		$this->payslipsRepository->generatePayslip($this->input->post());
 		
 	}
-// GET
-	public function govForm()
-	{
-		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-		
-		$data['title'] = 'Payroll Generation';
-		$this->render('payroll/govform.twig.html',$data);
-	}
+
 // GET
 	public function bank()
 	{
@@ -129,5 +124,13 @@ class PayrollController extends BaseController
 	
 	}
 
+// GET
+	public function govform($id)
+	{
 
+	
+		$form = $this->input->get('form');
+
+		$this->payslipsRepository->generateGovermentForms($id,$form);
+	}
 }

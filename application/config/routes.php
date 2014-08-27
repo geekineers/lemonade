@@ -34,7 +34,7 @@ Pigeon::map(function ($r) {
 	$r->get('payroll', 'PayrollController#index');
 	$r->get('payroll/payslip', 'PayrollController#payslip');
 	$r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
-	$r->get('payroll/gov-form', 'PayrollController#govform');
+	$r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
 	$r->get('payroll/bank', 'PayrollController#bank');
 
 	$r->get('payroll/group/(:num)', 'PayrollController#groupList');
@@ -42,6 +42,8 @@ Pigeon::map(function ($r) {
 	$r->get('payroll/payslip/(:num)', 'PayrollController#slip');
 
 	$r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
+
+
 
 	$r->get('testpdf', 'PayrollController#test');
 
@@ -120,6 +122,22 @@ Pigeon::map(function ($r) {
 	$r->get('media', 'ImageController');
 
 
+
+     $r->get('employees', 'EmployeeController#index');
+     $r->get('employees/add', 'EmployeeController#add');
+     $r->get('employees/search', 'EmployeeController#search');
+     $r->post('employees/add', 'EmployeeController#save');
+     $r->get('employees/edit', 'EmployeeController#edit');
+     $r->post('employees/edit', 'EmployeeController#update');
+     $r->get('employees/delete', 'EmployeeController#delete');
+     $r->get('employees/(:num)/profile', 'EmployeeController#profile');
+     $r->post('employees/(:num)/profile', 'EmployeeController#update');
+     $r->post('employees/file/upload', 'EmployeeController#upload');
+     $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
+     $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
+     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
+
+
      $r->get('hr','HumanResourceController#index');
      $r->get('hr/form-application','HumanResourceController#application');
      $r->post('hr/approved','HumanResourceController#approve');
@@ -133,6 +151,10 @@ Pigeon::map(function ($r) {
      $r->post('evaluations/save', 'EvaluationController#store');
 
      $r->get('timesheet', 'TimesheetController#index');
+     $r->get('my-timesheet', 'TimesheetController#myTimesheet');
+     $r->get('timein', 'TimesheetController#timein');
+     $r->get('timeout', 'TimesheetController#timeout');
+   
 
      $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
      $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');

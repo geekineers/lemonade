@@ -53,7 +53,7 @@
 <script src="/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
 <script type="text/javascript"  src="/js/plugins/daterangepicker/daterangepicker.js" ></script>
 <script type="text/javascript">
-  (function(){
+  // (function(){
      $('#employee_name').parent().removeClass('has-error');
     var from = moment().format("YYYY-MM-DD HH:mm:ss"),
         to = moment().format("YYYY-MM-DD HH:mm:ss"),
@@ -66,7 +66,7 @@
 
     $('.start_time').on('change',function(){
         $start = $(this).val();
-
+        
         from = moment(moment().format("YYYY-MM-DD") + ' ' +  $start ,"YYYY-MM-DD HH:mm A").format("YYYY-MM-DD HH:mm:ss");
     });
     $('.end_time').on('change',function(){
@@ -89,7 +89,7 @@
         $('.ob').loading();
            var data = {
                     'employee_id' : $('#employee_name').val(),
-                    'date' : moment($('.date').val(),"YYYY-MM-DD").format('YYYY-MM-DD'),
+                    'date' : moment().format('YYYY-MM-DD'),
                     'from' : from,
                     'to'  : to ,
                     'form_type' : 'undertime',
@@ -107,9 +107,9 @@
             $('.ob').loading(false);
             console.log(response);
             
-            window.location.href = "hr";
+            // window.location.href = "hr";
           });
         }
     });
-  })();
+  // })();
 </script>
