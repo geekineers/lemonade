@@ -137,12 +137,12 @@ background-color:#F2F2F2;
         </tr>
         <tr>
           <td>Withholding Tax</td>
-          <td><?php echo $employee->getTax()['widthholding_tax']?></td>
+          <td><?php echo $employee->getSalaryComputations($payslip->from, $payslip->to)['widthholding_tax']?></td>
         </tr>
         <tr>
-          <td><b style="padding:15px ;font-size:20px">Total Deduction</b></td>
+          <td><b style="padding:15px ;">Total Deduction</b></td>
           
-          <td><?php echo $employee->getTax()['total_deduc']?></td> 
+          <td><?php echo $employee->getSalaryComputations($payslip->from, $payslip->to)['total_deduc']?></td> 
         </tr>
         
 
@@ -193,7 +193,7 @@ background-color:#F2F2F2;
 
           <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
           <tr>
-            <td ><b style="padding:15px ;font-size:20px">Gross Pay</b></td>
+            <td ><b style="padding:15px ;">Gross Pay</b></td>
             <td>
               <?php echo  $payslip->getGross() ?>
             </td>
@@ -205,7 +205,7 @@ background-color:#F2F2F2;
     <table style="width:100%;position:absolute;top:500px;">
       <tr>
         <td style="background-color:yellow">NET</td>
-        <td style="background-color:yellow"><?php echo $employee->getTax()['net']?></td>
+        <td style="background-color:yellow"><?php echo $employee->getSalaryComputations($payslip->from, $payslip->to)['net']?></td>
       </tr>
     </table>
 

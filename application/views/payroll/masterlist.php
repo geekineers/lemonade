@@ -12,7 +12,7 @@
       }
     .container {
         margin: 0 auto;
-        font-size:12px;
+        font-size:10px;
     }
     .container table{
       border-collapse: collapse;
@@ -41,7 +41,7 @@
   <span class="masterlist">Employee's Masterlist</span>
   <div>
     <ul>
-      <li>Payroll Period: 2014/08/18 - 2014/08/30</li>
+      <li>Payroll Period: <?php echo $from .'-'.$to ?></li>
       <li>Payroll Date: 08/09/2013</li>
       <li>Payroll Mode: Monthly </li>
     </ul>
@@ -53,11 +53,12 @@
            <th>Position</th>
            <th>Emp. No. </th>
            <th>Employee Name </th>
-           <th>Basic Salary</th>
+           <th>Monthly Salary</th>
+           <th>Semi-Monthly Salary</th>
+           <th>Daily Rate</th>
            <th>Tax Status</th>
            <th>Allowance</th>
-           <th>SSS Loans</th>
-
+           <th>Total Allowances</th>
            <th>SSS</th>
            <th>PHILHEALTH</th>
            <th>Pag-ibig</th>
@@ -68,21 +69,24 @@
         </tr>
        </thead>
        <tbody>
-        <?php foreach ($payslip as $slip ) : ?>     
+        <?php foreach ($payslips as $payslip ) : ?>     
            <tr>
-             <td><?php echo $slip->getEmployee()->getJobPosition(); ?></td>
-             <td><?php echo $slip->getEmployee()->id; ?></td>
-             <td><?php echo $slip->getEmployee()->getName(); ?></td>
-             <td><?php echo $slip->getEmployee()->getBasicPay(); ?></td>
-             <td><?php echo $slip->getEmployee()->getTotalAllowances(); ?></td>
-             <td><?php echo $slip->getEmployee()->getGross(); ?></td>
-             <td><?php echo number_format(isset($slip->sss) ? $slip->sss : 0 ,2); ?></td>
-             <td><?php echo number_format($slip->pagibig,2); ?></td>
-             <td><?php echo number_format($slip->philhealth,2); ?></td>
-             <td><?php echo number_format($slip->getEmployee()->getTotalDeductions(),2); ?></td>
-             <td><?php echo $slip->getEmployee()->getTax()['widthholding_tax']; ?></td>
-             <td><?php echo $slip->getEmployee()->getTax()['total_deduc']; ?></td>
-             <td><?php echo $slip->getEmployee()->getTax()['net']; ?></td>
+             <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
+             <td><?php echo $payslip->getEmployee()->id; ?></td>
+             <td><?php echo $payslip->getEmployee()->getName(); ?></td>
+             <td><?php echo $payslip->getEmployee()->getMonthlyRate(); ?></td>
+             <td><?php echo $payslip->getEmployee()->getSemiMonthlyRate(); ?></td>
+             <td><?php echo $payslip->getEmployee()->getDailyRate(); ?></td>
+              <td><?php echo $payslip->getEmployee()->getTaxStatus(); ?></td>
+             <td><?php echo $payslip->getEmployee()->getTotalAllowances(); ?></td>
+             <td><?php echo $payslip->getEmployee()->getGross(); ?></td>
+             <td><?php echo number_format(isset($payslip->sss) ? $payslip->sss : 0 ,2); ?></td>
+             <td><?php echo number_format($payslip->philhealth,2); ?></td>
+             <td><?php echo number_format($payslip->pagibig,2); ?></td>
+             <td><?php echo number_format($payslip->getEmployee()->getAbsentDeduction($payslip->from, $payslip->to),2); ?></td>
+             <td><?php echo $payslip->getEmployee()->getLateDeduction($payslip->from, $payslip->to, 'minute'); ?></td>
+             <td><?php echo $payslip->getEmployee()->getSalaryComputations($payslip->from, $payslip->to)['widthholding_tax']; ?></td>
+             <td><?php echo $payslip->getEmployee()->getSalaryComputations($payslip->from, $payslip->to)['net']; ?></td>
            </tr>
         <?php endforeach;  ?>
         

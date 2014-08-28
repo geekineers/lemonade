@@ -35,7 +35,10 @@
                 <button class="btn btn-warning btn-flat" >not yet approved</button>
             {% elseif( form.status == 'approved') %}
                 <button class="btn btn-success btn-flat" >approved</button>
+            {% elseif( form.status == 'disapproved') %}
+                 <button class="btn btn-warning btn-flat" >disapproved</button>
             {% endif %}
+
             </td>
          
             <td>
@@ -57,6 +60,7 @@
                        <ul></ul>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-warning" id="disapproved" >Disapproved</button>
                         <button class="btn btn-primary" id="approved" >Approved</button>
                         <button class="btn"  data-dismiss="modal" >close</button>
                     </div>
@@ -81,7 +85,7 @@
                     $('#approve-modal .modal-body')
                         .find('ul')
                         .append($('<li/>',{ css :{ "text-transform": "capitalize" }, text : data.form_type + ' form '  } ))
-                        .append($('<li/>',{ text : 'Effective date : '+ moment(data.effective_date).format('YYYY-MM-DD') } ) )
+                        .append($('<li/>',{ text : 'Date prepared : '+ moment(data.created_at).format('YYYY-MM-DD') } ) )
                     $.each(JSON.parse(data.form_data),function(ar,i){
                      $('#approve-modal .modal-body')
                         .find('ul').append($('<li/>',{ css :{ "text-transform": "capitalize" }, text : ar.split("_").join(" ") + ' : ' + i  } ))
@@ -93,9 +97,19 @@
             var el = this;
             $.post('hr/approved',{id:$(el).data('id')},function(){
                 $('#approve-modal').modal('hide');
+                $.notify('Approved','success');
                 window.location.reload();
             });
         });
+        $('#disapproved').on('click',function(){
+            var el = this;
+            $.post('hr/disapproved',{id:$(el).data('id')},function(){
+                $('#approve-modal').modal('hide');
+                $.notify('disapproved','success');
+                // window.location.reload();
+            });
+        });
+
         $('#forms').dataTable({
             "bPaginate": true,
             "bFilter": true,

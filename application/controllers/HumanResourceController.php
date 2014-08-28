@@ -41,4 +41,10 @@ class HumanResourceController extends BaseController {
 		echo $this->formApplicationRepository->approved($id);
 		
 	}
+
+	public function disapproved()
+	{
+		$id = $this->input->post('id');
+		echo $this->formApplicationRepository->disapproved($id);
+	}
 }
