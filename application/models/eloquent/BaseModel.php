@@ -37,9 +37,9 @@ class BaseModel extends Eloquent {
 		// builder can easily access any information it may need from the model
 		// while it is constructing and executing various queries against it.
 		$builder->setModel($this)->with($this->with);
-
-		return $this->applyGlobalScopes($builder)->where('company_id', COMPANY_ID)
-												->orWhere('company_id', 0);
+		// dd(COMPANY_ID);
+		return $this->applyGlobalScopes($builder)->where('company_id', '=', COMPANY_ID);
+												// ->orWhere('company_id', 0);
 	}
 
 }	

@@ -5,7 +5,7 @@ require_once('connection.php');
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Form_Application extends Eloquent {
+class Form_Application extends BaseModel {
 	use SoftDeletingTrait;
 
 	public $table = "form_application";

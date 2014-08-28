@@ -6,7 +6,7 @@ require_once ('BaseController.php');
 // use Illuminate\Validation\Factory as Validator;
 use Respect\Validation\Validator as Validator;
 use Upload\Storage\FileSystem as FileSystem;
-
+use Cartalyst\Sentry\Groups\Eloquent\Group;
 
 class EmployeeController extends BaseController
 {
@@ -68,7 +68,7 @@ class EmployeeController extends BaseController
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']         = "Employees";
         $data['branches']      = $this->branchesRepository->all();
-        $data['groups']        = $this->sentry->findAllGroups();
+        $data['groups']        = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions'] = $this->jobPositionRepository->all();
         $data['departments']   = $this->departmentRepository->all();
         $this->render('employee/add.twig.html', $data);

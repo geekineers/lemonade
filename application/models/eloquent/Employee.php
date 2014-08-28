@@ -712,8 +712,15 @@ class Employee extends BaseModel
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
-                 // dd($attended);                                                   
-                if (!$attended) {
+                $forms = Form_Application::where('employee_id', '=', $this->id)
+                			 ->whereIn('form_type',['ob', 'ot', 'leave'])
+                			 ->whereBetween('from', [$date_range_start, $date_range_end])
+                                         ->where('status', '=', 'approved')
+                                         ->count(); 
+
+
+
+                if (!$attended && $forms) {
                     $total_absent += 1;
                 }
 

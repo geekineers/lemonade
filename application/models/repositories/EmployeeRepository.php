@@ -168,6 +168,7 @@ class EmployeeRepository extends BaseRepository {
       			 'email'     => $email,
        			 'password'  => $password,
        			 'activated' => true,
+       			 'company_id' => COMPANY_ID
   		  ));
 
 		 	$group = $sentry->findGroupById($role_id);
@@ -255,10 +256,11 @@ class EmployeeRepository extends BaseRepository {
 	public function getLoginUser($sentry)
 	{
 
-		// dd($sentry);
-		
+		// dd($sentry->id);
+		// dd(COMPANY_ID);
 		$employee =  Employee::where('user_id', '=', $sentry->id)->first();
-		if($employee != NULL){
+		// dd($employee);
+		if($employee){
 			$group = $sentry->getGroups()[0];
 			$employee->permissions = $group->getPermissions();
 			$employee->all_permissions = $this->getAllPermissions();

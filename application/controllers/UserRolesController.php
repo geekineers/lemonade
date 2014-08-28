@@ -1,6 +1,8 @@
 <?php
 require_once ('BaseController.php');
 
+use Cartalyst\Sentry\Groups\Eloquent\Group;
+
 class UserRolesController extends BaseController
 {
 
@@ -17,7 +19,7 @@ class UserRolesController extends BaseController
 
     public function index()
     {
-        $data['groups'] = $this->sentry->findAllGroups();
+        $data['groups'] = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['user']   = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']  = "User Roles";
         $this->render('user_roles/index.twig.html', $data);
@@ -40,7 +42,7 @@ class UserRolesController extends BaseController
     {
         $input['name'] = $this->input->post('name');
         $permissions   = $this->input->post('permissions');
-
+        $input['company_id'] = COMPANY_ID;
         foreach ($permissions as $key => $value) {
             $input['permissions'][$key] = ($value == 'on')?1:0;
         }
@@ -74,11 +76,15 @@ class UserRolesController extends BaseController
 
         $permissions   = $this->input->post('permissions');
         $permissions_array = [];
+
+        // $group->permissions= $permissions_array;
+        // $group->save();
+
         foreach ($permissions as $key => $value) {
             $permissions_array[$key] = ($value == 'on')?1:0;
         }
-
         $group->permissions = $permissions_array;
+
 
         // Update the group
         if ($group->save()) {
