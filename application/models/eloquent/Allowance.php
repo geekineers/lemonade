@@ -11,10 +11,12 @@ class Allowance extends BaseModel {
 	 protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['allowance_name','created_by'];
+  protected $fillable = ['allowance_name','created_by', 'company_id'];
 
   public function getCreator()
   {
+  	// dd($this->created_by);
+  	// dd(Employee::find(1));
   	return Employee::find($this->created_by)->getName();
   }
 

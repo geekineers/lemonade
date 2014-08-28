@@ -730,9 +730,11 @@ class Employee extends BaseModel
         }
 
         $date_range = createDateRangeArray($from, $to);
+
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
             $dt               = new Carbon($date);
 
             if ($dt->isWeekend() && $weekend_include) {
@@ -747,8 +749,8 @@ class Employee extends BaseModel
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
-
-                if ($attended) {
+                 // dd($attended);                                                   
+                if (!$attended) {
                     $total_absent += 1;
                 }
 

@@ -47,7 +47,7 @@ class BranchController extends BaseController
         // dd($save);
         $this->session->set_flashdata('message', $branch_name.' has been added.');
 
-        redirect('/branches', 'location');
+        redirect('/settings/branches', 'location');
 
     }
 
@@ -70,7 +70,7 @@ class BranchController extends BaseController
         $id          = $this->input->post('id');
         $save        = $this->branchRepository->find($id)->update($this->input->post());
         $this->session->set_flashdata('message', $branch_name.' has been updated.');
-        redirect('/branches', 'location');
+        redirect('/settings/branches', 'location');
 
     }
 
@@ -82,7 +82,7 @@ class BranchController extends BaseController
 
         $this->branchRepository->delete($id);
         $this->session->set_flashdata('message', $branch_name.' has been deleted.');
-        redirect('/branches', 'location');
+        redirect('/settings/branches', 'location');
 
     }
 
