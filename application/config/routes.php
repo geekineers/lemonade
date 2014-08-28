@@ -146,6 +146,7 @@ Pigeon::map(function ($r) {
      $r->get('hr/form-application','HumanResourceController#application');
      $r->post('hr/approved','HumanResourceController#approve');
      $r->post('hr/disapproved','HumanResourceController#disapproved');
+     $r->post('hr/delete','HumanResourceController#delete');
 
 
      $r->get('forms','FormsController#index');
