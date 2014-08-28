@@ -8,7 +8,7 @@ class CompanyController extends BaseController
 {
 
     protected $companyRepository,
-    $company;
+    $company, $logged_user;
 
     public function __construct()
     {
@@ -19,8 +19,9 @@ class CompanyController extends BaseController
         $this->fileSystem         = new FileSystem($path);
         $this->companyRepository  = new CompanyRepository();
         $this->employeeRepository = new EmployeeRepository();
+        $this->logged_user        = $this->sentry->getUser();
 
-        $this->company = $this->companyRepository->find(1);
+        $this->company = $this->companyRepository->find($this->logged_user->company_id);
 
         $this->load->library('session');
 
@@ -30,7 +31,7 @@ class CompanyController extends BaseController
     {
 
         $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
+        $data['new_user'] = $this->session->flashdata('new_user');
         $data['company'] = $this->company;
         $this->render('company/index.twig.html', $data);
 

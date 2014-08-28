@@ -256,10 +256,28 @@ class EmployeeRepository extends BaseRepository {
 	{
 
 		// dd($sentry);
+		
 		$employee =  Employee::where('user_id', '=', $sentry->id)->first();
-		$group = $sentry->getGroups()[0];
-		$employee->permissions = $group->getPermissions();
-		$employee->all_permissions = $this->getAllPermissions();
+		if($employee != NULL){
+			$group = $sentry->getGroups()[0];
+			$employee->permissions = $group->getPermissions();
+			$employee->all_permissions = $this->getAllPermissions();
+			return $employee;
+		}
+		return $this->getAdminAccount();	
+	}
+
+	public function getAdminAccount()
+	{
+		$employee = new Employee();
+		$employee->id = 1;
+		$employee->first_name = 'Super Admin';
+		$employee->middle_name = 'N/A';
+		$employee->last_name = 'Administrator';
+		$employee->full_address = 'N/A';
+		$employee->birthdate = date('Y-m-d');
+		$employee->birthdate = date('Y-m-d');
+
 		return $employee;
 	}
 

@@ -29,7 +29,7 @@ class HolidayRepository extends BaseRepository {
 		$this->create([
 				'year' => $year,
 				'holiday_year_id' => $year,
-				'holiday_name' => $holiday->name,
+				'holiday_name' => $holiday->title,
 				'holiday_type' => $holiday->type,
 				'holiday_from' => $holiday->from,
 				'holiday_to'   => $holiday->to

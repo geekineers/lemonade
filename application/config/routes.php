@@ -14,7 +14,9 @@ Pigeon::map(function ($r) {
 
 	$r->route('create-admin-lemonade', 'AuthController#createAdmin');
 	$r->get('auth', 'AuthController#index');
-	$r->post('auth', 'AuthController#login');
+    $r->post('auth', 'AuthController#login');
+    $r->get('register', 'AuthController#register');
+	$r->post('register', 'AuthController#saveRegister');
 	$r->get('auth/logout', 'AuthController#logout');
 	$r->get('auth/time-in', 'AuthController#timeIn');
 
@@ -84,7 +86,8 @@ Pigeon::map(function ($r) {
 	$r->get('settings/deductions', 'DeductionController#index');
 	$r->post('settings/deductions/save', 'DeductionController#save');
 
-	$r->get('settings/allowances', 'AllowanceController#index');
+    $r->get('settings/allowances', 'AllowanceController#index');
+	$r->get('settings/allowances/delete', 'AllowanceController#delete');
 	$r->post('settings/allowances/save', 'AllowanceController#save');
 
 	$r->get('settings/company', 'CompanyController#index');

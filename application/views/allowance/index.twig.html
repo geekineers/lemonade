@@ -23,7 +23,7 @@
 	 		<td>{{ allowance.getCreator() }}</td>
 	 		<td>
 	 			<a href="/allowances/edit?id={{ allowance.id }}" class="btn btn-primary">Edit</a>
-	 			<a href="/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger">Delete</a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger">Delete</a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}

@@ -13,6 +13,12 @@ abstract class BaseController extends CI_Controller
         $this->sentry = Sentry::createSentry();
     
         $user = $this->sentry->getUser();
+        if(isset($user)){
+        	define('COMPANY_ID', $user->company_id);
+        }
+
+        // get_instance()->load->library('session');
+        
     	// dd($user->getGroups()[0]['name']);
     }
     public function render($template, $data = [])

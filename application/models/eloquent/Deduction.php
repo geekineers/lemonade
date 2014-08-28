@@ -11,7 +11,7 @@ class Deduction extends BaseModel {
 	 protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['deduction_name', 'deduction_type', 'created_by'];
+  protected $fillable = ['deduction_name', 'deduction_type', 'created_by', 'company_id'];
 
   public function getCreator()
   {

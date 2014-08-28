@@ -19,6 +19,7 @@ class Company extends Eloquent {
       'company_philhealth',
       'company_tel',
       'line_of_business',
+      'admin_user_id',
       ];
 
   public function getCreator()

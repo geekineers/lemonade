@@ -16,7 +16,7 @@ class BaseModel extends Eloquent {
 	public static function create(array $attributes)
 	{
 		$model = new static($attributes);
-		$model->company_id = 1;
+		$model->company_id = COMPANY_ID;
 		$model->save();
 
 		return $model;
@@ -38,7 +38,8 @@ class BaseModel extends Eloquent {
 		// while it is constructing and executing various queries against it.
 		$builder->setModel($this)->with($this->with);
 
-		return $this->applyGlobalScopes($builder)->where('company_id', 1);
+		return $this->applyGlobalScopes($builder)->where('company_id', COMPANY_ID)
+												->orWhere('company_id', 0);
 	}
 
 }	
