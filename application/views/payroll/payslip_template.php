@@ -121,7 +121,7 @@ background-color:#F2F2F2;
 
          <tr>
           <td>Absent</td>
-          <td><?php echo $employee->getAbsentDeduction($payslip->from, $payslip->to); ?></td>
+          <td><?php echo $employee->getAbsentDeduction($payslip->from, $payslip->to,false,true); ?></td>
         </tr>
         <tr>
           <td>SSS</td>

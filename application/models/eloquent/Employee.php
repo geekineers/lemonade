@@ -527,12 +527,12 @@ class Employee extends BaseModel
      * return Daily Rate of an employee
      * @return [int]
      */
-    public function getDailyRate()
+    public function getDailyRate($number_format=true)
     {
         $basic_pay      = $this->basic_pay;
         $payroll_period = $this->payroll_period;
 
-        return getRate($basic_pay, $payroll_period, 'daily');
+        return getRate($basic_pay, $payroll_period, 'daily',$number_format);
 
     }
     public function getSemiMonthlyRate()
@@ -767,9 +767,13 @@ class Employee extends BaseModel
      * @param  boolean $weekend_include
      * @return [float]
      */
-    public function getAbsentDeduction($from, $to, $weekend_include = false)
+    public function getAbsentDeduction($from, $to, $weekend_include = false,$number_format=false)
     {
-        return floatval($this->getDailyRate()*$this->getAbsent($from, $to, $weekend_include));
+        $total = $this->getDailyRate(false)*$this->getAbsent($from, $to, $weekend_include) ;
+        if($number_format){
+         return number_format($total,2);
+        }
+        return floatval($total);
 
     }
 
