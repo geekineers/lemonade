@@ -12,6 +12,7 @@ class EmployeeRepository extends BaseRepository {
         $this->fileSystem = new FileSystem($path);
 	}
 
+
 	public function getAllPermissions()
 	{
 		return [
@@ -167,6 +168,7 @@ class EmployeeRepository extends BaseRepository {
       			 'email'     => $email,
        			 'password'  => $password,
        			 'activated' => true,
+       			 'company_id' => COMPANY_ID
   		  ));
 
 		 	$group = $sentry->findGroupById($role_id);
@@ -254,11 +256,30 @@ class EmployeeRepository extends BaseRepository {
 	public function getLoginUser($sentry)
 	{
 
-		// dd($sentry);
+		// dd($sentry->id);
+		// dd(COMPANY_ID);
 		$employee =  Employee::where('user_id', '=', $sentry->id)->first();
-		$group = $sentry->getGroups()[0];
-		$employee->permissions = $group->getPermissions();
-		$employee->all_permissions = $this->getAllPermissions();
+		// dd($employee);
+		if($employee){
+			$group = $sentry->getGroups()[0];
+			$employee->permissions = $group->getPermissions();
+			$employee->all_permissions = $this->getAllPermissions();
+			return $employee;
+		}
+		return $this->getAdminAccount();	
+	}
+
+	public function getAdminAccount()
+	{
+		$employee = new Employee();
+		$employee->id = 1;
+		$employee->first_name = 'Super Admin';
+		$employee->middle_name = 'N/A';
+		$employee->last_name = 'Administrator';
+		$employee->full_address = 'N/A';
+		$employee->birthdate = date('Y-m-d');
+		$employee->birthdate = date('Y-m-d');
+
 		return $employee;
 	}
 

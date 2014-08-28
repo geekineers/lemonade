@@ -6,7 +6,7 @@ require_once ('BaseController.php');
 // use Illuminate\Validation\Factory as Validator;
 use Respect\Validation\Validator as Validator;
 use Upload\Storage\FileSystem as FileSystem;
-
+use Cartalyst\Sentry\Groups\Eloquent\Group;
 
 class EmployeeController extends BaseController
 {
@@ -46,13 +46,16 @@ class EmployeeController extends BaseController
 
     public function index()
     {
-    	
+    	// $employee = Employee::find(2);
+    	// $absent = $employee->getAbsent('2014-08-25','2014-08-29');
+    	// dd($absent);
+
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ?null
         :$this->session->flashdata('message');
         $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']     = "Employee";
-        $data['employees'] = $this->employeeRepository->all();
+        $data['employees'] = $this->employeeRepository->where('id', '!=', 1)->get();
 
         $data['job_positions'] = $this->jobPositionRepository->all();
         $data['departments']   = $this->departmentRepository->all();
@@ -65,7 +68,7 @@ class EmployeeController extends BaseController
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']         = "Employees";
         $data['branches']      = $this->branchesRepository->all();
-        $data['groups']        = $this->sentry->findAllGroups();
+        $data['groups']        = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions'] = $this->jobPositionRepository->all();
         $data['departments']   = $this->departmentRepository->all();
         $this->render('employee/add.twig.html', $data);

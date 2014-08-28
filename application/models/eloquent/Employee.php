@@ -8,7 +8,7 @@ require_once ('connection.php');
 use Cartalyst\Sentry\Groups\Eloquent\Group;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Employee extends Eloquent
+class Employee extends BaseModel
 {
     // use SoftDeletingTrait;
     protected $table = "employees";
@@ -104,6 +104,23 @@ class Employee extends Eloquent
     public function getEmployeeType()
     {
         return $this->employee_type;
+    }
+
+    public function getTaxStatus()
+    {
+        $status = "";
+        if($this->marital_status=='Single')
+        {
+            $dependents =(string) $this->dependents;
+            $status = 'S'.$dependents;
+        }
+        else if($this->marital_status=='Married')
+        {
+            $dependents =(string) $this->dependents;
+            $status = 'ME'.$dependents;
+        }
+        return $status;
+
     }
 
     public function getRole()
@@ -209,7 +226,8 @@ class Employee extends Eloquent
             $total += $allowance->amount;
         }
 
-        if ($number_format) {return number_format($total, 2);
+        if ($number_format) {
+            return number_format($total, 2);
         }
 
         return $total;
@@ -402,7 +420,7 @@ class Employee extends Eloquent
         return floatval($this->getLate($from, $to, $unit)*$this->getUnderTimeDeductionRate($unit));
     }
 
-    public function getTax()
+    public function getSalaryComputations($from,$to)
     {
         $salary     = intval($this->getBasicPay(false));
         $dependents = $this->dependents;
@@ -414,20 +432,25 @@ class Employee extends Eloquent
 
         $pagibig_val = $this->fixed_hdmf_amount == null?100:(int)$this->fixed_hdmf_amount;
 
-        $curr_salary = $salary-($sss_val+$philhealth_val+$pagibig_val);
         // return $curr_salary;
+        $absents = $this->getAbsentDeduction($from,$to);
 
-        $wt = getWTax($curr_salary, $period, $dependents);
+        $overtime =  $this->getOvertime($from,$to);
 
-        $deductions = ($sss_val+$philhealth_val+$pagibig_val+intval($this->getTotalDeductions()));
 
-        $total_deductions = $deductions+$wt;
+        $curr_salary = ($salary + $overtime ) - ( $sss_val + $philhealth_val + $pagibig_val + $absents);
+        
+        $widthholding_tax = getWTax( $curr_salary , $period, $dependents );
+
+        $deductions = ( $sss_val + $philhealth_val + $pagibig_val + intval($this->getTotalDeductions()) + $absents);
+
+        $total_deductions = $deductions + $widthholding_tax;
 
         $net = intval($this->getGross(false))-$total_deductions;
 
         return array(
             'gross'            => number_format($salary, 2),
-            'widthholding_tax' => number_format($wt, 2),
+            'widthholding_tax' => number_format($widthholding_tax, 2),
             'philhealth'       => number_format($philhealth_val, 2),
             'SSS'              => number_format($sss_val, 2),
             'pagibig'          => number_format($pagibig_val, 2),
@@ -504,13 +527,27 @@ class Employee extends Eloquent
      * return Daily Rate of an employee
      * @return [int]
      */
-    public function getDailyRate()
+    public function getDailyRate($number_format=true)
     {
         $basic_pay      = $this->basic_pay;
         $payroll_period = $this->payroll_period;
 
-        return getRate($basic_pay, $payroll_period, 'daily');
+        return getRate($basic_pay, $payroll_period, 'daily',$number_format);
 
+    }
+    public function getSemiMonthlyRate()
+    {
+        $basic_pay      = $this->basic_pay;
+        $payroll_period = $this->payroll_period;
+
+        return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
+    }
+    public function getMonthlyRate()
+    {
+        $basic_pay      = $this->basic_pay;
+        $payroll_period = $this->payroll_period;
+
+        return getRate($basic_pay, $payroll_period, 'Monthly');
     }
 
     /**
@@ -693,9 +730,11 @@ class Employee extends Eloquent
         }
 
         $date_range = createDateRangeArray($from, $to);
+
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
             $dt               = new Carbon($date);
 
             if ($dt->isWeekend() && $weekend_include) {
@@ -710,8 +749,15 @@ class Employee extends Eloquent
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
+                $forms = Form_Application::where('employee_id', '=', $this->id)
+                			 ->whereIn('form_type',['ob', 'ot', 'leave'])
+                			 ->whereBetween('from', [$date_range_start, $date_range_end])
+                                         ->where('status', '=', 'approved')
+                                         ->count(); 
 
-                if ($attended) {
+
+
+                if (!$attended && $forms) {
                     $total_absent += 1;
                 }
 
@@ -728,9 +774,13 @@ class Employee extends Eloquent
      * @param  boolean $weekend_include
      * @return [float]
      */
-    public function getAbsentDeduction($from, $to, $weekend_include = false)
+    public function getAbsentDeduction($from, $to, $weekend_include = false,$number_format=false)
     {
-        return floatval($this->getDailyRate()*$this->getAbsent($from, $to, $weekend_include));
+        $total = $this->getDailyRate(false)*$this->getAbsent($from, $to, $weekend_include) ;
+        if($number_format){
+         return number_format($total,2);
+        }
+        return floatval($total);
 
     }
 

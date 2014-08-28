@@ -91,7 +91,9 @@
             $('#employee_name').parent().removeClass('has-error');
           $.post('forms/save-form',data,function(response){
             $('.ob').loading(false);
-            console.log(response);
+           
+             $.notify('Form Submitted','success');
+             window.location.href = "/hr";
           });
         }
     });

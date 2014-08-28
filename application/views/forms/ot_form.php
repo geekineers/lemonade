@@ -96,8 +96,8 @@
           $.post('forms/save-form',data,function(response){
             $('.ob').loading(false);
             console.log(response);
-            
-            window.location.href = "hr";
+            $.notify('Form Submitted','success');
+             window.location.href = "/hr";
           });
         }
     });

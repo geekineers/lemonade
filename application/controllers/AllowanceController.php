@@ -81,4 +81,15 @@ class AllowanceController extends BaseController {
 
 	}
 
+	   public function delete()
+    {
+        $id = $this->input->get('id');
+
+        $branch_name = $this->allowanceRepository->find($id)->allowance_name;
+
+        $this->allowanceRepository->find($id)->delete();
+        $this->session->set_flashdata('message', $branch_name.' has been deleted.');
+        redirect('/settings/allowances', 'location');
+
+    }
 }

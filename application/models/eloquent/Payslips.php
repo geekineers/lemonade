@@ -60,6 +60,7 @@ class Payslips extends Eloquent {
 
   public function getBranch()
   {
+       
         return Branch::find($this->branch_id)->branch_name;
   }
   

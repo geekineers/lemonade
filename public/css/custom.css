@@ -1,3 +1,5 @@
+.loigin-box .register-btn { text-decoration: underline; text-align: center;}
+.form-box .header { background: #DBCC18; }
 header .logo img{
 
 	width: 100%;
@@ -5,6 +7,9 @@ header .logo img{
 
 
 }
+
+.bg-lemon, .bg-lemon:hover{ background-color:  #DBCC18; color : #f9f9f9}
+
 .req-label {color: rgb(168, 9, 9);}
 
 .dashboard .box-warning .box-header { background-color: #DBCC18 !important;}

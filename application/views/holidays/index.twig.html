@@ -21,8 +21,8 @@
         <td>{{ holiday_year.year }}</td>
         <td>{{ holiday_year.getCreator() }}</td>
         <td>
-            <a href="/deductions/edit?id={{ holiday_year.id }}" class="btn btn-primary">Edit</a>
-            <a href="/deductions/delete?id={{ holiday_year.id }}" class="btn btn-danger">Delete</a>
+            <a href="/setting/holidays/edit?id={{ holiday_year.id }}" class="btn btn-primary">Edit</a>
+            <a href="/setting/holidays/delete?id={{ holiday_year.id }}" class="btn btn-danger">Delete</a>
         </td>
     </tr>
     {% endfor %}

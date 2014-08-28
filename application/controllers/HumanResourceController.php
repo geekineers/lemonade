@@ -28,6 +28,10 @@ class HumanResourceController extends BaseController {
 		$data['forms'] = $this->formApplicationRepository->all();
 		$this->render('human_resource/index.twig.html',$data);
 	}
+	public function delete()
+	{
+		$this->formApplicationRepository->delete($this->input->post('id'));
+	}
 	public function application()
 	{
 
@@ -40,5 +44,12 @@ class HumanResourceController extends BaseController {
 		$id = $this->input->post('id');
 		echo $this->formApplicationRepository->approved($id);
 		
+	}
+
+	public function disapproved()
+	{
+		$id = $this->input->post('id');
+
+		echo $this->formApplicationRepository->disapproved($id);
 	}
 }

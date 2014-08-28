@@ -5,7 +5,7 @@ require_once('connection.php');
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Branch extends Eloquent {
+class Branch extends BaseModel {
 	use SoftDeletingTrait;
   	 public $table = "branches";
 	 protected $datas = ['deleted_at'];

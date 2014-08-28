@@ -23,8 +23,8 @@
 	 		<td>{{ branch.address }}</td>
 	 
 	 		<td>
-	 			<a href="/settings/branches/edit?id={{ deduction.id }}" class="btn btn-primary">Edit</a>
-	 			<a href="/settings/branches/delete?id={{ deduction.id }}" class="branch_delete btn btn-danger">Delete</a>
+	 			<a href="/settings/branches/edit?id={{ branch.id }}" class="btn btn-primary">Edit</a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/branches/delete?id={{ branch.id }}" class="branch_delete btn btn-danger">Delete</a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}

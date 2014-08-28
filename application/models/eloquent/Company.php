@@ -11,7 +11,16 @@ class Company extends Eloquent {
 	 protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['company_name', 'company_description', 'company_address', 'company_contact_number', 'company_logo'];
+  protected $fillable = ['company_name', 'company_description', 'company_address', 'company_contact_number', 
+      'company_logo',
+      'company_sss',
+      'company_rdo',
+      'company_zip',
+      'company_philhealth',
+      'company_tel',
+      'line_of_business',
+      'admin_user_id',
+      ];
 
   public function getCreator()
   {

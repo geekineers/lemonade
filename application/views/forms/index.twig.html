@@ -10,19 +10,10 @@
             </div>
         </div><!-- /.box-header -->
         <div class="box-body">    
-                <form action="/settings/forms" method="post">
+                <form action="/settings/forms " method="post">
                     
                         <div class="form-group row">
-                            <div class="col-md-6 ">
-                                <label  class="control-label">Employee: </label>
-                                 <select required name="job_position" class="form-control " id="employee_name" placeholder="">
-                                     <option value="" disabled selected>select employee</option>
-                                    {% for employee in employees %}
-                                      <option value="{{  employee.id }}">{{ employee.getName() }}</option>
-                                    {% endfor %}
-                                 </select>
-                            </div>
-                             <div class="col-md-6">
+                             <div class="col-md-12">
                                 <label  class="control-label">Type of form</label>
                                 <select required name="department" class="form-control " id="type_of_form" placeholder="">
                                     <option value="" disabled selected>select form</option>
@@ -31,6 +22,18 @@
                                     {% endfor %}
                                 </select>
                              </div>
+
+                            <div class="col-md-6 ">
+                            <br>
+                            <br>
+                                <label  class="control-label">Select Employee: </label>
+                                 <select required name="job_position" class="form-control " id="employee_name" placeholder="">
+                                     <option value="" disabled selected>select employee</option>
+                                    {% for employee in employees %}
+                                      <option value="{{  employee.id }}">{{ employee.getName() }}</option>
+                                    {% endfor %}
+                                 </select>
+                            </div>
                              <div class="col-md-12 description hidden">
                                  <hr/>
                              </div>

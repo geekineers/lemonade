@@ -4,7 +4,8 @@ require_once('BaseController.php');
 class AuthController extends BaseController {
 
 	protected $userRepository,
-			  $timeSheetRepository;
+			  $timeSheetRepository,
+			  $companyRepository;
 
 
 	public function __construct()
@@ -12,6 +13,7 @@ class AuthController extends BaseController {
 		parent::__construct();
 		$this->userRepository = new UserRepository();
 		$this->timeSheetRepository = new TimesheetRepository();
+		$this->companyRepository = new CompanyRepository();
 		$this->load->library('session'); 
 	}
 
@@ -22,6 +24,11 @@ class AuthController extends BaseController {
 		
 		$this->mustBeLoggedOut();
 		$this->render('login.twig.html', $data);
+	}
+
+	public function register()
+	{
+		$this->render('register.twig.html');
 	}
 
 	public function login()
@@ -118,7 +125,46 @@ class AuthController extends BaseController {
 	}
 
 
+	public function saveRegister()
+	{
+		$this->config->load('user_permissions');
 
+		$company_name = $this->input->post('company_name');
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		
+		$company = $this->companyRepository->create(['company_name' => $company_name]);
+	
+		$user = $this->sentry->createUser([
+				'first_name' => 'Admininistrator',
+				'last_name'	 =>  $company_name,
+				'email'		 =>  $username,
+				'password'   =>  $password,
+				'activated'  => true,
+				'company_id' => $company->id
+				
+			]);
+
+		$all_permissions = $this->config->item('permissions');
+		$permissions = array();
+
+		foreach ($all_permissions as $permission) {
+			$permissions[$permission] = 1;
+		}
+
+	   $group = $this->sentry->createGroup(array(
+				        'name'        => 'Super Admin - ' . $company_name,
+				        'permissions' => $permissions,
+			        'company_id'  => $company->id
+				   		 ));
+
+      	$user->addGroup($group);
+		 // Log the user in
+		 $login =  $this->sentry->login($user, true);
+		 
+			$this->session->set_flashdata('new_user', "true");
+			redirect('settings/company');
+	}
 
 
 
@@ -133,6 +179,8 @@ class AuthController extends BaseController {
 				'activated'  => true
 				
 			]);
+
+
 	}
 }
 

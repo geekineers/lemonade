@@ -29,8 +29,9 @@ CREATE TABLE `allowances` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +40,7 @@ CREATE TABLE `allowances` (
 
 LOCK TABLES `allowances` WRITE;
 /*!40000 ALTER TABLE `allowances` DISABLE KEYS */;
-INSERT INTO `allowances` VALUES (1,'Food Meal','1','2014-08-18 13:01:14','2014-08-18 13:01:14',NULL);
+INSERT INTO `allowances` VALUES (1,'Food Meal','1','2014-08-18 13:01:14','2014-08-18 13:01:14',NULL,14),(2,'Hotel and Room','1','2014-08-27 23:16:20','2014-08-28 05:31:42','2014-08-28 05:31:42',1),(3,'Transportation','1','2014-08-28 02:58:38','2014-08-28 02:58:38',NULL,14),(4,'Mark','2','2014-08-28 05:31:13','2014-08-28 05:31:42','2014-08-28 05:31:42',1),(5,'Transportation','2','2014-08-28 05:31:54','2014-08-28 05:32:08','2014-08-28 05:32:08',1),(6,'Food Meal','2','2014-08-28 05:32:05','2014-08-28 05:32:08','2014-08-28 05:32:08',1),(7,'Transportation','2','2014-08-28 05:33:38','2014-08-28 05:33:49','2014-08-28 05:33:49',1),(8,'Food Meal','2','2014-08-28 05:33:46','2014-08-28 05:33:49','2014-08-28 05:33:49',1);
 /*!40000 ALTER TABLE `allowances` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,6 +59,7 @@ CREATE TABLE `announcement` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -120,8 +122,9 @@ CREATE TABLE `branches` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +133,7 @@ CREATE TABLE `branches` (
 
 LOCK TABLES `branches` WRITE;
 /*!40000 ALTER TABLE `branches` DISABLE KEYS */;
-INSERT INTO `branches` VALUES (1,'Capas Branch','','','','2014-08-07 13:42:38','2014-08-07 13:42:38',NULL);
+INSERT INTO `branches` VALUES (1,'Capas Branch','','','','2014-08-07 13:42:38','2014-08-07 13:42:38',NULL,NULL),(2,'Cavite','cavite','cavite st','412133123','2014-08-28 01:55:09','2014-08-28 01:55:09',NULL,14),(3,'Makati Branch','Best Branch Ever','#8 Highway 56','12312312312','2014-08-28 05:12:52','2014-08-28 05:12:52',NULL,15),(4,'Capas Branch','','asdasd\r\n                                            ','13213213','2014-08-28 05:23:37','2014-08-28 05:26:04','2014-08-28 05:25:11',1),(5,'Capas Branch','','asdasd\r\n                                            ','','2014-08-28 05:26:00','2014-08-28 05:26:04',NULL,1);
 /*!40000 ALTER TABLE `branches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,16 +146,24 @@ DROP TABLE IF EXISTS `companies`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `companies` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-  `company_name` varchar(100) NOT NULL,
+  `company_name` varchar(100) DEFAULT '',
   `company_description` text,
-  `company_address` text NOT NULL,
-  `company_contact_number` varchar(30) NOT NULL,
-  `company_logo` varchar(100) NOT NULL,
+  `company_address` text,
+  `company_contact_number` varchar(30) DEFAULT '',
+  `company_logo` varchar(100) DEFAULT '',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_sss` varchar(100) DEFAULT NULL,
+  `line_of_business` varchar(100) DEFAULT NULL,
+  `company_tin` varchar(100) DEFAULT NULL,
+  `company_zip` varchar(100) DEFAULT NULL,
+  `company_rdo` varchar(100) DEFAULT NULL,
+  `company_philhealth` varchar(100) DEFAULT NULL,
+  `company_tel` varchar(100) DEFAULT NULL,
+  `admin_user_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +172,7 @@ CREATE TABLE `companies` (
 
 LOCK TABLES `companies` WRITE;
 /*!40000 ALTER TABLE `companies` DISABLE KEYS */;
-INSERT INTO `companies` VALUES (1,'Lemonade Company','aldkasjdlas                                                \r\n                                            ','#8 Robina road Novalicjes','info@8layer.com','53f1a80551652.png','2014-08-18 15:15:17','2014-08-18 15:15:17',NULL);
+INSERT INTO `companies` VALUES (1,'Lemonade Company','aldkasjdlas                                                \r\n                                            ','#8 Robina road Novalicjes','info@8layer.com','53fdd9becfcd4.png','2014-08-18 15:15:17','2014-08-27 21:14:38',NULL,'113123123123','Web Development',NULL,'12312313','12312312321',NULL,'41213123123',NULL),(4,'Lemonade Company','aldkasjdlas                                                \r\n                                            ','#8 Robina road Novalicjes','info@8layer.com','53fdd7bf7fc16','2014-08-27 21:06:07','2014-08-27 21:06:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'Lemonade Company','aldkasjdlas                                                \r\n                                            ','#8 Robina road Novalicjes','info@8layer.com','53fdd8291f40f','2014-08-27 21:07:53','2014-08-27 21:07:53',NULL,'113123123123','Web Development',NULL,'12312313','12312312321',NULL,NULL,NULL),(6,'Lemonade Company','aldkasjdlas                                                \r\n                                            ','#8 Robina road Novalicjes','info@8layer.com','53fdd83601011','2014-08-27 21:08:06','2014-08-27 21:08:06',NULL,'113123123123','Web Development',NULL,'12312313','12312312321',NULL,NULL,NULL),(14,'SourceScript Innovations',NULL,NULL,'','','2014-08-28 01:28:03','2014-08-28 01:28:03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(15,'Kalibr','sadasd','kalibr','asdasd','53fe48d0cd353.png','2014-08-28 05:00:42','2014-08-28 05:08:32',NULL,'sadasd','asdasd',NULL,'sadasd','asdasd',NULL,'saasdasd',NULL);
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,8 +191,9 @@ CREATE TABLE `deductions` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +202,7 @@ CREATE TABLE `deductions` (
 
 LOCK TABLES `deductions` WRITE;
 /*!40000 ALTER TABLE `deductions` DISABLE KEYS */;
-INSERT INTO `deductions` VALUES (1,'Car Loan','fix_amount','1','2014-08-08 12:22:12','2014-08-08 12:22:12',NULL),(2,'Car Loan','fix_amount','1','2014-08-08 12:22:24','2014-08-08 12:22:24',NULL),(3,'Car Loan','fix_amount','1','2014-08-08 12:24:21','2014-08-08 12:24:21',NULL);
+INSERT INTO `deductions` VALUES (1,'Car Loan','fix_amount','1','2014-08-08 12:22:12','2014-08-08 12:22:12',NULL,1),(2,'Car Loan','fix_amount','1','2014-08-08 12:22:24','2014-08-08 12:22:24',NULL,NULL),(3,'Car Loan','fix_amount','1','2014-08-08 12:24:21','2014-08-08 12:24:21',NULL,NULL),(4,'Food Deduction','fix_amount','1','2014-08-27 23:14:14','2014-08-27 23:14:14',NULL,1),(5,'Family Meals','fix_amount','1','2014-08-28 02:36:39','2014-08-28 02:36:39',NULL,1);
 /*!40000 ALTER TABLE `deductions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,8 +220,9 @@ CREATE TABLE `department` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +231,7 @@ CREATE TABLE `department` (
 
 LOCK TABLES `department` WRITE;
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
-INSERT INTO `department` VALUES (1,'IT Department','Information Technology Department','2014-08-09 17:59:22','2014-08-09 17:59:22',NULL);
+INSERT INTO `department` VALUES (1,'IT Department','Information Technology Department','2014-08-09 17:59:22','2014-08-09 17:59:22',NULL,NULL),(2,'IT Department','Web and Technologies','2014-08-28 04:19:17','2014-08-28 04:19:17',NULL,14),(3,'IT Department','','2014-08-28 05:12:11','2014-08-28 05:12:11',NULL,15),(4,'IT Department','','2014-08-28 10:56:31','2014-08-28 10:56:31',NULL,1);
 /*!40000 ALTER TABLE `department` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +346,7 @@ CREATE TABLE `employees` (
   `last_name` varchar(100) NOT NULL,
   `middle_name` varchar(100) NOT NULL,
   `full_address` varchar(255) NOT NULL,
-  `birthdate` date NOT NULL,
+  `birthdate` date DEFAULT NULL,
   `gender` varchar(100) NOT NULL,
   `marital_status` varchar(100) NOT NULL,
   `spouse_name` varchar(255) NOT NULL,
@@ -372,8 +385,9 @@ CREATE TABLE `employees` (
   `fixed_philhealth_amount` float DEFAULT NULL,
   `timeshift_start` time DEFAULT NULL,
   `timeshift_end` time DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,8 +396,74 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'2','Mark','Penaranda','Angel','#8 Robina Roaddasdzdczxc','1992-09-03','Male','Single','','Regular','Monthly',1,1,0,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3121e449fc.jpg','09066009622','eloisa.corpuz','mark@sourcescript.ph','2014-08-07 13:43:59','2014-08-18 05:37:24',NULL,'Compensation',0,1,0,0,0,NULL,1,0,1,0,1,0,'05:30:00','23:30:00'),(2,'','Eloisa ','Corpuz','Luzanos','#8 Robina Road','1992-09-03','Female','Single','','Regular','Monthly',1,1,1,1,'07/07/1992','none','25000','1212111','1212111','121211',0,'53e32f6e3da47.jpg','09066009622','eloisa.corpuz','eloisa@sourcescript.ph','2014-08-07 15:49:02','2014-08-07 17:53:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'','John','Doe','Dee','Amsterdam','1992-02-10','Male','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',4,'53e3dbefe96cb.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:05:07','2014-08-08 04:05:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'3','Jen','Dela Cruz','Dee ','Matatalaib Tarlac','1992-01-10','Female','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3dd865bf56.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:11:50','2014-08-08 04:11:50',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `employees` VALUES (1,'','Super Admin','Administrator','Admin','',NULL,'Male','Single','','','',0,0,0,0,'07/07/1992','','','','','',0,'','','','',NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0),(2,'2','Mark','Penaranda','Angel','#8 Robina Roaddasdzdczxc','1992-09-03','Male','Single','','Regular','Monthly',1,4,3,5,'07/07/1992','none','25000','123123','123','13123',0,'53e3121e449fc.jpg','09066009622','eloisa.corpuz','mark@sourcescript.ph','2014-08-07 13:43:59','2014-08-28 10:58:29',NULL,'Compensation',0,1,0,0,0,NULL,1,0,1,0,1,0,'08:45:00','22:45:00',1),(3,'','Eloisa ','Corpuz','Luzanos','#8 Robina Road','1992-09-03','Female','Single','','Regular','Monthly',1,1,1,1,'07/07/1992','none','25000','1212111','1212111','121211',0,'53e32f6e3da47.jpg','09066009622','eloisa.corpuz','eloisa@sourcescript.ph','2014-08-07 15:49:02','2014-08-07 17:53:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(5,'','John','Doe','Dee','Amsterdam','1992-02-10','Male','Single','','Regular','Daily',1,1,1,1,'07/07/1992','none','25000','123123','123','13123',4,'53e3dbefe96cb.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:05:07','2014-08-08 04:05:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(6,'3','Jen','Dela Cruz','Dee ','Matatalaib Tarlac','1992-01-10','Female','Single','','Regular','Daily',1,1,2,1,'07/07/1992','none','25000','123123','123','13123',0,'53e3dd865bf56.jpg','09066009622','eloisa.corpuz','employee@lemon.com','2014-08-08 04:11:50','2014-08-27 11:06:35',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'11:00:00','11:00:00',1),(8,'6','Ben','Thompson','Ron','#3 Sesame Street Pasig City','2014-07-27','Male','Single','','Regular','Monthly',1,1,6,1,'2014-08-22','none','25000','','','',0,'53fcb181175f0.jpeg','09066009622','mark.a.penaranda','reg@lemon.com','2014-08-27 00:10:41','2014-08-27 00:10:41',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(10,'14','Mark','Penaranda','Angel ','#8 Robina Road Novaliches Quezon City','1992-09-03','Male','Single','','Regular','Daily',5,2,10,2,'2014-08-22','none','25000','','','',0,'53feb25bdf34e.jpg','','','mark@sourcescript.ph','2014-08-28 12:38:51','2014-08-28 12:38:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,14);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `evaluations`
+--
+
+DROP TABLE IF EXISTS `evaluations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `evaluations` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `evaluation_name` varchar(100) NOT NULL,
+  `employee_id` int(5) NOT NULL,
+  `created_by` int(5) NOT NULL,
+  `evaluation_from` datetime NOT NULL,
+  `evaluation_to` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `evaluation_description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `evaluations`
+--
+
+LOCK TABLES `evaluations` WRITE;
+/*!40000 ALTER TABLE `evaluations` DISABLE KEYS */;
+INSERT INTO `evaluations` VALUES (1,'Promotion Review',1,1,'2014-08-05 00:00:00','2014-08-08 00:00:00','2014-08-26 11:44:42','2014-08-26 11:44:42',NULL,NULL);
+/*!40000 ALTER TABLE `evaluations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `form_application`
+--
+
+DROP TABLE IF EXISTS `form_application`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `form_application` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `form_type` text NOT NULL,
+  `employee_id` int(11) DEFAULT NULL,
+  `prepared_by` int(11) DEFAULT NULL,
+  `effective_date` datetime NOT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `status` text NOT NULL,
+  `form_data` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `form_application`
+--
+
+LOCK TABLES `form_application` WRITE;
+/*!40000 ALTER TABLE `form_application` DISABLE KEYS */;
+/*!40000 ALTER TABLE `form_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -427,9 +507,10 @@ CREATE TABLE `groups` (
   `permissions` text COLLATE utf8_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `groups_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,8 +519,70 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'HR Manager',NULL,'2014-07-29 10:16:23','2014-07-29 10:16:23'),(2,'HR Admin',NULL,'2014-07-29 10:18:46','2014-07-29 10:18:46'),(3,'Super Admin',NULL,'2014-07-29 10:22:51','2014-07-29 10:22:51'),(4,'kjhkh','{\"user\":1,\"user_create\":1,\"user_delete\":1}','2014-07-29 11:17:16','2014-07-29 11:17:16'),(5,'Employee',NULL,'2014-07-30 04:10:39','2014-07-30 04:10:39');
+INSERT INTO `groups` VALUES (1,'HR Manager','{\"user_view\":1,\"user_create\":1,\"user_delete\":1,\"job_position_create\":1,\"job_position_view\":1,\"job_position_delete\":1,\"department_create\":1,\"department_view\":1,\"department_delete\":1,\"payroll_group_create\":1,\"payroll_group_view\":1,\"company_setting_edit\":1,\"deductions_create\":1,\"deductions_view\":1,\"deductions_delete\":1,\"allowance_create\":1,\"allowance_view\":1,\"allowance_delete\":1,\"holiday_create\":1,\"holiday_delete\":1,\"employee_create\":1,\"employee_view\":1,\"employee_delete\":1,\"employee_edit\":1,\"employee_schedule_evaluation\":1,\"employee_send_memo\":1,\"generate_payroll\":1,\"settings_view\":1,\"timesheet_import\":1,\"timesheet_view\":1}','2014-07-29 10:16:23','2014-08-27 02:57:19',NULL),(2,'HR Admin',NULL,'2014-07-29 10:18:46','2014-07-29 10:18:46',NULL),(3,'Super Admin','{\"user_view\":1,\"user_create\":1,\"user_delete\":1,\"branch_create\":1,\"branch_delete\":1,\"branch_view\":1,\"job_position_create\":1,\"job_position_view\":1,\"job_position_delete\":1,\"department_create\":1,\"department_view\":1,\"department_delete\":1,\"payroll_group_create\":1,\"payroll_group_view\":1,\"company_setting_edit\":1,\"deductions_create\":1,\"deductions_view\":1,\"deductions_delete\":1,\"allowance_create\":1,\"allowance_view\":1,\"allowance_delete\":1,\"holiday_create\":1,\"holiday_delete\":1,\"employee_create\":1,\"employee_view\":1,\"employee_delete\":1,\"employee_edit\":1,\"employee_schedule_evaluation\":1,\"employee_send_memo\":1,\"employee_add_allowance\":1,\"employee_add_deductions\":1,\"employee_add_files\":1,\"post_announcement\":1,\"generate_payroll\":1,\"settings_view\":1,\"timesheet_import\":1,\"timesheet_view\":1}','2014-07-29 10:22:51','2014-08-26 18:18:20',NULL),(5,'Employee',NULL,'2014-07-30 04:10:39','2014-07-30 04:10:39',NULL),(6,'Regular Employee','{\"user_view\":1,\"job_position_view\":1,\"deductions_view\":1,\"allowance_view\":1,\"employee_view\":1}','2014-08-26 15:37:39','2014-08-26 15:37:39',NULL),(8,'Super Admin - SourceScript Innovations','{\"user_view\":1,\"user_create\":1,\"user_delete\":1,\"branch_create\":1,\"branch_delete\":1,\"branch_view\":1,\"job_position_create\":1,\"job_position_view\":1,\"job_position_delete\":1,\"department_create\":1,\"department_view\":1,\"department_delete\":1,\"payroll_group_create\":1,\"payroll_group_view\":1,\"company_setting_edit\":1,\"deductions_create\":1,\"deductions_view\":1,\"deductions_delete\":1,\"allowance_create\":1,\"allowance_view\":1,\"allowance_delete\":1,\"holiday_create\":1,\"holiday_delete\":1,\"employee_create\":1,\"employee_view\":1,\"employee_delete\":1,\"employee_edit\":1,\"employee_schedule_evaluation\":1,\"employee_send_memo\":1,\"employee_add_allowance\":1,\"employee_add_deductions\":1,\"employee_add_files\":1,\"post_announcement\":1,\"generate_payroll\":1,\"settings_view\":1,\"timesheet_import\":1,\"timesheet_view\":1}','2014-08-27 17:28:03','2014-08-27 17:28:03',14),(9,'Super Admin - Kalibr','{\"user_view\":1,\"user_create\":1,\"user_delete\":1,\"branch_create\":1,\"branch_delete\":1,\"branch_view\":1,\"job_position_create\":1,\"job_position_view\":1,\"job_position_delete\":1,\"department_create\":1,\"department_view\":1,\"department_delete\":1,\"payroll_group_create\":1,\"payroll_group_view\":1,\"company_setting_edit\":1,\"deductions_create\":1,\"deductions_view\":1,\"deductions_delete\":1,\"allowance_create\":1,\"allowance_view\":1,\"allowance_delete\":1,\"holiday_create\":1,\"holiday_delete\":1,\"employee_create\":1,\"employee_view\":1,\"employee_delete\":1,\"employee_edit\":1,\"employee_schedule_evaluation\":1,\"employee_send_memo\":1,\"employee_add_allowance\":1,\"employee_add_deductions\":1,\"employee_add_files\":1,\"post_announcement\":1,\"generate_payroll\":1,\"settings_view\":1,\"timesheet_import\":1,\"timesheet_view\":1}','2014-08-27 21:00:42','2014-08-27 21:00:42',15),(10,'Web Developer','{\"deductions_view\":1,\"allowance_view\":1,\"timesheet_view\":1}','2014-08-28 04:35:35','2014-08-28 04:35:35',14);
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `holiday_years`
+--
+
+DROP TABLE IF EXISTS `holiday_years`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `holiday_years` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `year` varchar(100) NOT NULL,
+  `created_by` int(5) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `holiday_years`
+--
+
+LOCK TABLES `holiday_years` WRITE;
+/*!40000 ALTER TABLE `holiday_years` DISABLE KEYS */;
+INSERT INTO `holiday_years` VALUES (3,'2014',2,'2014-08-26 16:56:33','2014-08-26 16:56:33',NULL,NULL),(4,'2014',2,'2014-08-27 23:17:08','2014-08-27 23:17:08',NULL,1),(5,'2014',2,'2014-08-27 23:17:21','2014-08-27 23:17:21',NULL,1),(6,'2014',13,'2014-08-28 05:13:47','2014-08-28 05:13:47',NULL,15),(7,'2014',13,'2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15);
+/*!40000 ALTER TABLE `holiday_years` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `holidays`
+--
+
+DROP TABLE IF EXISTS `holidays`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `holidays` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `year` varchar(100) NOT NULL,
+  `holiday_year_id` int(5) NOT NULL,
+  `holiday_name` varchar(100) NOT NULL,
+  `holiday_type` varchar(100) NOT NULL,
+  `holiday_from` date NOT NULL,
+  `holiday_to` date NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `holidays`
+--
+
+LOCK TABLES `holidays` WRITE;
+/*!40000 ALTER TABLE `holidays` DISABLE KEYS */;
+INSERT INTO `holidays` VALUES (1,'2014',2014,'Bagong Taon','regular','2014-01-01','2014-01-01','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(2,'2014',2014,'Maulid un-Nabi','common local','2014-01-14','2014-01-14','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(3,'2014',2014,'Chinese Lunar New Year\'s Day','regular','2014-01-31','2014-01-31','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(4,'2014',2014,'People Power Anniversary','observance','2014-02-25','2014-02-25','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(5,'2014',2014,'March equinox','season','2014-03-20','2014-01-01','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(6,'2014',2014,'The Day of Valor','regular','2014-04-09','2014-04-09','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(7,'2014',2014,'Maundy Thursday','regular','2014-04-17','2014-04-17','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(8,'2014',2014,'Good Friday','special non-working','2014-04-19','2014-04-19','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(9,'2014',2014,'Easter Sunday','observance','2014-04-20','2014-01-01','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(10,'2014',2014,'Labor Day','regular','2014-05-01','2014-05-01','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(11,'2014',2014,'Lailatul Isra Wal Raj','regular','2014-05-27','2014-05-27','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(12,'2014',2014,'Independence Day','common local','2014-06-12','2014-06-12','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(13,'2014',2014,'June Solstice','season','2014-06-21','2014-06-21','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(14,'2014',2014,'Eidul-Fitar','common local','2014-07-29','2014-07-29','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(15,'2014',2014,'Ninoy Aquino Day','special non-working','2014-08-21','2014-08-21','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(16,'2014',2014,'National Heroes Day','regular','2014-08-24','2014-08-24','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(17,'2014',2014,'National Heroes Day Holiday','regular','2014-08-25','2014-08-25','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(18,'2014',2014,'September equinox','season','2014-09-23','2014-09-23','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(19,'2014',2014,'Id-ul-Adha (Feast of the Sacrifice)','common local','2014-10-04','2014-10-04','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(20,'2014',2014,'Amun Jadid','common local','2014-10-25','2014-10-25','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(21,'2014',2014,'All Saints\' Day','','2014-11-01','2014-11-01','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(22,'2014',2014,'All Souls\' Day','observance','2014-11-02','2014-11-02','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(23,'2014',2014,'December Solstice','regular','2014-12-21','2014-12-21','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(24,'2014',2014,'Christmas Eve','special non-working','2014-12-24','2014-12-24','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(25,'2014',2014,'Christmas Day','regular','2014-12-25','2014-12-25','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(26,'2014',2014,'Special Day after Christmas','special non-working','2014-01-01','2014-01-01','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(27,'2014',2014,'Rizal Day','regular','2014-12-30','2014-12-30','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(28,'2014',2014,'New Year\'s Eve','special non-working','2014-12-31','2014-12-31','2014-08-26 16:56:33','2014-08-26 18:16:42',NULL,NULL),(29,'2014',2014,'Foundation Day','regular','2014-08-08','2014-08-08','2014-08-26 18:36:13','2014-08-26 18:36:13',NULL,NULL),(30,'2014',2014,'Bagong Taon','regular','2014-01-01','2014-01-01','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(31,'2014',2014,'Maulid un-Nabi','common local','2014-01-14','2014-01-14','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(32,'2014',2014,'Chinese Lunar New Year\'s Day','special non-working','2014-01-31','2014-01-31','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(33,'2014',2014,'People Power Anniversary','observance','2014-02-25','2014-02-25','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(34,'2014',2014,'March equinox','season','2014-03-20','2014-01-01','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(35,'2014',2014,'The Day of Valor','regular','2014-04-09','2014-04-09','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(36,'2014',2014,'Maundy Thursday','regular','2014-04-17','2014-04-17','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(37,'2014',2014,'Good Friday','special non-working','2014-04-19','2014-04-19','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(38,'2014',2014,'Easter Sunday','observance','2014-04-20','2014-01-01','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(39,'2014',2014,'Labor Day','regular','2014-05-01','2014-05-01','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(40,'2014',2014,'Lailatul Isra Wal Raj','regular','2014-05-27','2014-05-27','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(41,'2014',2014,'Independence Day','common local','2014-06-12','2014-06-12','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(42,'2014',2014,'June Solstice','season','2014-06-21','2014-06-21','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(43,'2014',2014,'Eidul-Fitar','common local','2014-07-29','2014-07-29','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(44,'2014',2014,'Ninoy Aquino Day','special non-working','2014-08-21','2014-08-21','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(45,'2014',2014,'National Heroes Day','regular','2014-08-24','2014-08-24','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(46,'2014',2014,'National Heroes Day Holiday','regular','2014-08-25','2014-08-25','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(47,'2014',2014,'September equinox','season','2014-09-23','2014-09-23','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(48,'2014',2014,'Id-ul-Adha (Feast of the Sacrifice)','common local','2014-10-04','2014-10-04','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(49,'2014',2014,'Amun Jadid','common local','2014-10-25','2014-10-25','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(50,'2014',2014,'All Saints\' Day','','2014-11-01','2014-11-01','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(51,'2014',2014,'All Souls\' Day','observance','2014-11-02','2014-11-02','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(52,'2014',2014,'December Solstice','regular','2014-12-21','2014-12-21','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(53,'2014',2014,'Christmas Eve','special non-working','2014-12-24','2014-12-24','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(54,'2014',2014,'Christmas Day','regular','2014-12-25','2014-12-25','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(55,'2014',2014,'Special Day after Christmas','special non-working','2014-01-01','2014-01-01','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(56,'2014',2014,'Rizal Day','regular','2014-12-30','2014-12-30','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15),(57,'2014',2014,'New Year\'s Eve','special non-working','2014-12-31','2014-12-31','2014-08-28 05:15:02','2014-08-28 05:15:02',NULL,15);
+/*!40000 ALTER TABLE `holidays` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -456,8 +599,9 @@ CREATE TABLE `job_position` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -466,7 +610,7 @@ CREATE TABLE `job_position` (
 
 LOCK TABLES `job_position` WRITE;
 /*!40000 ALTER TABLE `job_position` DISABLE KEYS */;
-INSERT INTO `job_position` VALUES (1,'Web Developer','','2014-08-07 13:42:55','2014-08-07 13:42:55',NULL);
+INSERT INTO `job_position` VALUES (1,'Web Developer','','2014-08-07 13:42:55','2014-08-07 13:42:55',NULL,1),(2,'Accountant','Helping other people','2014-08-27 00:57:28','2014-08-27 00:57:28',NULL,NULL),(3,'Product Manager','','2014-08-27 00:58:43','2014-08-27 00:58:43',NULL,NULL),(4,'Accountant','We\'ll Help','2014-08-28 05:11:08','2014-08-28 05:11:08',NULL,15),(5,'Web Developer','','2014-08-28 12:35:58','2014-08-28 12:35:58',NULL,14);
 /*!40000 ALTER TABLE `job_position` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,7 +630,7 @@ CREATE TABLE `memos` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,7 +639,6 @@ CREATE TABLE `memos` (
 
 LOCK TABLES `memos` WRITE;
 /*!40000 ALTER TABLE `memos` DISABLE KEYS */;
-INSERT INTO `memos` VALUES (1,'1','1','Hi you have a pending form here in the HR Department.','2014-08-20 04:20:17','2014-08-20 04:20:17',NULL),(3,'1','1','You there?','2014-08-20 04:26:41','2014-08-20 04:26:41',NULL);
 /*!40000 ALTER TABLE `memos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -517,7 +660,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (21),(21);
+INSERT INTO `migrations` VALUES (30),(30);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -537,8 +680,9 @@ CREATE TABLE `payroll_group` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -547,7 +691,7 @@ CREATE TABLE `payroll_group` (
 
 LOCK TABLES `payroll_group` WRITE;
 /*!40000 ALTER TABLE `payroll_group` DISABLE KEYS */;
-INSERT INTO `payroll_group` VALUES (1,1,'Regular','Monthly','2','2014-08-18 12:07:10','2014-08-18 12:07:10',NULL);
+INSERT INTO `payroll_group` VALUES (1,1,'Regular','Monthly','2','2014-08-18 12:07:10','2014-08-18 12:07:10',NULL,NULL),(2,1,'Irregular','Monthly','2','2014-08-20 14:14:47','2014-08-20 14:14:47',NULL,NULL);
 /*!40000 ALTER TABLE `payroll_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -603,6 +747,7 @@ CREATE TABLE `payslips` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -635,7 +780,7 @@ CREATE TABLE `throttle` (
   `banned_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -644,7 +789,7 @@ CREATE TABLE `throttle` (
 
 LOCK TABLES `throttle` WRITE;
 /*!40000 ALTER TABLE `throttle` DISABLE KEYS */;
-INSERT INTO `throttle` VALUES (1,1,'::1',0,0,0,NULL,NULL,NULL),(2,2,'::1',0,0,0,NULL,NULL,NULL),(3,3,'::1',0,0,0,NULL,NULL,NULL);
+INSERT INTO `throttle` VALUES (1,1,'::1',0,0,0,NULL,NULL,NULL),(2,2,'::1',0,0,0,NULL,NULL,NULL),(3,3,'::1',0,0,0,NULL,NULL,NULL),(4,6,'::1',0,0,0,NULL,NULL,NULL),(5,7,NULL,0,0,0,NULL,NULL,NULL),(6,8,NULL,0,0,0,NULL,NULL,NULL),(7,11,NULL,0,0,0,NULL,NULL,NULL),(8,12,NULL,0,0,0,NULL,NULL,NULL),(9,13,NULL,0,0,0,NULL,NULL,NULL),(10,14,'::1',0,0,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `throttle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -665,8 +810,9 @@ CREATE TABLE `timesheet` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `cookie_registry` varchar(255) DEFAULT NULL,
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -675,7 +821,7 @@ CREATE TABLE `timesheet` (
 
 LOCK TABLES `timesheet` WRITE;
 /*!40000 ALTER TABLE `timesheet` DISABLE KEYS */;
-INSERT INTO `timesheet` VALUES (10,1,'Payroll Login','2014-08-12 03:28:53','2014-08-12 03:29:18','2014-08-12 03:28:53','2014-08-12 03:29:18',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$wfYofwIBvdHcFSrWHQOMY.YJBFNCv6gxZiA1KbhRN8P3I4NJhIBnm\";}'),(11,1,'Payroll Login','2014-08-12 03:29:43','2014-08-12 03:30:09','2014-08-12 03:29:43','2014-08-12 03:30:09',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$GnurC6PxCVVJlzo4IqDRgOyC6cAlSg9sRa0FO4d3WqR8i1hXh63gm\";}'),(12,1,'Payroll Login','2014-08-12 03:57:40','2014-08-12 03:58:31','2014-08-12 03:57:40','2014-08-12 03:58:31',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$nYQtGEXJ4PEEM2C5e0KlyunHDoV/Kjsr21LsKvU7Bw70v32ZKMdJS\";}'),(13,1,'Payroll Login','2014-08-12 03:58:58','2014-08-13 11:27:43','2014-08-12 03:58:58','2014-08-13 11:27:43',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$lh2Vt3diQ7KGSdNNn9OOV.pipDeL6rWEb15L62r1CfypbBdsHxm1W\";}'),(14,1,'Payroll Login','2014-08-13 11:27:58','2014-08-13 11:31:36','2014-08-13 11:27:58','2014-08-13 11:31:36',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$CjH68c6U8YkD0sZ1yCWaHuf9SqOFsfaQgLojOhy2eyMEmZhGiqplS\";}');
+INSERT INTO `timesheet` VALUES (36,2,'Payroll Login','2014-08-28 10:58:50','2014-08-28 11:16:06','2014-08-28 10:58:50','2014-08-28 11:16:06',NULL,'a:2:{i:0;s:1:\"2\";i:1;s:60:\"$2y$10$RcI0MmlstLRe1tXXAydMEOE3TvgETWwCtYVCHKsj0dDOvOv/3896.\";}',NULL);
 /*!40000 ALTER TABLE `timesheet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -701,11 +847,12 @@ CREATE TABLE `users` (
   `last_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `company_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_activation_code_index` (`activation_code`),
   KEY `users_reset_password_code_index` (`reset_password_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -714,7 +861,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'admin@lemon.com','$2y$10$mOVSzydNV6stv5WcPGlxdeuVpDJZOxytzGc9UrVMHDBEEZohkJkG.',NULL,1,NULL,NULL,'2014-08-17 13:47:50','$2y$10$yP4s2aFcnpwTIDtrpyBS9.lBQxUNNo1J4bSZQVq5XnbW57xt3toHW',NULL,'Admininstrator','Lemon','2014-07-25 18:50:46','2014-08-17 05:47:50'),(3,'employee@lemon.com','$2y$10$flrt0fpK7mE2cxDPenqWCeDSkSeh8jq2.uDxlyED4h1Nrrt2B4VIO',NULL,1,NULL,NULL,'2014-08-08 04:13:16','$2y$10$fAqtBHdtPwc0dX/OYw4WeuQRy8MHJVNqABqjEYIRUb6ej8m2yV.aq',NULL,NULL,NULL,'2014-08-07 20:11:49','2014-08-07 20:13:16');
+INSERT INTO `users` VALUES (2,'admin@lemon.com','$2y$10$mOVSzydNV6stv5WcPGlxdeuVpDJZOxytzGc9UrVMHDBEEZohkJkG.',NULL,1,NULL,NULL,'2014-08-28 11:37:05','$2y$10$LZ8vm.xr/FMlBpXnWZRk1e6Yvnb6Lclo/836Bpk7LzyzYeUdq5MuG',NULL,'Admininstrator','Lemon','2014-07-25 18:50:46','2014-08-28 03:37:05',1),(3,'employee@lemon.com','$2y$10$flrt0fpK7mE2cxDPenqWCeDSkSeh8jq2.uDxlyED4h1Nrrt2B4VIO',NULL,1,NULL,NULL,'2014-08-27 10:59:06','$2y$10$tk9o7zKGrWPHaItF2FF9Yum/dbVnOdUqzPJIzu22s7sD7KmA./iuG',NULL,NULL,NULL,'2014-08-07 20:11:49','2014-08-27 02:59:06',1),(4,'markangelpenaranda@gmail.com123213','$2y$10$7s80dXiXmoXAzGG26zd1B..v0sAbyPN53c16cAlZ0XoxhNDPuSVuS',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2014-08-22 10:18:41','2014-08-22 10:18:41',1),(5,'regemp@lemon.com','$2y$10$M5U0GG8AEIkRbeIu3AMWH.9Z0OO2zh2I/e/Br6h4nEEXXgv2eEvUC',NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2014-08-26 15:59:09','2014-08-26 15:59:09',1),(6,'reg@lemon.com','$2y$10$/N0mbS7W4TjZZzrY0h6vD.sxjYMk3gp4ma.63SeqHRE/8DS6IR2wi',NULL,1,NULL,NULL,'2014-08-28 01:57:58','$2y$10$hy.WZVlO8j0MB/a0YcGuVelqOIwVeQlVr1oIesc/hk31xXTIas37G',NULL,NULL,NULL,'2014-08-26 16:10:41','2014-08-27 17:57:58',1),(12,'admin@sourcescript.ph','$2y$10$AQb9usqhq9lD6LyiyJLH0OAbjD1lEWPjmg0jqmMvod9iPBrnK92mG',NULL,1,NULL,NULL,'2014-08-28 12:46:31','$2y$10$LvZBCC3f5lEytKl3wCkDdulurfwcF3oTgCMkIo7xlwIJqviRRc7lO',NULL,'Admininistrator','SourceScript Innovations','2014-08-27 17:28:03','2014-08-28 04:46:31',14),(13,'admin@kalibr.com','$2y$10$HyEEggjB2jyUeTIacCn3wuDAx15Iin/xe1NmQgYXbUyxrv8gOtEMW',NULL,1,NULL,NULL,'2014-08-28 05:00:42','$2y$10$A0RIZnkR5m4MH6LIEPz/JOnxNdVrUitd9flJSVZ11mA7tOHjKZ7zO',NULL,'Admininistrator','Kalibr','2014-08-27 21:00:42','2014-08-27 21:00:42',15),(14,'mark@sourcescript.ph','$2y$10$WmPrScqdMsxOI4nUy2vco.kITzJo56sAyBDyLnObkgasw0/Tdfqnq',NULL,1,NULL,NULL,'2014-08-28 12:47:42','$2y$10$39VHC25cj7EEu0DfU0Bq8eg.G2e9nlafWekVJWriTpo5.27hpjPMC',NULL,NULL,NULL,'2014-08-28 04:38:51','2014-08-28 04:47:42',14);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -730,7 +877,7 @@ CREATE TABLE `users_groups` (
   `user_id` int(10) unsigned NOT NULL,
   `group_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -739,7 +886,7 @@ CREATE TABLE `users_groups` (
 
 LOCK TABLES `users_groups` WRITE;
 /*!40000 ALTER TABLE `users_groups` DISABLE KEYS */;
-INSERT INTO `users_groups` VALUES (1,3,1);
+INSERT INTO `users_groups` VALUES (2,4,1),(3,5,6),(4,6,6),(9,3,2),(10,12,8),(11,13,9),(15,2,3),(16,14,10);
 /*!40000 ALTER TABLE `users_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -752,4 +899,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-20 11:35:39
+-- Dump completed on 2014-08-28 13:56:02
