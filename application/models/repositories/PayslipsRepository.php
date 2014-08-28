@@ -11,6 +11,18 @@ class PayslipsRepository extends BaseRepository {
 		$this->employeeRepository = new EmployeeRepository();
         $this->payrollGroupRepository= new PayrollGroupRepository();
 	}
+	public function getTotalSSS($slips)
+	{	
+		$total = 0;
+		foreach ($slips as $slip) {
+			$total = $total + intval($slip->sss);
+		}
+		return $total;
+	}
+	public function getTotalWtax()
+	{
+
+	}
 
 	public function getSlipById($id)
 	{
@@ -93,7 +105,7 @@ class PayslipsRepository extends BaseRepository {
 	                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
 	                    'net' => $payslip['net'],
 	                    'gross'=>$payslip['gross'],
-	                    'other_deductions' => 'not available',
+	                    'other_deductions' => '',
 	                    'prepared_by' => $payrollGroup['prepared_by']
 					]);
 			}
@@ -199,9 +211,9 @@ class PayslipsRepository extends BaseRepository {
 			
 			$pdf->Output();
 		}
-		else if ($type=='1601E')
+		else if ($type=='1601C')
 		{
-			$pageCount = $pdf->setSourceFile('pdf_template/1601E.pdf');
+			$pageCount = $pdf->setSourceFile('pdf_template/1601C.pdf');
 			// iterate through all pages
 			$templateArr = [];
 			for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
@@ -242,16 +254,31 @@ class PayslipsRepository extends BaseRepository {
 					$pdf->SetFontSize('14');
 					$pdf->SetXY(106, 56); 
 					$pdf->Write(0,'X');
-					// group
+
+					// tin
+
 					$pdf->SetFontSize('14');
+					$tin = Company::first()->company_tin;
+			    	$tin_ = substr($tin, 0, 3).'       '.substr($tin, 3, 3).'       '.substr($tin, 6, 3).'       '.substr($tin, 9, 3) ;
+					$pdf->SetXY(22, 68); 
+					$pdf->Write(0,$tin_);
+					
+
+					$pdf->SetFontSize('12');
 					$pdf->SetXY(20, 79); 
 					$pdf->Write(0, Company::first()->company_name);
-			    	
+					// group
 
+
+					// line of business
+
+					$pdf->SetFontSize('10');
+					$pdf->SetXY(162, 68); 
+					$pdf->Write(0, Company::first()->line_of_business);
 			    	// group
-					$pdf->SetFontSize('14');
+					$pdf->SetFontSize('12');
 					$pdf->SetXY(20, 89); 
-					$pdf->Write(0, $group->getBranchAddress());
+					$pdf->Write(0, Company::first()->company_address);
 			    	
 			    }else{
 				    $pdf->useTemplate($templateId);
@@ -259,6 +286,90 @@ class PayslipsRepository extends BaseRepository {
 				    $pdf->SetFont('Helvetica');
 				    $pdf->SetXY(5, 5);
 				    $pdf->Write(8, 'A complete document imported with FPDI');
+			    }
+			}
+			
+			$pdf->Output();
+		}
+		else if($type=="sss-r3")
+		{
+			$pageCount = $pdf->setSourceFile('pdf_template/sss-r3.pdf');
+			// iterate through all pages
+			$templateArr = [];
+			for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+			    // import a page
+			    $templateId = $pdf->importPage($pageNo);
+			    // get the size of the imported page
+			    $size = $pdf->getTemplateSize($templateId);
+			    $templateArr[] = $templateId;
+			    // create a page (landscape or portrait depending on the imported page size)
+			    if ($size['w'] > $size['h']) {
+			        $pdf->AddPage('L', array($size['w'], $size['h']));
+			    } else {
+			        $pdf->AddPage('P', array($size['w'], $size['h']));
+			    }
+
+			    // use the imported page
+			    if($templateId==1){
+			    	$pdf->useTemplate($templateId);
+			    	$pdf->SetFont('Helvetica');
+					$pdf->SetFontSize('8');
+				
+
+					// sss number
+					$pdf->SetFontSize('12');
+					$pdf->SetXY(15, 34); 
+					$pdf->SetFont('');
+					$pdf->CellFitSpaceForce(53, 10, Company::first()->company_sss,2,1, 1);
+					// address
+					$pdf->SetXY(70, 48); 
+					$pdf->SetFontSize('10');
+					$data = Company::first()->company_address;
+					$pdf->Write(0,$data);
+
+					// tel
+					$pdf->SetXY(15, 48); 
+					$pdf->SetFontSize('10');
+					$data = Company::first()->company_tel;
+					$pdf->Write(0,$data);
+
+					// employer name
+					$pdf->SetFontSize('10');
+					$pdf->SetXY(70, 38); 
+					$pdf->Write(0, Company::first()->company_name);
+
+			    	foreach ($slips as $i => $slip) {
+
+			    		$sss =  $slip->getEmployee()->sss_number!=null ?  $slip->getEmployee()->sss_number : '';
+			    		$birth = $slip->getEmployee()->birthdate;
+			    		$fname = $slip->getEmployee()->first_name;
+			    		$mname = $slip->getEmployee()->middle_name;
+			    		$lname = $slip->getEmployee()->last_name;
+			    		$ee = 100;
+			    		$er = 200;
+			    		$total = $ee+$er;
+						$pdf->SetXY(15, 69+(4*$i)); 
+						$data = '                                                  '.$lname.'         '.$fname.'       '.$mname ;
+
+						$pdf->CellFitSpaceForce(40, 0, $sss,2,1, 1);
+						$pdf->Write(0,$data);
+						$pdf->SetXY(133.5, 69+(4*$i)); 
+						$pdf->Write(0,number_format($slip->sss,2));
+						$pdf->Ln();
+
+
+			    	}
+
+			    	// total amount
+			    	$pdf->SetFontSize('10');
+					$pdf->SetXY(145.5, 168); 
+					$pdf->Write(0, number_format($this->getTotalSSS($slips),2));
+			    }else{
+				    $pdf->useTemplate($templateId);
+
+				    $pdf->SetFont('Helvetica');
+				    $pdf->SetXY(5, 5);
+				    $pdf->Write(8, '');
 			    }
 			}
 			

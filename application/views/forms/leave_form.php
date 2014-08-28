@@ -3,6 +3,7 @@
         <h3 class="box-title">Leave Form</h3>
     </div><!-- /.box-header -->
     <div class="box-body">    
+
             <form action="/settings/forms" method="post" class="ob_form">
                 
                     <div class="form-group row">
@@ -92,7 +93,7 @@
           $.post('forms/save-form',data,function(response){
             $('.ob').loading(false);
             console.log(response);
-            
+            $.notify('Form Submitted','success');
             window.location.href = "hr";
           });
         }

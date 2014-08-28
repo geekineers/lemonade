@@ -56,14 +56,14 @@ class FormsController extends BaseController {
 		$data = [
 			'employee_id' => $this->input->post('employee_id'),
 			'prepared_by' =>$this->employeeRepository->getLoginUser($this->sentry->getUser())->id,
-			'from' => $this->input->post('from'),
-			'to'	=> $this->input->post('to'),
+			'from' => date('Y-m-d H:i:s',strtotime($this->input->post('from'))  ),
+			'to'	=>date('Y-m-d H:i:s', strtotime($this->input->post('to'))  ),
 			'effective_date' =>$this->input->post('date'),
 			'status' => 'not-yet-approved',
 			'form_data' => (string) json_encode($this->input->post('form_data')),
 			'form_type' => $this->input->post('form_type')
 		];
-
+		
 		$form  =  $this->formApplicationRepository->create($data);
 		// if($form){
 		// 	$this->session->set_flashdata('message',$data['form_name']  .' has been added.');

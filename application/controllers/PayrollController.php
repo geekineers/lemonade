@@ -31,16 +31,20 @@ class PayrollController extends BaseController
 	}
 	public function masterList($id)
 	{
-		$slip =  $this->payslipsRepository->getPayslipById($id);
+		$from = $this->input->get('from');
+		$to = $this->input->get('to');
+		$slip = $this->payslipsRepository->getPayslipById($id,$from,$to);
 		// dd($slip);
 		$data = [
-			'payslip' => $slip
+			'payslips' => $slip,
+			'from'    => $from,
+			'to'	  => $to
 		];
 		$html = $this->load->view('payroll/masterlist',$data, true);
 		// dd($html);
 		// $html = "dsadas";
 		// dd($html);
-		echo $html;
+		// echo $html;
 		$pdf = pdf_create($html, '', false ,true	);
 	    echo $pdf;
 	}
