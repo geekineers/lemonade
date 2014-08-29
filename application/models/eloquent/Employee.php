@@ -6,7 +6,6 @@ require_once ('connection.php');
 
 // use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Cartalyst\Sentry\Groups\Eloquent\Group;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Employee extends BaseModel
 {
@@ -66,12 +65,12 @@ class Employee extends BaseModel
     }
     public function getName()
     {
-        return $this->first_name.' '.$this->middle_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
     }
 
     public function getProfileLink()
     {
-        return "/employees/".$this->id."/profile";
+        return "/employees/" . $this->id . "/profile";
     }
 
     public function getFullAddress()
@@ -89,7 +88,7 @@ class Employee extends BaseModel
     public function getAge()
     {
         $birthdate = new Carbon($this->birthdate);
-        return $birthdate->age.'yrs old';
+        return $birthdate->age . 'yrs old';
     }
 
     public function getGender()
@@ -109,15 +108,12 @@ class Employee extends BaseModel
     public function getTaxStatus()
     {
         $status = "";
-        if($this->marital_status=='Single')
-        {
-            $dependents =(string) $this->dependents;
-            $status = 'S'.$dependents;
-        }
-        else if($this->marital_status=='Married')
-        {
-            $dependents =(string) $this->dependents;
-            $status = 'ME'.$dependents;
+        if ($this->marital_status == 'Single') {
+            $dependents = (string) $this->dependents;
+            $status     = 'S' . $dependents;
+        } else if ($this->marital_status == 'Married') {
+            $dependents = (string) $this->dependents;
+            $status     = 'ME' . $dependents;
         }
         return $status;
 
@@ -174,8 +170,12 @@ class Employee extends BaseModel
 
     public function getProfilePicture()
     {
+        if ($this->profile_picture == null) {
+            return '/img/unknown_user.jpeg';
+        } else {
+            return '/media?image=' . $this->profile_picture;
 
-        return '/media?image='.$this->profile_picture;
+        }
     }
     public function getBranch()
     {
@@ -204,10 +204,11 @@ class Employee extends BaseModel
                                                                  ->get();
     }
 
-    public function getTotalDeductions($from = null, $to = null, $number_format = true){
-            $deductions = $this->getDeductions($from, $to);
+    public function getTotalDeductions($from = null, $to = null, $number_format = true)
+    {
+        $deductions = $this->getDeductions($from, $to);
         $total      = 0;
-       foreach ($deductions as $deduction) {
+        foreach ($deductions as $deduction) {
             $total += $deduction->amount;
         }
 
@@ -240,7 +241,7 @@ class Employee extends BaseModel
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = intval($this->getTotalAllowances(null, null, false)) + intval($this->getBasicPay(false));
+        $total = intval($this->getTotalAllowances(null, null, false))+intval($this->getBasicPay(false));
 
         if ($format) {
             return number_format($total, 2);
@@ -388,8 +389,8 @@ class Employee extends BaseModel
         $totalLate = 0;
 
         foreach ($days as $day) {
-            $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day.' 00:00:00');
-            $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day.' 23:59:59');
+            $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
+            $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
 
             $result = Timesheet::whereBetween('time_in', [$startDate, $endDate])->first();
             // dd($result);
@@ -417,32 +418,31 @@ class Employee extends BaseModel
      */
     public function getLateDeduction($from, $to, $unit)
     {
-        return floatval($this->getLate($from, $to, $unit)*$this->getUnderTimeDeductionRate($unit));
+        return floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
     }
 
-    public function getSalaryComputations($from,$to)
+    public function getSalaryComputations($from, $to)
     {
         $salary     = intval($this->getBasicPay(false));
         $dependents = $this->dependents;
         $period     = $this->period;
 
-        $sss_val = $this->fixed_sss_amount == null? getSSS($salary)['EE']:(int) $this->fixed_sss_amount;
+        $sss_val = $this->fixed_sss_amount == null ? getSSS($salary)['EE'] : (int) $this->fixed_sss_amount;
 
-        $philhealth_val = $this->fixed_philhealth_amount == null?getPH($salary)['Employee_Share']:(int) $this->fixed_philhealth_amount;
+        $philhealth_val = $this->fixed_philhealth_amount == null ? getPH($salary)['Employee_Share'] : (int) $this->fixed_philhealth_amount;
 
-        $pagibig_val = $this->fixed_hdmf_amount == null?100:(int)$this->fixed_hdmf_amount;
+        $pagibig_val = $this->fixed_hdmf_amount == null ? 100 : (int) $this->fixed_hdmf_amount;
 
         // return $curr_salary;
-        $absents = $this->getAbsentDeduction($from,$to);
+        $absents = $this->getAbsentDeduction($from, $to);
 
-        $overtime =  $this->getOvertime($from,$to);
+        $overtime = $this->getOvertime($from, $to);
 
+        $curr_salary = ($salary + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents);
 
-        $curr_salary = ($salary + $overtime ) - ( $sss_val + $philhealth_val + $pagibig_val + $absents);
-        
-        $widthholding_tax = getWTax( $curr_salary , $period, $dependents );
+        $widthholding_tax = getWTax($curr_salary, $period, $dependents);
 
-        $deductions = ( $sss_val + $philhealth_val + $pagibig_val + intval($this->getTotalDeductions()) + $absents);
+        $deductions = ($sss_val + $philhealth_val + $pagibig_val+intval($this->getTotalDeductions())+$absents);
 
         $total_deductions = $deductions + $widthholding_tax;
 
@@ -469,11 +469,11 @@ class Employee extends BaseModel
     {
         if ($this->entitled_overtime_pay) {
             if ($this->overtime_pay_rate) {
-                $rate = str_replace('%', '', $this->overtime_pay_rate)/100;
+                $rate = str_replace('%', '', $this->overtime_pay_rate) / 100;
                 // $nrate = 1 + $rate;
-                return $this->getHourlyRate()*$rate;
+                return $this->getHourlyRate() * $rate;
             } else {
-                return $this->getHourlyRate()*0.1;
+                return $this->getHourlyRate() * 0.1;
             }
         }
 
@@ -512,7 +512,7 @@ class Employee extends BaseModel
      */
     public function getOvertimePay()
     {
-        return floatval($this->getOverTimePayRate()*$this->getOvertime());
+        return floatval($this->getOverTimePayRate() * $this->getOvertime());
     }
 
     public function getHourlyRate()
@@ -527,12 +527,12 @@ class Employee extends BaseModel
      * return Daily Rate of an employee
      * @return [int]
      */
-    public function getDailyRate($number_format=true)
+    public function getDailyRate($number_format = true)
     {
         $basic_pay      = $this->basic_pay;
         $payroll_period = $this->payroll_period;
 
-        return getRate($basic_pay, $payroll_period, 'daily',$number_format);
+        return getRate($basic_pay, $payroll_period, 'daily', $number_format);
 
     }
     public function getSemiMonthlyRate()
@@ -560,8 +560,8 @@ class Employee extends BaseModel
     public function getNightly($from, $to, $unit = 'minute')
     {
 
-        $from = DateTime::createFromFormat('Y-m-d H:i:s', $from.' 00:00:00');
-        $to   = DateTime::createFromFormat('Y-m-d H:i:s', $to.' 23:59:59');
+        $from = DateTime::createFromFormat('Y-m-d H:i:s', $from . ' 00:00:00');
+        $to   = DateTime::createFromFormat('Y-m-d H:i:s', $to . ' 23:59:59');
 
         $attendances = Timesheet::whereBetween('time_in', [$from, $to])
             ->where('employee_id', $this->id)
@@ -589,8 +589,8 @@ class Employee extends BaseModel
                 $day2 = $date->format('Y-m-d');
             }
 
-            $night_diff_start = date('Y-m-d H:i', strtotime($day.' 22:00:00'));
-            $night_diff_end   = date('Y-m-d H:i', strtotime($day2.' 06:00:00'));
+            $night_diff_start = date('Y-m-d H:i', strtotime($day . ' 22:00:00'));
+            $night_diff_end   = date('Y-m-d H:i', strtotime($day2 . ' 06:00:00'));
             $time_in          = date('Y-m-d H:i', strtotime($attendance->time_in));
             $time_out         = date('Y-m-d H:i', strtotime($attendance->time_out));
 
@@ -625,11 +625,11 @@ class Employee extends BaseModel
     {
         if ($this->entitled_night_differential) {
             if ($this->night_differential_rate) {
-                $rate = str_replace('%', '', $this->night_differential_rate)/100;
+                $rate = str_replace('%', '', $this->night_differential_rate) / 100;
                 // $nrate = 1 + $rate;
-                return $this->getHourlyRate()*$rate;
+                return $this->getHourlyRate() * $rate;
             } else {
-                return $this->getHourlyRate()*0.1;
+                return $this->getHourlyRate() * 0.1;
             }
         }
 
@@ -644,7 +644,7 @@ class Employee extends BaseModel
      */
     public function getNightDifferentialPay($from, $to, $unit)
     {
-        return floatval($this->getNightly($from, $to, $unit)*$this->getNightlyRate());
+        return floatval($this->getNightly($from, $to, $unit) * $this->getNightlyRate());
     }
 
     public function getRegularHolidayRate()
@@ -659,7 +659,7 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        return floatval($this->getRegularHolidayRate()*$this->getRegularHolidayAttendance($from, $to));
+        return floatval($this->getRegularHolidayRate() * $this->getRegularHolidayAttendance($from, $to));
 
     }
     /**
@@ -669,7 +669,7 @@ class Employee extends BaseModel
     public function getSpecialHolidayRate()
     {
         $daily_rate = floatval($this->getDailyRate());
-        return $daily_rate*0.3;
+        return $daily_rate * 0.3;
     }
     /**
      * total regular attendance from date range given
@@ -712,7 +712,7 @@ class Employee extends BaseModel
 
     public function getSpecialHolidayPay($from, $to)
     {
-        return floatval($this->getSpecialHolidayRate()*$this->getSpecialHolidayAttendance($from, $to));
+        return floatval($this->getSpecialHolidayRate() * $this->getSpecialHolidayAttendance($from, $to));
     }
 
     /**
@@ -732,10 +732,10 @@ class Employee extends BaseModel
         $date_range = createDateRangeArray($from, $to);
 
         foreach ($date_range as $date) {
-            $date_range_start = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_start));
-            $date_range_end   = date('Y-m-d H:i:s', strtotime($date.' '.$this->timeshift_end));
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
             // dd($date_range_start, $date_range_end);
-            $dt               = new Carbon($date);
+            $dt = new Carbon($date);
 
             if ($dt->isWeekend() && $weekend_include) {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
@@ -750,12 +750,10 @@ class Employee extends BaseModel
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
                 $forms = Form_Application::where('employee_id', '=', $this->id)
-                			 ->whereIn('form_type',['ob', 'ot', 'leave'])
-                			 ->whereBetween('from', [$date_range_start, $date_range_end])
-                                         ->where('status', '=', 'approved')
-                                         ->count(); 
-
-
+                                                                          ->whereIn('form_type', ['ob', 'ot', 'leave'])
+                                                                          ->whereBetween('from', [$date_range_start, $date_range_end])
+                                                                          ->where('status', '=', 'approved')
+                                                                          ->count();
 
                 if (!$attended && $forms) {
                     $total_absent += 1;
@@ -774,11 +772,11 @@ class Employee extends BaseModel
      * @param  boolean $weekend_include
      * @return [float]
      */
-    public function getAbsentDeduction($from, $to, $weekend_include = false,$number_format=false)
+    public function getAbsentDeduction($from, $to, $weekend_include = false, $number_format = false)
     {
-        $total = $this->getDailyRate(false)*$this->getAbsent($from, $to, $weekend_include) ;
-        if($number_format){
-         return number_format($total,2);
+        $total = $this->getDailyRate(false) * $this->getAbsent($from, $to, $weekend_include);
+        if ($number_format) {
+            return number_format($total, 2);
         }
         return floatval($total);
 

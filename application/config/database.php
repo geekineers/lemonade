@@ -83,41 +83,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
-*/
+ */
 
-$active_group = 'default';
+$active_group  = 'default';
 $query_builder = TRUE;
 
-$db_host = '127.0.0.1';
-$db_name = 'lemonade_dev';
+$db_host     = '127.0.0.1';
+$db_name     = 'lemonade_dev';
 $db_username = 'root';
-$db_password = '';
+$db_password = 'root';
 
 // Setup the default config
 $db['default'] = array(
-    // PDO requires the host, dbname and charset are all specified in the "dsn",
-    // so we'll go ahead and do these now.
-    'dsn'      => "mysql:host={$db_host};dbname={$db_name};charset=utf8;",
-    'hostname' => $db_host,
-    'username' => $db_username,
-    'password' => $db_password,
-    'database' => $db_name,
-    'dbdriver' => 'pdo',
-    'dbprefix' => '',
-    'pconnect' => TRUE,
-    'db_debug' => TRUE,
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'autoinit' => TRUE,
-    'encrypt'  => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array()
+	// PDO requires the host, dbname and charset are all specified in the "dsn",
+	// so we'll go ahead and do these now.
+	'dsn'      => "mysql:host={$db_host};dbname={$db_name};charset=utf8;",
+	'hostname' => $db_host,
+	'username' => $db_username,
+	'password' => $db_password,
+	'database' => $db_name,
+	'dbdriver' => 'pdo',
+	'dbprefix' => '',
+	'pconnect' => TRUE,
+	'db_debug' => TRUE,
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'autoinit' => TRUE,
+	'encrypt'  => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array()
 );
-
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
