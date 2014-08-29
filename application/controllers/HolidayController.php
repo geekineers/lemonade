@@ -2,9 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
 
-use \Curl\Curl;
-
-
 class HolidayController extends BaseController
 {
 
@@ -24,13 +21,12 @@ class HolidayController extends BaseController
     public function index()
     {
 
-        $data['alert_message'] = ($this->session->flashdata('message') == null)?null:$this->session->flashdata('message');
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
-        $data['title']    = "Holidays";
+        $data['title']         = "Holidays";
         $data['holiday_years'] = HolidayYear::all();
         $this->render('holidays/index.twig.html', $data);
-
 
     }
 
@@ -58,15 +54,13 @@ class HolidayController extends BaseController
 
     public function holidayPerYear($year)
     {
-        $data['year'] = $year;
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['year']     = $year;
         $data['holidays'] = $this->holidayRepository->getAllHoliday($year);
-        $data['title'] = $year . " Holidays";
+        $data['title']    = $year . " Holidays";
 
         $this->render('holidays/year.twig.html', $data);
 
     }
-
-
-  
 
 }

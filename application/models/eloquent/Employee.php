@@ -143,7 +143,15 @@ class Employee extends BaseModel
 
     public function getJobPosition()
     {
-        return Job_Position::find($this->job_position)->job_position;
+        try {
+            $job = Job_Position::find($this->job_position);
+            if ($job) {
+                return $job->job_position;
+            }
+        } catch (Exception $e) {
+            return $e;
+        }
+
     }
     public function getDepartment()
     {

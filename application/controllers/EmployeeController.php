@@ -4,9 +4,8 @@ require_once ('BaseController.php');
 
 // use Illuminate\Validation\Validator;
 // use Illuminate\Validation\Factory as Validator;
-use Respect\Validation\Validator as Validator;
-use Upload\Storage\FileSystem as FileSystem;
 use Cartalyst\Sentry\Groups\Eloquent\Group;
+use Upload\Storage\FileSystem as FileSystem;
 
 class EmployeeController extends BaseController
 {
@@ -23,12 +22,12 @@ class EmployeeController extends BaseController
 
     public function __construct()
     {
-        
+
         parent::__construct();
 
         $this->mustBeLoggedIn();
 
-        $path             = realpath(APPPATH.'../uploads/');
+        $path             = realpath(APPPATH . '../uploads/');
         $this->fileSystem = new FileSystem($path);
 
         $this->employeeRepository = new EmployeeRepository();
@@ -46,13 +45,13 @@ class EmployeeController extends BaseController
 
     public function index()
     {
-    	// $employee = Employee::find(2);
-    	// $absent = $employee->getAbsent('2014-08-25','2014-08-29');
-    	// dd($absent);
+        // $employee = Employee::find(2);
+        // $absent = $employee->getAbsent('2014-08-25','2014-08-29');
+        // dd($absent);
 
         $data['alert_message'] = ($this->session->flashdata('message') == null)
-        ?null
-        :$this->session->flashdata('message');
+        ? null
+        : $this->session->flashdata('message');
         $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']     = "Employee";
         $data['employees'] = $this->employeeRepository->where('id', '!=', 1)->get();
@@ -96,7 +95,7 @@ class EmployeeController extends BaseController
         $employee_id = $this->input->post('id');
         $data        = $this->input->post();
         $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
-        redirect('/employees/'.$employee_id.'/profile', 'location');
+        redirect('/employees/' . $employee_id . '/profile', 'location');
     }
 
     public function updateSalary($id)
@@ -128,7 +127,7 @@ class EmployeeController extends BaseController
         );
 
         $update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
-        redirect('/employees/'.$employee_id.'/profile', 'location');
+        redirect('/employees/' . $employee_id . '/profile', 'location');
 
     }
 
@@ -143,7 +142,7 @@ class EmployeeController extends BaseController
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);
-        
+
         $data['employee']->getRole();
 
         $this->render('/employee/profile.twig.html', $data);
@@ -175,7 +174,22 @@ class EmployeeController extends BaseController
         // dd($data);
         $this->documentRepository->create($data);
 
-        redirect('/employees/'.$this->input->post('employee_id').'/profile', 'location');
+        redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
+
+    }
+
+    public function deleteFile()
+    {
+        $id   = $this->input->get('token');
+        $name = $this->input->get('name');
+        $eid  = $this->input->get('eid');
+        $path = realpath(APPPATH . '../uploads/');
+        // dd($path . '/' . $name);
+        $this->documentRepository->delete($id);
+
+        unlink($path . '/' . $name);
+
+        redirect('/employees/' . $eid . '/profile', 'location');
 
     }
 
@@ -205,7 +219,7 @@ class EmployeeController extends BaseController
         // dd($post);
 
         $this->basicPayAdjustmentRepository->create($post);
-        redirect('/employees/'.$this->input->post('employee_id').'/profile', 'location');
+        redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
     }
 
@@ -219,13 +233,12 @@ class EmployeeController extends BaseController
 
     }
 
-
     public function delete()
     {
-    	$id = $this->input->get('token');
-    	$this->employeeRepository->deleteEmployee($id);
+        $id = $this->input->get('token');
+        $this->employeeRepository->deleteEmployee($id);
 
-    	redirect('/employees');
+        redirect('/employees');
     }
 
 }
