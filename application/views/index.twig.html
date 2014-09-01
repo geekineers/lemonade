@@ -124,7 +124,7 @@
             <div class="box-body chat" id="chat-box">
 
                 <ul class="event-list">
-                     {% for holiday in holidays %}
+                    {% for holiday in holidays %}
                     <li>
                         <time datetime="{{ holiday.holiday_from }}">
                             <span class="day">{{ holiday.getDay() }}</span>
@@ -138,14 +138,14 @@
                             <p class="desc">{{ holiday.holiday_type }}</p>
                         </div>
                         <div class="social">
-                          
+
                         </div>
                     </li>
-                         {% endfor %}
+                    {% endfor %}
                 </ul>
-               
-        
-           
+
+
+
             </div>
             <!-- /.box-body -->
 
@@ -171,16 +171,16 @@
             <div class="icon">
                 <i class="ion ion-ios7-alarm-outline"></i>
             </div>
-            {% if time_in_status %} 
-                    <a href="/timeout" class="small-box-footer">
-                                    <b>Time Out</b> <i class="fa fa-arrow-circle-right"></i>
-                    
-                                </a>
-            {%  else %}
+            {% if time_in_status %}
+            <a href="/timeout" class="small-box-footer">
+                <b>Time Out</b>  <i class="fa fa-arrow-circle-right"></i>
+
+            </a>
+            {% else %}
             <a href="/timein" class="small-box-footer">
-                                    <b>Time In</b> <i class="fa fa-arrow-circle-right"></i>
-                    
-                                </a>
+                <b>Time In</b>  <i class="fa fa-arrow-circle-right"></i>
+
+            </a>
             {% endif %}
         </div>
     </div>
@@ -243,26 +243,23 @@
                 </div>
             </div>
             <div class="box-body">
-                {% if evaluations_trainings |length
+                {% if evaluations_trainings|length
                 <=0 %} <div class="">
 
                     <center>
-                        <p><i>
-                                            <i class="fa fa-info-circle"></i> No Upcomming Evaluation/Training.
+                        <p><i><i class="fa fa-info-circle"></i> No Upcomming Evaluation/Training.
                             </i>
                         </p>
                     </center>
             </div>
             {% endif %}
-            <div class="box-body chat" id="chat-box">
-
-
+ 
                 {% for evaluation in evaluations_trainings %}
                 <div class="item">
                     <p class="message">
+                  
                         <a href="#" class="name">
-                            <!--    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> -->
-                            {{ evaluation.getName() }}
+                           {{ evaluation.getName() }}
                         </a>
                         {{ evaluation.getDateFromDiff() }}
                     </p>
@@ -270,7 +267,7 @@
                 {% endfor %}
             </div>
             <!-- /.box-body -->
-        </div>
+       
         <!-- /.box -->
     </div>
 </div>
