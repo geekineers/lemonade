@@ -175,4 +175,29 @@ $(document).ready(function(){
 	    });
 
 
+	$('.view-training').on('click', function(){
+		var name = $(this).attr('data-name');
+		var description = $(this).attr('data-description');
+		var status = $(this).attr('data-status');
+		var from = $(this).attr('data-from');
+		var to = $(this).attr('data-to');
+
+		$('#training-name').html(name);
+		$('#training-description').html(description);
+		$('#training-from').html(from);
+		$('#training-to').html(to);
+		if(status == 'scheduled'){
+			$('#training-status-scheduled').css({display : 'blocked'});			
+			$('#training-status-completed').css({display : 'none'});
+		
+		}
+		else{
+			$('#training-status-completed').css({display : 'blocked'});
+			$('#training-status-scheduled').css({display : 'none'});
+		}
+
+		$('#viewTraining').modal('show');
+
+	});
+
 	});

@@ -148,49 +148,25 @@ class EmployeeController extends BaseController
         $this->render('/employee/profile.twig.html', $data);
     }
 
-    public function upload()
+    public function uploadFile()
     {
-        $new_filename = uniqid();
-        $file         = new \Upload\File('file', $this->fileSystem);
-        $file->setName($new_filename);
-        $data = array(
-            'employee_id'      => (int) $this->input->post('employee_id'),
-            'name'             => (string) $this->input->post('name'),
-            'file_description' => (string) $this->input->post('description'),
-            'file_name'        => (string) $file->getNameWithExtension(),
-            'file_extension'   => (string) $file->getExtension(),
-            'file_type'        => (string) $file->getMimetype(),
-            'file_size'        => (string) $file->getSize()
-        );
-
-        try {
-            // Success!
-            $file->upload();
-        } catch (\Exception $e) {
-            // Fail!
-            $errors = $file->getErrors();
-        }
-
-        // dd($data);
-        $this->documentRepository->create($data);
-
+        $this->documentRepository->saveDocument($this->input->post());
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
     }
 
     public function deleteFile()
     {
-        $id   = $this->input->get('token');
-        $name = $this->input->get('name');
-        $eid  = $this->input->get('eid');
-        $path = realpath(APPPATH . '../uploads/');
-        // dd($path . '/' . $name);
-        $this->documentRepository->delete($id);
 
-        unlink($path . '/' . $name);
+        $this->documentRepository->delete($this->input->get());
+        redirect('/employees/' . $this->input->get('eid') . '/profile', 'location');
 
-        redirect('/employees/' . $eid . '/profile', 'location');
+    }
 
+    public function uploadCertificate()
+    {
+        $this->documentRepository->saveCertificate($this->input->post());
+        redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
     }
 
     public function adjustBasicPay()

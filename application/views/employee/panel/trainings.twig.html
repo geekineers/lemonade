@@ -1,7 +1,225 @@
-	<div class="tab-pane" id="profile-tabs-training">
-							<div class="contaier">
-								<p><i>
-									No Certificates Yet.
-								</i></p>
-							</div>
-	</div>
+<div class="tab-pane" id="profile-tabs-training">
+    <div class="contaier">
+        <p><i>
+                                    No Certificates Yet.
+                                </i>
+        </p>
+    </div>
+    <!-- Certificated -->
+
+    <div class="employment-details panel panel-default">
+        <div class="panel-heading"><i class="fa fa-minus"></i> Certificates</div>
+        <div class="panel-body">
+            {% if employee.getCertificates()|length
+            <=0 %} <div class="">
+
+                <center>
+                    <p><i>
+                  <i class="fa fa-info-circle"></i> No Certificates Yet.
+                        </i>
+                    </p>
+                </center>
+        </div>
+        {% else %}
+
+        <table class="table table-bordered table-hover dataTable">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Option</th>
+            </tr>
+            {% for certificate in employee.getCertificates() %}
+            <tr>
+                <td>{{ certificate.name }}</td>
+                <td>{{ certificate.file_description }}</td>
+                <td>
+                    <a href="/media?image={{ certificate.file_name }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>
+                    <a onclick="return confirm('Are you sure?')" href="/employees/file/delete?token={{ certificate.id }}&name={{ document.file_name }}&eid={{ employee.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                    </h4>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <div class="row">
+            <center><a href="" class="employee_add_deductions btn btn-success" data-toggle="modal" data-target="#addCertificate">+1 Add Certificate</a>
+            </center>
+        </div>
+    </div>
+
+</div>
+
+<!-- Trainings and Seminars -->
+
+<div class="employment-details panel panel-default">
+    <div class="panel-heading"><i class="fa fa-minus"></i> Trainings and Seminars</div>
+    <div class="panel-body">
+        {% if employee.getTrainings()|length
+        <=0 %} <div class="">
+
+            <center>
+                <p><i>
+                  <i class="fa fa-info-circle"></i> No Trainings/Seminars Yet.
+                    </i>
+                </p>
+            </center>
+    </div>
+    {% else %}
+
+    <table class="table table-bordered table-hover dataTable">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Option</th>
+        </tr>
+        {% for training in employee.getTrainings() %}
+        <tr>
+            <td>{{ training.name }}</td>
+            <td>{{ training.from }}</td>
+            <td>{{ training.status }}</td>
+            <td><a  href="#" class="view-training btn btn-default" 
+                    data-name="{{ training.name }}"
+                    data-description="{{ training.description }}"
+                    data-status="{{ training.status }}"
+                    data-from="{{ training.from }}"
+                    data-to="{{ training.to }}"
+                 >
+                    <i class=" fa fa-folder-open-o"></i>
+                </a>
+                <a  onclick="return confirm('Are you sure?')" href="/employees/trainings/delete?id={{ training.id }}&name={{ training.name }}&eid={{ employee.id }}" class="btn btn-danger" ><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <div class="row">
+        <center><a href="" class="employee_add_deductions btn btn-success" data-toggle="modal" data-target="#addTraining">Add/Schedule Training</a>
+        </center>
+    </div>
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+<form method="post" enctype="multipart/form-data" action="/employees/certificate/upload">
+    <input type="hidden" value="{{ employee.id }}" name="employee_id">
+    <div class="modal fade" id="addCertificate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Certificate</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name
+                            <span class="req-label">*</span>
+                        </label>
+                        <input type="name" class="form-control" required name="name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Certificate
+                            <span class="req-label">*</span>
+                        </label>
+                        <input required type="file" name="file" class="form-control" accept="application/pdf,.doc,.docs,.docx,.jpeg,.png" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<form method="post" enctype="multipart/form-data" action="/employees/trainings">
+    <input type="hidden" value="{{ employee.id }}" name="employee_id">
+    <div class="modal fade" id="addTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Training</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name
+                            <span class="req-label">*</span>
+                        </label>
+                        <input type="name" class="form-control" required name="name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" class="form-control">
+                            <option value="scheduled">Scheduled</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Schedule</label>
+                        <input type="" name="from" class="datepicker" placeholder="From" id="from">
+                        <input type="" name="to" class="datepicker" placeholder="To" id="to">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="viewTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="training-name"></h4>
+            </div>
+            <div class="modal-body">
+                <span id="training-from"></span>-
+                <span id="training-to"></span><br>
+                <label>Status
+                    <span id="training-status-scheduled" class="scheduled label label-warning">Scheduled</span>
+                    <span id="training-status-completed" class="completed label label-success">Completed</span>
+                </label>
+                <p id="training-description"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Save">
+            </div>
+        </div>
+    </div>
+</div>

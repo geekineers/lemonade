@@ -120,11 +120,14 @@ Pigeon::map(function ($r) {
     $r->get('employees/delete', 'EmployeeController#delete');
     $r->get('employees/(:num)/profile', 'EmployeeController#profile');
     $r->post('employees/(:num)/profile', 'EmployeeController#update');
-    $r->post('employees/file/upload', 'EmployeeController#upload');
+    $r->post('employees/file/upload', 'EmployeeController#uploadFile');
+    $r->post('employees/certificate/upload', 'EmployeeController#uploadCertificate');
     $r->get('employees/file/delete', 'EmployeeController#deleteFile');
     $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
     $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
+    $r->post('employees/trainings', 'TrainingController#save');
+    $r->get('employees/trainings/delete', 'TrainingController#delete');
 
     $r->get('hr', 'HumanResourceController#index');
     $r->get('hr/form-application', 'HumanResourceController#application');

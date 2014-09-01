@@ -790,4 +790,27 @@ class Employee extends BaseModel
 
     }
 
+    /**
+     * Get List of Certificates
+     * @return object-array
+     */
+
+    public function getCertificates()
+    {
+        $id           = $this->id;
+        $certificates = Document::where('employee_id', '=', $id)->where('document_type', '=', 'certificate')->get();
+        return $certificates;
+    }
+
+    /**
+     * Get List of Trainings
+     */
+
+    public function getTrainings()
+    {
+        $id           = $this->id;
+        $certificates = Training::where('employee_id', '=', $id)->orderBy('status', 'desc')->orderBy('from', 'desc')->get();
+        return $certificates;
+    }
+
 }
