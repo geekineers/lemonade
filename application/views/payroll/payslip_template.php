@@ -68,7 +68,11 @@ background-color:#F2F2F2;
           </td>
         </tr>
       </table>
-      
+      <?php
+        $from = $payslip->getPayslipsGroup()->from;
+
+        $to = $payslip->getPayslipsGroup()->to;
+      ?>
       <table style="font-size:12px">
       
         
@@ -116,16 +120,16 @@ background-color:#F2F2F2;
 
         <tr>
           <td>Late Deduction</td>
-          <td><?php echo $employee->getLateDeduction($payslip->from, $payslip->to, 'minute'); ?></td>
+          <td><?php echo $employee->getLateDeduction($from, $to, 'minute'); ?></td>
         </tr>
 
          <tr>
           <td>Absent</td>
-          <td><?php echo $employee->getAbsentDeduction($payslip->from, $payslip->to,false,true); ?></td>
+          <td><?php echo $employee->getAbsentDeduction($from, $to,false,true); ?></td>
         </tr>
         <tr>
           <td>SSS</td>
-          <td><?php echo number_format($payslip->sss,2) ?></td>
+          <td><?php echo $employee->getSSSValue()?></td>
         </tr>
         <tr>
           <td>HDMF</td>
@@ -137,12 +141,12 @@ background-color:#F2F2F2;
         </tr>
         <tr>
           <td>Withholding Tax</td>
-          <td><?php echo $employee->getSalaryComputations($payslip->from, $payslip->to)['widthholding_tax']?></td>
+          <td><?php echo $employee->getWithholdingTax($from, $to)?></td>
         </tr>
         <tr>
           <td><b style="padding:15px ;">Total Deduction</b></td>
           
-          <td><?php echo $employee->getSalaryComputations($payslip->from, $payslip->to)['total_deduc']?></td> 
+          <td><?php echo $employee->getSalaryComputations($from, $to)['total_deduc']?></td> 
         </tr>
         
 
@@ -175,7 +179,7 @@ background-color:#F2F2F2;
           <tr>
             <td >Overtime</td>
             <td>
-              <?php echo $employee->getOvertime($payslip->from,$payslip->to)  ?>
+              <?php echo $employee->getOvertime($from,$to)  ?>
             </td>
           </tr>
 
@@ -195,7 +199,7 @@ background-color:#F2F2F2;
           <tr>
             <td ><b style="padding:15px ;">Gross Pay</b></td>
             <td>
-              <?php echo  $payslip->getGross() ?>
+              <?php echo  $payslip->getEmployee()->getGross($from,$to,true) ?>
             </td>
           </tr>
         <!-- endforeach -->
@@ -205,7 +209,7 @@ background-color:#F2F2F2;
     <table style="width:100%;position:absolute;top:500px;">
       <tr>
         <td style="background-color:yellow">NET</td>
-        <td style="background-color:yellow"><?php echo $employee->getSalaryComputations($payslip->from, $payslip->to)['net']?></td>
+        <td style="background-color:yellow"><?php echo $employee->getNet($from, $to)?></td>
       </tr>
     </table>
 

@@ -6,7 +6,7 @@ class Migration_Add_slips extends CI_Migration {
 
         public function up()
         {
-        		
+                $this->dbforge->drop_table('payslips');
                 $this->dbforge->add_field(array(
                         'id' => array(
                                 'type' => 'INT',
@@ -14,17 +14,17 @@ class Migration_Add_slips extends CI_Migration {
                                 'unsigned' => TRUE,
                                 'auto_increment' => TRUE
                         ),
-
+                        
                         'employee_id' => array(
+                                'type' => 'INT',
+                                'null' => TRUE,
+                        ),
+                        'payroll_group' => array(
                                 'type' => 'INT',
                                 'null' => TRUE,
                         ),
                         'branch_id' => array(
                                 'type' => 'INT',
-                                'null' => TRUE,
-                        ),
-                        'payroll_group' => array(
-                                'type' => 'TEXT',
                                 'null' => TRUE,
                         ),
                         'sss' => array(
@@ -43,23 +43,13 @@ class Migration_Add_slips extends CI_Migration {
                                 'type' => 'INT',
                                 'null' => TRUE
                         ),
-                        'from' => array(
-                                     'type' => 'DATE',
-                                     'null' => TRUE,
-
-                        ),
-                        'to' => array(
-                                     'type' => 'TEXT',
-                                     'null' => TRUE,
-
-                        ),
                         'net' => array(
                                      'type' => 'TEXT',
                                      'null' => TRUE,
 
                         ),
                         'gross' => array(
-                                     'type' => 'DATE',
+                                     'type' => 'FLOAT',
                                      'null' => TRUE,
                         ),
                         'prepared_by' => array(

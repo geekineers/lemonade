@@ -139,4 +139,7 @@ abstract class BaseRepository {
     {
         return $this->class->whereRaw($sql, $array_binding);
     }
+    public function whereNotBetween($column, $values, $boolean = 'and'){
+       return $this->class->whereNotBetween( $column, $values, $boolean);
+   }
 }

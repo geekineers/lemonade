@@ -1,15 +1,17 @@
 <?php
 use Payslips as Payslips;
+use Respect\Validation\Validator as Validator;
 
 class PayslipsRepository extends BaseRepository {
 
-	protected $employeeRepository,$payrollGroupRepository;
+	protected $employeeRepository,$payrollGroupRepository,$payslipsGroupRepository;
 	public function __construct()
 	{
 		$this->class = new Payslips();
 
 		$this->employeeRepository = new EmployeeRepository();
         $this->payrollGroupRepository= new PayrollGroupRepository();
+        $this->payslipsGroupRepository = new PayslipsGroupRepository();
 	}
 	public function getTotalSSS($slips)
 	{	
@@ -56,100 +58,80 @@ class PayslipsRepository extends BaseRepository {
 	}
 
 
-	public function generatePayslip(array $input)
+	public function generatePayslip( $input ,$prepared_by)
 	{
 		// get payroll group
+		$validator = Validator::arr()->key('group_name', Validator::notEmpty())
+                                     ->key('from', Validator::date('Y-m-d'))
+                                     ->key('to', Validator::date('Y-m-d'))
+        							 ->validate($input);
 
-		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['group_name'])->first();
-		// emoloyee
-
-		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->get();
+        if ($validator) 
+        {
+        	$from = date('Y-m-d',strtotime($input['from']));	
+        	$to = date('Y-m-d',strtotime($input['to']));	
+        	
+        	$payslip_group_from = $this->payslipsGroupRepository->whereBetween('from',[$from,$to] )->count();
+			$payslip_group_to = $this->payslipsGroupRepository->whereBetween('to',[$from,$to] )->count();
 			
-		$pays = [];
-		// dd($employees[0]->payroll_period.' = '.$payrollGroup['period'] );
-		foreach ($employees as $employee) {
-			if($employee->payroll_period == $payrollGroup['period'])
-			{
-				$pays[] = [
-					'employees_id' => $employee->id,
-					'basic_pay' => toInt($employee->getBasicPay()),
-					'payslip' => $this->getWithholdingTax( 
-											$employee,
-											$payrollGroup ,
-											toInt($employee->basic_pay) ,
-											$payrollGroup['period'] ,
-											intval($employee->dependents) ,
-											null ,
-											null ,
-											null
-										 )
-				];
-				$payslip = $this->getWithholdingTax( 
-											$employee,
-											$payrollGroup ,
-											toInt($employee->basic_pay) ,
-											$payrollGroup['period'] ,
-											intval($employee->dependents) ,
-											null ,
-											null ,
-											null
-										 );
-				$this->create([
-						'employee_id'  => $employee->id,
-	                    'branch_id' => $payrollGroup['branch_id'],
-	                    'payroll_group' => $payrollGroup['id'],
-	                    'sss' => $payslip['SSS'],
-	                    'philhealth' => $payslip['philhealth'],
-	                    'pagibig' => $payslip['pagibig'],
-	                    'from'=> Carbon::createFromFormat('m-d-Y',$input['start']),
-	                    'to'=> Carbon::createFromFormat('m-d-Y',$input['end']),
-	                    'net' => $payslip['net'],
-	                    'gross'=>$payslip['gross'],
-	                    'other_deductions' => '',
-	                    'prepared_by' => $payrollGroup['prepared_by']
-					]);
+        	if( $payslip_group_from==0 && $payslip_group_to==0)
+        	{
+        		return $this->generate([
+	        				'from' 	=> $from,
+	        				'to'	=> $to,
+	        				'payroll_group' => $input['group_name'],
+	        				'status'=>'open',
+	        				'prepared_by' => $prepared_by
+	        			]);
+        	}else{
+        		return false;
+        	}
+        } 
+        else 
+        {
+            return false;
+        }
+
+			
+		
+	}
+	public function generate($input)
+	{
+		$from = $input['from'];
+		$to   = $input['to'];
+		$prepared_by = $input['prepared_by'];
+
+		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['payroll_group'])->first();
+		// emoloyee
+		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->all();
+			
+		$payslip_group = $this->payslipsGroupRepository->create($input);
+		// dd($payslip_group->id);
+
+			foreach ($employees as $employee) {
+				if($employee->payroll_period == $payrollGroup['period'] )
+				{
+					$employee_slip['payslip_group_id'] = $payslip_group->id;
+					$employee_slip['employee_id'] 	= $employee->id;
+					$employee_slip['payroll_group'] = $payrollGroup->id;
+					$employee_slip['branch_id'] 	= $payrollGroup->branch_id;
+					$employee_slip['sss']			= $employee->getSSSValue();
+					$employee_slip['philhealth']	= $employee->getPhilhealthValue();
+					$employee_slip['pagibig']		= $employee->getHDMFValue();
+					$employee_slip['other_deductions']	= $employee->getTotalDeductions($from,$to,false);
+					$employee_slip['net']			= $employee->getNet($from,$to,false);
+					$employee_slip['gross']			= $employee->getGross($from,$to,false);
+					$employee_slip['prepared_by']	= $prepared_by;
+
+					$this->create($employee_slip);
+				}
+
 			}
 
-		}
-		header("Content-Type: application/json");
-		echo json_encode($pays);
+		return true;
 	}
 
 	
-  
-	public  function getWithholdingTax( $employee,$group,$salary = 0 , $period = 'monthly', $dependents = 0, $philhealth = 0 , $pagibig = 0, $sss = 0 )
-	{
-
-		$sss_val = $sss==null ? getSSS($salary)['EE'] : (int) $sss;
-
-		$philhealth_val = $philhealth==null ? getPH($salary)['Employee_Share'] : (int) $philhealth;
-		
-		$pagibig_val = $pagibig==null ? 100 : (int) $pagibig;
-
-		$absents = $employee->getAbsentDeduction($group->from,$group->to);
-
-		$overtime = $employee->getOvertime($group->from,$group->to);
-
-		$curr_salary =    $salary - ($sss_val + $philhealth_val + $pagibig_val +  $absents );
-		// return $curr_salary;
-		$deductions = ($sss_val + $philhealth_val + $pagibig_val + $absents );
-
-		$wt = getWTax( $curr_salary , $period , $dependents);
-
-		return array(
-			    'gross' => number_format($salary,2),
-				'widthholding_tax' => number_format($wt,2),
-				'philhealth' => number_format($philhealth_val,2),
-				'SSS' => number_format($sss_val,2),
-				'pagibig'=> number_format($pagibig_val,2),
-				'basic' => number_format($salary,2),
-				'taxable' => number_format($curr_salary,2),
-				'total_deduc' => number_format($deductions,2),
-				'net' => number_format($salary-$deductions-$wt,2)
-			);
-	}
-	
-
 	public function generateGovermentForms($id,$type,$from,$to)
 	{
 		$pdf = new FPDI();

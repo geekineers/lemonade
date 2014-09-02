@@ -166,7 +166,21 @@ class Employee extends BaseModel
 
         return $this->sss_number;
     }
+    public function getSSSValue() 
+    {
+        return $this->deduct_sss==null ? getSSS($this->getBasicPay(false))['EE'] : (int) $this->fixed_sss_amount;
+    }
 
+    public function getPhilhealthValue()
+    {
+        return $this->deduct_philhealth==null ? getPH($this->getBasicPay(false))['Employee_Share'] : (int) $this->fixed_philhealth_amount;
+    }
+
+    public function getHDMFValue()
+    {
+        return $this->deduct_hdmf==null ? 100 : (int) $this->fixed_hdmf_amount;
+    }
+    
     public function getPagibig()
     {
         return $this->pagibig_number;
@@ -234,13 +248,13 @@ class Employee extends BaseModel
 
     }
 
-    public function getGross($format = true)
+    public function getGross($from,$to,$format = true)
     {
 
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = intval($this->getTotalAllowances(null, null, false)) + intval($this->getBasicPay(false));
+        $total = intval($this->getTotalAllowances($from, $to, false)) + intval($this->getBasicPay(false));
 
         if ($format) {
             return number_format($total, 2);
@@ -261,7 +275,7 @@ class Employee extends BaseModel
                                                                        ->where('valid_from', '<=', $to)
                                                                        ->where('valid_to', '>=', $from)
                                                                        ->get();
-        return $allowances;
+        return $allowance;
     }
 
     public function getBasicPay($format = true)
@@ -446,7 +460,7 @@ class Employee extends BaseModel
 
         $total_deductions = $deductions + $widthholding_tax;
 
-        $net = intval($this->getGross(false))-$total_deductions;
+        $net = intval($this->getGross($from,$to,false))-$total_deductions;
 
         return array(
             'gross'            => number_format($salary, 2),
@@ -784,4 +798,52 @@ class Employee extends BaseModel
 
     }
 
+    public function getTotalMandatoryDeductions($from,$to)
+    {
+        $sss = $this->getSSSValue();
+        $ph = $this->getPhilhealthValue();
+        $hdmf = $this->getHDMFValue();
+        $widthholding_tax = getWTax( $this->getBasicPay(false) , $this->period , $this->dependents );
+
+        return $sss + $ph + $hdmf + $widthholding_tax;
+    }
+
+    public function getWithholdingTax($from,$to,$number_format = true)
+    {
+        $absents = $this->getAbsentDeduction($from,$to);
+        $overtime =  $this->getOvertime($from,$to);
+        $sss_val = $this->getSSSValue();
+        $philhealth_val = $this->getPhilhealthValue();
+        $pagibig_val    = $this->getHDMFValue();
+        $basic_pay = $this->getBasicPay(false);
+
+        $curr_salary = ($basic_pay + $overtime ) - ( $sss_val + $philhealth_val + $pagibig_val + $absents);
+        $wtax =  getWTax( $curr_salary , $this->period, $this->dependents );
+
+
+        if($number_format){
+            return number_format($wtax,2);
+        }
+        return $wtax;
+
+    }
+
+    public function getNet($from,$to,$number_format = true)
+    {
+    
+        $basic_pay = $this->getBasicPay(false);
+        $total_loan_deduction = $this->getTotalDeductions($from,$to,false);
+        $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from,$to);
+        $gross = $this->getGross($from,$to,false);
+
+      
+        $remaining_pay = intval($basic_pay) + ( intval( $total_loan_deduction ) + intval($total_mandatory_deduction) );
+
+        $net = ( intval($gross) + intval($remaining_pay) );
+
+        if($number_format){
+            return number_format($net,2);
+        }
+        return $net;
+    }
 }
