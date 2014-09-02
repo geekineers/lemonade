@@ -14,6 +14,7 @@ class Payslips extends Eloquent {
     protected $fillable = [
                         'employee_id',
                         'branch_id',
+                        'payslip_group_id',
                         'payroll_group',
                         'sss',
                         'philhealth',
@@ -26,6 +27,10 @@ class Payslips extends Eloquent {
                         'gross'
                ];
 
+  public function getPayslipsGroup()
+  {
+    return PayslipsGroup::where('id','=',$this->payslip_group_id)->first();
+  }
   public function getPreparedBy()
   {
     return Employee::where('id','=',$this->employee_id)->first()->getName();
@@ -39,6 +44,11 @@ class Payslips extends Eloquent {
   public function getEmployee()
   {
     return Employee::where('id','=',$this->employee_id)->first();
+  }
+
+  public function getEmployees()
+  {
+    return Employee::where('id','=',$this->employee_id)->get();
   }
 
   public function getGroupName()

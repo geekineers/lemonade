@@ -37,15 +37,15 @@
                                         </thead>
                                         <tbody>
                                            
-                                           	{% for group in payroll %}
+                                           	{% for group in payslipGroups %}
                                            	 <tr>
-                                           		<td>{{ group.getGroupName() }}</td>
-                                           		<td>{{ group.getGroupPeriod() }}</td>
-                                           		<td>{{ group.from }}</td>
+                                           		<td>{{ group.getPayrollGroup().group_name }}</td>
+                                           		<td>{{ group.getPayrollGroup().period }}</td>
+                                           		<td>{{ group.from }}
                                            		<td>{{ group.to }}</td>
-                                           		<td>{{ group.getBranch() }}</td>
+                                           		<td>{{ group.getPayrollGroup().getBranch() }}</td>
                                            		<td>
-                                           			<a href="/payroll/group/{{group.payroll_group}}?from={{ group.from }}&to={{ group.to }}" class="btn btn-success fa fa-list"></a>
+                                           			<a href="/payroll/group/{{group.id}}?from={{ group.from }}&to={{ group.to }}" class="btn btn-success fa fa-list"></a>
                                                 </td>
                                            		</td>
                                             </tr>
@@ -75,12 +75,19 @@
 
 		                    <label>Payroll Group</label>
 		                    <select class="form-control" id="group_name">
-		                      {% for group in payrollgroup %}
-		                      	<option value="{{ group.id }}"> {{ group.group_name }}</option>
+		                    	<option selected="selected" disabled>Select Group</option>
+		                      {% for group in payrollgroups %}
+		                      	<option value="{{ group.id }}" data-period="{{ group.period }}"> {{ group.group_name }}</option>
 		                      {% endfor %}
 		                    </select>
 		                </div>
-		                <div class="form-group">
+		                <dv class="form-group  semi">
+		                	<label>Select Date </label>
+		                	<select class="form-control" id="daterange">
+		                		
+		                	</select>
+		                </dv>
+		                <div class="form-group hide">
 	                        <label>Payroll date:</label>
 	                        <div class="input-group">
 	                            <div class="input-group-addon">
@@ -102,42 +109,72 @@
 <script type="text/javascript"  src="/js/plugins/daterangepicker/daterangepicker.js" ></script>
 <script type="text/javascript">
 	(function($){
+
+
+		var getEndMidDate = function (from,to) {
+			var date = moment([new Date().getFullYear(), 0, to]).add('months', from).format('YYYY-MM-DD');
+
+			return date;
+		}
 		var alerttpl = '<div class="alert alert-info alert-dismissable"> '+
 	                        '<i class="fa fa-ban"></i> '+
 	                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
 	                        '<b></b> Loading...'+
 	                   '</div>'; 
+		var from,to;
 
-		$('#payrolltime').daterangepicker({
-			'endDate': parseInt(moment().format('DD'))>15 ? moment().format('MM')+'-30-'+moment().format('YYYY') :  moment().format('MM')+'-15-'+moment().format('YYYY') 
-				});
-		$('.applyBtn').click(function(){
-
-			 var start = moment($('.daterangepicker_start_input input').val()).format('MM-DD-YYYY'),
-					end   = moment($('.daterangepicker_end_input input').val()).format('MM-DD-YYYY');
-					console.log(end);
-				$('#generate-payroll').on('click',function(){
-
-					var group_name = $('#group_name').val();
-
-					var data = {
-						'group_name' : group_name,
-						'start' : start,
-						'end'   : end
-					};
-
-					$('#generate-modal .modal-body').prepend(alerttpl);
-					$.post('/payroll/payslip/generate',data,function(res){
-					}).success(function(){
-						$('#payrolltime').val('')
-						$('#generate-modal').modal('hide')
-						
-						window.location.reload();
-					});
-
-				});
+		$('#group_name').change(function(elem){
 			
-		 });
+			var el = this;
+
+			if($(el).find('option:selected').data('period')=='Semi-monthly')
+			{
+				var date_string = "";
+				
+				for( var number_month = 0 ; number_month < 12 ; number_month++ ) {
+					date_string += '<option value='+getEndMidDate(number_month,15)+' data-from="'+getEndMidDate(number_month,1)+'" data-to="'+getEndMidDate(number_month,15)+'" >'+getEndMidDate(number_month,15)+'</option>'+
+								   '<option value='+getEndMidDate(number_month,31)+' data-from="'+getEndMidDate(number_month,16)+'" data-to="'+getEndMidDate(number_month,31)+'">'+getEndMidDate(number_month,31)+'</option>';
+				}
+				$('#daterange').html(date_string);
+
+			}else if($(el).find('option:selected').data('period')=='Monthly'){
+				
+				var date_string = "";
+				
+				
+				for( var number_month = 0 ; number_month < 12 ; number_month++ ) {
+					date_string += '<option value='+getEndMidDate(number_month,31)+' data-from="'+getEndMidDate(number_month,1)+'" data-to="'+getEndMidDate(number_month,31)+'">'+getEndMidDate(number_month,31)+'</option>';
+				}
+				$('#daterange').html(date_string);
+			}
+		});
+
+		
+		$('#generate-payroll').on('click',function(){
+			from = $('#daterange').find('option:selected').data('from');
+			to = $('#daterange').find('option:selected').data('to');
+			var start = moment(from).format('YYYY-MM-DD'),
+					end   = moment(to).format('YYYY-MM-DD');
+			
+			var group_name = $('#group_name').val();
+
+			var data = {
+				'group_name' : group_name,
+				'from' : start,
+				'to'   : end
+			};
+
+			$('#generate-modal .modal-body').prepend(alerttpl);
+			$.post('/payroll/payslip/generate',data,function(res){
+			}).success(function(res){
+				$('#payrolltime').val('')
+				$('#generate-modal').modal('hide')
+				window.location.reload();
+				
+			});
+
+		});
+		
 
 	})(jQuery);
 </script>

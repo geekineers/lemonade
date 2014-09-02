@@ -20,12 +20,10 @@
                                         <a href="/payroll/gov-form/{{ id }}?form=mcrf&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
                                             <i class="fa  fa-arrow-circle-o-down"></i>
                                            MCRF </a>
-                                        <a href="/payroll/gov-form/{{ id }}?form=1601C&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
-                                            <i class="fa  fa-arrow-circle-o-down"></i>
-                                           1601-C </a>
+                                        
                                         <a href="/payroll/gov-form/{{ id }}?form=sss-r3&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
                                             <i class="fa  fa-arrow-circle-o-down"></i>
-                                           SSS R3
+                                           SSS R3</a>
                                     </div>
                                     <div class="col-md-3" style="margin-top:20px"> 
                                     </div>
@@ -35,7 +33,9 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Date</th>
+
+                                                <th>Basic Salary</th>
+                                                <th>Period</th>
                                                 <th>Branch</th>
                                                 <th>Download</th>
                                             </tr>
@@ -44,7 +44,8 @@
                                         {% for payslip in payslips %}
                                             <tr>
                                                 <td>{{ payslip.getName() }}</td>
-                                                <td>{{ payslip.from }} - {{ payslip.to }}</td>
+                                                <td>{{ payslip.getEmployee().getBasicPay()}}</td>
+                                                <td>{{ payslip.getEmployee().getPayrollPeriod() }}</td>
                                                 <td>{{ payslip.getBranch() }}</td>
                                                 <td> 
                                                 <a href="/payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>

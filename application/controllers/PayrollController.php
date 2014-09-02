@@ -6,7 +6,7 @@ require_once('BaseController.php');
 class PayrollController extends BaseController 
 {
 
-	protected $payslipsRepository,$employeeRepository,$payrollGroupRepository;
+	protected $payslipsGroupRepository, $payslipsRepository,$employeeRepository,$payrollGroupRepository;
 	public function __construct()
 	{	
 		parent::__construct();
@@ -15,6 +15,7 @@ class PayrollController extends BaseController
 		$this->payslipsRepository = new PayslipsRepository();
 		$this->payrollGroupRepository= new PayrollGroupRepository();
 		$this->employeeRepository = new EmployeeRepository();
+		$this->payslipsGroupRepository = new PayslipsGroupRepository();
 	}
 // GET
 	public function index()
@@ -23,9 +24,9 @@ class PayrollController extends BaseController
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
 		$data['title'] = 'Payroll Generation';
-		$data['payrollgroup'] = $this->payrollGroupRepository->all();
-
-		$data['payroll'] = $this->payslipsRepository->getAllPayrollGroupBySlips();
+		$data['payslipGroups'] = $this->payslipsGroupRepository->all();
+		$data['payrollgroups'] = $this->payrollGroupRepository->all();
+		
 		
 		$this->render('payroll/index.twig.html',$data);
 	}
@@ -33,7 +34,7 @@ class PayrollController extends BaseController
 	{
 		$from = $this->input->get('from');
 		$to = $this->input->get('to');
-		$slip = $this->payslipsRepository->getPayslipById($id,$from,$to);
+		$slip = $this->payslipsGroupRepository->getPayslipById($id,$from,$to)->getAllPayslips();
 		// dd($slip);
 		$data = [
 			'payslips' => $slip,
@@ -55,13 +56,12 @@ class PayrollController extends BaseController
 		$to = $this->input->get('to');
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser()) ;
 		// dd($this->payrollGroupRepository->getDate($id));
-		$group = $this->payrollGroupRepository->where('id','=',$id)->first();
-		$data['title'] = $group->period;
+		
 
 		$data['id'] = $id;
 		$data['from'] = $from;
 		$data['to'] = $to;
-		$data['payslips'] = $this->payslipsRepository->getPayslipById($id,$from,$to);
+		$data['payslips'] =$this->payslipsGroupRepository->getPayslipById($id,$from,$to)->getAllPayslips();
 
 		$this->render('payroll/group-slip.twig.html',$data);
 
@@ -88,7 +88,7 @@ class PayrollController extends BaseController
 			'payslip' => $slip
 		];
 		$html = $this->load->view('payroll/payslip_template',$data, true);
-	
+		// echo $html;
 		$pdf = pdf_create($html, '', false,true);
 	    echo $pdf;
 		
@@ -106,8 +106,9 @@ class PayrollController extends BaseController
 	{
 
 		$this->load->helper(array('dompdf', 'file'));
-		
-		$this->payslipsRepository->generatePayslip($this->input->post());
+		$data = $this->input->post();
+		$prepared_by = $this->employeeRepository->getLoginUser($this->sentry->getUser())->id;
+		$this->payslipsRepository->generatePayslip($data,$prepared_by);
 		
 	}
 
