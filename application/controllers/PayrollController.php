@@ -27,6 +27,7 @@ class PayrollController extends BaseController
 		$data['payslipGroups'] = $this->payslipsGroupRepository->all();
 		$data['payrollgroups'] = $this->payrollGroupRepository->all();
 		
+		
 		$this->render('payroll/index.twig.html',$data);
 	}
 	public function masterList($id)

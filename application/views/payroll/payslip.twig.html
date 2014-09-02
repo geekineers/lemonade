@@ -21,7 +21,9 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Date</th>
+
+                                                <th>Basic Salary</th>
+                                                <th>Period</th>
                                                 <th>Branch</th>
                                                 <th>Download</th>
                                             </tr>
@@ -30,12 +32,12 @@
                                         {% for payslip in payslips %}
                                             <tr>
                                                 <td>{{ payslip.getName() }}</td>
-                                                <td>{{ payslip.from }} - {{ payslip.to }}</td>
+                                                <td>{{ payslip.getEmployee().getBasicPay()}}</td>
+                                                <td>{{ payslip.getEmployee().getPayrollPeriod() }}</td>
                                                 <td>{{ payslip.getBranch() }}</td>
                                                 <td> 
-                                                <a href="payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>
+                                                <a href="/payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>
                                                 </td>
-                                              
                                             </tr>
                                         {% endfor %}
                                            
