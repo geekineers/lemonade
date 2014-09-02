@@ -1,12 +1,12 @@
 <?php
 
-abstract class BaseRepository {
+abstract class BaseRepository
+{
 
     protected $currentModel;
     protected $validator;
     protected $class;
 
-    
     public function create(array $input)
     {
         // dd($input);
@@ -86,18 +86,17 @@ abstract class BaseRepository {
         return $this->class->withTrashed();
     }
 
-    public function whereBetween( $column, $values, $boolean = "and", $not = false){
-        return $this->class->whereBetween( $column, $values, $boolean, $not);
+    public function whereBetween($column, $values, $boolean = "and", $not = false)
+    {
+        return $this->class->whereBetween($column, $values, $boolean, $not);
     }
 
     public function withTrashedRelationship(array $relationship)
     {
         $rel = [];
 
-        foreach ($relationship as $relationshipName)
-        {
-            $rel[$relationshipName] = function($query)
-            {
+        foreach ($relationship as $relationshipName) {
+            $rel[$relationshipName] = function ($query) {
                 $query->withTrashed();
             };
         }
@@ -115,7 +114,7 @@ abstract class BaseRepository {
         return $this->class->where($column, $operator, $value);
     }
 
-   public function orWhere($column, $operator = null, $value = null)
+    public function orWhere($column, $operator = null, $value = null)
     {
         return $this->class->orWhere($column, $operator, $value);
     }

@@ -22,8 +22,8 @@
 	 		<td>{{ group.job_position }}</td>
 	 		<td>{{ group.job_description }}</td>
 	 		<td>
-	 			<a href="/deductions/edit?id={{ deduction.id }}" class="btn btn-primary">Edit</a>
-	 			<a href="/deductions/delete?id={{ deduction.id }}" class="job_position_delete btn btn-danger">Delete</a>
+	 			<a href="/settings/job/edit?id={{ deduction.id }}" class="btn btn-primary">Edit</a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token={{ group.id }}" class="job_position_delete btn btn-danger">Delete</a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}
