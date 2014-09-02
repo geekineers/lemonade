@@ -64,8 +64,9 @@
            <th>Pag-ibig</th>
            <th>Absent</th>
            <th>Late</th>
+           <th>Misc Deductions</th>
            <th>Tax</th>
-           <th>Total</th>
+           <th>Net</th>
         </tr>
        </thead>
        <tbody>
@@ -79,14 +80,15 @@
              <td><?php echo $payslip->getEmployee()->getDailyRate(); ?></td>
               <td><?php echo $payslip->getEmployee()->getTaxStatus(); ?></td>
              <td><?php echo $payslip->getEmployee()->getTotalAllowances(); ?></td>
-             <td><?php echo $payslip->getEmployee()->getGross(); ?></td>
-             <td><?php echo number_format(isset($payslip->sss) ? $payslip->sss : 0 ,2); ?></td>
-             <td><?php echo number_format($payslip->philhealth,2); ?></td>
-             <td><?php echo number_format($payslip->pagibig,2); ?></td>
+             <td><?php echo $payslip->getEmployee()->getGross($payslip->from, $payslip->to); ?></td>
+             <td><?php echo $payslip->getEmployee()->getSSSValue(true); ?></td>
+             <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
+             <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
              <td><?php echo number_format($payslip->getEmployee()->getAbsentDeduction($payslip->from, $payslip->to),2); ?></td>
-             <td><?php echo $payslip->getEmployee()->getLateDeduction($payslip->from, $payslip->to, 'minute'); ?></td>
-             <td><?php echo $payslip->getEmployee()->getSalaryComputations($payslip->from, $payslip->to)['widthholding_tax']; ?></td>
-             <td><?php echo $payslip->getEmployee()->getSalaryComputations($payslip->from, $payslip->to)['net']; ?></td>
+             <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute');?></td>
+             <td><?php echo $payslip->getEmployee()->getTotalDeductions($payslip->from, $payslip->to, 'minute'); ?></td>
+             <td><?php echo $payslip->getEmployee()->getWithholdingTax($payslip->from,$payslip->to,true); ?></td>
+             <td><?php echo $payslip->getEmployee()->getNet($payslip->from, $payslip->to); ?></td>
            </tr>
         <?php endforeach;  ?>
         

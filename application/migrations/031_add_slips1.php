@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Add_slips extends CI_Migration {
+class Migration_Add_slips1 extends CI_Migration {
 
         public function up()
         {
@@ -14,7 +14,10 @@ class Migration_Add_slips extends CI_Migration {
                                 'unsigned' => TRUE,
                                 'auto_increment' => TRUE
                         ),
-                        
+                        'payslip_group_id' => array(
+                            'type' => 'INT',
+                            'nunll' => TRUE
+                        ),
                         'employee_id' => array(
                                 'type' => 'INT',
                                 'null' => TRUE,
@@ -49,7 +52,7 @@ class Migration_Add_slips extends CI_Migration {
 
                         ),
                         'gross' => array(
-                                     'type' => 'FLOAT',
+                                     'type' => 'INT',
                                      'null' => TRUE,
                         ),
                         'prepared_by' => array(
@@ -61,12 +64,12 @@ class Migration_Add_slips extends CI_Migration {
                                 'null' => TRUE,
                         ),
                         'updated_at' => array(
-                            		 'type' => 'DATETIME',
+                                     'type' => 'DATETIME',
                                 
                         ),
                         'deleted_at' => array(
-                          			'type' => 'DATETIME',
-                          			'null' => TRUE,
+                                    'type' => 'DATETIME',
+                                    'null' => TRUE,
                         )
                 ));
                 $this->dbforge->add_key('id', TRUE);

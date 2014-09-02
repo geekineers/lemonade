@@ -1,23 +1,28 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+if (!defined('BASEPATH')) {exit('No direct script access allowed');
+}
 
-require_once('connection.php');
+require_once ('connection.php');
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Allowance extends BaseModel {
-	use SoftDeletingTrait;
-  	 public $table = "allowances";
-	 protected $datas = ['deleted_at'];
+class Allowance extends BaseModel
+{
+    use SoftDeletingTrait;
+    public $table    = "allowances";
+    protected $datas = ['deleted_at'];
 
+    protected $fillable = ['allowance_name', 'created_by', 'company_id'];
 
-  protected $fillable = ['allowance_name','created_by', 'company_id'];
+    public function getCreator()
+    {
+        $employee = Employee::find($this->created_by);
 
-  public function getCreator()
-  {
-  	// dd($this->created_by);
-  	// dd(Employee::find(1));
-  	return Employee::find($this->created_by)->getName();
-  }
+        if ($employee) {
+            return $employee->getName();
+        }
+        return 'Super Administrator';
+
+    }
 
 }

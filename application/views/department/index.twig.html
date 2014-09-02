@@ -10,8 +10,8 @@
     </div>
     {% endif %}
 </div>
-<table class="table">
-	<tr>
+<table class="table table-bordered table-hovered">
+  <tr>
 		<th>Name</th>
 		<th>Options</th>
 	</tr>
@@ -19,7 +19,7 @@
 	 	<tr>
 			<td>{{ group.department_name }}</td>		
 	 		<td><a href="#" class="btn btn-primary">View</a>
-          <a href="#" class="department_delete">Delete</a>
+            <a onclick="return confirm('Are you sure?')" href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete">Delete</a>
       </td>
 	 	</tr>
 	 {% endfor %}
