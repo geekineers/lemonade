@@ -93,14 +93,7 @@ class PayrollController extends BaseController
 	    echo $pdf;
 		
 	}
-	public function test()
-	{
 
-		$html = "dsadas";
-		// dd($html);
-		$pdf = pdf_create($html, '', false);
-	    echo $pdf->render();
-	}
 // POST
 	public function generatePayslip()
 	{
@@ -111,7 +104,11 @@ class PayrollController extends BaseController
 		$this->payslipsRepository->generatePayslip($data,$prepared_by);
 		
 	}
-
+	public function deletePayslips()
+	{
+		$id = $this->input->post('id');
+		$this->payslipsGroupRepository->deletePayslips($id);
+	}
 // GET
 	public function bank()
 	{

@@ -36,6 +36,7 @@ Pigeon::map(function ($r) {
     $r->get('payroll', 'PayrollController#index');
     $r->get('payroll/payslip', 'PayrollController#payslip');
     $r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
+    $r->post('payroll/payslip/delete','PayrollController#deletePayslips');
     $r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
     $r->get('payroll/bank', 'PayrollController#bank');
 
@@ -136,6 +137,8 @@ Pigeon::map(function ($r) {
     $r->post('hr/delete', 'HumanResourceController#delete');
 
     $r->get('forms', 'FormsController#index');
+    $r->get('forms/apply-manual','FormsController#apply');
+    $r->get('forms/application','FormsController#employeeApply');
     $r->get('forms/rest-get-user', 'FormsController#restGetUser');
     $r->get('forms/rest-form-template', 'FormsController#formTemplate');
     $r->post('forms/save-form', 'FormsController#store');

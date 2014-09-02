@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Add_payslip_group extends CI_Migration {
+class Migration_Add_employee_credits extends CI_Migration {
 
         public function up()
         {
@@ -14,24 +14,24 @@ class Migration_Add_payslip_group extends CI_Migration {
                                 'unsigned' => TRUE,
                                 'auto_increment' => TRUE
                         ),
-                        'payroll_group' => array(
+                        'employee_id' => array(
                                 'type' => 'INT',
                                 'null' => TRUE,
                         ),
-                        'from' => array(
-                                'type' => 'DATE',
+                        'credit_name' => array(
+                                'type' => 'TEXT',
                                 'null' => TRUE
                         ),
-                        'to' => array(
-                                'type' => 'DATE',
+                        'remaining_credits' => array(
+                                'type' => 'INT',
                                 'null' => TRUE
                         ),
-                        'status' => array(
+                        'credit_purpose' => array(
                             'type' => 'TEXT',
                             'null' => TRUE
                         ),
-                        'prepared_by' => array(
-                                'type' => 'TEXT',
+                        'valid' => array(
+                                'type' => 'DATE',
                                 'null' => TRUE,
                         ),
                         'created_at' => array(
@@ -48,7 +48,7 @@ class Migration_Add_payslip_group extends CI_Migration {
                         )
                 ));
                 $this->dbforge->add_key('id', TRUE);
-                $this->dbforge->create_table('payslips_group');
+                $this->dbforge->create_table('employee_credits');
         }
 
         public function down()

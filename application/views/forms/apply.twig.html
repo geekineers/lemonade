@@ -1,0 +1,81 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+<div class="col-md-12">
+    <div class="box box-primary rfd">
+        <div class="box-header">
+            <h3 class="box-title">Request Form Detail</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+              
+            </div>
+        </div><!-- /.box-header -->
+        <div class="box-body">    
+                <form action="/settings/forms " method="post">
+                    
+                        <div class="form-group row">
+                             <div class="col-md-12">
+                                <label  class="control-label">Type of form</label>
+                                <select required name="department" class="form-control " id="type_of_form" placeholder="">
+                                    <option value="" disabled selected>select form</option>
+                                    {% for form_type in form_types %}
+                                               <option value="{{ form_type.string_key }}"> {{ form_type.name }} </option>
+                                    {% endfor %}
+                                </select>
+                             </div>
+
+                            <div class="col-md-6 ">
+                            <br>
+                            <br>
+                                <label  class="control-label">Select Employee: </label>
+                                 <select required name="job_position" class="form-control " id="employee_name" placeholder="">
+                                     <option value="" disabled selected>select employee</option>
+                                    {% for employee in employees %}
+                                      <option value="{{  employee.id }}">{{ employee.getName() }}</option>
+                                    {% endfor %}
+                                 </select>
+                            </div>
+                             <div class="col-md-12 description hidden">
+                                 <hr/>
+                             </div>
+                             <div class="col-md-6 description hidden">
+                                
+                                <label>Detail</label>
+                                 <ul>
+                                     <li >Department: <span class="department"></span> </li>
+                                     <li>Job Position: <span class="position"></span> </li>
+                                 </ul>
+                             </div>
+                        </div>
+                    
+                        
+                </form>
+            </div>
+
+            <!-- <div class="overlay"></div><div class="loading-img"></div>    -->
+        </div>
+        <div class="forms"></div>
+    </div>
+     
+<script type="text/javascript">
+    (function($){
+        $('#employee_name').change(function(){
+            var elem = $(this);
+            $('.box').loading();
+            $.get('/forms/rest-get-user',{id:elem.val()},function(response){
+                var description = $('.description');
+                description.removeClass('hidden').find('.department').text(response.department);
+                description.find('.position').text(response.position);    
+                $('.box').loading(false);         
+            });
+        });
+        $('#type_of_form').change(function(){
+            var elem = $(this);
+            $('.box').loading();
+            $.get('/forms/rest-form-template',{template_name : elem.val() },function(template){
+                $('.forms').html(template);
+                $('.box').loading(false); 
+            });
+        });
+    })(jQuery);
+</script>
+{% endblock %}
