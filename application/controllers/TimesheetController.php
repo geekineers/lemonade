@@ -64,4 +64,21 @@ class TimesheetController extends BaseController
 
     }
 
+    public function update()
+    {
+        $data = $this->input->post();
+        $this->timesheetRepository->updateTime($data['timesheet_id'], $data['employee'], $data['timestart'], $data['timeend'], $data['from'], $data['to']);
+
+        redirect('/timesheet');
+
+    }
+
+    public function delete()
+    {
+        $id = $this->input->get('token');
+
+        $this->timesheetRepository->delete($id);
+
+        redirect('/timesheet');
+    }
 }

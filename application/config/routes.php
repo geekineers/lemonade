@@ -142,6 +142,8 @@ Pigeon::map(function ($r) {
 
     $r->get('timesheet', 'TimesheetController#index');
     $r->get('timesheet/range', 'TimesheetController#range');
+    $r->post('timesheet/update', 'TimesheetController#update');
+    $r->get('timesheet/delete', 'TimesheetController#delete');
     $r->get('my-timesheet', 'TimesheetController#myTimesheet');
     $r->get('timein', 'TimesheetController#timein');
     $r->get('timeout', 'TimesheetController#timeout');
