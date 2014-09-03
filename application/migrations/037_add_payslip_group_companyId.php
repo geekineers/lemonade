@@ -8,14 +8,14 @@ class Migration_Add_payslip_group_companyId extends CI_Migration
     public function up()
     {
         // $this->dbforge->drop_table('form_application');
-        $this->dbforge->add_column('payslips_group', array(
-                'company_id' => array(
-                    'type'       => 'INT',
-                    'constraint' => 5,
-                ),
+        // $this->dbforge->add_column('payslips_group', array(
+        //         'company_id' => array(
+        //             'type'       => 'INT',
+        //             'constraint' => 5,
+        //         ),
                 
 
-        ));
+        // ));
     
     
     
