@@ -101,7 +101,7 @@ class PayrollController extends BaseController
 		$this->load->helper(array('dompdf', 'file'));
 		$data = $this->input->post();
 		$prepared_by = $this->employeeRepository->getLoginUser($this->sentry->getUser())->id;
-		$this->payslipsRepository->generatePayslip($data,$prepared_by);
+		echo $this->payslipsRepository->generatePayslip($data,$prepared_by);
 		
 	}
 	public function deletePayslips()
@@ -130,8 +130,6 @@ class PayrollController extends BaseController
 // GET
 	public function govform($id)
 	{
-
-	
 		$form = $this->input->get('form');
 		$from = $this->input->get('from');
 		$to = $this->input->get('to');

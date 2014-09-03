@@ -84,12 +84,12 @@ class PayslipsRepository extends BaseRepository {
 	        				'prepared_by' => $prepared_by
 	        			]);
         	}else{
-        		return false;
+        		return json_encode(['status'=>'fail']);
         	}
         } 
         else 
         {
-            return false;
+            return json_encode(['status'=>'fail']);
         }
 
 			
@@ -103,8 +103,8 @@ class PayslipsRepository extends BaseRepository {
 
 		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['payroll_group'])->first();
 		// emoloyee
+	
 		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->get();
-			
 		$payslip_group = $this->payslipsGroupRepository->create($input);
 		// dd($payslip_group->id);
 
@@ -128,7 +128,7 @@ class PayslipsRepository extends BaseRepository {
 
 			}
 
-		return true;
+		return  json_encode(['status'=>'success']);
 	}
 
 	

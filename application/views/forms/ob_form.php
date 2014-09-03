@@ -89,7 +89,7 @@
              $('.ob').loading(false);
         }else{
             $('#employee_name').parent().removeClass('has-error');
-          $.post('forms/save-form',data,function(response){
+          $.post('/forms/save-form',data,function(response){
             $('.ob').loading(false);
            
              $.notify('Form Submitted','success');
