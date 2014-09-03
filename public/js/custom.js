@@ -37,7 +37,18 @@ $(document).ready(function(){
 		format: 'yyyy-mm-dd'
 	});
 
+	$('select.employee-sched').change(function(){
+       var selected = $(this).find('option:selected');
+       var timestart = selected.data('timestart'); 
+       var timeend = selected.data('timeend'); 
+       // alert(timeend);
+	   $('#timestart').val(timestart);
+	   $('#timeend').val(timeend);
+	 });
 	
+	$('.combobox').combobox({bsVersion: '3'});
+
+
 	$.fn.loading = function(options){
 		option = typeof options == "undefined" ? true : options;
 	

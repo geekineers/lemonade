@@ -102,8 +102,6 @@ Pigeon::map(function ($r) {
 
     $r->post('evaluations/save', 'EvaluationController#store');
 
-    $r->get('timesheet', 'TimesheetController#index');
-
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
@@ -143,10 +141,11 @@ Pigeon::map(function ($r) {
     $r->post('evaluations/save', 'EvaluationController#store');
 
     $r->get('timesheet', 'TimesheetController#index');
+    $r->get('timesheet/range', 'TimesheetController#range');
     $r->get('my-timesheet', 'TimesheetController#myTimesheet');
     $r->get('timein', 'TimesheetController#timein');
     $r->get('timeout', 'TimesheetController#timeout');
-
+    $r->post('timesheet/save', 'TimesheetController#save');
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
@@ -157,6 +156,8 @@ Pigeon::map(function ($r) {
     $r->post('memo/add', 'MemoController#add');
 
     $r->get('my-payslip', 'PayrollController#myPaySlips');
+
+    $r->get('api/employees', 'EmployeeController#apiAll');
 
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));
