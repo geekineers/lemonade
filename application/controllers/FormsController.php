@@ -47,7 +47,11 @@ class FormsController extends BaseController {
 		$this->render('forms/apply.twig.html',$data);
 
 	}
- 
+ 	public function viewPrint($id)
+ 	{
+ 		$form = $this->input->get('type');
+ 		$this->formRepository->viewForm($form,$id);
+ 	}
 	public function employeeApply()
 	{
 		$title = 'Forms';

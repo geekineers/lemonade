@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Add_payslip_group extends CI_Migration {
+class Migration_Add_payslip_group1 extends CI_Migration {
 
         public function up()
         {
