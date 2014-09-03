@@ -46,6 +46,7 @@
                                            		<td>{{ group.getPayrollGroup().getBranch() }}</td>
                                            		<td>
                                            			<a href="/payroll/group/{{group.id}}?from={{ group.from }}&to={{ group.to }}" class="btn btn-success fa fa-list"></a>
+                                           			<a class="btn btn-danger delete fa fa-trash-o" data-id="{{ group.id }}"></a>
                                                 </td>
                                            		</td>
                                             </tr>
@@ -116,7 +117,7 @@
 
 			return date;
 		}
-		var alerttpl = '<div class="alert alert-info alert-dismissable"> '+
+		var alerttpl = '<div class="alert alert-info alert-dismissable loading">  '+
 	                        '<i class="fa fa-ban"></i> '+
 	                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
 	                        '<b></b> Loading...'+
@@ -166,13 +167,35 @@
 
 			$('#generate-modal .modal-body').prepend(alerttpl);
 			$.post('/payroll/payslip/generate',data,function(res){
-			}).success(function(res){
-				$('#payrolltime').val('')
-				$('#generate-modal').modal('hide')
-				window.location.reload();
+				var res = JSON.parse(res);
+				if(res.status == 'fail'){
+					$.notify('Generation failed there is an existing data of payroll found','error');
+					$('#generate-modal').modal('hide')
+					$('.loading').remove();
+				}else if(res.status=='success'){
+					$.notify('Payroll generated','success');
+					window.location.reload();
+				}
 				
+			}).success(function(res){
 			});
 
+		});
+
+
+		$('.delete').on('click',function(){
+			$id = $(this).data('id');
+			$confirm = confirm('this will delete all payslips. are you sure?');
+			if($confirm){
+				$.post('/payroll/payslip/delete',{id:$id},function(res){
+				
+						$.notify('This group of payslip has been deleted','success');
+						window.location.reload();
+					
+
+
+				});
+			}
 		});
 		
 

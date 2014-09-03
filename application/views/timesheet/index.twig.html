@@ -1,42 +1,290 @@
-{% extends "layout/main.twig.html" %}
-{% block content %}
-<div class="row container">
-	<a class="btn-add-branch btn btn-success" href="/employees/add"><i class="fa fa-plus"></i></a>
-	{% if alert_message != null %}
-	<div class="col-md-7 alert alert-success alert-dismissable">
-                                        <i class="fa fa-check"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Success!</b> {{ alert_message }}.
+{% extends "layout/main.twig.html" %} {% block content %}
+<div class="row">
+    <div class="col-md-5">
+        <a data-toggle="modal" data-target="#addTimesheet" class="btn-add-branch btn btn-success" href="#addTimesheet"><i class="fa fa-plus"></i></a>
+        
     </div>
-    {% endif %}
+
+    <div class="col-md-7 ">
+       
+        <div class="form-inline pull-right">
+            <div class="form-group">
+
+                <input type="" id="dateranger-from" name="from" class="form-control datepicker" placeholder="From" >
+            </div>
+            <div class="form-group">
+
+                <input type="" id="dateranger-to" name="to" class="form-control datepicker" placeholder="To" >
+            </div>
+            <div class="form-group">
+                <a href="#" class="btn btn-default dateranger-btn"><i class="fa fa-search"></i></a>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div class="form-group">
-	<div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search...">
+        <span class="input-group-btn">
+            <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
 </div>
 <table class="table table-bordered table-hover dataTable">
-	<tr>
-		<th></th>
-		<th>Name</th>
-		<th>Position</th>
-		<th>Time In</th>
-		<th>Time Out</th>
-		<th>Hours</th>
-	</tr>
-	{% for time in timesheets %}
-		<tr>
-			<td></td>
-			<td>{{ time.getEmployee.getName() }}</td>
-			<td>{{ time.getEmployee.getJobPosition() }}</td>
-			<td>{{ time.time_in }}</td>
-			<td>{{ time.getTimeOut() }}</td>
-			<td>{{ time.getTimeDiff() }}</td>
-		</tr>
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Time In</th>
+        <th>Time Out</th>
+        <th>Hours</th>
+        <th>Options</th>
+    </tr>
+    {% for time in timesheets %}
+    <tr>
+        <td></td>
+        <td>{{ time.getEmployee.getName() }}</td>
+        <td>{{ time.getEmployee.getJobPosition() }}</td>
+        <td>{{ time.time_in }}</td>
+        <td>{{ time.getTimeOut() }}</td>
+        <td>{{ time.getTimeDiff() }}</td>
+        <td>
+            <a href="#" 
+            data-id = "{{ time.id }}"
+            data-employee-name="{{ time.getEmployee.getName() }}" 
+            data-employee-id="{{ time.getEmployee.id }}" 
+            data-time-in="{{ time.time_in }}" 
+            data-time-out="{{ time.time_out }}" 
 
-	{% endfor %}
+            class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
+              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+        </td>
+    </tr>
+
+    {% endfor %}
 </table>
+
+
+
+<form method="post" action="/timesheet/save">
+    <div class="modal fade" id="addTimesheet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Timesheet</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <select name="employee" class="form-control combobox employee-sched">
+                            {% for employee in employees %}
+                            <option></option>
+                            <option data-timestart="{{ employee.getTimeShiftStart() }}" data-timeend="{{ employee.getTimeShiftEnd() }}" value="{{ employee.id }}">{{ employee.getName() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Time In</label>
+                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                            <input id="timestart" type="text" name="timestart" class="timepicker form-control input-small">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Time Out</label>
+                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                            <input id="timeend" type="text" name="timeend" class="timepicker form-control input-small">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Schedule</label>
+                        <div class="form-inline">
+                            <div class="form-group">
+
+                                <input type="" name="from" class="form-control datepicker" placeholder="From" id="evaluation-from">
+                            </div>
+                            <div class="form-group">
+
+                                <input type="" name="to" class="form-control datepicker" placeholder="To" id="evaluation-from">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<form method="post" action="/timesheet/update">
+    <div class="modal fade" id="updateTimesheet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Timesheet</h4>
+                </div>
+                <div class="modal-body">
+                <input type="hidden" name="timesheet_id" id="updatetimesheet_id" />
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <select name="employee" readonly id="updatetimesheet_employee" class="form-control employee-sched">
+                            {% for employee in employees %}
+                            <option></option>
+                            <option data-timestart="{{ employee.getTimeShiftStart() }}" data-timeend="{{ employee.getTimeShiftEnd() }}" value="{{ employee.id }}">{{ employee.getName() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Time In</label>
+                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                            <input id="updatetimesheet_timestart" type="text" name="timestart" class="timepicker form-control input-small">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Time Out</label>
+                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                            <input id="updatetimesheet_timeend" type="text" name="timeend" class="timepicker form-control input-small">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Schedule</label>
+                        <div class="form-inline">
+                            <div class="form-group">
+
+                                <input type="" name="from" class="form-control datepicker" placeholder="From" id="updatetimesheet_from">
+                            </div>
+                            <div class="form-group">
+
+                                <input type="" name="to" class="form-control datepicker" placeholder="To" id="updatetimesheet_to">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
+
+{% endblock %} 
+{% block scripts %}
+
+<script type="text/javascript">
+$('.dateranger-btn').on('click', function(e){
+    e.preventDefault();
+    var from = $('#dateranger-from').val();
+    var to = $('#dateranger-to').val();
+
+    if(from == null && to == null){
+        alert('Kindly input date range');
+    }
+    else{
+        $.get('/timesheet/range', {from : from, to : to}, function(resp){
+            $('.dataTable').html(resp);
+        });
+
+    }
+
+});
+
+$('.edit-timesheet').on('click', function(e){
+    e.preventDefault();
+    var timesheet_id = $(this).data('id');
+    var employee_name = $(this).data('employee-name'); 
+    var employee_id = $(this).data('employee-id'); 
+    var time_in = $(this).data('time-in'); 
+    var time_out = $(this).data('time-out'); 
+
+    var date_from = new Date(time_in);
+    var date_to = new Date(time_out);
+    $("#updatetimesheet_employee > option").each(function() {
+    $this = $(this);
+      if(this.value == employee_id){
+       
+        $this.attr('selected', 'selected');
+      }
+    });
+
+
+
+    var from = date_from.getFullYear() + "-" + date_from.getMonth() + "-" + date_from.getDate();
+
+    var to = date_to.getFullYear() + "-" + date_to.getMonth() + "-" + date_to.getDate();
+
+
+    var timein = getHours(date_from.getHours()) + ":" + date_from.getMinutes() + " " + getDD(date_from.getHours());
+
+    var timeout = getHours(date_to.getHours()) + ":" + date_to.getMinutes() + " " + getDD(date_to.getHours());
+
+
+    $('#updatetimesheet_id').val(timesheet_id);
+    $('#updatetimesheet_timestart').val(timein);
+    $('#updatetimesheet_timeend').val(timeout);
+    $('#updatetimesheet_from').val(from);
+    $('#updatetimesheet_to').val(to);
+
+    $('#updateTimesheet').modal('show');
+});
+
+function getDD(h)
+{
+    dd = "AM";
+    if (h >= 12) {
+        h = h-12;
+        dd = "PM";
+    }
+    if (h == 0) {
+        h = 12;
+    }
+
+    return dd;
+}
+
+function getHours(h){
+     if (h >= 12) {
+        h = h-12;
+      
+    }
+    if (h == 0) {
+        h = 12;
+    }
+
+    return h;
+}
+</script>
+
 {% endblock %}

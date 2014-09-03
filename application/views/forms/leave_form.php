@@ -5,7 +5,9 @@
     <div class="box-body">    
 
             <form action="/settings/forms" method="post" class="ob_form">
-                
+                     <div class="col-md-6">
+                                <span>Remaining leave credits : 20</span>
+                            </div>
                     <div class="form-group row">
                         <div class="col-md-10 ">
                             <label>Start / End Date: </label>

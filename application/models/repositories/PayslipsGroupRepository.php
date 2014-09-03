@@ -16,5 +16,9 @@ class PayslipsGroupRepository extends BaseRepository {
 	{
 		return $this->where('id','=',$id)->first();
 	}
-	
+	public function deletePayslips($id)
+	{
+		$this->where('id','=',$id)->delete();
+		return Payslips::where('payslip_group_id','=',$id)->delete();
+	}	
 }

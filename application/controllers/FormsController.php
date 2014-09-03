@@ -21,6 +21,17 @@ class FormsController extends BaseController {
 	public function index()
 	{
 		$title = 'Forms';
+		 $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+       
+		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+	
+		$data['forms'] = $this->formApplicationRepository->all();
+		$this->render('forms/index.twig.html',$data);
+	}
+
+	public function apply()
+	{
+		$title = 'Forms';
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		// $forms = $this->formRepository->all();
@@ -33,9 +44,27 @@ class FormsController extends BaseController {
 		];
 		$data['title'] = $title;
 		$data['employees'] = $this->employeeRepository->all();
-		$this->render('forms/index.twig.html',$data);
-	}
+		$this->render('forms/apply.twig.html',$data);
 
+	}
+ 
+	public function employeeApply()
+	{
+		$title = 'Forms';
+
+		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		// $forms = $this->formRepository->all();
+		$data['form_types'] = [
+			['name'=>'OB Form','string_key'=>'ob'],
+			['name'=>'OT Form','string_key'=>'ot'],
+			['name'=>'Undertime Form','string_key'=>'undertime'],
+			['name'=>'Leave Form','string_key'=>'leave']
+
+		];
+		$data['title'] = $title;
+		$data['user'] = $user;
+ 		$this->render('forms/employee_form.twig.html',$data);
+	}
 	public function edit()
 	{
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());

@@ -36,6 +36,7 @@ Pigeon::map(function ($r) {
     $r->get('payroll', 'PayrollController#index');
     $r->get('payroll/payslip', 'PayrollController#payslip');
     $r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
+    $r->post('payroll/payslip/delete','PayrollController#deletePayslips');
     $r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
     $r->get('payroll/bank', 'PayrollController#bank');
 
@@ -102,8 +103,6 @@ Pigeon::map(function ($r) {
 
     $r->post('evaluations/save', 'EvaluationController#store');
 
-    $r->get('timesheet', 'TimesheetController#index');
-
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
@@ -136,6 +135,8 @@ Pigeon::map(function ($r) {
     $r->post('hr/delete', 'HumanResourceController#delete');
 
     $r->get('forms', 'FormsController#index');
+    $r->get('forms/apply-manual','FormsController#apply');
+    $r->get('forms/application','FormsController#employeeApply');
     $r->get('forms/rest-get-user', 'FormsController#restGetUser');
     $r->get('forms/rest-form-template', 'FormsController#formTemplate');
     $r->post('forms/save-form', 'FormsController#store');
@@ -143,10 +144,13 @@ Pigeon::map(function ($r) {
     $r->post('evaluations/save', 'EvaluationController#store');
 
     $r->get('timesheet', 'TimesheetController#index');
+    $r->get('timesheet/range', 'TimesheetController#range');
+    $r->post('timesheet/update', 'TimesheetController#update');
+    $r->get('timesheet/delete', 'TimesheetController#delete');
     $r->get('my-timesheet', 'TimesheetController#myTimesheet');
     $r->get('timein', 'TimesheetController#timein');
     $r->get('timeout', 'TimesheetController#timeout');
-
+    $r->post('timesheet/save', 'TimesheetController#save');
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
@@ -157,6 +161,8 @@ Pigeon::map(function ($r) {
     $r->post('memo/add', 'MemoController#add');
 
     $r->get('my-payslip', 'PayrollController#myPaySlips');
+
+    $r->get('api/employees', 'EmployeeController#apiAll');
 
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));

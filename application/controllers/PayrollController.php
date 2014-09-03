@@ -20,7 +20,7 @@ class PayrollController extends BaseController
 // GET
 	public function index()
 	{
-
+		$this->load->plugin('to_excel');
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
 		$data['title'] = 'Payroll Generation';
@@ -93,14 +93,7 @@ class PayrollController extends BaseController
 	    echo $pdf;
 		
 	}
-	public function test()
-	{
 
-		$html = "dsadas";
-		// dd($html);
-		$pdf = pdf_create($html, '', false);
-	    echo $pdf->render();
-	}
 // POST
 	public function generatePayslip()
 	{
@@ -108,10 +101,14 @@ class PayrollController extends BaseController
 		$this->load->helper(array('dompdf', 'file'));
 		$data = $this->input->post();
 		$prepared_by = $this->employeeRepository->getLoginUser($this->sentry->getUser())->id;
-		$this->payslipsRepository->generatePayslip($data,$prepared_by);
+		echo $this->payslipsRepository->generatePayslip($data,$prepared_by);
 		
 	}
-
+	public function deletePayslips()
+	{
+		$id = $this->input->post('id');
+		$this->payslipsGroupRepository->deletePayslips($id);
+	}
 // GET
 	public function bank()
 	{
@@ -133,8 +130,6 @@ class PayrollController extends BaseController
 // GET
 	public function govform($id)
 	{
-
-	
 		$form = $this->input->get('form');
 		$from = $this->input->get('from');
 		$to = $this->input->get('to');
