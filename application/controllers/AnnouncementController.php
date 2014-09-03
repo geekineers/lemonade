@@ -38,4 +38,16 @@ class AnnouncementController extends BaseController {
 
 		redirect('/dashboard');
 	}
+
+
+    public function index()
+    {
+
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+
+        $data['title']    = "Announcements";
+        $data['branches'] = $this->announcementRepository->all();
+        $this->render('announcements/index.twig.html', $data);
+
+    }
 }

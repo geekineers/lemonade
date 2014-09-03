@@ -1,6 +1,6 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div class="box box-primary">
                                 <div class="box-header">
                                     <h3 class="box-title">User Role Info</h3>
@@ -12,14 +12,19 @@
                                             <label for="exampleInputEmail1">Role Name</label>
                                             <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter Role">
                                         </div>
-                                    <h4 class="box-title">User Permission</h4> 
+                                    <h4 class="box-title">User Permission
+                                     <input type="checkbox" class="select_all"><small>Select All</small></h4> 
+                                     <div class="row">
                                      {% for permission in permissions %}
-                                           <div class="form-group">
+                                           <div class="col-md-3 permission-item form-group">
                                               <div class="icheckbox flat-red">
                                              <input name='permissions[{{ permission }}]' type="checkbox" class=" flat-red">
                                              {{ permission }}  
                                            </div> 
-                                        {% endfor %}
+                                           </div>
+                                        {% endfor %}    
+                                     </div>
+                                     
                                     </div><!-- /.box-body -->
 
                                     <div class="box-footer">
