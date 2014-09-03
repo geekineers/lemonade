@@ -59,6 +59,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/job', 'JobController#index');
     $r->get('settings/job/add', 'JobController#add');
     $r->post('settings/job/add', 'JobController#save');
+    $r->post('settings/job/update', 'JobController#update');
     $r->get('settings/job/edit', 'JobController#edit');
     $r->post('settings/job/edit', 'JobController#update');
     $r->get('settings/job/delete', 'JobController#delete');
@@ -66,6 +67,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/department', 'DepartmentController#index');
     $r->get('settings/department/add', 'DepartmentController#add');
     $r->post('settings/department/add', 'DepartmentController#save');
+    $r->post('settings/department/update', 'DepartmentController#update');
     $r->get('settings/department/edit', 'DepartmentController#edit');
     $r->post('settings/department/edit', 'DepartmentController#update');
     $r->get('settings/department/delete', 'DepartmentController#delete');

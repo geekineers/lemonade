@@ -1,68 +1,123 @@
-{% extends "layout/main.twig.html" %}
-{% block content %}
+{% extends "layout/main.twig.html" %} {% block content %}
 
 <div class="row container">
-	<a class="job_position_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewJob"><i class="fa fa-plus"></i></a>
-	{% if alert_message != null %}
-	<div class="col-md-7 alert alert-success alert-dismissable">
-                                        <i class="fa fa-check"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Success!</b> {{ alert_message }}.
+    <a class="job_position_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewJob"><i class="fa fa-plus"></i></a>
+    {% if alert_message != null %}
+    <div class="col-md-7 alert alert-success alert-dismissable">
+        <i class="fa fa-check"></i>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <b>Success!</b> {{ alert_message }}.
     </div>
     {% endif %}
 </div>
 <table class="table table-bordered table-hovered">
-	<tr>
-		<th>Job</th>
-		<th>Description</th>
-		<th>Option</th>
-	</tr>
-	 {% for group in groups %}
-	 	<tr>
-	 		<td>{{ group.job_position }}</td>
-	 		<td>{{ group.job_description }}</td>
-	 		<td>
-	 			<a href="/settings/job/edit?id={{ deduction.id }}" class="btn btn-primary">Edit</a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token={{ group.id }}" class="job_position_delete btn btn-danger">Delete</a>
-	 		</td>
-	 	</tr>
-	 {% endfor %}
+    <tr>
+        <th>Job</th>
+        <th>Description</th>
+        <th>Option</th>
+    </tr>
+    {% for group in groups %}
+    <tr>
+        <td>{{ group.job_position }}</td>
+        <td>{{ group.job_description }}</td>
+        <td>
+            <a href="#updateJob" data-id="{{ group.id }}" data-name="{{ group.job_position }}" data-description="{{ group.job_description }}" class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
+            <a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token={{ group.id }}" class="job_position_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 
 
-	<!-- Modal -->
+<!-- Modal -->
 <form method="post" enctype="multipart/form-data" action="/settings/job/add">
 
-	<div class="modal fade" id="addNewJob" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Deduction Type</h4>
-      </div>
-      <div class="modal-body">
-      
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Name of Job</label>
-                                            <input type="text" name="job_position" class="form-control" id="exampleInputEmail1" placeholder="Enter Job position eg: Accountant">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Job Description</label>
-                                            <input type="text" name="job_description" class="form-control" id="exampleInputEmail1" placeholder="Enter Job Description">
-                                        </div>
+    <div class="modal fade" id="addNewJob" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">New Job Postion</h4>
+                </div>
+                <div class="modal-body">
 
-               
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Save">
-      </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Name of Job</label>
+                        <input type="text" name="job_position" class="form-control" id="exampleInputEmail1" placeholder="Enter Job position eg: Accountant">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Job Description</label>
+                        <input type="text" name="job_description" class="form-control" id="exampleInputEmail1" placeholder="Enter Job Description">
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </form>
 
 
+<form method="post" enctype="multipart/form-data" action="/settings/job/update">
+
+    <div class="modal fade" id="updateJob" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">New Job Position</h4>
+                </div>
+                <div class="modal-body">
+
+                <input type="hidden" name="id" id="update-job-id">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Name of Job</label>
+                        <input type="text" name="job_position" class="form-control" id="update-job-name" placeholder="Enter Job position eg: Accountant">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Job Description</label>
+                        <input type="text" name="job_description" class="form-control" id="update-job-description" placeholder="Enter Job Description">
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %} {% block scripts %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.btn-update-job').on('click', function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+
+        $('#update-job-name').val(name);
+        $('#update-job-description').val(description);
+        $('#update-job-id').val(id);
+
+        $('#updateJob').modal('show');
+
+    });
+
+});
+</script>
+
 {% endblock %}
-
-

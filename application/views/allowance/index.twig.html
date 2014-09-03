@@ -23,7 +23,7 @@
 	 		<td>{{ allowance.getCreator() }}</td>
 	 		<td>
 	 			<a href="#updateAllowance" data-id="{{ allowance.id }}" data-name="{{ allowance.allowance_name }}" class="btn btn-update-allowance btn-primary"><i class="fa fa-edit"></i></a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger">Delete</a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}
