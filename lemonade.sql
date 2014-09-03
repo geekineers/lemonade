@@ -302,6 +302,36 @@ INSERT INTO `employee_allowances` VALUES (1,1,1,'Yes',1500,'2014-08-14','2015-04
 UNLOCK TABLES;
 
 --
+-- Table structure for table `employee_credits`
+--
+
+DROP TABLE IF EXISTS `employee_credits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee_credits` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `employee_id` int(11) DEFAULT NULL,
+  `credit_name` text,
+  `remaining_credits` int(11) DEFAULT NULL,
+  `credit_purpose` text,
+  `valid` date DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee_credits`
+--
+
+LOCK TABLES `employee_credits` WRITE;
+/*!40000 ALTER TABLE `employee_credits` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employee_credits` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `employee_deductions`
 --
 
@@ -661,7 +691,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (36),(36);
+INSERT INTO `migrations` VALUES (39),(39);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -963,4 +993,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-03  9:37:10
+-- Dump completed on 2014-09-03 10:52:02
