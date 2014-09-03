@@ -217,4 +217,14 @@ class EmployeeController extends BaseController
         redirect('/employees');
     }
 
+    public function apiAll()
+    {
+        // dd('mark');
+        $employees = $this->employeeRepository->getAllEmployeesJSON();
+
+        $this->output
+             ->set_content_type('application/json')
+             ->set_output(json_encode($employees));
+    }
+
 }

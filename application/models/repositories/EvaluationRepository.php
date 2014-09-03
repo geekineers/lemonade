@@ -20,17 +20,14 @@ class EvaluationRepository extends BaseRepository
                                      ->key('evaluation_description', Validator::notEmpty())
                                      ->key('evaluation_from', Validator::date('Y-m-d'))
                                      ->key('evaluation_to', Validator::date('Y-m-d'))
-        							 ->validate($data);
+                                     ->validate($data);
 
-        if ($validator) 
-        {
+        if ($validator) {
 
             $data['created_by'] = $creator;
-            $post               = array('evaluation_name' => $data['evaluation_name']);
+            // dd($data);
             return $this->create($data);
-        } 
-        else 
-        {
+        } else {
             return false;
         }
     }
@@ -39,8 +36,8 @@ class EvaluationRepository extends BaseRepository
     {
         $current_date = date('Y-m-d');
         return $this->where('employee_id', '=', $employee_id)
-                    ->where('from', '>=', $current_date)
-                    ->orderBy('from', 'desc')
+                    ->where('evaluation_from', '>=', $current_date)
+                    ->orderBy('evaluation_from', 'desc')
                     ->take(5)
                     ->get();
     }

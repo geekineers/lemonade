@@ -20,7 +20,7 @@ class PayrollController extends BaseController
 // GET
 	public function index()
 	{
-
+		$this->load->plugin('to_excel');
 		$data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		
 		$data['title'] = 'Payroll Generation';
