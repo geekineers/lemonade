@@ -13,6 +13,16 @@
                 <form action="/settings/forms " method="post">
                     
                         <div class="form-group row">
+                            <div class="col-md-6 ">
+                            
+                                <label  class="control-label">Select Employee: </label>
+                                 <select required name="job_position" class="form-control " id="employee_name" placeholder="">
+                                     <option value="" disabled selected>select employee</option>
+                                    {% for employee in employees %}
+                                      <option value="{{  employee.id }}">{{ employee.getName() }}</option>
+                                    {% endfor %}
+                                 </select>
+                            </div>
                              <div class="col-md-12">
                                 <label  class="control-label">Type of form</label>
                                 <select required name="department" class="form-control " id="type_of_form" placeholder="">
@@ -23,17 +33,6 @@
                                 </select>
                              </div>
 
-                            <div class="col-md-6 ">
-                            <br>
-                            <br>
-                                <label  class="control-label">Select Employee: </label>
-                                 <select required name="job_position" class="form-control " id="employee_name" placeholder="">
-                                     <option value="" disabled selected>select employee</option>
-                                    {% for employee in employees %}
-                                      <option value="{{  employee.id }}">{{ employee.getName() }}</option>
-                                    {% endfor %}
-                                 </select>
-                            </div>
                              <div class="col-md-12 description hidden">
                                  <hr/>
                              </div>
@@ -67,14 +66,25 @@
                 description.find('.position').text(response.position);    
                 $('.box').loading(false);         
             });
+            $('#type_of_form').val('')
         });
         $('#type_of_form').change(function(){
             var elem = $(this);
             $('.box').loading();
-            $.get('/forms/rest-form-template',{template_name : elem.val() },function(template){
-                $('.forms').html(template);
+            if($('#employee_name').val()!=null)
+            {
+                $.get('/forms/rest-form-template',{template_name : elem.val() , employee_id : $('#employee_name').val()},function(template){
+                    $('.forms').html(template);
+                    $('.box').loading(false); 
+                });
+            }
+            else
+            {
+
+                $.notify('please choose a employee first','error');
                 $('.box').loading(false); 
-            });
+            }
+
         });
     })(jQuery);
 </script>

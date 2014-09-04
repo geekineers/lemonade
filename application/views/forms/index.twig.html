@@ -28,7 +28,7 @@
             <td>
                 {{ form.form_type }}
             </td>
-            <td>{{ form.getEmployee() }}</td>
+            <td>{{ form.getEmployeeNames() }}</td>
             <td>{{ form.getPreparedBy() }}</td>
             <td class="status">
             {% if form.status == 'not-yet-approved' %}
@@ -44,6 +44,9 @@
             <td>
                 <button data-id="{{ form.id }}" class="btn btn-default approved"><i class="fa fa-check-square-o"></i></a>
                 </button>
+                <a href="/forms/view/{{ form.id }}?type={{ form.form_type }}" class="btn btn-info" target="_blank">
+                    <i class="fa fa-print"></i>
+                </a>
                 <button data-id="{{ form.id }}" class="btn btn-danger delete"><i class="fa  fa-trash-o"></i></button>
                 <!-- <a href="/hr/delete?id={{ form.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a> -->
             </td>
@@ -90,7 +93,7 @@
             $('#approve-modal').modal('show');
 
             selected = this;
-            $.get('hr/form-application',{id:$(selected).data('id')} ,function(data){
+            $.get('/hr/form-application',{id:$(selected).data('id')} ,function(data){
                     $('#approve-modal .modal-body')
                         .find('ul li').remove();
                     $('#approve-modal .modal-body')
@@ -108,7 +111,7 @@
         });
         $('#approved').on('click',function(){
             var el = this;
-            $.post('hr/approved',{id:$(el).data('id')},function(){
+            $.post('/hr/approved',{id:$(el).data('id')},function(){
                 $('#approve-modal').modal('hide');
                 $.notify('Approved','success');
                 window.location.reload();
@@ -116,7 +119,7 @@
         });
         $('#disapproved').on('click',function(){
             var el = this;
-            $.post('hr/disapproved',{id:$(selected).data('id')},function(){
+            $.post('/hr/disapproved',{id:$(selected).data('id')},function(){
                 $('#approve-modal').modal('hide');
                 $.notify('disapproved','success');
                 window.location.reload();

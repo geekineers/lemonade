@@ -4,6 +4,18 @@ function ci_app_path($path = null) {
 	return APPPATH.$path;
 }
 
+function sendJSON($data)
+{
+	try
+	{
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+	catch(Exception $e)
+	{
+		dd($e);
+	}
+}
+
 function pdf_create($html, $filename='s', $stream=TRUE, $landscape = FALSE) 
 {
 

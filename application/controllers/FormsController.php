@@ -20,6 +20,8 @@ class FormsController extends BaseController {
 
 	public function index()
 	{
+
+
 		$title = 'Forms';
 		 $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
        
@@ -31,6 +33,7 @@ class FormsController extends BaseController {
 
 	public function apply()
 	{
+
 		$title = 'Forms';
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
@@ -47,9 +50,14 @@ class FormsController extends BaseController {
 		$this->render('forms/apply.twig.html',$data);
 
 	}
- 
+ 	public function viewPrint($id)
+ 	{
+ 		$form = $this->input->get('type');
+ 		$this->formRepository->viewForm($form,$id);
+ 	}
 	public function employeeApply()
 	{
+
 		$title = 'Forms';
 
 		$user = $this->employeeRepository->getLoginUser($this->sentry->getUser());
@@ -93,15 +101,13 @@ class FormsController extends BaseController {
 			'form_type' => $this->input->post('form_type')
 		];
 		
-		$form  =  $this->formApplicationRepository->create($data);
-		// if($form){
-		// 	$this->session->set_flashdata('message',$data['form_name']  .' has been added.');
-		// 	redirect('/settings/forms');
-		// }
-		// else{
-		// 	$this->session->set_flashdata('message', 'There was an error.');
-		// 	redirect('/settings/forms/new');
-		// }
+		$form  =  $this->formApplicationRepository->createForm($data);
+		if(!$form)
+		{
+			$this->sendJSON(['status'=>0]);
+		}else{
+			$this->sendJSON(['status'=>1]);
+		}
 	}
 
 	
@@ -135,22 +141,26 @@ class FormsController extends BaseController {
 	public function formTemplate()
 	{
 		$template = $this->input->get('template_name');
+		$employee_id = $this->input->get('employee_id');
+
+		$employee = $this->employeeRepository->getUserById($employee_id);
+		$data['remaining'] = $employee->getRemainingCredits($template);
 
 		if( $template == 'ob' )
 		{
-			return $this->load->view('forms/ob_form');
+			return $this->load->view('forms/ob_form',$data);
 		}
 		else if ( $template == 'ot')
 		{
-			return $this->load->view('forms/ot_form');
+			return $this->load->view('forms/ot_form',$data);
 		}
 		else if ( $template == 'undertime')
 		{
-			return $this->load->view('forms/undertime_form');
+			return $this->load->view('forms/undertime_form',$data);
 		}
 		else if ( $template == 'leave' )
 		{
-			return $this->load->view('forms/leave_form');
+			return $this->load->view('forms/leave_form',$data);
 		}
 
 	}

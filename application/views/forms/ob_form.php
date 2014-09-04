@@ -4,7 +4,7 @@
     </div><!-- /.box-header -->
     <div class="box-body">    
             <form action="/settings/forms" method="post" class="ob_form">
-                
+                Remaining Credits: <?php echo $remaining;?>
                     <div class="form-group row">
                         <div class="col-md-2 ">
                             <label>Effective Date: </label>
@@ -90,10 +90,14 @@
         }else{
             $('#employee_name').parent().removeClass('has-error');
           $.post('/forms/save-form',data,function(response){
-            $('.ob').loading(false);
-           
-             $.notify('Form Submitted','success');
-             window.location.href = "/hr";
+             $('.ob').loading(false);
+            if(response.status==0){
+                $.notify('Cannot be summited. contact your hr','error');
+            }
+            else if(response.status==1){
+                $.notify('Form Submitted','success');
+                 window.location.href = "/forms/application";
+            }
           });
         }
     });

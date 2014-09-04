@@ -53,6 +53,6 @@ class Migration_Add_employee_credits1 extends CI_Migration {
 
         public function down()
         {
-                $this->dbforge->drop_table('payslips_group');
+                $this->dbforge->drop_table('employee_credits');
         }
 }

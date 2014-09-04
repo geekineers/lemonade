@@ -817,9 +817,12 @@ class Employee extends BaseModel
 
     public function getWithholdingTax($from, $to, $number_format = true)
     {
-        $absents        = $this->getAbsentDeduction($from, $to);
-        $overtime       = $this->getOvertime($from, $to);
-        $sss_val        = $this->getSSSValue();
+
+        
+        $absents = $this->getAbsentDeduction($from,$to);
+        $overtime =  $this->getOvertime($from,$to);
+        $sss_val = $this->getSSSValue();
+
         $philhealth_val = $this->getPhilhealthValue();
         $pagibig_val    = $this->getHDMFValue();
         $basic_pay      = $this->getBasicPay(false);
@@ -872,6 +875,25 @@ class Employee extends BaseModel
         $id           = $this->id;
         $certificates = Training::where('employee_id', '=', $id)->orderBy('status', 'desc')->orderBy('from', 'desc')->get();
         return $certificates;
+
+
+    public function getRemainingCredits($type)
+    {
+        
+       
+        $form = EmployeeCredits::where('employee_id','=',$this->id)
+                                    ->where('credit_name','=',$type)
+                                    ->first();
+        
+
+        if($form==null)
+        {
+            return 'N/A';
+        }
+        else
+        {
+            return $form->remaining_credits;
+        }
     }
 
     public function getUnderTime()
