@@ -80,7 +80,7 @@ background-color:#F2F2F2;
           <td>EMP #</td>
           <td><?php echo $employee->id; ?></td>
           <td>PAYROLL PERIOD</td>
-          <td><?php echo $payslip->getPayrollDate(); ?></td>
+          <td><?php echo $payslip->getPayslipsGroup()->from.'-'.$payslip->getPayslipsGroup()->to; ?></td>
 
         </tr>
         <tr>
@@ -146,7 +146,7 @@ background-color:#F2F2F2;
         <tr>
           <td><b style="padding:15px ;">Total Deduction</b></td>
           
-          <td><?php echo $employee->getSalaryComputations($from, $to)['total_deduc']?></td> 
+          <td><?php echo $employee->getAllandTotalDeduction($from, $to)?></td> 
         </tr>
         
 
@@ -223,7 +223,7 @@ background-color:#F2F2F2;
            <td>Prepared By</td>
         </tr>
         <tr>
-          <td><?php echo $payslip->getPreparedBy(); ?></td>
+          <td><?php echo $payslip->getPayslipsGroup()->getPreparedBy(); ?></td>
         </tr>
       </thead>  
      
