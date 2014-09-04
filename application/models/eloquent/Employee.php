@@ -842,6 +842,24 @@ class Employee extends BaseModel
 
     }
 
+    public function getAllandTotalDeduction($from, $to, $number_format = true)
+    {
+        $basic_pay                 = $this->getBasicPay(false);
+
+        $total_loan_deduction      = $this->getTotalDeductions($from, $to, false);
+
+
+        $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to);
+
+        $absents                   = $this->getAbsentDeduction($from,$to);
+
+        $mandatory_wtax            =  $total_mandatory_deduction  +  $total_loan_deduction ;
+         if ($number_format) {
+            return number_format($mandatory_wtax, 2);
+        }
+        
+        return $mandatory_wtax;
+    }
     public function getNet($from, $to, $number_format = true)
     {
 

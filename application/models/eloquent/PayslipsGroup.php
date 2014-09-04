@@ -44,4 +44,8 @@ class PayslipsGroup extends BaseModel {
   	return PayrollGroup::where('id','=',$this->payroll_group)->first()->getBranch();
   }
   
+  public function getPreparedBy()
+  {
+    return Employee::where('id','=',$this->prepared_by)->first()->getName();
+  }
 }
