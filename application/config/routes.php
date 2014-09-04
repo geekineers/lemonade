@@ -88,6 +88,7 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/deductions', 'DeductionController#index');
     $r->post('settings/deductions/save', 'DeductionController#save');
+    $r->post('settings/deductions/update', 'DeductionController#update');
 
     $r->get('settings/allowances', 'AllowanceController#index');
     $r->get('settings/allowances/delete', 'AllowanceController#delete');
