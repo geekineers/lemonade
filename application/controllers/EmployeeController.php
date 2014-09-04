@@ -108,9 +108,11 @@ class EmployeeController extends BaseController
             'night_differential_rate'     => floatval($this->input->post('night_differential_rate')),
             'entitled_overtime_pay'       => (int) $this->input->post('entitled_overtime_pay'),
             'overtime_pay_rate'           => floatval($this->input->post('overtime_pay')),
+            'timesheet_required'          => (int) $this->input->post('timesheet_required'),
+
         );
         $update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
-
+        redirect('/employees/' . $employee_id . '/profile', 'location');
     }
 
     public function updateContributions($id)

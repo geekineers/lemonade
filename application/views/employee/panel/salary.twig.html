@@ -86,7 +86,7 @@
 						 	 	<tr>
 							 		<td><span class="form-label">Timesheet Required</span>
 					 				<span class="profile-value">{{ employee.getTimesheetRequired() }}</span>
-							 		<select class="edit-input">
+							 		<select name="timesheet_required" class="edit-input">
 							 			<option value="1" {% if employee.timesheet_required %} selected {% endif %}>Yes</option>
 							 			<option value="0" {% if employee.timesheet_required == 0 %} selected {% endif %} >No</option>
 							 		</select>

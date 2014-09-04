@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Migration_Add_payslip_group_companyId extends CI_Migration
+class MigrationAddPayslipGroupCompanyid extends CI_Migration
 {
 
     public function up()
@@ -13,14 +13,8 @@ class Migration_Add_payslip_group_companyId extends CI_Migration
         //             'type'       => 'INT',
         //             'constraint' => 5,
         //         ),
-                
 
         // ));
-    
-    
-    
-    
-    
 
     }
 
@@ -29,4 +23,3 @@ class Migration_Add_payslip_group_companyId extends CI_Migration
         $this->dbforge->drop_table('branches');
     }
 }
-

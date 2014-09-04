@@ -62,4 +62,12 @@ class JobController extends BaseController
         $this->jobPositionRepository->delete($id);
         redirect('/settings/job');
     }
+
+    public function update()
+    {
+        $id    = $this->input->post('id');
+        $input = $this->input->post();
+        $this->jobPositionRepository->update($input, $id);
+        redirect('/settings/job');
+    }
 }
