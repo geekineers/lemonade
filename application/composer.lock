@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8702fc2682257c8c1c303b55f97d65d4",
+    "hash": "6524cc754827545e13b832e097347758",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cartalyst/sentry.git",
-                "reference": "1335033432147772c05a509981563409cb3c3d3b"
+                "reference": "57eb4ec33b342d621d8e7e499492f797443c0428"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/sentry/zipball/1335033432147772c05a509981563409cb3c3d3b",
-                "reference": "1335033432147772c05a509981563409cb3c3d3b",
+                "url": "https://api.github.com/repos/cartalyst/sentry/zipball/57eb4ec33b342d621d8e7e499492f797443c0428",
+                "reference": "57eb4ec33b342d621d8e7e499492f797443c0428",
                 "shasum": ""
             },
             "require": {
@@ -104,7 +104,7 @@
                 "laravel",
                 "security"
             ],
-            "time": "2014-07-23 20:35:12"
+            "time": "2014-08-28 12:03:39"
         },
         {
             "name": "codeguy/upload",
@@ -193,6 +193,61 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2014-03-11 01:59:52"
+        },
+        {
+            "name": "faisalman/simple-excel-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/faisalman/simple-excel-php.git",
+                "reference": "9bcff4b001fac43bce07e2ba348468d9fdedb82b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/faisalman/simple-excel-php/zipball/9bcff4b001fac43bce07e2ba348468d9fdedb82b",
+                "reference": "9bcff4b001fac43bce07e2ba348468d9fdedb82b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SimpleExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Faisal Salman",
+                    "email": "fyzlman@gmail.com",
+                    "homepage": "http://faisalman.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily parse / convert / write between Microsoft Excel XML / CSV / TSV / HTML / JSON / etc formats",
+            "homepage": "http://faisalman.github.com/simple-excel-php",
+            "keywords": [
+                "converter",
+                "csv",
+                "document",
+                "excel",
+                "html",
+                "json",
+                "parser",
+                "spreadsheet",
+                "tsv",
+                "writer",
+                "xml"
+            ],
+            "time": "2014-06-05 04:42:47"
         },
         {
             "name": "illuminate/container",
@@ -514,12 +569,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-curl-class/php-curl-class.git",
-                "reference": "f357bf77f7a8e4311750a8c20222204674bd2647"
+                "reference": "9fb14c98873b012e1f5b82a4f5d5cbc0a5643857"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/f357bf77f7a8e4311750a8c20222204674bd2647",
-                "reference": "f357bf77f7a8e4311750a8c20222204674bd2647",
+                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/9fb14c98873b012e1f5b82a4f5d5cbc0a5643857",
+                "reference": "9fb14c98873b012e1f5b82a4f5d5cbc0a5643857",
                 "shasum": ""
             },
             "require": {
@@ -546,7 +601,7 @@
                 "curl",
                 "php"
             ],
-            "time": "2014-08-18 19:44:09"
+            "time": "2014-08-30 02:54:55"
         },
         {
             "name": "respect/validation",
@@ -607,12 +662,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "e2d2a250d963dd5bba4ad23fc01c7282fc042946"
+                "reference": "084ca201a737de82323f7613665e7229789aa434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/e2d2a250d963dd5bba4ad23fc01c7282fc042946",
-                "reference": "e2d2a250d963dd5bba4ad23fc01c7282fc042946",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/084ca201a737de82323f7613665e7229789aa434",
+                "reference": "084ca201a737de82323f7613665e7229789aa434",
                 "shasum": ""
             },
             "require": {
@@ -656,7 +711,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-08-06 06:46:32"
+            "time": "2014-09-02 14:08:17"
         }
     ],
     "packages-dev": [
@@ -691,16 +746,21 @@
             "time": "2012-08-25 12:49:29"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "codeguy/upload": 20,
         "respect/validation": 20,
-        "php-curl-class/php-curl-class": 20
+        "php-curl-class/php-curl-class": 20,
+        "faisalman/simple-excel-php": 20
     },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.2.4"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

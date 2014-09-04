@@ -46,6 +46,8 @@ Pigeon::map(function ($r) {
 
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
 
+    $r->get('payroll/masterlist-xls/(:num)','PayrollController#masterListInXls');
+
     $r->get('testpdf', 'PayrollController#test');
 
     /*Admin Settings */
