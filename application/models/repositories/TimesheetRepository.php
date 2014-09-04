@@ -68,7 +68,11 @@ class TimesheetRepository extends BaseRepository
     {
 
         $cookie   = $_COOKIE['cartalyst_sentry'];
+        $timestart = date('H:i:s', strtotime($timestart));
+        $timeend = date('H:i:s', strtotime($timeend));
+    
         $time_in  = date('Y-m-d H:i:s', strtotime($from . ' ' . $timestart));
+
         $time_out = date('Y-m-d H:i:s', strtotime($to . ' ' . $timeend));
         $source   = "Manual Input";
         $data     = [

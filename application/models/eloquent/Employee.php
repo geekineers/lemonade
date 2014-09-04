@@ -263,7 +263,7 @@ class Employee extends BaseModel
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = intval($this->getTotalAllowances($from, $to, false)) + intval($this->getBasicPay(false));
+        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicPay(false) +  $this->getOvertime($from, $to) ;
 
         if ($format) {
             return number_format($total, 2);
@@ -761,22 +761,24 @@ class Employee extends BaseModel
             $dt = new Carbon($date);
 
             if ($dt->isWeekend() && $weekend_include) {
+
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                                                      ->count();
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->count();
 
                 if ($attended) {
+              
                     $total_absent += 1;
                 }
-            } else {
+            } else if($dt->isWeekday()) {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                                                      ->count();
+                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                       ->count();
                 $forms = Form_Application::where('employee_id', '=', $this->id)
-                                                                          ->whereIn('form_type', ['ob', 'ot', 'leave'])
-                                                                          ->whereBetween('from', [$date_range_start, $date_range_end])
-                                                                          ->where('status', '=', 'approved')
-                                                                          ->count();
+                                         ->whereIn('form_type', ['ob', 'ot', 'leave'])
+                                         ->whereBetween('from', [$date_range_start, $date_range_end])
+                                         ->where('status', '=', 'approved')
+                                         ->count();
 
                 if (!$attended && !$forms) {
                     $total_absent += 1;
@@ -784,8 +786,6 @@ class Employee extends BaseModel
 
             }
         }
-        return $total_absent;
-
         return $total_absent;
     }
     /**
@@ -810,9 +810,12 @@ class Employee extends BaseModel
         $sss              = $this->getSSSValue();
         $ph               = $this->getPhilhealthValue();
         $hdmf             = $this->getHDMFValue();
-        $widthholding_tax = getWTax($this->getBasicPay(false), $this->period, $this->dependents);
-
-        return $sss + $ph + $hdmf + $widthholding_tax;
+        $absents = $this->getAbsentDeduction($from,$to);
+        $late    = $this->getLateDeduction($from, $to, 'minute');
+        $widthholding_tax = $this->getWithholdingTax($from,$to,false);
+        
+        
+        return $sss + $ph + $hdmf + $widthholding_tax + $late  +$absents ;
     }
 
     public function getWithholdingTax($from, $to, $number_format = true)
@@ -820,6 +823,7 @@ class Employee extends BaseModel
 
         
         $absents = $this->getAbsentDeduction($from,$to);
+        $late    = $this->getLateDeduction($from, $to, 'minute');
         $overtime =  $this->getOvertime($from,$to);
         $sss_val = $this->getSSSValue();
 
@@ -827,7 +831,8 @@ class Employee extends BaseModel
         $pagibig_val    = $this->getHDMFValue();
         $basic_pay      = $this->getBasicPay(false);
 
-        $curr_salary = ($basic_pay + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents);
+        $curr_salary = ($basic_pay + $overtime) - ($sss_val + $philhealth_val + $pagibig_val + $absents +  $late);
+        
         $wtax        = getWTax($curr_salary, $this->period, $this->dependents);
 
         if ($number_format) {
@@ -841,13 +846,21 @@ class Employee extends BaseModel
     {
 
         $basic_pay                 = $this->getBasicPay(false);
+
         $total_loan_deduction      = $this->getTotalDeductions($from, $to, false);
+
+
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to);
+
+        $absents                   = $this->getAbsentDeduction($from,$to);
+
+        $mandatory_wtax            =  $total_mandatory_deduction  +  $total_loan_deduction ;
+       
         $gross                     = $this->getGross($from, $to, false);
 
-        $remaining_pay = intval($basic_pay)+(intval($total_loan_deduction) + intval($total_mandatory_deduction));
+        $remaining_pay = $gross - $mandatory_wtax;
 
-        $net = (intval($gross) + intval($remaining_pay));
+        $net = $remaining_pay;
 
         if ($number_format) {
             return number_format($net, 2);

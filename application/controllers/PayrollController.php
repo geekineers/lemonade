@@ -1,8 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('BaseController.php');
 
-
-
+// use Maatwebsite\Excel\Excel as Excel;
 class PayrollController extends BaseController 
 {
 
@@ -150,8 +149,6 @@ class PayrollController extends BaseController
 			'to'	  => $to
 		];
 
-
-		$excel = new SimpleExcel('CSV');
 	}
 
 }
