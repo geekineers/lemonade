@@ -5,3 +5,4 @@
  */
 class_alias('Cartalyst\Sentry\Facades\CI\Sentry', 'Sentry');
 class_alias('Carbon\Carbon','Carbon');
+class_alias('Maatwebsite\Excel\Excel','Excel');

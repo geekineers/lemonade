@@ -12,7 +12,7 @@
 		"dompdf/dompdf" : "0.6.*",
 		"respect/validation": "0.7.*@dev",
 		"php-curl-class/php-curl-class": "dev-master",
-		"faisalman/simple-excel-php": "dev-master"
+		"maatwebsite/excel": "1.*"
 	},
 	"autoload": {
         "classmap": [
