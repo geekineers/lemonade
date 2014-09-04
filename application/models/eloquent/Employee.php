@@ -170,21 +170,21 @@ class Employee extends BaseModel
 
         return $this->sss_number;
     }
-    public function getSSSValue() 
+    public function getSSSValue()
     {
-        return $this->deduct_sss==null ? getSSS($this->getBasicPay(false))['EE'] : (int) $this->fixed_sss_amount;
+        return $this->deduct_sss == null ? getSSS($this->getBasicPay(false))['EE'] : (int) $this->fixed_sss_amount;
     }
 
     public function getPhilhealthValue()
     {
-        return $this->deduct_philhealth==null ? getPH($this->getBasicPay(false))['Employee_Share'] : (int) $this->fixed_philhealth_amount;
+        return $this->deduct_philhealth == null ? getPH($this->getBasicPay(false))['Employee_Share'] : (int) $this->fixed_philhealth_amount;
     }
 
     public function getHDMFValue()
     {
-        return $this->deduct_hdmf==null ? 100 : (int) $this->fixed_hdmf_amount;
+        return $this->deduct_hdmf == null ? 100 : (int) $this->fixed_hdmf_amount;
     }
-    
+
     public function getPagibig()
     {
         return $this->pagibig_number;
@@ -257,7 +257,7 @@ class Employee extends BaseModel
 
     }
 
-    public function getGross($from,$to,$format = true)
+    public function getGross($from, $to, $format = true)
     {
 
         $total_Allowance = 0;
@@ -464,11 +464,11 @@ class Employee extends BaseModel
 
         $widthholding_tax = getWTax($curr_salary, $period, $dependents);
 
-        $deductions = ($sss_val + $philhealth_val + $pagibig_val+intval($this->getTotalDeductions())+$absents);
+        $deductions = ($sss_val + $philhealth_val + $pagibig_val + intval($this->getTotalDeductions()) + $absents);
 
         $total_deductions = $deductions + $widthholding_tax;
 
-        $net = intval($this->getGross($from,$to,false))-$total_deductions;
+        $net = intval($this->getGross($from, $to, false)) - $total_deductions;
 
         return array(
             'gross'            => number_format($salary, 2),
@@ -748,6 +748,7 @@ class Employee extends BaseModel
     {
         $total_absent = 0;
         if (!$this->getTimesheetRequired()) {
+
             return 0;
         }
 
@@ -777,7 +778,7 @@ class Employee extends BaseModel
                                                                           ->where('status', '=', 'approved')
                                                                           ->count();
 
-                if (!$attended && $forms) {
+                if (!$attended && !$forms) {
                     $total_absent += 1;
                 }
 
@@ -804,51 +805,52 @@ class Employee extends BaseModel
 
     }
 
-    public function getTotalMandatoryDeductions($from,$to)
+    public function getTotalMandatoryDeductions($from, $to)
     {
-        $sss = $this->getSSSValue();
-        $ph = $this->getPhilhealthValue();
-        $hdmf = $this->getHDMFValue();
-        $widthholding_tax = getWTax( $this->getBasicPay(false) , $this->period , $this->dependents );
+        $sss              = $this->getSSSValue();
+        $ph               = $this->getPhilhealthValue();
+        $hdmf             = $this->getHDMFValue();
+        $widthholding_tax = getWTax($this->getBasicPay(false), $this->period, $this->dependents);
 
         return $sss + $ph + $hdmf + $widthholding_tax;
     }
 
-    public function getWithholdingTax($from,$to,$number_format = true)
+    public function getWithholdingTax($from, $to, $number_format = true)
     {
+
+        
         $absents = $this->getAbsentDeduction($from,$to);
         $overtime =  $this->getOvertime($from,$to);
         $sss_val = $this->getSSSValue();
+
         $philhealth_val = $this->getPhilhealthValue();
         $pagibig_val    = $this->getHDMFValue();
-        $basic_pay = $this->getBasicPay(false);
+        $basic_pay      = $this->getBasicPay(false);
 
-        $curr_salary = ($basic_pay + $overtime ) - ( $sss_val + $philhealth_val + $pagibig_val + $absents);
-        $wtax =  getWTax( $curr_salary , $this->period, $this->dependents );
+        $curr_salary = ($basic_pay + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents);
+        $wtax        = getWTax($curr_salary, $this->period, $this->dependents);
 
-
-        if($number_format){
-            return number_format($wtax,2);
+        if ($number_format) {
+            return number_format($wtax, 2);
         }
         return $wtax;
 
     }
 
-    public function getNet($from,$to,$number_format = true)
+    public function getNet($from, $to, $number_format = true)
     {
-    
-        $basic_pay = $this->getBasicPay(false);
-        $total_loan_deduction = $this->getTotalDeductions($from,$to,false);
-        $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from,$to);
-        $gross = $this->getGross($from,$to,false);
 
-      
-        $remaining_pay = intval($basic_pay) + ( intval( $total_loan_deduction ) + intval($total_mandatory_deduction) );
+        $basic_pay                 = $this->getBasicPay(false);
+        $total_loan_deduction      = $this->getTotalDeductions($from, $to, false);
+        $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to);
+        $gross                     = $this->getGross($from, $to, false);
 
-        $net = ( intval($gross) + intval($remaining_pay) );
+        $remaining_pay = intval($basic_pay)+(intval($total_loan_deduction) + intval($total_mandatory_deduction));
 
-        if($number_format){
-            return number_format($net,2);
+        $net = (intval($gross) + intval($remaining_pay));
+
+        if ($number_format) {
+            return number_format($net, 2);
         }
         return $net;
     }
@@ -873,6 +875,30 @@ class Employee extends BaseModel
         $id           = $this->id;
         $certificates = Training::where('employee_id', '=', $id)->orderBy('status', 'desc')->orderBy('from', 'desc')->get();
         return $certificates;
+
+    }
+    public function getRemainingCredits($type)
+    {
+        
+       
+        $form = EmployeeCredits::where('employee_id','=',$this->id)
+                                    ->where('credit_name','=',$type)
+                                    ->first();
+        
+
+        if($form==null)
+        {
+            return 'N/A';
+        }
+        else
+        {
+            return $form->remaining_credits;
+        }
+    }
+
+    public function getUnderTime()
+    {
+
     }
 
 }

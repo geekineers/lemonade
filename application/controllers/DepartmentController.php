@@ -59,4 +59,14 @@ class DepartmentController extends BaseController
         $this->departmentRepository->delete($id);
         redirect('/settings/department');
     }
+
+    public function update()
+    {
+        $id    = $this->input->post('id');
+        $input = $this->input->post();
+
+        $this->departmentRepository->update($input, $id);
+        redirect('/settings/department');
+
+    }
 }

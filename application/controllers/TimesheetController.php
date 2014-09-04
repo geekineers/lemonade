@@ -81,4 +81,11 @@ class TimesheetController extends BaseController
 
         redirect('/timesheet');
     }
+
+    public function testCase()
+    {
+        $employee = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        dd($employee->getAbsentDeduction('2014-08-01', '2014-09-30', false, true));
+
+    }
 }

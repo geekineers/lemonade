@@ -92,6 +92,7 @@ class EmployeeRepository extends BaseRepository
 
     public function updateEmployee201($employee_id, $data, $sentry)
     {
+
         $post = array(
             'first_name'     => $data['first_name'],
             'last_name'      => $data['last_name'],
@@ -123,7 +124,7 @@ class EmployeeRepository extends BaseRepository
         // dd($post);
 
         $employee = $this->where('id', '=', $employee_id);
-        $user     = $sentry->findUserById($employee->first()->user_id);
+        $user     = $sentry->findUserById($employee->first()->id);
 
         $employee->update($post);
 

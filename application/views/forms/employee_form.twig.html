@@ -61,7 +61,7 @@
         $('#type_of_form').change(function(){
             var elem = $(this);
             $('.box').loading();
-            $.get('/forms/rest-form-template',{template_name : elem.val() },function(template){
+            $.get('/forms/rest-form-template',{template_name : elem.val() , employee_id : $('#employee_name').val()  },function(template){
                 $('.forms').html(template);
                 $('.box').loading(false); 
             });

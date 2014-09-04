@@ -36,7 +36,7 @@ Pigeon::map(function ($r) {
     $r->get('payroll', 'PayrollController#index');
     $r->get('payroll/payslip', 'PayrollController#payslip');
     $r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
-    $r->post('payroll/payslip/delete','PayrollController#deletePayslips');
+    $r->post('payroll/payslip/delete', 'PayrollController#deletePayslips');
     $r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
     $r->get('payroll/bank', 'PayrollController#bank');
 
@@ -45,6 +45,8 @@ Pigeon::map(function ($r) {
     $r->get('payroll/payslip/(:num)', 'PayrollController#slip');
 
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
+
+    $r->get('payroll/masterlist-xls/(:num)','PayrollController#masterListInXls');
 
     $r->get('testpdf', 'PayrollController#test');
 
@@ -59,6 +61,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/job', 'JobController#index');
     $r->get('settings/job/add', 'JobController#add');
     $r->post('settings/job/add', 'JobController#save');
+    $r->post('settings/job/update', 'JobController#update');
     $r->get('settings/job/edit', 'JobController#edit');
     $r->post('settings/job/edit', 'JobController#update');
     $r->get('settings/job/delete', 'JobController#delete');
@@ -66,6 +69,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/department', 'DepartmentController#index');
     $r->get('settings/department/add', 'DepartmentController#add');
     $r->post('settings/department/add', 'DepartmentController#save');
+    $r->post('settings/department/update', 'DepartmentController#update');
     $r->get('settings/department/edit', 'DepartmentController#edit');
     $r->post('settings/department/edit', 'DepartmentController#update');
     $r->get('settings/department/delete', 'DepartmentController#delete');
@@ -84,10 +88,12 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/deductions', 'DeductionController#index');
     $r->post('settings/deductions/save', 'DeductionController#save');
+    $r->post('settings/deductions/update', 'DeductionController#update');
 
     $r->get('settings/allowances', 'AllowanceController#index');
     $r->get('settings/allowances/delete', 'AllowanceController#delete');
     $r->post('settings/allowances/save', 'AllowanceController#save');
+    $r->post('settings/allowances/update', 'AllowanceController#update');
 
     $r->get('settings/company', 'CompanyController#index');
     $r->post('settings/company', 'CompanyController#save');
@@ -135,8 +141,8 @@ Pigeon::map(function ($r) {
     $r->post('hr/delete', 'HumanResourceController#delete');
 
     $r->get('forms', 'FormsController#index');
-    $r->get('forms/apply-manual','FormsController#apply');
-    $r->get('forms/application','FormsController#employeeApply');
+    $r->get('forms/apply-manual', 'FormsController#apply');
+    $r->get('forms/application', 'FormsController#employeeApply');
     $r->get('forms/rest-get-user', 'FormsController#restGetUser');
     $r->get('forms/rest-form-template', 'FormsController#formTemplate');
     $r->post('forms/save-form', 'FormsController#store');
@@ -146,6 +152,7 @@ Pigeon::map(function ($r) {
     $r->post('evaluations/save', 'EvaluationController#store');
 
     $r->get('timesheet', 'TimesheetController#index');
+    $r->get('timesheet/test', 'TimesheetController#testCase');
     $r->get('timesheet/range', 'TimesheetController#range');
     $r->post('timesheet/update', 'TimesheetController#update');
     $r->get('timesheet/delete', 'TimesheetController#delete');

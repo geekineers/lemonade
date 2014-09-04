@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row container">
-	<a class="allowance_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-plus"></i></a>
+	<a class="allowance_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewAllowance"><i class="fa fa-plus"></i></a>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -22,8 +22,8 @@
 	 		<td>{{ allowance.allowance_name }}</td>
 	 		<td>{{ allowance.getCreator() }}</td>
 	 		<td>
-	 			<a href="/allowances/edit?id={{ allowance.id }}" class="btn btn-primary">Edit</a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger">Delete</a>
+	 			<a href="#updateAllowance" data-id="{{ allowance.id }}" data-name="{{ allowance.allowance_name }}" class="btn btn-update-allowance btn-primary"><i class="fa fa-edit"></i></a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}
@@ -33,7 +33,7 @@
 	<!-- Modal -->
 <form method="post" enctype="multipart/form-data" action="/settings/allowances/save">
 
-	<div class="modal fade" id="addNewDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="addNewAllowance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -57,7 +57,52 @@
 </div>
 </form>
 
+  <!-- Modal -->
+<form method="post" enctype="multipart/form-data" action="/settings/allowances/update">
+<input type="hidden" name="id" id="update-allowance-id">
+  <div class="modal fade" id="updateAllowance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Allowance Type</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="update-allowance-name" name="allowance_name" class="form-control" placeholder="eg. Transportation" />
+      </div>
+  
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Save">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
 
 {% endblock %}
 
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.btn-update-allowance').on('click', function(){
+        var id = $(this).data('id');
+        var name = $(this).data('name');
 
+        $('#update-allowance-name').val(name);
+        $('#update-allowance-id').val(id);
+
+        $('#updateAllowance').modal('show');
+
+      });
+
+  });
+
+</script>
+
+{% endblock %}

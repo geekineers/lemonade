@@ -2,12 +2,39 @@
 use Form_Application as Form_Application;
 
 class FormApplicationRepository extends BaseRepository {
+	protected $formCredits;
 
 	public function __construct()
 	{
+
 		$this->class = new Form_Application();
+		$this->formCredits = new EmployeeCreditsRepository();
 
 	}
+
+	public function createForm($data)
+	{
+		$formCredit = $this->formCredits->getFormCreditByType($data['employee_id'],$data['form_type']);
+
+		if( $formCredit > 0 || $formCredit == 'n/a')
+		{
+			
+			$this->create($data);
+			if($formCredit != 'n/a')
+			{
+				$this->formCredits->decrementCredit($data['employee_id'],$data['form_type'],$formCredit);
+			}
+			return true;
+		}
+		else
+		{
+
+			
+			return false;
+			// return sendJSON(['status'=>'no-credits-left']);
+		}
+	}
+	
 	public function getFormAppId($id)
 	{
 		return $this->where('id','=',$id)->first();	
@@ -37,9 +64,7 @@ class FormApplicationRepository extends BaseRepository {
 	{
 		return $this->find($id)->delete();
 	}
-	public function getStatus()
-	{
-		
-	}
+	
+	
 	
 }
