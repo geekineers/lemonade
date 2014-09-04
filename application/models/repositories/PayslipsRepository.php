@@ -109,7 +109,7 @@ class PayslipsRepository extends BaseRepository {
 		// dd($payslip_group->id);
 
 			foreach ($employees as $employee) {
-				if($employee->payroll_period == $payrollGroup['period'] )
+				if($employee->payroll_period == $payrollGroup['id'] )
 				{
 					$employee_slip['payslip_group_id'] = $payslip_group->id;
 					$employee_slip['employee_id'] 	= $employee->id;
