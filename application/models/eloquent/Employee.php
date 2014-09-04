@@ -876,7 +876,7 @@ class Employee extends BaseModel
         $certificates = Training::where('employee_id', '=', $id)->orderBy('status', 'desc')->orderBy('from', 'desc')->get();
         return $certificates;
 
-
+    }
     public function getRemainingCredits($type)
     {
         
