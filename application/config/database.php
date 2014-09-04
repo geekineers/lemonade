@@ -75,6 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | 				$this->db->last_query() and profiling of DB queries.
 | 				When you run a query, with this setting set to TRUE (default),
 | 				CodeIgniter will store the SQL statement for debugging purposes.
+
 | 				However, this may cause high memory usage, especially if you run
 | 				a lot of SQL queries ... disable this to avoid that problem.
 |
@@ -91,7 +92,7 @@ $query_builder = TRUE;
 $db_host     = '127.0.0.1';
 $db_name     = 'lemonade_dev';
 $db_username = 'root';
-$db_password = '';
+$db_password = 'root';
 
 // Setup the default config
 $db['default'] = array(
