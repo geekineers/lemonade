@@ -24,8 +24,8 @@
 	 		<td>{{ deduction.deduction_type }}</td>
 	 		<td>{{ deduction.getCreator() }}</td>
 	 		<td>
-	 			<a href="/deductions/edit?id={{ deduction.id }}" class="btn btn-primary">Edit</a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/deductions/delete?id={{ deduction.id }}" class="deduction_delete btn btn-danger">Delete</a>
+	 			<a href="#updateDeductions" data-id="{{ deduction.id }}"  data-name="{{ deduction.deduction_name }}" class="btn-update-deduction btn btn-primary"><i class="fa fa-edit"></i></a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/deductions/delete?id={{ deduction.id }}" class="deduction_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}
@@ -63,7 +63,55 @@
 </div>
 </form>
 
+  <!-- Modal -->
+<form method="post" enctype="multipart/form-data" action="/settings/deductions/update">
+
+  <div class="modal fade" id="updateDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <input type="hidden" name="id" id="update-deduction-id">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Update Deduction Type</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group">
+        <label>Name</label>
+        <input id="update-deduction-name" type="text" name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
+      </div>
+ 
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Save">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
 
 {% endblock %}
 
 
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.btn-update-deduction').on('click', function(){
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+
+        $('#update-deduction-name').val(name);
+        $('#update-deduction-id').val(id);
+
+        $('#updateDeductions').modal('show');
+
+      });
+
+  });
+
+</script>
+
+{% endblock %}

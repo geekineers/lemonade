@@ -93,4 +93,14 @@ class DeductionController extends BaseController {
 
     }
 
+    public function update()
+    {
+    	$id = $this->input->post('id');
+    	$input = $this->input->post();
+
+    	$this->deductionRepository->update($input, $id);
+
+    	redirect('/settings/deductions', 'location');
+    }
+
 }
