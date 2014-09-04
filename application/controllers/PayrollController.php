@@ -49,6 +49,8 @@ class PayrollController extends BaseController
 		$pdf = pdf_create($html, '', false ,true	);
 	    echo $pdf;
 	}
+
+
 	public function groupList($id)
 	{
 
@@ -135,4 +137,21 @@ class PayrollController extends BaseController
 		$to = $this->input->get('to');
 		$this->payslipsRepository->generateGovermentForms($id,$form,$from,$to);
 	}
+
+	public function masterListInXls($id)
+	{
+		$from = $this->input->get('from');
+		$to = $this->input->get('to');
+		$slip = $this->payslipsGroupRepository->getPayslipById($id,$from,$to)->getAllPayslips();
+
+		$data = [
+			'payslips' => $slip,
+			'from'    => $from,
+			'to'	  => $to
+		];
+
+
+		$excel = new SimpleExcel('CSV');
+	}
+
 }
