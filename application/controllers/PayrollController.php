@@ -38,7 +38,8 @@ class PayrollController extends BaseController
 		$data = [
 			'payslips' => $slip,
 			'from'    => $from,
-			'to'	  => $to
+			'to'	  => $to,
+			'period'  => $this->payslipsGroupRepository->getPayslipById($id,$from,$to)
 		];
 		$html = $this->load->view('payroll/masterlist',$data, true);
 		// dd($html);

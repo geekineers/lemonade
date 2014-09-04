@@ -88,9 +88,14 @@
 						 		</td>
 						 		<td><span class="form-label">Payroll Period</span>
 						 		<span class="profile-value">
-							 		{{ employee.getPayrollPeriod() }}	
+							 		{{ employee.getPayrollPeriod().group_name }}	
 						 	     </span>
-						 	     <input type="text" name="payroll_period" class="edit-input" value="{{ employee.getPayrollPeriod() }}"
+						 	     <select name="payroll_period" class="form-control edit-input">
+						 				{% for payroll_group in payroll_groups %}
+						 					<option {% if payroll_group.id == employee.getPayrollPeriod().id %} selected="selected" {% endif %}value="{{ payroll_group.id }}">{{ payroll_group.group_name }}</option>
+						 				{% endfor %}
+						 			</select>
+						 	    
 						 		</td>
 						 	</tr>
 						 	<tr>

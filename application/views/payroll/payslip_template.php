@@ -93,7 +93,7 @@ background-color:#F2F2F2;
           <td>DESIGNATION</td>
           <td><?php echo $employee->getJobPosition(); ?></td>
           <td>PAYMENT MODE</td>
-          <td><?php echo $employee->payroll_period; ?></td>
+          <td><?php echo $payslip->getPayslipsGroup()->getPayrollGroup()->period ?></td>
         </tr>
         
       </table>

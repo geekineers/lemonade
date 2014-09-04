@@ -98,10 +98,9 @@
                                              <div class="col-md-6">
                                                 <label>Payroll Period<span class="req-label">*</span></label>
                                                 <select required class="form-control" name="payroll_period">
-                                                    <option value="Daily">Daily</option>
-                                                    <option value="Weekly">Weekly</option>
-                                                    <option value="Semi-Monthly">Sem-Monthly</option>
-                                                    <option value="Monthly">Monthly</option>
+                                                    {% for payroll_group in payroll_groups %}
+                                                        <option value="{{ payroll_group.id }}">{{ payroll_group.group_name }}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
