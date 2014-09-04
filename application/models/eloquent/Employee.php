@@ -816,6 +816,7 @@ class Employee extends BaseModel
 
     public function getWithholdingTax($from,$to,$number_format = true)
     {
+        
         $absents = $this->getAbsentDeduction($from,$to);
         $overtime =  $this->getOvertime($from,$to);
         $sss_val = $this->getSSSValue();
@@ -875,4 +876,22 @@ class Employee extends BaseModel
         return $certificates;
     }
 
+    public function getRemainingCredits($type)
+    {
+        
+       
+        $form = EmployeeCredits::where('employee_id','=',$this->id)
+                                    ->where('credit_name','=',$type)
+                                    ->first();
+        
+
+        if($form==null)
+        {
+            return 'N/A';
+        }
+        else
+        {
+            return $form->remaining_credits;
+        }
+    }
 }

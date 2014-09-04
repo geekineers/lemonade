@@ -46,6 +46,17 @@ abstract class BaseController extends CI_Controller
         }
 
     }
+    function sendJSON($data)
+    {
+        try
+        {
+            return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        }
+        catch(Exception $e)
+        {
+            dd($e);
+        }
+    }
 
 }
 

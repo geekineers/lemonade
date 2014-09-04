@@ -46,9 +46,9 @@ class PayslipsRepository extends BaseRepository {
 
 	public function getPayslipById($id,$from,$to)
 	{
-		return $this->where('payroll_group','=',$id)
-					->where('from','=',$from)
-					->groupBy('from')->get();
+
+		return $this->where('payslip_group_id','=',$id)
+					->get();
 	}
 
 	public function getAllPayrollGroupBySlips()
@@ -136,8 +136,11 @@ class PayslipsRepository extends BaseRepository {
 	{
 		$pdf = new FPDI();
 		$slips = $this->getPayslipById($id,$from,$to);
-		$group = PayrollGroup::where('id','=',$id)->first();
+
+		$group = $this->payslipsGroupRepository->where('id','=',$id)->first();
 		// set the sourcefile
+
+		// dd($group->getPayrollGroup()->getBranch());
 		// $pdf->setSourceFile($pdf_template);
 		if($type=='mcrf')
 		{
@@ -165,11 +168,11 @@ class PayslipsRepository extends BaseRepository {
 					$pdf->SetFontSize('8');
 					$pdf->SetTextColor(0,0, 0);
 					$pdf->SetXY(7, 44); 
-					$data = $group->getBranch();
+					$data = $group->getPayrollGroup()->getBranch();
 					$pdf->Write(0,$data);
 			    	foreach ($slips as $i => $slip) {
 
-			    		$tin =  $slip->getEmployee()->tin_number!=null ?  $slip->getEmployee()->tin_number : 'n/a';
+			    		$tin =  $slip->getEmployee()->tin_number!=null ?  $slip->getEmployee()->tin_number : 'n/a     ';
 			    		$birth = $slip->getEmployee()->birthdate;
 			    		$fname = $slip->getEmployee()->first_name;
 			    		$mname = $slip->getEmployee()->middle_name;

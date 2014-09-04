@@ -111,7 +111,7 @@
         });
         $('#approved').on('click',function(){
             var el = this;
-            $.post('hr/approved',{id:$(el).data('id')},function(){
+            $.post('/hr/approved',{id:$(el).data('id')},function(){
                 $('#approve-modal').modal('hide');
                 $.notify('Approved','success');
                 window.location.reload();
@@ -119,7 +119,7 @@
         });
         $('#disapproved').on('click',function(){
             var el = this;
-            $.post('hr/disapproved',{id:$(selected).data('id')},function(){
+            $.post('/hr/disapproved',{id:$(selected).data('id')},function(){
                 $('#approve-modal').modal('hide');
                 $.notify('disapproved','success');
                 window.location.reload();
