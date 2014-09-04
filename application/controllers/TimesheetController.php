@@ -85,7 +85,7 @@ class TimesheetController extends BaseController
     public function testCase()
     {
         $employee = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        dd($employee->getAbsentDeduction('2014-08-01', '2014-09-30', false, true));
+        dd($employee->getAbsentDeduction('2014-09-01', '2014-09-30', true, true));
 
     }
 }
