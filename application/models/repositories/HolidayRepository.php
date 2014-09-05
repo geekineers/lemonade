@@ -6,7 +6,7 @@ class HolidayRepository extends BaseRepository {
 
 	protected $sentry;
 
-	public function __construct($sentry)
+	public function __construct($sentry=null)
 	{
 		$this->class = new Holiday();
 		$this->sentry = $sentry;
@@ -50,6 +50,14 @@ class HolidayRepository extends BaseRepository {
 		foreach ($holidays as $holiday) {
 			$this->where('id', '=', $holiday['id'])->update($holiday);
 		}
+	}
+
+	public function isHoliday($date)
+	{
+
+
+		// dd($start, $end);
+		return $this->where('holiday_from', '=', $date)->count();
 	}
 
 }
