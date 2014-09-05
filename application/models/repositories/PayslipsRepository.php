@@ -71,10 +71,10 @@ class PayslipsRepository extends BaseRepository {
         	$from = date('Y-m-d',strtotime($input['from']));	
         	$to = date('Y-m-d',strtotime($input['to']));	
         	
-        	$payslip_group_from = $this->payslipsGroupRepository->whereBetween('from',[$from,$to] )->count();
-			$payslip_group_to = $this->payslipsGroupRepository->whereBetween('to',[$from,$to] )->count();
-			
-        	if( $payslip_group_from==0 && $payslip_group_to==0)
+        	$payslip_group_from = $this->payslipsGroupRepository->where('payroll_group','=',$input['group_name'])->whereBetween('from',[$from,$to] )->count();
+			$payslip_group_to = $this->payslipsGroupRepository->where('payroll_group','=',$input['group_name'])->whereBetween('to',[$from,$to] )->count();
+	
+		   if( $payslip_group_from==0 && $payslip_group_to==0)
         	{
         		return $this->generate([
 	        				'from' 	=> $from,
@@ -103,14 +103,13 @@ class PayslipsRepository extends BaseRepository {
 
 		$payrollGroup = $this->payrollGroupRepository->where('id','=',$input['payroll_group'])->first();
 		// emoloyee
-	
-		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])->get();
+		$employees = $this->employeeRepository->where('branch_id','=',$payrollGroup['branch_id'])
+											  ->where('payroll_period','=',$payrollGroup['id'])->get();
 		$payslip_group = $this->payslipsGroupRepository->create($input);
-		// dd($payslip_group->id);
+	
 
 			foreach ($employees as $employee) {
-				if($employee->payroll_period == $payrollGroup['id'] )
-				{
+				
 					$employee_slip['payslip_group_id'] = $payslip_group->id;
 					$employee_slip['employee_id'] 	= $employee->id;
 					$employee_slip['payroll_group'] = $payrollGroup->id;
@@ -124,7 +123,7 @@ class PayslipsRepository extends BaseRepository {
 					$employee_slip['prepared_by']	= $prepared_by;
 
 					$this->create($employee_slip);
-				}
+			
 
 			}
 

@@ -69,7 +69,8 @@ class EmployeeController extends BaseController
     {
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']         = "Employees";
-        $data['branches']      = $this->branchesRepository->all();
+        
+
         $data['groups']        = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions'] = $this->jobPositionRepository->all();
         $data['departments']   = $this->departmentRepository->all();
@@ -98,6 +99,7 @@ class EmployeeController extends BaseController
 
         $employee_id = $this->input->post('id');
         $data        = $this->input->post();
+        
         $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }
@@ -144,7 +146,7 @@ class EmployeeController extends BaseController
         $data['job_positions']   = $this->jobPositionRepository->all();
         $data['branches']        = $this->branchesRepository->all();
         
-        $data['payroll_groups'] = $this->payrollGroupRepository->all();
+        $data['payroll_groups'] = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         $data['departments']     = $this->departmentRepository->all();
         $data['employee']        = $this->employeeRepository->find($id);
         $data['deduction_types'] = $this->deductionRepository->all();
