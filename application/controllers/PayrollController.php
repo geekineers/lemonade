@@ -5,12 +5,12 @@ require_once('BaseController.php');
 class PayrollController extends BaseController 
 {
 
-	protected $payslipsGroupRepository, $payslipsRepository,$employeeRepository,$payrollGroupRepository;
+	protected $branchesRepository,$payslipsGroupRepository, $payslipsRepository,$employeeRepository,$payrollGroupRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
-
+		 $this->branchesRepository    = new BranchRepository();
 		$this->payslipsRepository = new PayslipsRepository();
 		$this->payrollGroupRepository= new PayrollGroupRepository();
 		$this->employeeRepository = new EmployeeRepository();
@@ -25,9 +25,16 @@ class PayrollController extends BaseController
 		$data['title'] = 'Payroll Generation';
 		$data['payslipGroups'] = $this->payslipsGroupRepository->all();
 		$data['payrollgroups'] = $this->payrollGroupRepository->all();
-		
+		$data['branches']      = $this->branchesRepository->all();
 		
 		$this->render('payroll/index.twig.html',$data);
+	}
+
+	public function restGetPayrollGroup()
+	{
+		$id = $this->input->get('id');
+		$data = $this->payrollGroupRepository->getPayrollGroupByBranch($id);
+		return $this->sendJSON($data);
 	}
 	public function masterList($id)
 	{

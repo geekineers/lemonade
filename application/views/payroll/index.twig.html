@@ -14,7 +14,7 @@
             </ul>
             <div class="tab-content no-padding ">
                 <!-- bir tax table -->
-                <div class="tab-pane active" id="payroll" style="position: relative; height: 300px;">
+                <div class="tab-pane active" id="payroll" style="position: relative; height: 400px;">
 
                 	<div class="box">
                                 <div class="box-header">
@@ -24,14 +24,14 @@
                                 	<a data-toggle="modal" data-target="#generate-modal" class="btn btn-primary fa fa-plus ">&nbsp; Generate Payroll</a>
                                 </div>
                                 <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="group" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
+                                                <th>Branch</th>
                                                 <th>Payroll Group</th>
                                                 <th>Period</th>
                                                 <th>From</th>
                                                 <th>To</th>
-                                                <th>Branch</th>
                                                 <th>Detail</th>
                                             </tr>
                                         </thead>
@@ -39,11 +39,11 @@
                                            
                                            	{% for group in payslipGroups %}
                                            	 <tr>
+                                           		<td>{{ group.getPayrollGroup().getBranch() }}</td>
                                            		<td>{{ group.getPayrollGroup().group_name }}</td>
                                            		<td>{{ group.getPayrollGroup().period }}</td>
-                                           		<td>{{ group.from }}
-                                           		<td>{{ group.to }}</td>
-                                           		<td>{{ group.getPayrollGroup().getBranch() }}</td>
+                                           		<td>{{ group.from|date("F jS") }}</td>
+                                           		<td>{{ group.to|date("F jS") }}</td>
                                            		<td>
                                            			<a href="/payroll/group/{{group.id}}?from={{ group.from }}&to={{ group.to }}" class="btn btn-success fa fa-list"></a>
                                            			<a class="btn btn-danger delete fa fa-trash-o" data-id="{{ group.id }}"></a>
@@ -74,12 +74,20 @@
 					<div class="modal-body">
 						<div class="form-group">
 
+		                    <label>Branch</label>
+		                    <select class="form-control" id="branch">
+		                    	<option selected="selected" disabled>Select Branch</option>
+		                      {% for branch in branches %}
+		                      	<option value="{{ branch.id }}"> {{ branch.branch_name }}</option>
+		                      {% endfor %}
+		                    </select>
+		                </div>
+						<div class="form-group">
+
 		                    <label>Payroll Group</label>
 		                    <select class="form-control" id="group_name">
 		                    	<option selected="selected" disabled>Select Group</option>
-		                      {% for group in payrollgroups %}
-		                      	<option value="{{ group.id }}" data-period="{{ group.period }}"> {{ group.group_name }}</option>
-		                      {% endfor %}
+		                    
 		                    </select>
 		                </div>
 		                <dv class="form-group  semi">
@@ -107,15 +115,26 @@
 		</div>
 </div>
 <!-- plugins -->
+
+<script src="/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
 <script type="text/javascript"  src="/js/plugins/daterangepicker/daterangepicker.js" ></script>
 <script type="text/javascript">
 	(function($){
 
 
+		$('#group').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false
+        });
+
 		var getEndMidDate = function (from,to) {
 			var date = moment([new Date().getFullYear(), 0, to]).add('months', from).format('YYYY-MM-DD');
 
 			return date;
+
 		}
 		var alerttpl = '<div class="alert alert-info alert-dismissable loading">  '+
 	                        '<i class="fa fa-ban"></i> '+
@@ -123,6 +142,17 @@
 	                        '<b></b> Loading...'+
 	                   '</div>'; 
 		var from,to;
+		$('#branch').change(function(elem){
+			
+			var el = this;
+			var group_string = "";
+			$.get('/payroll/rest-payroll-group',{id:$(el).val() },function(res){
+				$.each(res,function(i,s,a){
+					group_string+= '<option value='+s.id+' data-period='+s.period+'>'+s.group_name+'</option>';
+				});
+				$('#group_name').html(group_string);
+			}); 
+		});
 
 		$('#group_name').change(function(elem){
 			

@@ -746,6 +746,8 @@ class Employee extends BaseModel
      */
     public function getAbsent($from, $to, $weekend_include = false)
     {
+        $holiday = new \HolidayRepository();
+
         $total_absent = 0;
         if (!$this->getTimesheetRequired()) {
 
@@ -779,8 +781,8 @@ class Employee extends BaseModel
                                          ->whereBetween('from', [$date_range_start, $date_range_end])
                                          ->where('status', '=', 'approved')
                                          ->count();
-
-                if (!$attended && !$forms) {
+                $current_date = date('Y-m-d', strtotime($date_range_start));                         
+                if (!$holiday->isHoliday($current_date) && !$attended && !$forms ) {
                     $total_absent += 1;
                 }
 

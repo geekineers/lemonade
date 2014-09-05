@@ -18,4 +18,15 @@ class PayrollGroupRepository extends BaseRepository{
 		return $this->where('id','=',$id)->first();
 	}
 
+	public function getPayrollGroupByBranch($id)
+	{
+		return $this->where('branch_id','=',$id)->get();
+	}
+
+	public function getPayrollGroupbyEmployeeBranch($id)
+	{
+		$employee = Employee::where('id','=',$id)->first();
+		
+		return $this->where('branch_id','=',$employee->branch_id)->get();
+	}
 }

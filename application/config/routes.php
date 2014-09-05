@@ -35,6 +35,8 @@ Pigeon::map(function ($r) {
 
     $r->get('payroll', 'PayrollController#index');
     $r->get('payroll/payslip', 'PayrollController#payslip');
+
+    $r->get('payroll/rest-payroll-group','PayrollController#restGetPayrollGroup');
     $r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
     $r->post('payroll/payslip/delete', 'PayrollController#deletePayslips');
     $r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
