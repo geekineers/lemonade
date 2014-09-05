@@ -15,7 +15,7 @@
                                         {% for payslip in payslips %}
                                             <tr>
                                                 <td>{{ payslip.getName() }}</td>
-                                                <td>{{ payslip.from }} - {{ payslip.to }}</td>
+                                                <td>{{ payslip.getPayslipsGroup().from }} - {{ payslip.getPayslipsGroup().to }}</td>
                                                 <td>{{ payslip.getBranch() }}</td>
                                                 <td> 
                                                 <a href="payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>

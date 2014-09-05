@@ -44,6 +44,7 @@ class PayslipsRepository extends BaseRepository {
 		return $this->all();
 	}
 
+	
 	public function getPayslipById($id,$from,$to)
 	{
 
