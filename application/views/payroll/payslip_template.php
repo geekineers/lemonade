@@ -56,7 +56,7 @@ background-color:#F2F2F2;
       <table>
         <tr>
           <td>
-            <h3><img src="media?image=540d2e5de689a.png" style="height:70px;width:300px;"> </h3>
+            <h3><img src="../uploads/540d2e5de689a.png" style="height:70px;width:300px;"> </h3>
           </td>
           <td>
             <div class="address">
