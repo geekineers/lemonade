@@ -99,7 +99,7 @@ class PayrollController extends BaseController
           
         ];
 
-        dd($data);
+        // dd($data);
         $html            = $this->load->view('payroll/payslip_template', $data, true);
         // echo $html;
         $pdf = pdf_create($html, '', false, true);
