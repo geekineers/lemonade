@@ -43,11 +43,13 @@ class PayrollController extends BaseController
         $to   = $this->input->get('to');
         $slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getAllPayslips();
         // dd($slip);
+        $company = $this->company;
         $data = [
             'payslips' => $slip,
             'from'     => $from,
             'to'       => $to,
             'period'   => $this->payslipsGroupRepository->getPayslipById($id, $from, $to)
+   		   'company_logo' => $company->company_logo
         ];
         $html = $this->load->view('payroll/masterlist', $data, true);
         // dd($html);
@@ -98,7 +100,7 @@ class PayrollController extends BaseController
             'company_logo' => $company->company_logo,
           
         ];
-        
+
         // dd($data);
         $html            = $this->load->view('payroll/payslip_template', $data, true);
         // echo $html;
