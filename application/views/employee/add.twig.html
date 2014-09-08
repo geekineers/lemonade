@@ -95,13 +95,14 @@
                                                     <option value="Irregular">Irregular</option>
                                                 </select>
                                             </div>
-                                             <div class="col-md-6">
-                                                <label>Payroll Period<span class="req-label">*</span></label>
-                                                <select required class="form-control" name="payroll_period">
-                                                    <option value="Daily">Daily</option>
-                                                    <option value="Weekly">Weekly</option>
-                                                    <option value="Semi-Monthly">Sem-Monthly</option>
-                                                    <option value="Monthly">Monthly</option>
+                                             
+                                            <div class="col-md-6">
+                                                <label>Branch<span class="req-label">*</span></label>
+                                                <select required type="text" name="branch_id" class="form-control " id="branch" placeholder="">
+                                                  {% for branch in branches %}
+                                                  <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+                                                  {% endfor %}
+                                                  }
                                                 </select>
                                             </div>
                                         </div>
@@ -126,15 +127,13 @@
                                             </select>
 
                                         </div>
-                                              <div class="col-md-6">
-                                            <label>Branch<span class="req-label">*</span></label>
-                                            <select required type="text" name="branch_id" class="form-control " id="exampleInputEmail1" placeholder="">
-                                              {% for branch in branches %}
-                                              <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
-                                              {% endfor %}
-                                              }
-                                            </select>
-                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                                <label>Payroll Period<span class="req-label">*</span></label>
+                                                <select id="group_name" required class="form-control" name="payroll_period">
+                                                    
+                                                </select>
+                                         </div>
                                         </div>
                                       
                                    <div class="form-group">
@@ -258,5 +257,17 @@
                                 </form>
          </div>
     </div>
-
+<script type="text/javascript">
+    $('#branch').change(function(elem){
+            
+            var el = this;
+            var group_string = "";
+            $.get('/payroll/rest-payroll-group',{id:$(el).val() },function(res){
+                $.each(res,function(i,s,a){
+                    group_string+= '<option value='+s.id+' data-period='+s.period+'>'+s.group_name+'</option>';
+                });
+                $('#group_name').html(group_string);
+            }); 
+        });
+</script>
 {% endblock %}

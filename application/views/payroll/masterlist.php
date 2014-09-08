@@ -43,7 +43,7 @@
     <ul>
       <li>Payroll Period: <?php echo $from .'-'.$to ?></li>
       <li>Payroll Date: 08/09/2013</li>
-      <li>Payroll Mode: Monthly </li>
+      <li>Payroll Mode:  <?php echo $period->getPayrollGroup()->period ?>  </li>
     </ul>
   </div>
   <div class="container">
@@ -58,7 +58,7 @@
            <th>Daily Rate</th>
            <th>Tax Status</th>
            <th>Allowance</th>
-           <th>Total Allowances</th>
+           <th>Gross</th>
            <th>SSS</th>
            <th>PHILHEALTH</th>
            <th>Pag-ibig</th>
@@ -79,16 +79,16 @@
              <td><?php echo $payslip->getEmployee()->getSemiMonthlyRate(); ?></td>
              <td><?php echo $payslip->getEmployee()->getDailyRate(); ?></td>
               <td><?php echo $payslip->getEmployee()->getTaxStatus(); ?></td>
-             <td><?php echo $payslip->getEmployee()->getTotalAllowances(); ?></td>
-             <td><?php echo $payslip->getEmployee()->getGross($payslip->from, $payslip->to); ?></td>
+             <td><?php echo $payslip->getEmployee()->getTotalAllowances($from,$to); ?></td>
+             <td><?php echo $payslip->getEmployee()->getGross($from, $to); ?></td>
              <td><?php echo $payslip->getEmployee()->getSSSValue(true); ?></td>
              <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
              <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
-             <td><?php echo number_format($payslip->getEmployee()->getAbsentDeduction($payslip->from, $payslip->to),2); ?></td>
+             <td><?php echo number_format($payslip->getEmployee()->getAbsentDeduction($from, $to),2); ?></td>
              <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute');?></td>
-             <td><?php echo $payslip->getEmployee()->getTotalDeductions($payslip->from, $payslip->to, 'minute'); ?></td>
-             <td><?php echo $payslip->getEmployee()->getWithholdingTax($payslip->from,$payslip->to,true); ?></td>
-             <td><?php echo $payslip->getEmployee()->getNet($payslip->from, $payslip->to); ?></td>
+             <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
+             <td><?php echo $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
+             <td><?php echo $payslip->getEmployee()->getNet($from, $to); ?></td>
            </tr>
         <?php endforeach;  ?>
         

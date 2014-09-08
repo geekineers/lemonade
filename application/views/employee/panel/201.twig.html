@@ -88,9 +88,14 @@
 						 		</td>
 						 		<td><span class="form-label">Payroll Period</span>
 						 		<span class="profile-value">
-							 		{{ employee.getPayrollPeriod() }}	
+							 		{{ employee.getPayrollPeriod().group_name }}	
 						 	     </span>
-						 	     <input type="text" name="payroll_period" class="edit-input" value="{{ employee.getPayrollPeriod() }}"
+						 	     <select name="payroll_period"   id="group_name" class="form-control edit-input">
+						 				{% for payroll_group in payroll_groups %}
+						 					<option {% if payroll_group.id == employee.getPayrollPeriod().id %} selected="selected" {% endif %}value="{{ payroll_group.id }}">{{ payroll_group.group_name }}</option>
+						 				{% endfor %}
+						 			</select>
+						 	    
 						 		</td>
 						 	</tr>
 						 	<tr>
@@ -142,7 +147,7 @@
 						 	<tr>
 						 		<td><span class="form-label">Branch</span>
 						 			<span class="profile-value">{{ employee.getBranch() }}</span>
-						 				<select name="branch_id" class="form-control  edit-input">
+						 				<select name="branch_id" id="branch" class="form-control  edit-input">
 						 				{% for branch in branches %}
 						 					<option {% if branch.id == employee.branch_id %} selected="selected"  {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
 						 				{% endfor %}
@@ -203,3 +208,17 @@
 						</div>
 
 </div> <!-- / .tab-pane -->
+
+<script type="text/javascript">
+    $('#branch').change(function(elem){
+            
+            var el = this;
+            var group_string = "";
+            $.get('/payroll/rest-payroll-group',{id:$(el).val() },function(res){
+                $.each(res,function(i,s,a){
+                    group_string+= '<option value='+s.id+' data-period='+s.period+'>'+s.group_name+'</option>';
+                });
+                $('#group_name').html(group_string);
+            }); 
+        });
+</script>

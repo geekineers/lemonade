@@ -29,7 +29,7 @@
                                     </div>
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="group" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -45,7 +45,7 @@
                                             <tr>
                                                 <td>{{ payslip.getName() }}</td>
                                                 <td>{{ payslip.getEmployee().getBasicPay()}}</td>
-                                                <td>{{ payslip.getEmployee().getPayrollPeriod() }}</td>
+                                                <td>{{ payslip.getEmployee().getPayrollPeriod().period }}</td>
                                                 <td>{{ payslip.getBranch() }}</td>
                                                 <td> 
                                                 <a href="/payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>

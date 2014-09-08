@@ -1,5 +1,6 @@
 
 
+
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 require_once('connection.php');
@@ -18,6 +19,7 @@ class PayrollGroup extends Eloquent {
                         'group_name',
                         'period',
                         'prepared_by',
+                        'company_id',
                         'created_at',
                         'updated_at',
                         'deleted_at'

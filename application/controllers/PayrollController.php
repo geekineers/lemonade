@@ -1,17 +1,16 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('BaseController.php');
 
-
-
+// use Maatwebsite\Excel\Excel as Excel;
 class PayrollController extends BaseController 
 {
 
-	protected $payslipsGroupRepository, $payslipsRepository,$employeeRepository,$payrollGroupRepository;
+	protected $branchesRepository,$payslipsGroupRepository, $payslipsRepository,$employeeRepository,$payrollGroupRepository;
 	public function __construct()
 	{	
 		parent::__construct();
 		$this->mustBeLoggedIn();
-
+		 $this->branchesRepository    = new BranchRepository();
 		$this->payslipsRepository = new PayslipsRepository();
 		$this->payrollGroupRepository= new PayrollGroupRepository();
 		$this->employeeRepository = new EmployeeRepository();
@@ -26,9 +25,16 @@ class PayrollController extends BaseController
 		$data['title'] = 'Payroll Generation';
 		$data['payslipGroups'] = $this->payslipsGroupRepository->all();
 		$data['payrollgroups'] = $this->payrollGroupRepository->all();
-		
+		$data['branches']      = $this->branchesRepository->all();
 		
 		$this->render('payroll/index.twig.html',$data);
+	}
+
+	public function restGetPayrollGroup()
+	{
+		$id = $this->input->get('id');
+		$data = $this->payrollGroupRepository->getPayrollGroupByBranch($id);
+		return $this->sendJSON($data);
 	}
 	public function masterList($id)
 	{
@@ -39,7 +45,8 @@ class PayrollController extends BaseController
 		$data = [
 			'payslips' => $slip,
 			'from'    => $from,
-			'to'	  => $to
+			'to'	  => $to,
+			'period'  => $this->payslipsGroupRepository->getPayslipById($id,$from,$to)
 		];
 		$html = $this->load->view('payroll/masterlist',$data, true);
 		// dd($html);
@@ -150,8 +157,6 @@ class PayrollController extends BaseController
 			'to'	  => $to
 		];
 
-
-		$excel = new SimpleExcel('CSV');
 	}
 
 }

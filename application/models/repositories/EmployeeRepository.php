@@ -124,18 +124,23 @@ class EmployeeRepository extends BaseRepository
         // dd($post);
 
         $employee = $this->where('id', '=', $employee_id);
-        $user     = $sentry->findUserById($employee->first()->id);
 
         $employee->update($post);
+      try{
+            $user     = $sentry->findUserById($employee->first()->id);
 
-        foreach ($user->getGroups() as $group) {
+            foreach ($user->getGroups() as $group) {
 
-            $group = $sentry->findGroupById($group['id']);
-            $user->removeGroup($group);
-        }
+                $group = $sentry->findGroupById($group['id']);
+                $user->removeGroup($group);
+            }
 
-        $group = $sentry->findGroupById($data['role_id']);
-        $user->addGroup($group);
+            $group = $sentry->findGroupById($data['role_id']);
+            $user->addGroup($group);
+      }catch(Exception $e)
+      {
+        
+      }
     }
 
     public function createEmployee($data, $sentry)
