@@ -22,9 +22,17 @@ abstract class BaseController extends CI_Controller
 
         // dd($user->getGroups()[0]['name']);
         //
-        $this->logged_user       = $this->sentry->getUser();
-        $this->companyRepository = new CompanyRepository();
-        $this->company           = $this->companyRepository->find($this->logged_user->company_id);
+        //
+    
+            $this->logged_user       = $this->sentry->getUser();
+            $this->companyRepository = new CompanyRepository();
+            if($this->logged_user){
+                $this->company           = $this->companyRepository->find($this->logged_user->company_id);
+                
+            }
+            
+        
+   
 
     }
     public function render($template, $data = [])
