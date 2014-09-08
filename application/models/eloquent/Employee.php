@@ -547,7 +547,7 @@ class Employee extends BaseModel
     public function getHourlyRate()
     {
         $basic_pay      = $this->basic_pay;
-        $payroll_period = $this->payroll_period;
+        $payroll_period = $this->getPayrollPeriod()->period;;
 
         return getRate($basic_salary, $payroll_period, 'hour');
 
@@ -559,7 +559,7 @@ class Employee extends BaseModel
     public function getDailyRate($number_format = true)
     {
         $basic_pay      = $this->basic_pay;
-        $payroll_period = $this->payroll_period;
+        $payroll_period = $this->getPayrollPeriod()->period;
 
         return getRate($basic_pay, $payroll_period, 'daily', $number_format);
 
@@ -567,14 +567,14 @@ class Employee extends BaseModel
     public function getSemiMonthlyRate()
     {
         $basic_pay      = $this->basic_pay;
-        $payroll_period = $this->payroll_period;
+        $payroll_period = $this->getPayrollPeriod()->period;;
 
         return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
     }
     public function getMonthlyRate()
     {
         $basic_pay      = $this->basic_pay;
-        $payroll_period = $this->payroll_period;
+        $payroll_period = $this->getPayrollPeriod()->period;;
 
         return getRate($basic_pay, $payroll_period, 'Monthly');
     }
@@ -752,12 +752,13 @@ class Employee extends BaseModel
      * @return int
      */
     public function getAbsent($from, $to, $weekend_include = false)
-    {
+    {   
+        // dd($from, $to);
         $holiday = new \HolidayRepository();
 
         $total_absent = 0;
         if (!$this->timesheet_required) {
-
+            // dd('here');
             return 0;
         }
 
@@ -795,6 +796,7 @@ class Employee extends BaseModel
 
             }
         }
+        // dd($total_absent);
         return $total_absent;
     }
     /**
@@ -806,6 +808,7 @@ class Employee extends BaseModel
      */
     public function getAbsentDeduction($from, $to, $weekend_include = false, $number_format = false)
     {
+     
         $total = $this->getDailyRate(false) * $this->getAbsent($from, $to, $weekend_include);
         if ($number_format) {
             return number_format($total, 2);

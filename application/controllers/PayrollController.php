@@ -98,12 +98,12 @@ class PayrollController extends BaseController
             'company_logo' => $company->company_logo,
           
         ];
-
+        
         // dd($data);
         $html            = $this->load->view('payroll/payslip_template', $data, true);
-        // echo $html;
-        $pdf = pdf_create($html, '', false, true);
-        echo $pdf;
+        echo $html;
+        // $pdf = pdf_create($html, '', false, true);
+        // echo $pdf;
 
     }
 
