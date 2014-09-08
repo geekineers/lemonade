@@ -139,8 +139,9 @@ class Employee extends BaseModel
     public function getPayrollPeriod()
     {
         $payroll_period = PayrollGroup::where('id','=',$this->payroll_period)->first();
-        return $payroll_period->group_name . '-' . $payroll_period->period;
+        return $payroll_period;
     }
+
 
     public function getJobPosition()
     {
@@ -755,7 +756,7 @@ class Employee extends BaseModel
         $holiday = new \HolidayRepository();
 
         $total_absent = 0;
-        if (!$this->getTimesheetRequired()) {
+        if (!$this->timesheet_required) {
 
             return 0;
         }

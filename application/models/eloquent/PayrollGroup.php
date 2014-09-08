@@ -26,7 +26,10 @@ class PayrollGroup extends Eloquent {
 
                ];
 
-
+  public function getPeriodName()
+  {
+      return $this->group_name . '-' . $this->period;
+  }
   
   public function setPasswordAttribute($password)
   {
