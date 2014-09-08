@@ -138,6 +138,13 @@ class EmployeeController extends BaseController
         redirect('/employees/' . $employee_id . '/profile', 'location');
 
     }
+    public function updateContacts($id)
+    {
+        $data = $this->input->post();
+        $this->employeeRepository->where('id', '=', $id)->update($data);
+        redirect('/employees/' . $id . '/profile', 'location');
+
+    }
 
     public function profile($id)
     {

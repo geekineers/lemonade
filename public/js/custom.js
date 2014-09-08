@@ -65,6 +65,20 @@ $(document).ready(function(){
 
 	    $('.timepicker').timepicker();
 
+        $('.contact-info .edit-profile-btn').on('click', function(event) {
+	        event.preventDefault();
+	        $('.contact-info .profile-value').fadeOut('fast');
+	        $('.contact-info .edit-input').fadeIn();
+	        $('.contact-info .save-cancel-btn').fadeIn();
+	    });
+
+
+	    $('.contact-info .btn-cancel').on('click', function(event) {
+	        event.preventDefault();
+	        $('.contact-info .edit-input').fadeOut('fast');
+	        $('.contact-info .save-cancel-btn').fadeOut('fast');
+	        $('.contact-info .profile-value').fadeIn();
+	    });
 
 	    $('.earnings .edit-profile-btn').on('click', function(event) {
 	        event.preventDefault();

@@ -34,15 +34,34 @@
 
 		
 
-				<div class="panel panel-transparent">
+				<div></div>
+				<div class="contact-info panel panel-transparent">
+				<form method="post" action="/employees/{{ employee.id }}/update-contacts" >
+					
 					<div class="panel-heading">
 						<span class="panel-title">Contact Information</span>
+						<button class=" employee_edit employee_edit edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
 					</div>
 					<div class="list-group">
-						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-phone" style="color: #4ab6d5"></i> {{ employee.contact_number }}</a>
-						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-facebook-square" style="color: #1a7ab9"></i>{{ employee.fb }}</a>
-						<a href="#" class="list-group-item"><i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}</a>
+						<a href="#" class="profile-value list-group-item"><i class="profile-list-icon fa fa-phone" style="color: #4ab6d5"></i> {{ employee.contact_number }}</a>
+						<div class="form-group">
+							<input name="contact_number" type="" value="{{ employee.contact_number }}" class="form-control edit-input">
+						</div>
+						<a href="#" name="fb" class="profile-value list-group-item"><i class="profile-list-icon fa fa-facebook-square" style="color: #1a7ab9"></i>{{ employee.fb }}</a>
+						<div class="form-group">
+							<input type="" value="{{ employee.fb }}" class="form-control edit-input">
+						</div>
+						<a href="#" name="email" class="profile-value list-group-item"><i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}</a>
+						<div class="form-group">
+							<input type="" value="{{ employee.email }}" class="form-control edit-input">
+						</div>
+							<div class="save-cancel-btn pull-right">
+									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+							</div>
 					</div>
+
+				</form>
 				</div>
 
 			</div>
