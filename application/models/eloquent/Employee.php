@@ -155,8 +155,13 @@ class Employee extends BaseModel
     }
     public function getDepartment()
     {
-        return Department::find($this->department)->department_name;
+        $department = Department::find($this->department);
+        if($department){
+            return $department->department_name;
+        }
+        return 'none';
     }
+
     public function getDateEnded()
     {
         return $this->date_ended;
