@@ -53,7 +53,7 @@ $(document).ready(function(){
 		option = typeof options == "undefined" ? true : options;
 	
 		if(option){
-			$(this).append($('<div/>',{class:'overlay'})).append($('<div/>',{class:'loading-img'}))
+			$(this).append($('<div/>',{class:'loading-img'})).append($('<div/>',{class:'overlay'}));
 			return option;
 		}else{
 			$('.overlay,.loading-img').remove();

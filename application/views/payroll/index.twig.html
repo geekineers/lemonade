@@ -71,7 +71,7 @@
 			<div class="modal-content">
 				
 					<div class="modal-header">Generate Payroll</div>
-					<div class="modal-body">
+					<div class="modal-body box">
 						<div class="form-group">
 
 		                    <label>Branch</label>
@@ -146,10 +146,13 @@
 			
 			var el = this;
 			var group_string = "";
+			$('#generate-modal .modal-body').loading(true);
 			$.get('/payroll/rest-payroll-group',{id:$(el).val() },function(res){
 				$.each(res,function(i,s,a){
 					group_string+= '<option value='+s.id+' data-period='+s.period+'>'+s.group_name+'</option>';
 				});
+
+				$('#generate-modal .modal-body').loading(false);
 				$('#group_name').html(group_string);
 			}); 
 		});
