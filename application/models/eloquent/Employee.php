@@ -934,4 +934,9 @@ class Employee extends BaseModel
 
     }
 
+    public function getCompany()
+    {
+        return Company::find($this->company_id);
+    }
+
 }
