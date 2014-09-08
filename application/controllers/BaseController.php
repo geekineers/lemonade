@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 abstract class BaseController extends CI_Controller
 {
 
-    protected $sentry;
+    public $sentry;
     public $logged_user, $company;
     protected $companyRepository;
     public function __construct()

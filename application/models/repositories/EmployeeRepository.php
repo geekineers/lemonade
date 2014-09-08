@@ -1,4 +1,7 @@
 <?php
+
+
+
 use Employee as Employee;
 use Upload\Storage\FileSystem as FileSystem;
 
@@ -34,60 +37,9 @@ class EmployeeRepository extends BaseRepository
 
     public function getAllPermissions()
     {
-        return [
-
-            'user_view',
-            'user_create',
-            'user_delete',
-            'branch_create',
-            'branch_delete',
-            'branch_view',
-            'job_position_create',
-            'job_position_view',
-            'job_position_delete',
-            'job_position_delete',
-            'department_create',
-            'department_view',
-            'department_delete',
-            'payroll_group_create',
-            'payroll_group_view',
-
-            'company_setting_edit',
-
-            'deductions_create',
-            'deductions_view',
-            'deductions_delete',
-
-            'allowance_create',
-            'allowance_view',
-            'allowance_delete',
-
-            'holiday_create',
-            'holiday_delete',
-
-            'employee_create',
-            'employee_view',
-            'employee_delete',
-            'employee_edit',
-            'employee_schedule_evaluation',
-            'employee_send_memo',
-
-            'employee_add_allowance',
-            'employee_add_deductions',
-            'employee_add_deductions',
-            'employee_add_files',
-
-            'post_announcement',
-
-            'generate_payroll',
-
-            'settings_view',
-
-            'timesheet_import',
-            'timesheet_view',
-            // 'branch.delete',
-
-        ];
+        // dd(get_instance()->sentry->getUser());
+        get_instance()->config->load('user_permissions');
+        return get_instance()->config->item('permissions');
     }
 
     public function updateEmployee201($employee_id, $data, $sentry)
@@ -265,6 +217,30 @@ class EmployeeRepository extends BaseRepository
 
         endif;
 
+    }
+
+    public function updateProfilePicture($data, $id)
+    {
+        $profile_picture = $this->find($id)->profile_picture;
+        $path = realpath(APPPATH . '../uploads/');
+        unlink($path . '/' . $profile_picture);
+
+        $profile_picture = explode('.', $profile_picture);
+        $file = new \Upload\File('display_picture', $this->fileSystem);
+        // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
+        
+        $file->setName($profile_picture[0]);
+        $file->setExtension($profile_picture[1]);
+        // dd($file);
+        // dd($profile_picture);
+           try {
+                // Success!
+                $file->upload();
+                return true;
+            } catch (\Exception $e) {
+                // Fail!
+                $errors = $file->getErrors();
+            }
     }
 
     public function getLoginUser($sentry)

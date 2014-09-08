@@ -46,6 +46,8 @@ class MainController extends BaseController
         $data['holidays']              = $this->holidayRepository->whereBetween('holiday_from', [date('Y-m-d'), date('Y-m-d', strtotime('+1 year'))])->take(3)->get();
         $data['announcements']         = $this->announcementRepository->getAllAnnouncement();
 
+       // dd( $this->employeeRepository->getAllPermissions() );
+
         $this->render('index.twig.html', $data);
     }
 

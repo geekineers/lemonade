@@ -42,6 +42,16 @@ header .logo img {
     background-color: #FFF;
 }
 
+.change-profile-picture {
+	cursor: pointer;
+	display: none;
+	position: absolute;
+left : 65px;
+background-color: rgba(6, 6, 6, 0.39);
+color: white;
+bottom: 7px;
+font-size: 12px;
+}
 .sidebar-logo {margin: 21px 0px 5px 21px; }
 
 .skin-blue .navbar a { color :rgba(105, 102, 102, 0.8) !important;}
@@ -113,6 +123,7 @@ header .logo img {
     text-align: center;
 }
 .profile-photo {
+	position: relative;
     padding: 6px;
     display: inline-block;
     margin-bottom: 10px;
