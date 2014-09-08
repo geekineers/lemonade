@@ -165,7 +165,7 @@ background-color:#F2F2F2;
         <!-- foreach -->
           <tr>
             <td>Basic Salary</td>
-            <td><?php echo $employee->getBasicPay(); ?></td>
+            <td><?php echo $employee->getBasicSalary(); ?></td>
           </tr>
 
          <?php foreach ($employee->getAllowances() as $allowance) { ?>

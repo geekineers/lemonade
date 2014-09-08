@@ -270,7 +270,7 @@ class Employee extends BaseModel
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicPay(false) +  $this->getOvertime($from, $to) ;
+        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() +  $this->getOvertime($from, $to) ;
 
         if ($format) {
             return number_format($total, 2);
@@ -314,6 +314,24 @@ class Employee extends BaseModel
 
         return $this->basic_pay;
 
+    }
+
+    public function getBasicSalary()
+    {
+        switch ($this->getPayrollPeriod()->period) {
+            case 'Monthly':
+                return $this->getBasicPay(false);
+                break;
+            case 'Semi-monthly':
+                return $this->getBasicPay(false)/2;
+                break;
+            case 'Daily':
+                return $this->getBasicPay(false);
+                break;
+            default:
+                # code...
+                break;
+        }
     }
 
     public function getBasicPayAdjustments($limit = 5, $skip = 0)
@@ -452,7 +470,8 @@ class Employee extends BaseModel
 
     public function getSalaryComputations($from, $to)
     {
-        $salary     = intval($this->getBasicPay(false));
+        $salary     = intval($this->getBasicSalary());
+       
         $dependents = $this->dependents;
         $period     = $this->period;
 
@@ -546,7 +565,7 @@ class Employee extends BaseModel
 
     public function getHourlyRate()
     {
-        $basic_pay      = $this->basic_pay;
+        $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
 
         return getRate($basic_salary, $payroll_period, 'hour');
@@ -558,7 +577,7 @@ class Employee extends BaseModel
      */
     public function getDailyRate($number_format = true)
     {
-        $basic_pay      = $this->basic_pay;
+        $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;
 
         return getRate($basic_pay, $payroll_period, 'daily', $number_format);
@@ -566,14 +585,14 @@ class Employee extends BaseModel
     }
     public function getSemiMonthlyRate()
     {
-        $basic_pay      = $this->basic_pay;
+        $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
 
         return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
     }
     public function getMonthlyRate()
     {
-        $basic_pay      = $this->basic_pay;
+        $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
 
         return getRate($basic_pay, $payroll_period, 'Monthly');
