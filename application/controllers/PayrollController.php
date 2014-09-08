@@ -82,7 +82,7 @@ class PayrollController extends BaseController
         $data['title'] = 'Payroll Generation';
 
         $data['payslips'] = $this->payslipsRepository->getAllPayslip();
-        // $data['company']  = $this->company;
+        $data['company']  = $this->company;
         $this->render('payroll/payslip.twig.html', $data);
 
     }

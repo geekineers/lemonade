@@ -138,7 +138,8 @@ class Employee extends BaseModel
 
     public function getPayrollPeriod()
     {
-        return PayrollGroup::where('id','=',$this->payroll_period)->first();
+        $payroll_period = PayrollGroup::where('id','=',$this->payroll_period)->first();
+        return $payroll_period->group_name . '-' . $payroll_period->period;
     }
 
     public function getJobPosition()
