@@ -98,7 +98,7 @@ background-color:#F2F2F2;
         
       </table>
 
-      <div style="height: 10px; margin:10px 0px; background-color:yellow"></div>
+      <div style="height: 10px; margin:10px 0px; background-color:black"></div>
 
 
 
@@ -208,8 +208,8 @@ background-color:#F2F2F2;
 
     <table style="width:100%;position:absolute;top:500px;">
       <tr>
-        <td style="background-color:yellow">NET</td>
-        <td style="background-color:yellow"><?php echo $employee->getNet($from, $to)?></td>
+        <td style="background-color:black; color:white;">NET</td>
+        <td style="background-color:black; color:white;"><?php echo $employee->getNet($from, $to)?></td>
       </tr>
     </table>
 
