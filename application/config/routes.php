@@ -135,6 +135,7 @@ Pigeon::map(function ($r) {
     $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
     $r->post('employees/(:num)/update-contacts', 'EmployeeController#updateContacts');
     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
+    $r->post('employees/(:num)/picture_upload', 'EmployeeController#updateProfilePicture');
     $r->post('employees/trainings', 'TrainingController#save');
     $r->get('employees/trainings/delete', 'TrainingController#delete');
 

@@ -60,9 +60,17 @@ $(document).ready(function(){
 			return false;
 		}
 	};
+	$('.change-profile-picture').on('click', function(){
+		$('#changeProfilePic').modal('show');
+	});
+	$('.profile-photo').mouseenter(function(){
 
+		$('.change-profile-picture').fadeIn();
+	}).mouseleave(function(){
+
+		$('.change-profile-picture').fadeOut();
+	});
 	
-
 	    $('.timepicker').timepicker();
 
         $('.contact-info .edit-profile-btn').on('click', function(event) {

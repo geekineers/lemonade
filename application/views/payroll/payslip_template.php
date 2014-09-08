@@ -56,12 +56,12 @@ background-color:#F2F2F2;
       <table>
         <tr>
           <td>
-            <h3><img src="../uploads/<?php echo $company_logo; ?>" style="height:70px;"> </h3>
+            <h3><img src="../uploads/<?php echo $company->company_logo; ?>" style="height:70px;"> </h3>
           </td>
           <td>
             <div class="address">
               <p>
-                Address
+                <?php echo $company->company_address; ?>
               </p>
             </div>
             

@@ -187,6 +187,13 @@ class EmployeeController extends BaseController
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
     }
 
+    public function updateProfilePicture($id)
+    {
+        $input = $this->input->post();
+        $this->employeeRepository->updateProfilePicture($input, $id);
+        redirect('/employees/' . $id . '/profile', 'location');
+    }
+
     public function adjustBasicPay()
     {
 
