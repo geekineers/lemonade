@@ -95,7 +95,7 @@ class PayrollController extends BaseController
         $data = [
             'employee' => $slip->getEmployee(),
             'payslip'  => $slip,
-            'company'  => $company
+          
         ];
         $html            = $this->load->view('payroll/payslip_template', $data, true);
         // echo $html;
