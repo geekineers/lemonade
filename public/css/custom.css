@@ -42,6 +42,8 @@ header .logo img {
     background-color: #FFF;
 }
 
+.sidebar-logo {margin: 21px 0px 5px 21px; }
+
 .skin-blue .navbar a { color :rgba(105, 102, 102, 0.8) !important;}
 /*aside.left-side { height: 1500px; }*/
 
