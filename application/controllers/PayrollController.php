@@ -48,7 +48,7 @@ class PayrollController extends BaseController
             'payslips' => $slip,
             'from'     => $from,
             'to'       => $to,
-            'period'   => $this->payslipsGroupRepository->getPayslipById($id, $from, $to)
+            'period'   => $this->payslipsGroupRepository->getPayslipById($id, $from, $to),
    		   'company_logo' => $company->company_logo
         ];
         $html = $this->load->view('payroll/masterlist', $data, true);
