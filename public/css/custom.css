@@ -3,7 +3,7 @@
     text-align: center;
 }
 .form-box .header {
-    background: #DBCC18;
+    background: #EED417;
 }
 header .logo img {
     width: 100%;
@@ -16,25 +16,25 @@ header .logo img {
     display: inline-block;
 }
 .bg-lemon, .bg-lemon:hover {
-    background-color: #DBCC18;
+    background-color: #EED417;
     color: #f9f9f9
 }
 .req-label {
     color: rgb(168, 9, 9);
 }
 .dashboard .box-warning .box-header {
-    background-color: #DBCC18 !important;
+    background-color: #EED417 !important;
 }
 .btn-custom {
-    background-color: #DBCC18;
+    background-color: #EED417;
     color: white;
 }
 .skin-blue .navbar {
-    background-color: #E1E4E6;
+    background-color: #EED417;
 }
 .skin-blue .logo {
-    background: #E1E4E6;
-    background-color: #E1E4E6;
+    background: #f4f4f4;
+    background-color: #f4f4f4;
 }
 .skin-blue .logo:hover {
     background: #FFF;
