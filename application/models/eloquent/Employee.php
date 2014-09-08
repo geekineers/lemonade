@@ -179,12 +179,27 @@ class Employee extends BaseModel
     }
     public function getSSSValue()
     {
-        return $this->deduct_sss == null ? getSSS($this->getBasicPay(false))['EE'] : (int) $this->fixed_sss_amount;
+         if($this->deduct_sss == null) {
+           $sss =  floatval(getSSS($this->getBasicPay(false))['EE']);
+            if($this->getPayrollPeriod()->period == "Semi-monthly")
+            {
+                return floatval($sss/2);
+            }
+        } 
+        return  (int) $this->fixed_sss_amount;
     }
 
     public function getPhilhealthValue()
     {
-        return $this->deduct_philhealth == null ? getPH($this->getBasicPay(false))['Employee_Share'] : (int) $this->fixed_philhealth_amount;
+       if($this->deduct_sss == null) {
+           $ph =  floatval(getPH($this->getBasicPay(false))['Employee_Share'] );
+            if($this->getPayrollPeriod()->period == "Semi-monthly")
+            {
+                return floatval($ph/2);
+            }
+        } 
+        return  (int) $this->fixed_philhealth_amount;
+
     }
 
     public function getHDMFValue()
