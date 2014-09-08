@@ -115,6 +115,7 @@ header .logo img {
     display: inline-block;
     margin-bottom: 10px;
     border-radius: 999999px;
+    width: 100%;
 }
 .profile-photo img {
     display: block;
