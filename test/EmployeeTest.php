@@ -13,10 +13,10 @@ class EmployeeTest extends PHPUnit_Framework_TestCase {
 	public function testDeductionRate()
 	{
 		$basic_salary = 25000;
-		$payroll_period = "Monthly";
-		$per_unit = "minute";
+		$payroll_period = "Semi-monthly";
+		$per_unit = "daily";
 
-		$this->assertEquals(2.4, getDeductionRate($basic_salary, $payroll_period, $per_unit));
+		$this->assertEquals(2307.69, getRate($basic_salary, $payroll_period, $per_unit));
 	}
 
 

@@ -133,6 +133,7 @@ Pigeon::map(function ($r) {
     $r->get('employees/file/delete', 'EmployeeController#deleteFile');
     $r->post('employees/adjust-basic-pay', 'EmployeeController#adjustBasicPay');
     $r->post('employees/(:num)/update-salary', 'EmployeeController#updateSalary');
+    $r->post('employees/(:num)/update-contacts', 'EmployeeController#updateContacts');
     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
     $r->post('employees/trainings', 'TrainingController#save');
     $r->get('employees/trainings/delete', 'TrainingController#delete');

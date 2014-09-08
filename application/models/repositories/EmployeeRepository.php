@@ -313,11 +313,13 @@ class EmployeeRepository extends BaseRepository
 
     public function search($query)
     {
-        return $this->where('first_name', 'like', "%{$query}%")
-                    ->orWhere('last_name', 'like', "%{$query}%")
+        return $this->where(function($q) use ($query){
+                    $q->where('first_name', 'like', "%{$query}%")
+                            ->orWhere('last_name', 'like', "%{$query}%")
         // ->orWhere('job_position', 'like', "%{$query}%")
-        ->orWhere('email', 'like', "%{$query}%")
-        ->get();
+                            ->orWhere('email', 'like', "%{$query}%"); })
+                    ->where('company_id', '=', COMPANY_ID)
+                    ->get();
 
     }
 

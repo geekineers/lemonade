@@ -42,6 +42,8 @@ header .logo img {
     background-color: #FFF;
 }
 
+.sidebar-logo {margin: 21px 0px 5px 21px; }
+
 .skin-blue .navbar a { color :rgba(105, 102, 102, 0.8) !important;}
 /*aside.left-side { height: 1500px; }*/
 
@@ -115,6 +117,7 @@ header .logo img {
     display: inline-block;
     margin-bottom: 10px;
     border-radius: 999999px;
+    width: 100%;
 }
 .profile-photo img {
     display: block;

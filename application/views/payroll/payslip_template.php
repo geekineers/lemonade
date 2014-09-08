@@ -56,7 +56,7 @@ background-color:#F2F2F2;
       <table>
         <tr>
           <td>
-            <h3><img src="<?php echo $employee->getCompany()->getCompanyLogo(); ?>" style="height:70px;width:300px;"> </h3>
+            <h3><img src="../uploads/<?php echo $company_logo; ?>" style="height:70px;"> </h3>
           </td>
           <td>
             <div class="address">
@@ -98,7 +98,7 @@ background-color:#F2F2F2;
         
       </table>
 
-      <div style="height: 10px; margin:10px 0px; background-color:yellow"></div>
+      <div style="height: 10px; margin:10px 0px; background-color:black"></div>
 
 
 
@@ -165,7 +165,7 @@ background-color:#F2F2F2;
         <!-- foreach -->
           <tr>
             <td>Basic Salary</td>
-            <td><?php echo $employee->getBasicPay(); ?></td>
+            <td><?php echo $employee->getBasicSalary(); ?></td>
           </tr>
 
          <?php foreach ($employee->getAllowances() as $allowance) { ?>
@@ -208,8 +208,8 @@ background-color:#F2F2F2;
 
     <table style="width:100%;position:absolute;top:500px;">
       <tr>
-        <td style="background-color:yellow">NET</td>
-        <td style="background-color:yellow"><?php echo $employee->getNet($from, $to)?></td>
+        <td style="background-color:black; color:white;">NET</td>
+        <td style="background-color:black; color:white;"><?php echo $employee->getNet($from, $to)?></td>
       </tr>
     </table>
 

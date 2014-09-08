@@ -15,7 +15,7 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 				if($number_format) return number_format($basic_salary, 2);
 				return $basic_salary;
 			}
-			if($per_unit == 'Semi-Monthly')
+			if($per_unit == 'Semi-monthly')
 			{
 				if($number_format) return number_format($basic_salary/2, 2);
 				return	$basic_salary/2;
@@ -39,19 +39,21 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 			
 
 			break;
-		case 'Semi-Monthly':
-			$amount = $basic_salary * 2 * 12;
-			$amount = $amount / 260;
-			$amount = $amount / 8;
+		case 'Semi-monthly':
 
-			if($per_unit == 'Semi-Monthly')
+			$amount = $basic_salary * 24;
+			$daily = $amount / 260;
+			$amount = $daily / 8;
+
+			if($per_unit == 'Semi-monthly')
 			{
 				return $basic_salary;
 			}
 			if($per_unit == 'daily')
 			{
-				if($number_format) return number_format($amount, 2);
-				return $amount;
+
+				if($number_format) return number_format($daily, 2);
+				return $daily;
 			} 
 
 			if($per_unit == 'hour')
