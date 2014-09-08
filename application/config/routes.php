@@ -48,7 +48,7 @@ Pigeon::map(function ($r) {
 
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
 
-    $r->get('payroll/masterlist-xls/(:num)','PayrollController#masterListInXls');
+    $r->get('payroll/masterlist-xls/(:num)', 'PayrollController#masterListInXls');
 
     $r->get('testpdf', 'PayrollController#test');
 
@@ -102,6 +102,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/company/edit', 'CompanyController#update');
 
     $r->get('settings/holidays', 'HolidayController#index');
+    $r->get('settings/holidays/delete', 'HolidayController#delete');
     $r->post('settings/holidays/generate', 'HolidayController#generateYear');
     $r->get('settings/holidays/(:num)', 'HolidayController#holidayPerYear');
     $r->post('settings/holidays/update/(:num)', 'HolidayController#update');
@@ -148,8 +149,7 @@ Pigeon::map(function ($r) {
     $r->get('forms/rest-get-user', 'FormsController#restGetUser');
     $r->get('forms/rest-form-template', 'FormsController#formTemplate');
     $r->post('forms/save-form', 'FormsController#store');
-    $r->get('forms/view/(:num)','FormsController#viewPrint');
-
+    $r->get('forms/view/(:num)', 'FormsController#viewPrint');
 
     $r->post('evaluations/save', 'EvaluationController#store');
 

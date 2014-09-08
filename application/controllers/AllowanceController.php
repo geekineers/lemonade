@@ -24,7 +24,7 @@ class AllowanceController extends BaseController
 
     public function index()
     {
-
+        $data['company']       = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 

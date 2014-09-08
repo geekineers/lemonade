@@ -36,6 +36,7 @@
                                         </a>
                                         <br>{{ announcement.getMessage() }}
                                     </p>
+
                                 </div>
                                 {% endfor %}
 
@@ -132,7 +133,6 @@
                             <span class="year">{{ holiday.getYear() }}</span>
                             <span class="time">ALL DAY</span>
                         </time>
-                        <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
                         <div class="info">
                             <h2 class="title">{{ holiday.holiday_name }}</h2>
                             <p class="desc">{{ holiday.holiday_type }}</p>
@@ -252,22 +252,20 @@
                         </p>
                     </center>
             </div>
-            {% endif %}
- 
-                {% for evaluation in evaluations_trainings %}
-                <div class="item">
-                    <p class="message">
-                  
-                        <a href="#" class="name">
+            {% endif %} {% for evaluation in evaluations_trainings %}
+            <div class="item">
+                <p class="message">
+
+                    <a href="#" class="name">
                            {{ evaluation.getName() }}
                         </a>
-                        {{ evaluation.getDateFromDiff() }}
-                    </p>
-                </div>
-                {% endfor %}
+                    {{ evaluation.getDateFromDiff() }}
+                </p>
             </div>
-            <!-- /.box-body -->
-       
+            {% endfor %}
+        </div>
+        <!-- /.box-body -->
+
         <!-- /.box -->
     </div>
 </div>

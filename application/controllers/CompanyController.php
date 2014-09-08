@@ -7,15 +7,14 @@ use Upload\Storage\FileSystem as FileSystem;
 class CompanyController extends BaseController
 {
 
-    protected $companyRepository,
-    $company, $logged_user;
+    protected $companyRepository;
 
     public function __construct()
     {
         parent::__construct();
         $this->mustBeLoggedIn();
 
-        $path                     = realpath(APPPATH.'../uploads/');
+        $path                     = realpath(APPPATH . '../uploads/');
         $this->fileSystem         = new FileSystem($path);
         $this->companyRepository  = new CompanyRepository();
         $this->employeeRepository = new EmployeeRepository();
@@ -30,9 +29,10 @@ class CompanyController extends BaseController
     public function index()
     {
 
-        $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['new_user'] = $this->session->flashdata('new_user');
-        $data['company'] = $this->company;
+        $data['company']  = $this->company;
+        $data['title']    = "Company Information";
         $this->render('company/index.twig.html', $data);
 
     }
@@ -77,18 +77,30 @@ class CompanyController extends BaseController
             'company_description'    => $this->input->post('company_description'),
             'company_address'        => $this->input->post('company_address'),
             'company_contact_number' => $this->input->post('company_contact_number'),
-            'company_sss' => $this->input->post('company_sss'),
-            'company_rdo' => $this->input->post('company_rdo'),
-            'company_zip' => $this->input->post('company_zip'),
-            'company_philhealth' => $this->input->post('company_philhealth'),
-            'company_tel' => $this->input->post('company_tel'),
-            'line_of_business' => $this->input->post('line_of_business'),
+            'company_sss'            => $this->input->post('company_sss'),
+            'company_rdo'            => $this->input->post('company_rdo'),
+            'company_zip'            => $this->input->post('company_zip'),
+            'company_philhealth'     => $this->input->post('company_philhealth'),
+            'company_tel'            => $this->input->post('company_tel'),
+            'line_of_business'       => $this->input->post('line_of_business'),
             'company_logo'           => $filename,
         );
 
         $save = $this->companyRepository->create($post);
         // dd($save);
-        $this->session->set_flashdata('message', $company_name.' has been added.');
+        if ($save):
+            try {
+                // Success!
+                $file->upload();
+                redirect('/settings/company', 'location');
+            } catch (\Exception $e) {
+                // Fail!
+                $errors = $file->getErrors();
+            }
+
+        endif;
+
+        $this->session->set_flashdata('message', $company_name . ' has been added.');
 
         redirect('/settings/company', 'location');
 
@@ -109,7 +121,7 @@ class CompanyController extends BaseController
 
     public function update()
     {
-$company_name = $this->input->post('company_name');
+        $company_name = $this->input->post('company_name');
 
         // Upload Picture
 
@@ -137,18 +149,31 @@ $company_name = $this->input->post('company_name');
             'company_description'    => $this->input->post('company_description'),
             'company_address'        => $this->input->post('company_address'),
             'company_contact_number' => $this->input->post('company_contact_number'),
-            'company_sss' => $this->input->post('company_sss'),
-            'company_rdo' => $this->input->post('company_rdo'),
-            'company_zip' => $this->input->post('company_zip'),
-            'company_philhealth' => $this->input->post('company_philhealth'),
-            'company_tel' => $this->input->post('company_tel'),
-            'line_of_business' => $this->input->post('line_of_business'),
+            'company_sss'            => $this->input->post('company_sss'),
+            'company_rdo'            => $this->input->post('company_rdo'),
+            'company_zip'            => $this->input->post('company_zip'),
+            'company_philhealth'     => $this->input->post('company_philhealth'),
+            'company_tel'            => $this->input->post('company_tel'),
+            'line_of_business'       => $this->input->post('line_of_business'),
             'company_logo'           => $filename,
         );
 
         $save = $this->company->update($post);
         // dd($save);
-        $this->session->set_flashdata('message', $company_name.' has been added.');
+
+        if ($save):
+            try {
+                // Success!
+                $file->upload();
+                redirect('/settings/company', 'location');
+            } catch (\Exception $e) {
+                // Fail!
+                $errors = $file->getErrors();
+            }
+
+        endif;
+
+        $this->session->set_flashdata('message', $company_name . ' has been added.');
 
         redirect('/settings/company', 'location');
 
@@ -161,7 +186,7 @@ $company_name = $this->input->post('company_name');
         $branch_name = $this->branchRepository->find($id)->branch_name;
 
         $this->branchRepository->delete($id);
-        $this->session->set_flashdata('message', $branch_name.' has been deleted.');
+        $this->session->set_flashdata('message', $branch_name . ' has been deleted.');
         redirect('/branches', 'location');
 
     }

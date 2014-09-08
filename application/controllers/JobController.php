@@ -18,9 +18,10 @@ class JobController extends BaseController
     }
     public function index()
     {
-        $data['user']   = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']  = "Job Positions";
-        $data['groups'] = $this->jobPositionRepository->all();
+        $data['company'] = $this->company;
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']   = "Job Positions";
+        $data['groups']  = $this->jobPositionRepository->all();
 
         // dd($data);
         $this->render('job_position/index.twig.html', $data);
@@ -31,9 +32,9 @@ class JobController extends BaseController
     {
 
         // $data['permissions'] = $this->config->item('permissions');
-        $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
-        $data['title'] = "Job Position";
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['company'] = $this->company;
+        $data['title']   = "Job Position";
 
         $this->render('/job_position/add.twig.html', $data);
 

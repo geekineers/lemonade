@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5d7f67a5e73a447b55ca87b35b442481",
+    "hash": "dc25dfa5f35b07b084bb644357ccde62",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -569,12 +569,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-curl-class/php-curl-class.git",
-                "reference": "9fb14c98873b012e1f5b82a4f5d5cbc0a5643857"
+                "reference": "530c412da5514aff321e1d4c5eba792935780036"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/9fb14c98873b012e1f5b82a4f5d5cbc0a5643857",
-                "reference": "9fb14c98873b012e1f5b82a4f5d5cbc0a5643857",
+                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/530c412da5514aff321e1d4c5eba792935780036",
+                "reference": "530c412da5514aff321e1d4c5eba792935780036",
                 "shasum": ""
             },
             "require": {
@@ -601,7 +601,7 @@
                 "curl",
                 "php"
             ],
-            "time": "2014-08-30 02:54:55"
+            "time": "2014-09-06 23:44:11"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -803,9 +803,7 @@
             "time": "2012-08-25 12:49:29"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "codeguy/upload": 20,
@@ -816,7 +814,5 @@
     "platform": {
         "php": ">=5.2.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

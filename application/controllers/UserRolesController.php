@@ -19,9 +19,10 @@ class UserRolesController extends BaseController
 
     public function index()
     {
-        $data['groups'] = Group::where('company_id', '=', COMPANY_ID)->get();
-        $data['user']   = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']  = "User Roles";
+        $data['company'] = $this->company;
+        $data['groups']  = Group::where('company_id', '=', COMPANY_ID)->get();
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']   = "User Roles";
         $this->render('user_roles/index.twig.html', $data);
 
     }
@@ -29,7 +30,7 @@ class UserRolesController extends BaseController
     public function add()
     {
         $this->config->load('user_permissions');
-
+        $data['company']     = $this->company;
         $data['permissions'] = $this->config->item('permissions');
         $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']       = "User Roles";
@@ -40,11 +41,11 @@ class UserRolesController extends BaseController
 
     public function save()
     {
-        $input['name'] = $this->input->post('name');
-        $permissions   = $this->input->post('permissions');
+        $input['name']       = $this->input->post('name');
+        $permissions         = $this->input->post('permissions');
         $input['company_id'] = COMPANY_ID;
         foreach ($permissions as $key => $value) {
-            $input['permissions'][$key] = ($value == 'on')?1:0;
+            $input['permissions'][$key] = ($value == 'on') ? 1 : 0;
         }
         // dd($input);
         $this->sentry->createGroup($input);
@@ -61,7 +62,7 @@ class UserRolesController extends BaseController
         $data['all_permissions'] = $this->config->item('permissions');
         $data['user']            = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']           = "User Roles";
-
+        $data['company']         = $this->company;
         $this->render('/user_roles/edit.twig.html', $data);
     }
 
@@ -72,19 +73,18 @@ class UserRolesController extends BaseController
         $group = $this->sentry->findGroupById($id);
 
         // Update the group details
-        $group->name        = $this->input->post('name');
+        $group->name = $this->input->post('name');
 
-        $permissions   = $this->input->post('permissions');
+        $permissions       = $this->input->post('permissions');
         $permissions_array = [];
 
         // $group->permissions= $permissions_array;
         // $group->save();
 
         foreach ($permissions as $key => $value) {
-            $permissions_array[$key] = ($value == 'on')?1:0;
+            $permissions_array[$key] = ($value == 'on') ? 1 : 0;
         }
         $group->permissions = $permissions_array;
-
 
         // Update the group
         if ($group->save()) {

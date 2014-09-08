@@ -37,6 +37,7 @@ class MainController extends BaseController
             'date'  => date('d')
 
         );
+        $data['company']               = $this->company;
         $data['time_in_status']        = $this->session->userdata('time_in_status');
         $data['evaluations_trainings'] = $this->evaluationRepository->getMyEval($data['user']->id);
         $data['title']                 = "Dashboard";
@@ -59,6 +60,7 @@ class MainController extends BaseController
 
     public function slip()
     {
+
         $salary     = (int) $this->input->get('salary');
         $period     = $this->input->get('period');
         $dependents = (int) $this->input->get('dependents');

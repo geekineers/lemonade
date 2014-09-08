@@ -20,7 +20,7 @@ class HolidayController extends BaseController
 
     public function index()
     {
-
+        $data['company']       = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
@@ -58,8 +58,18 @@ class HolidayController extends BaseController
         $data['year']     = $year;
         $data['holidays'] = $this->holidayRepository->getAllHoliday($year);
         $data['title']    = $year . " Holidays";
-
+        $data['company']  = $this->company;
         $this->render('holidays/year.twig.html', $data);
+
+    }
+
+    public function delete()
+    {
+        $year = $this->input->get('year');
+
+        HolidayYear::where('year', '=', $year)->delete();
+        Holiday::where('year', '=', $year)->delete();
+        redirect('settings/holidays/', 'location');
 
     }
 

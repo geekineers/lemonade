@@ -19,8 +19,8 @@ class EvaluationController extends BaseController
 
     public function index()
     {
-
-        $data['alert_message'] = ($this->session->flashdata('message') == null)?null:$this->session->flashdata('message');
+        $data['company']       = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
         $data['title']    = "Branches";
@@ -31,11 +31,11 @@ class EvaluationController extends BaseController
 
     public function store()
     {
-    	$data = $this->input->post();
-    	$employee_id = $this->input->post('employee_id');
-    	$creator = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-    	return $this->evaluationRepository->scheduleForEvaluation($employee_id, $data, $creator->id);
-    	
+        $data        = $this->input->post();
+        $employee_id = $this->input->post('employee_id');
+        $creator     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        return $this->evaluationRepository->scheduleForEvaluation($employee_id, $data, $creator->id);
+
     }
 
 }
