@@ -16,9 +16,10 @@ class DepartmentController extends BaseController
     }
     public function index()
     {
-        $data['groups'] = $this->departmentRepository->all();
-        $data['user']   = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
+        $data['company'] = $this->company;
+        $data['groups']  = $this->departmentRepository->all();
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']   = "Department";
         // dd($data);
         $this->render('department/index.twig.html', $data);
 

@@ -17,7 +17,7 @@ class TimesheetController extends BaseController
 
     public function index()
     {
-
+        $data['company']    = $this->company;
         $data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']      = "All Timesheets";
         $data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('id', 'desc')->get();
@@ -41,6 +41,7 @@ class TimesheetController extends BaseController
 
     public function myTimesheet()
     {
+        $data['company']    = $this->company;
         $data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']      = "My Timesheets";
         $data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->where('employee_id', '=', $data['user']->id)->orderBy('id', 'desc')->get();

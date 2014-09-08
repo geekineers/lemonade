@@ -15,22 +15,22 @@ class PayrollPeriodController extends BaseController
 
     public function index()
     {
-        $data['alert_message'] = ($this->session->flashdata('message') == null)?null:$this->session->flashdata('message');
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
-        $data['title']    = "Payroll Period";
-        $data['branches'] = $this->payrollPeriodRepository->all();
+        $data['company']       = $this->company;
+        $data['title']         = "Payroll Period";
+        $data['branches']      = $this->payrollPeriodRepository->all();
 
         $this->render('/payroll_period/index.twig.html');
     }
 
     public function add()
     {
-        $data['alert_message'] = ($this->session->flashdata('message') == null)?null:$this->session->flashdata('message');
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
-        $data['title']    = "Payroll Period";
-        $data['branches'] = $this->branchRepository->all();
+        $data['company']       = $this->company;
+        $data['title']         = "Payroll Period";
+        $data['branches']      = $this->branchRepository->all();
 
         $this->render('/payroll_period/index.twig.html');
     }

@@ -29,6 +29,10 @@ class Company extends Eloquent {
 
    public function getCompanyLogo()
  {
-  return '/media?image=' . $this->company_logo;
+    if(file_exists('../uploads/' . $this->company_logo)){
+      return '/media?image=' . $this->company_logo;
+    }
+
+    return '/img/logo.png';
  }
 }

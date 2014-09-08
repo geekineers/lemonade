@@ -36,7 +36,7 @@ class EmployeeController extends BaseController
         $this->branchesRepository    = new BranchRepository();
         $this->jobPositionRepository = new JobPositionRepository();
 
-        $this->payrollGroupRepository   = new PayrollGroupRepository();
+        $this->payrollGroupRepository       = new PayrollGroupRepository();
         $this->departmentRepository         = new DepartmentRepository();
         $this->deductionRepository          = new DeductionRepository();
         $this->allowanceRepository          = new AllowanceRepository();
@@ -50,7 +50,7 @@ class EmployeeController extends BaseController
         // $employee = Employee::find(2);
         // $absent = $employee->getAbsent('2014-08-25','2014-08-29');
         // dd($absent);
-
+        $data['company']       = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ? null
         : $this->session->flashdata('message');
@@ -58,22 +58,22 @@ class EmployeeController extends BaseController
         $data['title']     = "Employee";
         $data['employees'] = $this->employeeRepository->where('id', '!=', 1)->get();
 
-        $data['job_positions'] = $this->jobPositionRepository->all();
-        $data['departments']   = $this->departmentRepository->all();
+        $data['job_positions']  = $this->jobPositionRepository->all();
+        $data['departments']    = $this->departmentRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
-   
+
         $this->render('/employee/index.twig.html', $data);
     }
 
     public function add()
     {
-        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']         = "Employees";
-        
+        $data['company'] = $this->company;
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']   = "Employees";
 
-        $data['groups']        = Group::where('company_id', '=', COMPANY_ID)->get();
-        $data['job_positions'] = $this->jobPositionRepository->all();
-        $data['departments']   = $this->departmentRepository->all();
+        $data['groups']         = Group::where('company_id', '=', COMPANY_ID)->get();
+        $data['job_positions']  = $this->jobPositionRepository->all();
+        $data['departments']    = $this->departmentRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
         $this->render('employee/add.twig.html', $data);
 
@@ -99,7 +99,7 @@ class EmployeeController extends BaseController
 
         $employee_id = $this->input->post('id');
         $data        = $this->input->post();
-        
+
         $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }
@@ -141,12 +141,13 @@ class EmployeeController extends BaseController
 
     public function profile($id)
     {
-        $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['company'] = $this->company;
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
-        $data['job_positions']   = $this->jobPositionRepository->all();
-        $data['branches']        = $this->branchesRepository->all();
-        
-        $data['payroll_groups'] = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
+        $data['job_positions'] = $this->jobPositionRepository->all();
+        $data['branches']      = $this->branchesRepository->all();
+
+        $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         $data['departments']     = $this->departmentRepository->all();
         $data['employee']        = $this->employeeRepository->find($id);
         $data['deduction_types'] = $this->deductionRepository->all();
