@@ -82,7 +82,7 @@ class PayrollController extends BaseController
         $data['title'] = 'Payroll Generation';
 
         $data['payslips'] = $this->payslipsRepository->getAllPayslip();
-        $data['company']  = $this->company;
+        // $data['company']  = $this->company;
         $this->render('payroll/payslip.twig.html', $data);
 
     }
@@ -90,12 +90,13 @@ class PayrollController extends BaseController
     {
 
         $slip = $this->payslipsRepository->getSlipById($id);
+        $company = $this->company;
 
         $data = [
             'employee' => $slip->getEmployee(),
-            'payslip'  => $slip
+            'payslip'  => $slip,
+            'company'  => $company
         ];
-        $data['company'] = $this->company;
         $html            = $this->load->view('payroll/payslip_template', $data, true);
         // echo $html;
         $pdf = pdf_create($html, '', false, true);
