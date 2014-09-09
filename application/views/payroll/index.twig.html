@@ -148,6 +148,7 @@
 			var group_string = "";
 			$('#generate-modal .modal-body').loading(true);
 			$.get('/payroll/rest-payroll-group',{id:$(el).val() },function(res){
+				group_string = '<option value="none" data-period="none">--Select Payroll Group --</option>';
 				$.each(res,function(i,s,a){
 					group_string+= '<option value='+s.id+' data-period='+s.period+'>'+s.group_name+'</option>';
 				});
