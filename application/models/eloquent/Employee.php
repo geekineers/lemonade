@@ -416,7 +416,7 @@ class Employee extends BaseModel
 
     public function getUnderTimeDeductionRate($per_unit)
     {
-        return getRate($this->basic_pay, $this->payroll_period, $per_unit);
+        return getRate($this->basic_pay, $this->getPayrollPeriod()->period, $per_unit);
 
     }
 
@@ -478,9 +478,12 @@ class Employee extends BaseModel
      * @param  [string] $unit (minute|hours)
      * @return [float]
      */
-    public function getLateDeduction($from, $to, $unit)
+    public function getLateDeduction($from, $to, $unit, $number_format =false)
     {
-        return floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        $late_deduction =  floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        if($number_format) return number_format($late_deduction, 2);
+
+        return $late_deduction;
     }
 
     public function getSalaryComputations($from, $to)

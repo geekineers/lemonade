@@ -120,7 +120,7 @@ background-color:#F2F2F2;
 
         <tr>
           <td>Late Deduction</td>
-          <td><?php echo $employee->getLateDeduction($from, $to, 'minute'); ?></td>
+          <td><?php echo $employee->getLateDeduction($from, $to, 'minute',true); ?></td>
         </tr>
 
          <tr>
