@@ -214,8 +214,8 @@ class Employee extends BaseModel
 
     public function getProfilePicture()
     {
-        if ($this->profile_picture == null) {
-            return '/img/unknown_user.jpeg';
+        if ($this->profile_picture == null || $this->profile_picture == 'none') {
+            return '/img/user.jpg';
         } else {
             return '/media?image=' . $this->profile_picture;
 

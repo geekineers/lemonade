@@ -1,7 +1,4 @@
 <?php
-
-
-
 use Employee as Employee;
 use Upload\Storage\FileSystem as FileSystem;
 
@@ -156,22 +153,27 @@ class EmployeeRepository extends BaseRepository
 
         $file = new \Upload\File('display_picture', $this->fileSystem);
         // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
-        $new_filename = uniqid();
-        $file->setName($new_filename);
+        $filename = 'none';
+        if($file->isOK()){
+       
+            $new_filename = uniqid();
+            $file->setName($new_filename);
+            // Access data about the file that has been uploaded
+            $data = array(
+                'name'       => $file->getNameWithExtension(),
+                'extension'  => $file->getExtension(),
+                'mime'       => $file->getMimetype(),
+                'size'       => $file->getSize(),
+                'md5'        => $file->getMd5(),
+                'dimensions' => $file->getDimensions()
+            );
 
-        // Access data about the file that has been uploaded
-        $data = array(
-            'name'       => $file->getNameWithExtension(),
-            'extension'  => $file->getExtension(),
-            'mime'       => $file->getMimetype(),
-            'size'       => $file->getSize(),
-            'md5'        => $file->getMd5(),
-            'dimensions' => $file->getDimensions()
-        );
+            // Try to upload file
 
-        // Try to upload file
+            $filename = $file->getNameWithExtension();
+            
+        }
 
-        $filename = $file->getNameWithExtension();
 
         $save = $this->create(
             array(
@@ -222,17 +224,36 @@ class EmployeeRepository extends BaseRepository
     public function updateProfilePicture($data, $id)
     {
         $profile_picture = $this->find($id)->profile_picture;
-        $path = realpath(APPPATH . '../uploads/');
-        unlink($path . '/' . $profile_picture);
-
-        $profile_picture = explode('.', $profile_picture);
         $file = new \Upload\File('display_picture', $this->fileSystem);
-        // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
         
-        $file->setName($profile_picture[0]);
-        $file->setExtension($profile_picture[1]);
-        // dd($file);
-        // dd($profile_picture);
+        if($profile_picture != 'none'){
+            $path = realpath(APPPATH . '../uploads/');
+            unlink($path . '/' . $profile_picture);
+            $profile_picture = explode('.', $profile_picture);        
+              $file->setName($profile_picture[0]);
+             $file->setExtension($profile_picture[1]);
+        }
+
+        else {
+            $new_filename = uniqid();
+            $file->setName($new_filename);
+            // Access data about the file that has been uploaded
+            $data = array(
+                'name'       => $file->getNameWithExtension(),
+                'extension'  => $file->getExtension(),
+                'mime'       => $file->getMimetype(),
+                'size'       => $file->getSize(),
+                'md5'        => $file->getMd5(),
+                'dimensions' => $file->getDimensions()
+            );
+
+            // Try to upload file
+
+            $profile_picture = $file->getNameWithExtension();
+
+            $this->find($id)->update(['profile_picture' => $profile_picture]);
+        }
+     
            try {
                 // Success!
                 $file->upload();
