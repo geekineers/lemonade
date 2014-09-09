@@ -75,6 +75,7 @@ class EmployeeController extends BaseController
         $data['job_positions']  = $this->jobPositionRepository->all();
         $data['departments']    = $this->departmentRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
+        $data['branches'] = $this->branchesRepository->all();
         $this->render('employee/add.twig.html', $data);
 
     }
