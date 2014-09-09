@@ -331,22 +331,26 @@ class Employee extends BaseModel
 
     }
 
-    public function getBasicSalary()
+    public function getBasicSalary($number_format = false)
     {
+        $basic_salary = 0;
         switch ($this->getPayrollPeriod()->period) {
             case 'Monthly':
-                return $this->getBasicPay(false);
+                $basic_salary =  $this->getBasicPay(false);
                 break;
             case 'Semi-monthly':
-                return $this->getBasicPay(false)/2;
+                $basic_salary =  $this->getBasicPay(false)/2;
                 break;
             case 'Daily':
-                return $this->getBasicPay(false);
+                $basic_salary =  $this->getBasicPay(false);
                 break;
             default:
                 # code...
                 break;
         }
+
+        if($number_format) return number_format($basic_salary, 2);
+        return $basic_salary;
     }
 
     public function getBasicPayAdjustments($limit = 5, $skip = 0)
@@ -416,7 +420,7 @@ class Employee extends BaseModel
 
     public function getUnderTimeDeductionRate($per_unit)
     {
-        return getRate($this->basic_pay, $this->payroll_period, $per_unit);
+        return getRate($this->getBasicSalary(), $this->getPayrollPeriod()->period, $per_unit);
 
     }
 
@@ -434,6 +438,44 @@ class Employee extends BaseModel
         }
 
         return date('h:i a', strtotime($this->timeshift_end));
+    }
+
+
+    public function getUnderTime($from, $to, $unit = 'minute')
+    {
+         $days           = createDateRangeArray($from, $to);
+         $timeshift_ends = $this->getTimeShiftEnd(true);
+         // dd($timeshift_ends);
+         $totalUnderTime = 0;
+         foreach ($days as $day) {
+            $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
+            $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
+
+            $result = Timesheet::where('employee_id', '=', $this->id)
+                                ->whereBetween('time_out', [$startDate, $endDate])->first();
+            if ($result) {
+                $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_out);
+                
+
+                $departure_time = $resultDate->format('H:i:s');
+                // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
+                $undertime         = getInterval($departure_time,$this->getTimeShiftEnd(true), $unit);
+
+                $totalUnderTime += $undertime;
+
+            }
+        }
+
+        return $totalUnderTime;
+    }
+
+    public function getUnderTimeDeduction($from, $to, $unit, $number_format =false)
+    {
+        // dd($this->getUnderTime($from, $to, $unit));
+        $undetime_deduction =  floatval($this->getUnderTime($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        if($number_format) return number_format($undetime_deduction, 2);
+
+        return $undetime_deduction;
     }
 
     /**
@@ -454,7 +496,8 @@ class Employee extends BaseModel
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
 
-            $result = Timesheet::whereBetween('time_in', [$startDate, $endDate])->first();
+            $result = Timesheet::where('employee_id', '=', $this->id)
+                                ->whereBetween('time_in', [$startDate, $endDate])->first();
             // dd($result);
             if ($result) {
                 $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_in);
@@ -478,9 +521,14 @@ class Employee extends BaseModel
      * @param  [string] $unit (minute|hours)
      * @return [float]
      */
-    public function getLateDeduction($from, $to, $unit)
+    public function getLateDeduction($from, $to, $unit, $number_format =false)
     {
-        return floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        // dd($this->getLate($from, $to, $unit));
+
+        $late_deduction =  floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        if($number_format) return number_format($late_deduction, 2);
+
+        return $late_deduction;
     }
 
     public function getSalaryComputations($from, $to)
@@ -598,18 +646,20 @@ class Employee extends BaseModel
         return getRate($basic_pay, $payroll_period, 'daily', $number_format);
 
     }
-    public function getSemiMonthlyRate()
+    public function getSemiMonthlyRate($number_format = false)
     {
         $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
-
-        return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
+        if($number_format) return number_format($basic_pay, 2);
+        return $basic_pay;
+        // return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
     }
-    public function getMonthlyRate()
+    public function getMonthlyRate($number_format = false)
     {
         $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
-
+        // return $basic_pay;
+        if($number_format) return number_format(getRate($basic_pay, $payroll_period, 'Monthly'), 2);
         return getRate($basic_pay, $payroll_period, 'Monthly');
     }
 
@@ -858,10 +908,11 @@ class Employee extends BaseModel
         $hdmf             = $this->getHDMFValue();
         $absents = $this->getAbsentDeduction($from,$to);
         $late    = $this->getLateDeduction($from, $to, 'minute');
+        $undertime    = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from,$to,false);
         
         
-        return $sss + $ph + $hdmf + $widthholding_tax + $late  +$absents ;
+        return $sss + $ph + $hdmf + $widthholding_tax + $late  +$absents + $undertime ;
     }
 
     public function getWithholdingTax($from, $to, $number_format = true)
@@ -973,10 +1024,7 @@ class Employee extends BaseModel
         }
     }
 
-    public function getUnderTime()
-    {
 
-    }
 
     public function getCompany()
     {

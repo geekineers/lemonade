@@ -120,9 +120,12 @@ background-color:#F2F2F2;
 
         <tr>
           <td>Late Deduction</td>
-          <td><?php echo $employee->getLateDeduction($from, $to, 'minute'); ?></td>
+          <td><?php echo $employee->getLateDeduction($from, $to, 'minute',true); ?></td>
         </tr>
-
+        <tr>
+          <td>Under Time Deduction</td>
+          <td><?php echo $employee->getUnderTimeDeduction($from, $to, 'minute',true); ?></td>
+        </tr>
          <tr>
           <td>Absent</td>
           <td><?php echo $employee->getAbsentDeduction($from, $to,false,true); ?></td>
@@ -165,7 +168,7 @@ background-color:#F2F2F2;
         <!-- foreach -->
           <tr>
             <td>Basic Salary</td>
-            <td><?php echo $employee->getBasicSalary(); ?></td>
+            <td><?php echo $employee->getBasicSalary(true); ?></td>
           </tr>
 
          <?php foreach ($employee->getAllowances() as $allowance) { ?>

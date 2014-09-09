@@ -44,6 +44,9 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 			$amount = $basic_salary * 24;
 			$daily = $amount / 260;
 			$amount = $daily / 8;
+			if($per_unit == 'Monthly'){
+				return $basic_salary * 2;
+			}
 
 			if($per_unit == 'Semi-monthly')
 			{

@@ -64,6 +64,7 @@
            <th>Pag-ibig</th>
            <th>Absent</th>
            <th>Late</th>
+           <th>Under Time</th>
            <th>Misc Deductions</th>
            <th>Tax</th>
            <th>Net</th>
@@ -75,8 +76,8 @@
              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
              <td><?php echo $payslip->getEmployee()->id; ?></td>
              <td><?php echo $payslip->getEmployee()->getName(); ?></td>
-             <td><?php echo $payslip->getEmployee()->getMonthlyRate(); ?></td>
-             <td><?php echo $payslip->getEmployee()->getSemiMonthlyRate(); ?></td>
+             <td><?php echo $payslip->getEmployee()->getMonthlyRate(true); ?></td>
+             <td><?php echo $payslip->getEmployee()->getSemiMonthlyRate(true); ?></td>
              <td><?php echo $payslip->getEmployee()->getDailyRate(); ?></td>
               <td><?php echo $payslip->getEmployee()->getTaxStatus(); ?></td>
              <td><?php echo $payslip->getEmployee()->getTotalAllowances($from,$to); ?></td>
@@ -85,7 +86,8 @@
              <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
              <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
              <td><?php echo number_format($payslip->getEmployee()->getAbsentDeduction($from, $to),2); ?></td>
-             <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute');?></td>
+             <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
+             <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
              <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
              <td><?php echo $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
              <td><?php echo $payslip->getEmployee()->getNet($from, $to); ?></td>
