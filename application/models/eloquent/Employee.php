@@ -445,7 +445,12 @@ class Employee extends BaseModel
     {
          $days           = createDateRangeArray($from, $to);
          $timeshift_ends = $this->getTimeShiftEnd(true);
+         // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
+         $date = new DateTime($timeshift_ends);
+         $date->sub(new DateInterval('PT1H'));
+         // dd($date->format('H:i:s'));
          // dd($timeshift_ends);
+         $timeshift_ends = $date->format('H:i:s');
          $totalUnderTime = 0;
          foreach ($days as $day) {
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
@@ -460,12 +465,12 @@ class Employee extends BaseModel
                 $departure_time = $resultDate->format('H:i:s');
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
                 $undertime         = getInterval($departure_time,$this->getTimeShiftEnd(true), $unit);
-
+                $undertime = ($undertime >= 480) ? 480 : $undertime;
                 $totalUnderTime += $undertime;
 
             }
         }
-
+        // dd($totalUnderTime);
         return $totalUnderTime;
     }
 
