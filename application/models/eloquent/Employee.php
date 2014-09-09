@@ -602,14 +602,14 @@ class Employee extends BaseModel
     {
         $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
-
-        return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
+        return $basic_pay;
+        // return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
     }
     public function getMonthlyRate()
     {
         $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;;
-
+        // return $basic_pay;
         return getRate($basic_pay, $payroll_period, 'Monthly');
     }
 
