@@ -931,7 +931,7 @@ class Employee extends BaseModel
 
         $philhealth_val = $this->getPhilhealthValue();
         $pagibig_val    = $this->getHDMFValue();
-        $basic_pay      = $this->getBasicPay(false);
+        $basic_pay      = $this->getBasicSalary();
 
         $curr_salary = ($basic_pay + $overtime) - ($sss_val + $philhealth_val + $pagibig_val + $absents +  $late);
         
