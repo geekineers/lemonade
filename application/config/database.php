@@ -89,7 +89,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $active_group  = 'default';
 $query_builder = true;
 
-$db_host     = '168.63.235.244';
+$db_host     = '127.0.0.1';
 $db_name     = 'lemonade_dev';
 $db_username = 'root';
 $db_password = 'root';
