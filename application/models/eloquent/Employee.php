@@ -478,7 +478,8 @@ class Employee extends BaseModel
     {
         // dd($this->getUnderTime($from, $to, $unit));
         $undetime_deduction =  floatval($this->getUnderTime($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
-        if($number_format) return number_format($undetime_deduction, 2);
+        // dd($undetime_deduction);
+        if($number_format) {return number_format($undetime_deduction, 2); }
 
         return $undetime_deduction;
     }
@@ -516,6 +517,7 @@ class Employee extends BaseModel
         }
         // dd($totalLate);
 
+         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
         return $totalLate;
     }
 
@@ -538,9 +540,11 @@ class Employee extends BaseModel
 
     public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format =false)
     {
-        return $this->getLateDeduction($from, $to, $unit, $number_format) + $this->getUnderTimeDeduction($from, $to, $unit, $number_format);
-    }
+        $total =  floatval($this->getLateDeduction($from, $to, $unit));
+        if($number_format) return number_format($total, 2);
 
+        return $total;
+    }
     public function getSalaryComputations($from, $to)
     {
         $salary     = intval($this->getBasicSalary());
@@ -931,6 +935,7 @@ class Employee extends BaseModel
         
         $absents = $this->getAbsentDeduction($from,$to);
         $late    = $this->getUnderTimeAndLateDeduction($from, $to, 'minute');
+  
         $overtime =  $this->getOvertime($from,$to);
         $sss_val = $this->getSSSValue();
 
