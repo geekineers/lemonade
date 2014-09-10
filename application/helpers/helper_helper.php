@@ -359,12 +359,12 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 					'exemption_status' => array(
 								array(0.00,0),
 								array(0.00,0.05),
-								array(9.62,0.10),
-								array(48.08,0.15),
-								array(163.46,0.20),
-								array(432.69,0.25),
-								array(961.54,0.30),
-								array(2403.85,0.32)
+								array(20.83,0.10),
+								array(104.17,0.15),
+								array(354.17,0.20),
+								array(937.50,0.25),
+								array(2083.33,0.30),
+								array(5208.33,0.32)
 						),
 					'employees_without_qualified_dependent' => array(
 										'Z' =>   array(1, 0, 417,1250,2917,5833,10417,20833),
@@ -440,6 +440,7 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 		if($basic_salary < $tax[$key] && $basic_salary > 238)
 		{
 			// $tax_income 
+		
 			$key =  $key - 1;
 
 			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];
