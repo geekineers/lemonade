@@ -536,6 +536,11 @@ class Employee extends BaseModel
         return $late_deduction;
     }
 
+    public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format =false)
+    {
+        return $this->getLateDeduction($from, $to, $unit, $number_format) + $this->getUnderTimeDeduction($from, $to, $unit, $number_format);
+    }
+
     public function getSalaryComputations($from, $to)
     {
         $salary     = intval($this->getBasicSalary());
@@ -925,7 +930,7 @@ class Employee extends BaseModel
 
         
         $absents = $this->getAbsentDeduction($from,$to);
-        $late    = $this->getLateDeduction($from, $to, 'minute');
+        $late    = $this->getUnderTimeAndLateDeduction($from, $to, 'minute');
         $overtime =  $this->getOvertime($from,$to);
         $sss_val = $this->getSSSValue();
 
