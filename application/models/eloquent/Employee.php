@@ -946,8 +946,8 @@ class Employee extends BaseModel
         $curr_salary = ($basic_pay + $overtime) - ($sss_val + $philhealth_val + $pagibig_val + $absents +  $late);
         
         var_dump($curr_salary);
-        var_dump(, $this->getPayrollPeriod()->period)
-        var_dump($this->dependents)
+        var_dump(, $this->getPayrollPeriod()->period);
+        var_dump($this->dependents);
         exit();
         $wtax        = getWTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
 
