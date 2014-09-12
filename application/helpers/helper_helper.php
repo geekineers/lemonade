@@ -368,7 +368,7 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 						),
 					'employees_without_qualified_dependent' => array(
 										'Z' =>   array(1, 0, 417,1250,2917,5833,10417,20833),
-										'SME' => array(1,2083,2500,3333,5000,7197,12500,22917)
+										'SME' => array(1,2083,2500,3333,5000,7917,12500,22917)
 						),
 					'employees_with_qualified_dependent' => array(
 							  array(1,3125,3542,4375,6042,8958,13542,23958),
