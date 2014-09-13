@@ -359,22 +359,22 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 					'exemption_status' => array(
 								array(0.00,0),
 								array(0.00,0.05),
-								array(9.62,0.10),
-								array(48.08,0.15),
-								array(163.46,0.20),
-								array(432.69,0.25),
-								array(961.54,0.30),
-								array(2403.85,0.32)
+								array(20.83,0.10),
+								array(104.17,0.15),
+								array(354.17,0.20),
+								array(937.50,0.25),
+								array(2083.33,0.30),
+								array(5208.33,0.32)
 						),
 					'employees_without_qualified_dependent' => array(
-										'Z' =>   array(1,0  ,192 ,577,1346,2692,4808,9615),
-										'SME' => array(1,962,1154,1538,2308,3654,5769,10577)
+										'Z' =>   array(1, 0, 417,1250,2917,5833,10417,20833),
+										'SME' => array(1,2083,2500,3333,5000,7917,12500,22917)
 						),
 					'employees_with_qualified_dependent' => array(
-							  array(1,6250,7083,8750,12083,17917,27083,47917),
-							  array(1,8333,9167,10833,14167,20000,29167,50000),
-							  array(1,10417,11250,12917,16250,22083,31250,52083),
-							  array(1,12500,13333,15000,18333,24167,33333,54167)
+							  array(1,3125,3542,4375,6042,8958,13542,23958),
+							  array(1,4167,4583,5417,7083,10000,14583,25000),
+							  array(1,5208,5625,6458,8125,11042,15625,26042),
+							  array(1,6250,6667,7500,9167,12083,16667,27083)
 					 )
 				),
 			
@@ -425,9 +425,9 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 	$period = isset($period) || $period != null ? $period : 'monthly';
 	$period = strtolower($period);
 
-
 	// single or married
 	$tax = $dependents<=0 ? $wtax_list[$period]['employees_without_qualified_dependent']['SME'] : $wtax_list[$period]['employees_with_qualified_dependent'][$dependents-1];
+	
 	
 	// exemtion status
 	$es  =  $wtax_list[$period]['exemption_status'];
@@ -440,6 +440,7 @@ function getWTax($basic_salary = 0, $period = 'monthly' ,$dependents=0)
 		if($basic_salary < $tax[$key] && $basic_salary > 238)
 		{
 			// $tax_income 
+		
 			$key =  $key - 1;
 
 			$wt = (($basic_salary - $tax[$key]) * $es[$key][1]) + $es[$key][0];

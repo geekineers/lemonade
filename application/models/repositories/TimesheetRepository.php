@@ -99,11 +99,12 @@ class TimesheetRepository extends BaseRepository
         $to   = date('Y-m-d', strtotime($to));
 
         if ($employee_id == null) {
-            return $this->whereBetween('time_in', [$from, $to])->get();
+            return $this->whereBetween('time_in', [$from, $to])->orderBy('time_in', 'desc')->get();
         }
 
         return $this->whereBetween('time_in', [$from, $to])
                     ->where('employee_id', '=', $employee_id)
+                    ->orderBy('time_in', 'desc')
                     ->get();
     }
 

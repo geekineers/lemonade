@@ -204,7 +204,11 @@ class Employee extends BaseModel
 
     public function getHDMFValue()
     {
-        return $this->deduct_hdmf == null ? 100 : (int) $this->fixed_hdmf_amount;
+        $hdmf =  $this->deduct_hdmf == null ? 100 : (int) $this->fixed_hdmf_amount;
+        
+        if($this->getPayrollPeriod()->period == "Semi-monthly") return $hdmf/2;
+        return $hdmf;
+
     }
 
     public function getPagibig()
@@ -214,8 +218,8 @@ class Employee extends BaseModel
 
     public function getProfilePicture()
     {
-        if ($this->profile_picture == null) {
-            return '/img/unknown_user.jpeg';
+        if ($this->profile_picture == null || $this->profile_picture == 'none') {
+            return '/img/user.jpg';
         } else {
             return '/media?image=' . $this->profile_picture;
 
@@ -445,7 +449,12 @@ class Employee extends BaseModel
     {
          $days           = createDateRangeArray($from, $to);
          $timeshift_ends = $this->getTimeShiftEnd(true);
+         // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
+         $date = new DateTime($timeshift_ends);
+         $date->sub(new DateInterval('PT1H'));
+         // dd($date->format('H:i:s'));
          // dd($timeshift_ends);
+         $timeshift_ends = $date->format('H:i:s');
          $totalUnderTime = 0;
          foreach ($days as $day) {
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
@@ -460,12 +469,12 @@ class Employee extends BaseModel
                 $departure_time = $resultDate->format('H:i:s');
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
                 $undertime         = getInterval($departure_time,$this->getTimeShiftEnd(true), $unit);
-
+                $undertime = ($undertime >= 480) ? 480 : $undertime;
                 $totalUnderTime += $undertime;
 
             }
         }
-
+        // dd($totalUnderTime);
         return $totalUnderTime;
     }
 
@@ -473,7 +482,8 @@ class Employee extends BaseModel
     {
         // dd($this->getUnderTime($from, $to, $unit));
         $undetime_deduction =  floatval($this->getUnderTime($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
-        if($number_format) return number_format($undetime_deduction, 2);
+        // dd($undetime_deduction);
+        if($number_format) {return number_format($undetime_deduction, 2); }
 
         return $undetime_deduction;
     }
@@ -511,6 +521,7 @@ class Employee extends BaseModel
         }
         // dd($totalLate);
 
+         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
         return $totalLate;
     }
 
@@ -531,6 +542,13 @@ class Employee extends BaseModel
         return $late_deduction;
     }
 
+    public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format =false)
+    {
+        $total =  floatval($this->getLateDeduction($from, $to, $unit));
+        if($number_format) return number_format($total, 2);
+
+        return $total;
+    }
     public function getSalaryComputations($from, $to)
     {
         $salary     = intval($this->getBasicSalary());
@@ -920,17 +938,19 @@ class Employee extends BaseModel
 
         
         $absents = $this->getAbsentDeduction($from,$to);
-        $late    = $this->getLateDeduction($from, $to, 'minute');
+        $late    = $this->getUnderTimeAndLateDeduction($from, $to, 'minute');
+  
         $overtime =  $this->getOvertime($from,$to);
         $sss_val = $this->getSSSValue();
 
         $philhealth_val = $this->getPhilhealthValue();
         $pagibig_val    = $this->getHDMFValue();
-        $basic_pay      = $this->getBasicPay(false);
+        $basic_pay      = $this->getBasicSalary();
 
         $curr_salary = ($basic_pay + $overtime) - ($sss_val + $philhealth_val + $pagibig_val + $absents +  $late);
         
-        $wtax        = getWTax($curr_salary, $this->period, $this->dependents);
+        $wtax        = getWTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
+    
 
         if ($number_format) {
             return number_format($wtax, 2);
