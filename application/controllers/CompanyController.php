@@ -179,6 +179,20 @@ class CompanyController extends BaseController
 
     }
 
+    public function updatePayroll()
+    {
+        $input = $this->input->post();
+        // dd($input);
+        $data = array(
+                'company_leave_credits' => (int) $this->input->post('company_leave_credits'),
+                'company_holiday_pay_rate' => (int) $this->input->post('company_holiday_pay_rate'),
+                'company_late_grace_period' => (int) $this->input->post('company_late_grace_period'),
+                'company_lunch_break' => (int) $this->input->post('company_lunch_break')
+            );
+        $this->company->update($data);
+        redirect('/settings/company', 'location');
+    }
+
     public function delete()
     {
         $id = $this->input->get('id');

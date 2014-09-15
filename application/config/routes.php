@@ -100,6 +100,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/company', 'CompanyController#index');
     $r->post('settings/company', 'CompanyController#save');
     $r->post('settings/company/edit', 'CompanyController#update');
+    $r->post('settings/company/payroll-info-edit', 'CompanyController#updatePayroll');
 
     $r->get('settings/holidays', 'HolidayController#index');
     $r->get('settings/holidays/delete', 'HolidayController#delete');
