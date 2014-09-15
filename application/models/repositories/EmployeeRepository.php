@@ -127,12 +127,11 @@ class EmployeeRepository extends BaseRepository
         $fb             = $data['fb'];
 
         //User Accounts
-        $email           = $data['email'];
-        $password        = $data['password'];
-        $cofirm_password = $data['confirm_password'];
+        $email           = isset($data['email']) ?  $data['email'] : "" ;
+        $password        = isset($data['password']) ?  $data['password'] : "";
+        $cofirm_password = isset($data['confirm_password']) ?  $data['confirm_password'] : "";
 
         // Creation of New Account
-
         if ($email != "") {
 
             $user = $sentry->createUser(array(
@@ -151,29 +150,46 @@ class EmployeeRepository extends BaseRepository
 
         // Upload Picture
 
-        $file = new \Upload\File('display_picture', $this->fileSystem);
-        // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
         $filename = 'none';
-        if($file->isOK()){
-       
-            $new_filename = uniqid();
-            $file->setName($new_filename);
-            // Access data about the file that has been uploaded
-            $data = array(
-                'name'       => $file->getNameWithExtension(),
-                'extension'  => $file->getExtension(),
-                'mime'       => $file->getMimetype(),
-                'size'       => $file->getSize(),
-                'md5'        => $file->getMd5(),
-                'dimensions' => $file->getDimensions()
-            );
+        try{
+             $file = new \Upload\File('display_picture', $this->fileSystem);
+            // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
+            if($file->isOK()){
+           
+                $new_filename = uniqid();
+                $file->setName($new_filename);
+                // Access data about the file that has been uploaded
+                $data = array(
+                    'name'       => $file->getNameWithExtension(),
+                    'extension'  => $file->getExtension(),
+                    'mime'       => $file->getMimetype(),
+                    'size'       => $file->getSize(),
+                    'md5'        => $file->getMd5(),
+                    'dimensions' => $file->getDimensions()
+                );
 
-            // Try to upload file
+                // Try to upload file
 
-            $filename = $file->getNameWithExtension();
-            
+                $filename = $file->getNameWithExtension();
+                
+            }
+        if ($save):
+            try {
+                // Success!
+                $file->upload();
+                return true;
+            } catch (\Exception $e) {
+                // Fail!
+                $errors = $file->getErrors();
+            }
+
+        endif;
+
+        }catch(Exception $e)
+        {
+
         }
-
+       
 
         $save = $this->create(
             array(
@@ -201,23 +217,12 @@ class EmployeeRepository extends BaseRepository
                 'pagibig_number'  => (string) $pagibig_number,
                 'dependents'      => (int) $dependents,
                 'contact_number'  => (string) $contact_number,
-                'profile_picture' => $filename,
+                'profile_picture' => $filename ,
                 'email'           => (string) $email_address,
                 'fb'              => (string) $fb,
             )
         );
 
-        if ($save):
-            try {
-                // Success!
-                $file->upload();
-                return true;
-            } catch (\Exception $e) {
-                // Fail!
-                $errors = $file->getErrors();
-            }
-
-        endif;
 
     }
 
@@ -333,52 +338,83 @@ class EmployeeRepository extends BaseRepository
     }
 
     function getAllCompensatedBIR()
-    {
+{
         return Employee::where('withholding_tax_type', '=', 'Compensation')->get();
     }
 
     public function uploadBybatch($data)
     {
-
         get_instance()->load->library('excel');
 
 
-        dd('ss');
         $file = new \Upload\File('excel_file', $this->fileSystem);
         // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
+        
         $filename = 'none';
           $path = realpath(APPPATH . '../uploads/');
             
         $filename = $path.'/add_employee_template.xlsx';
             // dd($filename);
-        unlink($filename);
+         unlink($filename);
         $file->upload();
 
             // Try to upload file
 
 
-        // $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-        // $objReader->setReadDataOnly(true);
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objReader->setReadDataOnly(true);
 
-        // $objPHPExcel = $objReader->load($filename);
+        $objPHPExcel = $objReader->load($filename);
 
-        // $objWorksheet = $objPHPExcel->getActiveSheet(0);
+        $objWorksheet = $objPHPExcel->getActiveSheet(0);
 
-        // $highestRow = $objWorksheet->getHighestRow(); // e.g. 10
-        // $highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+        $highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+        $highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
 
-        // $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); // e.g. 5
+        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); // e.g. 5
 
-        // $user_info = [];
-     
-        // for ($row = 2; $row <= $highestRow; ++$row) {
-     
-        //   for ($col = 0; $col <= $highestColumnIndex; ++$col) {
-        //     $user_info = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();  
-        //   }
+        $user_infos = [];
+        
+        for ($index = 0,$row = 2; $row <= $highestRow; ++$row) {
+          for ($col = 0; $col <= $highestColumnIndex; ++$col) {
+            $user_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();  
+          }
+          $index++;
+        }
+        
 
-        // }
-             
+        foreach ($user_infos as  $user_info ) {
+            $data = array(
+                'first_name'      => $user_info[1],
+                'last_name'       => $user_info[3],
+                'middle_name'     => $user_info[2],
+                'full_address'    => $user_info[4],
+                'birthdate'       => $user_info[8],
+                'gender'          => $user_info[9],
+                'marital_status'  => $user_info[7],
+                'spouse_name'     => $user_info[5],
+                'employee_type'   => $user_info[10],
+                'payroll_period'  =>  PayrollGroup::where('group_name','like',"%{$user_info[14]}%")->first()->id,
+                'job_position'    =>  Job_Position::where('Job_Position','like',"%{$user_info[12]}%")->first()->id,
+                'department'      =>  Department::where('department_name','like',"%{$user_info[13]}%")->first()->id,
+                'role_id'         => $user_info[15],
+                'branch_id'       => Branch::where('department_name','like',"%{$user_info[11]}%")->first()->id,
+                'date_hire'      => $user_info[16],
+                'date_ended'      => $user_info[3],
+                'basic_pay'       => $user_info[17],
+                'tin_number'      => $user_info[18],
+                'sss_number'      => $user_info[19],
+                'pagibig_number'  => $user_info[20],
+                'dependents'      => $user_info[6],
+                'contact_number'  => $user_info[23],
+                'email_address'           =>$user_info[21],
+                'fb'              => $user_info[22]
+            );
+            $this->createEmployee($data,"");
+        }         
+
+
     }
+
 
 }

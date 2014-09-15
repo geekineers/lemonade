@@ -259,5 +259,6 @@ class EmployeeController extends BaseController
         
         $input = $this->input->post();
         $this->employeeRepository->uploadBybatch($input);   
+        redirect('/employees');
     }
 }
