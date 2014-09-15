@@ -1,6 +1,8 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 <div class="row container">
     <a class="employee_create btn-add-branch btn btn-success" href="/employees/add"><i class="fa fa-plus"></i></a>
+    <a class="employee_batch btn btn-default" href="#">Batch upload</a>
+
     {% if alert_message != null %}
     <div class="col-md-7 alert alert-success alert-dismissable">
         <i class="fa fa-check"></i>
@@ -17,6 +19,7 @@
             </button>
         </span>
     </div>
+
 </div>
 <table id="employee-list" class="table table-bordered table-hover dataTable">
     <tr>
@@ -33,7 +36,6 @@
         <td>
             <center>
                 <img class="listing profile-img img img-circle" src="{{ employee.getProfilePicture() }}">
-
             </center>
         </td>
         <td>{{ employee.last_name }}, {{ employee.first_name }}</td>

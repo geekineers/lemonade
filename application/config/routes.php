@@ -100,6 +100,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/company', 'CompanyController#index');
     $r->post('settings/company', 'CompanyController#save');
     $r->post('settings/company/edit', 'CompanyController#update');
+    $r->post('settings/company/payroll-info-edit', 'CompanyController#updatePayroll');
 
     $r->get('settings/holidays', 'HolidayController#index');
     $r->get('settings/holidays/delete', 'HolidayController#delete');
@@ -138,6 +139,8 @@ Pigeon::map(function ($r) {
     $r->post('employees/(:num)/picture_upload', 'EmployeeController#updateProfilePicture');
     $r->post('employees/trainings', 'TrainingController#save');
     $r->get('employees/trainings/delete', 'TrainingController#delete');
+
+    $r->post('employees/batch-upload','EmployeeController#addEmployeeByBatch');
 
     $r->get('hr', 'HumanResourceController#index');
     $r->get('hr/form-application', 'HumanResourceController#application');

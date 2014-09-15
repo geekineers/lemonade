@@ -20,6 +20,10 @@ class Company extends Eloquent {
       'company_tel',
       'line_of_business',
       'admin_user_id',
+      'company_leave_credits',
+      'company_holiday_pay_rate',
+      'company_late_grace_period',
+      'company_lunch_break'
       ];
 
   public function getCreator()

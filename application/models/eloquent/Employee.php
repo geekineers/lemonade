@@ -138,10 +138,9 @@ class Employee extends BaseModel
 
     public function getPayrollPeriod()
     {
-        $payroll_period = PayrollGroup::where('id','=',$this->payroll_period)->first();
+        $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
         return $payroll_period;
     }
-
 
     public function getJobPosition()
     {
@@ -158,7 +157,7 @@ class Employee extends BaseModel
     public function getDepartment()
     {
         $department = Department::find($this->department);
-        if($department){
+        if ($department) {
             return $department->department_name;
         }
         return 'none';
@@ -179,34 +178,34 @@ class Employee extends BaseModel
     }
     public function getSSSValue()
     {
-         if($this->deduct_sss == null) {
-           $sss =  floatval(getSSS($this->getBasicPay(false))['EE']);
-            if($this->getPayrollPeriod()->period == "Semi-monthly")
-            {
-                return floatval($sss/2);
+        if ($this->deduct_sss == null) {
+            $sss = floatval(getSSS($this->getBasicPay(false))['EE']);
+            if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                return floatval($sss / 2);
             }
-        } 
-        return  (int) $this->fixed_sss_amount;
+        }
+        return (int) $this->fixed_sss_amount;
     }
 
     public function getPhilhealthValue()
     {
-       if($this->deduct_sss == null) {
-           $ph =  floatval(getPH($this->getBasicPay(false))['Employee_Share'] );
-            if($this->getPayrollPeriod()->period == "Semi-monthly")
-            {
-                return floatval($ph/2);
+        if ($this->deduct_sss == null) {
+            $ph = floatval(getPH($this->getBasicPay(false))['Employee_Share']);
+            if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                return floatval($ph / 2);
             }
-        } 
-        return  (int) $this->fixed_philhealth_amount;
+        }
+        return (int) $this->fixed_philhealth_amount;
 
     }
 
     public function getHDMFValue()
     {
-        $hdmf =  $this->deduct_hdmf == null ? 100 : (int) $this->fixed_hdmf_amount;
-        
-        if($this->getPayrollPeriod()->period == "Semi-monthly") return $hdmf/2;
+        $hdmf = $this->deduct_hdmf == null ? 100 : (int) $this->fixed_hdmf_amount;
+
+        if ($this->getPayrollPeriod()->period == "Semi-monthly") {return $hdmf / 2;
+        }
+
         return $hdmf;
 
     }
@@ -289,7 +288,7 @@ class Employee extends BaseModel
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() +  $this->getOvertime($from, $to) ;
+        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() + $this->getOvertime($from, $to);
 
         if ($format) {
             return number_format($total, 2);
@@ -340,20 +339,22 @@ class Employee extends BaseModel
         $basic_salary = 0;
         switch ($this->getPayrollPeriod()->period) {
             case 'Monthly':
-                $basic_salary =  $this->getBasicPay(false);
+                $basic_salary = $this->getBasicPay(false);
                 break;
             case 'Semi-monthly':
-                $basic_salary =  $this->getBasicPay(false)/2;
+                $basic_salary = $this->getBasicPay(false) / 2;
                 break;
             case 'Daily':
-                $basic_salary =  $this->getBasicPay(false);
+                $basic_salary = $this->getBasicPay(false);
                 break;
             default:
                 # code...
                 break;
         }
 
-        if($number_format) return number_format($basic_salary, 2);
+        if ($number_format) {return number_format($basic_salary, 2);
+        }
+
         return $basic_salary;
     }
 
@@ -444,31 +445,31 @@ class Employee extends BaseModel
         return date('h:i a', strtotime($this->timeshift_end));
     }
 
-
     public function getUnderTime($from, $to, $unit = 'minute')
     {
-         $days           = createDateRangeArray($from, $to);
-         $timeshift_ends = $this->getTimeShiftEnd(true);
-         // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
-         $date = new DateTime($timeshift_ends);
-         $date->sub(new DateInterval('PT1H'));
-         // dd($date->format('H:i:s'));
-         // dd($timeshift_ends);
-         $timeshift_ends = $date->format('H:i:s');
-         $totalUnderTime = 0;
-         foreach ($days as $day) {
+    	$company = $this->getCompany();
+        $days           = createDateRangeArray($from, $to);
+        $timeshift_ends = $this->getTimeShiftEnd(true);
+        // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
+        $date = new DateTime($timeshift_ends);
+        $date_interval_string = 'PT' . $company->company_lunch_break . 'M';
+        $date->sub(new DateInterval($date_interval_string));
+        // dd($date->format('H:i:s'));
+        // dd($timeshift_ends);
+        $timeshift_ends = $date->format('H:i:s');
+        $totalUnderTime = 0;
+        foreach ($days as $day) {
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
 
             $result = Timesheet::where('employee_id', '=', $this->id)
-                                ->whereBetween('time_out', [$startDate, $endDate])->first();
+                                                                ->whereBetween('time_out', [$startDate, $endDate])->first();
             if ($result) {
                 $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_out);
-                
 
                 $departure_time = $resultDate->format('H:i:s');
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
-                $undertime         = getInterval($departure_time,$this->getTimeShiftEnd(true), $unit);
+                $undertime = getInterval($departure_time, $this->getTimeShiftEnd(true), $unit);
                 $undertime = ($undertime >= 480) ? 480 : $undertime;
                 $totalUnderTime += $undertime;
 
@@ -478,12 +479,12 @@ class Employee extends BaseModel
         return $totalUnderTime;
     }
 
-    public function getUnderTimeDeduction($from, $to, $unit, $number_format =false)
+    public function getUnderTimeDeduction($from, $to, $unit, $number_format = false)
     {
         // dd($this->getUnderTime($from, $to, $unit));
-        $undetime_deduction =  floatval($this->getUnderTime($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        $undetime_deduction = floatval($this->getUnderTime($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
         // dd($undetime_deduction);
-        if($number_format) {return number_format($undetime_deduction, 2); }
+        if ($number_format) {return number_format($undetime_deduction, 2);}
 
         return $undetime_deduction;
     }
@@ -507,21 +508,22 @@ class Employee extends BaseModel
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
 
             $result = Timesheet::where('employee_id', '=', $this->id)
-                                ->whereBetween('time_in', [$startDate, $endDate])->first();
+                                                                ->whereBetween('time_in', [$startDate, $endDate])->first();
             // dd($result);
             if ($result) {
                 $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_in);
 
                 $arrival_time = $resultDate->format('H:i:s');
                 $late         = getInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
-
-                $totalLate += $late;
+                if($late > $this->getCompany()->company_late_grace_period){
+	                $totalLate += $late;
+                }
 
             }
         }
         // dd($totalLate);
 
-         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
+        $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
         return $totalLate;
     }
 
@@ -532,27 +534,29 @@ class Employee extends BaseModel
      * @param  [string] $unit (minute|hours)
      * @return [float]
      */
-    public function getLateDeduction($from, $to, $unit, $number_format =false)
+    public function getLateDeduction($from, $to, $unit, $number_format = false)
     {
         // dd($this->getLate($from, $to, $unit));
 
-        $late_deduction =  floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
-        if($number_format) return number_format($late_deduction, 2);
+        $late_deduction = floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+        if ($number_format) {return number_format($late_deduction, 2);
+        }
 
         return $late_deduction;
     }
 
-    public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format =false)
+    public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format = false)
     {
-        $total =  floatval($this->getLateDeduction($from, $to, $unit));
-        if($number_format) return number_format($total, 2);
+        $total = floatval($this->getLateDeduction($from, $to, $unit));
+        if ($number_format) {return number_format($total, 2);
+        }
 
         return $total;
     }
     public function getSalaryComputations($from, $to)
     {
-        $salary     = intval($this->getBasicSalary());
-       
+        $salary = intval($this->getBasicSalary());
+
         $dependents = $this->dependents;
         $period     = $this->period;
 
@@ -647,7 +651,8 @@ class Employee extends BaseModel
     public function getHourlyRate()
     {
         $basic_pay      = $this->getBasicSalary();
-        $payroll_period = $this->getPayrollPeriod()->period;;
+        $payroll_period = $this->getPayrollPeriod()->period;
+        ;
 
         return getRate($basic_salary, $payroll_period, 'hour');
 
@@ -667,17 +672,23 @@ class Employee extends BaseModel
     public function getSemiMonthlyRate($number_format = false)
     {
         $basic_pay      = $this->getBasicSalary();
-        $payroll_period = $this->getPayrollPeriod()->period;;
-        if($number_format) return number_format($basic_pay, 2);
+        $payroll_period = $this->getPayrollPeriod()->period;
+        ;
+        if ($number_format) {return number_format($basic_pay, 2);
+        }
+
         return $basic_pay;
         // return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
     }
     public function getMonthlyRate($number_format = false)
     {
-        $basic_pay      = $this->getBasicSalary();
+        $basic_pay      = $this->getBasicSalary(true);
         $payroll_period = $this->getPayrollPeriod()->period;;
+
         // return $basic_pay;
-        if($number_format) return number_format(getRate($basic_pay, $payroll_period, 'Monthly'), 2);
+        if ($number_format) {return number_format(getRate($basic_pay, $payroll_period, 'Monthly'), 2);
+        }
+
         return getRate($basic_pay, $payroll_period, 'Monthly');
     }
 
@@ -854,7 +865,7 @@ class Employee extends BaseModel
      * @return int
      */
     public function getAbsent($from, $to, $weekend_include = false)
-    {   
+    {
         // dd($from, $to);
         $holiday = new \HolidayRepository();
 
@@ -875,24 +886,24 @@ class Employee extends BaseModel
             if ($dt->isWeekend() && $weekend_include) {
 
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                    ->count();
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
 
                 if ($attended) {
-              
+
                     $total_absent += 1;
                 }
-            } else if($dt->isWeekday()) {
+            } else if ($dt->isWeekday()) {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                       ->count();
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
                 $forms = Form_Application::where('employee_id', '=', $this->id)
-                                         ->whereIn('form_type', ['ob', 'ot', 'leave'])
-                                         ->whereBetween('from', [$date_range_start, $date_range_end])
-                                         ->where('status', '=', 'approved')
-                                         ->count();
-                $current_date = date('Y-m-d', strtotime($date_range_start));                         
-                if (!$holiday->isHoliday($current_date) && !$attended && !$forms ) {
+                                                                          ->whereIn('form_type', ['ob', 'ot', 'leave'])
+                                                                          ->whereBetween('from', [$date_range_start, $date_range_end])
+                                                                          ->where('status', '=', 'approved')
+                                                                          ->count();
+                $current_date = date('Y-m-d', strtotime($date_range_start));
+                if (!$holiday->isHoliday($current_date) && !$attended && !$forms) {
                     $total_absent += 1;
                 }
 
@@ -910,7 +921,7 @@ class Employee extends BaseModel
      */
     public function getAbsentDeduction($from, $to, $weekend_include = false, $number_format = false)
     {
-     
+
         $total = $this->getDailyRate(false) * $this->getAbsent($from, $to, $weekend_include);
         if ($number_format) {
             return number_format($total, 2);
@@ -924,33 +935,46 @@ class Employee extends BaseModel
         $sss              = $this->getSSSValue();
         $ph               = $this->getPhilhealthValue();
         $hdmf             = $this->getHDMFValue();
-        $absents = $this->getAbsentDeduction($from,$to);
-        $late    = $this->getLateDeduction($from, $to, 'minute');
-        $undertime    = $this->getUnderTimeDeduction($from, $to, 'minute');
-        $widthholding_tax = $this->getWithholdingTax($from,$to,false);
-        
-        
-        return $sss + $ph + $hdmf + $widthholding_tax + $late  +$absents + $undertime ;
+        $absents          = $this->getAbsentDeduction($from, $to);
+        $late             = $this->getLateDeduction($from, $to, 'minute');
+        $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
+        $widthholding_tax = $this->getWithholdingTax($from, $to, false);
+
+        return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
+    }
+
+    public function getExpandedWithholdingTax($forcomputation)
+    {
+        if ($forcomputation) {
+            return $this->expanded_withholding_tax / 100;
+        }
+
+        return $this->expanded_withholding_tax;
     }
 
     public function getWithholdingTax($from, $to, $number_format = true)
     {
-
-        
-        $absents = $this->getAbsentDeduction($from,$to);
+        // dd($this->withholding_tax_type);
+        $absents = $this->getAbsentDeduction($from, $to);
         $late    = $this->getUnderTimeAndLateDeduction($from, $to, 'minute');
-  
-        $overtime =  $this->getOvertime($from,$to);
-        $sss_val = $this->getSSSValue();
+
+        $overtime = $this->getOvertime($from, $to);
+        $sss_val  = $this->getSSSValue();
 
         $philhealth_val = $this->getPhilhealthValue();
         $pagibig_val    = $this->getHDMFValue();
         $basic_pay      = $this->getBasicSalary();
 
-        $curr_salary = ($basic_pay + $overtime) - ($sss_val + $philhealth_val + $pagibig_val + $absents +  $late);
-        
-        $wtax        = getWTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
-    
+        $curr_salary = ($basic_pay + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents + $late);
+
+        if ($this->withholding_tax_type == "Expanded") {
+        	// dd('here');
+            $wtax = $this->getExpandedWithholdingTax(true) * $curr_salary;
+            // dd($wtax);
+        } else {
+            $wtax = getWTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
+
+        }
 
         if ($number_format) {
             return number_format($wtax, 2);
@@ -961,37 +985,35 @@ class Employee extends BaseModel
 
     public function getAllandTotalDeduction($from, $to, $number_format = true)
     {
-        $basic_pay                 = $this->getBasicPay(false);
+        $basic_pay = $this->getBasicPay(false);
 
-        $total_loan_deduction      = $this->getTotalDeductions($from, $to, false);
-
+        $total_loan_deduction = $this->getTotalDeductions($from, $to, false);
 
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to);
 
-        $absents                   = $this->getAbsentDeduction($from,$to);
+        $absents = $this->getAbsentDeduction($from, $to);
 
-        $mandatory_wtax            =  $total_mandatory_deduction  +  $total_loan_deduction ;
-         if ($number_format) {
+        $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
+        if ($number_format) {
             return number_format($mandatory_wtax, 2);
         }
-        
+
         return $mandatory_wtax;
     }
     public function getNet($from, $to, $number_format = true)
     {
 
-        $basic_pay                 = $this->getBasicPay(false);
+        $basic_pay = $this->getBasicPay(false);
 
-        $total_loan_deduction      = $this->getTotalDeductions($from, $to, false);
-
+        $total_loan_deduction = $this->getTotalDeductions($from, $to, false);
 
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to);
 
-        $absents                   = $this->getAbsentDeduction($from,$to);
+        $absents = $this->getAbsentDeduction($from, $to);
 
-        $mandatory_wtax            =  $total_mandatory_deduction  +  $total_loan_deduction ;
-       
-        $gross                     = $this->getGross($from, $to, false);
+        $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
+
+        $gross = $this->getGross($from, $to, false);
 
         $remaining_pay = $gross - $mandatory_wtax;
 
@@ -1027,24 +1049,17 @@ class Employee extends BaseModel
     }
     public function getRemainingCredits($type)
     {
-        
-       
-        $form = EmployeeCredits::where('employee_id','=',$this->id)
-                                    ->where('credit_name','=',$type)
-                                    ->first();
-        
 
-        if($form==null)
-        {
+        $form = EmployeeCredits::where('employee_id', '=', $this->id)
+                                                                ->where('credit_name', '=', $type)
+                                                                ->first();
+
+        if ($form == null) {
             return 'N/A';
-        }
-        else
-        {
+        } else {
             return $form->remaining_credits;
         }
     }
-
-
 
     public function getCompany()
     {
