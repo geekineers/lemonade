@@ -337,4 +337,48 @@ class EmployeeRepository extends BaseRepository
         return Employee::where('withholding_tax_type', '=', 'Compensation')->get();
     }
 
+    public function uploadBybatch($data)
+    {
+        get_instance()->load->library('excel');
+
+
+        $file = new \Upload\File('excel_file', $this->fileSystem);
+        // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
+     
+        $filename = 'none';
+          $path = realpath(APPPATH . '../uploads/');
+            
+        $filename = $path.'/add_employee_template.xlsx';
+            // dd($filename);
+         unlink($filename);
+        $file->upload();
+
+            // Try to upload file
+
+
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objReader->setReadDataOnly(true);
+
+        $objPHPExcel = $objReader->load($filename);
+
+        $objWorksheet = $objPHPExcel->getActiveSheet(0);
+
+        $highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+        $highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+
+        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); // e.g. 5
+
+        $user_info = [];
+     
+        for ($row = 2; $row <= $highestRow; ++$row) {
+     
+          for ($col = 0; $col <= $highestColumnIndex; ++$col) {
+            $user_info[] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();  
+          }
+
+        }
+        dd($user_info);
+     
+    }
+
 }

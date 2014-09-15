@@ -1,4 +1,4 @@
-<?php
+    <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
 
@@ -154,6 +154,7 @@ class PayrollController extends BaseController
 
     public function masterListInXls($id)
     {
+       
         $from = $this->input->get('from');
         $to   = $this->input->get('to');
         $slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getAllPayslips();
@@ -163,6 +164,36 @@ class PayrollController extends BaseController
             'from'     => $from,
             'to'       => $to
         ];
+
+        $this->load->library('excel');
+        //activate worksheet number 1
+        // $objReader = new PHPExcel();
+        
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objReader->setReadDataOnly(true);
+
+        $objPHPExcel = $objReader->load("pdf_template/masterlist.xlsx");
+        $objWorksheet = $objPHPExcel->getActiveSheet(0);
+
+$highestRow = $objWorksheet->getHighestRow(); // e.g. 10
+$highestColumn = $objWorksheet->getHighestColumn(); // e.g 'F'
+
+$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); // e.g. 5
+
+echo '<table>' . "\n";
+for ($row = 1; $row <= $highestRow; ++$row) {
+  echo '<tr>' . "\n";
+
+  for ($col = 0; $col <= $highestColumnIndex; ++$col) {
+    echo '<td>' . $objWorksheet->getCellByColumnAndRow($col, $row)->getValue() . '</td>' . "\n";
+  }
+
+  echo '</tr>' . "\n";
+}
+echo '</table>' . "\n";
+
+
+
 
     }
 

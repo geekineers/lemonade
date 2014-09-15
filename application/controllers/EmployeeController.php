@@ -253,4 +253,11 @@ class EmployeeController extends BaseController
              ->set_output(json_encode($employees));
     }
 
+
+    public function addEmployeeByBatch()
+    {
+        
+        $input = $this->input->post();
+        $this->employeeRepository->uploadBybatch($input);   
+    }
 }

@@ -131,6 +131,12 @@ class PayslipsRepository extends BaseRepository {
 		return  json_encode(['status'=>'success']);
 	}
 
+	public function generateXLS()
+	{
+		//load our new PHPExcel library
+
+	}
+
 	
 	public function generateGovermentForms($id,$type,$from,$to)
 	{
