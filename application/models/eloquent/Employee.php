@@ -447,11 +447,13 @@ class Employee extends BaseModel
 
     public function getUnderTime($from, $to, $unit = 'minute')
     {
+    	$company = $this->getCompany();
         $days           = createDateRangeArray($from, $to);
         $timeshift_ends = $this->getTimeShiftEnd(true);
         // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
         $date = new DateTime($timeshift_ends);
-        $date->sub(new DateInterval('PT1H'));
+        $date_interval_string = 'PT' . $company->company_lunch_break . 'M';
+        $date->sub(new DateInterval($date_interval_string));
         // dd($date->format('H:i:s'));
         // dd($timeshift_ends);
         $timeshift_ends = $date->format('H:i:s');
@@ -513,8 +515,9 @@ class Employee extends BaseModel
 
                 $arrival_time = $resultDate->format('H:i:s');
                 $late         = getInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
-
-                $totalLate += $late;
+                if($late > $this->getCompany()->company_late_grace_period){
+	                $totalLate += $late;
+                }
 
             }
         }
