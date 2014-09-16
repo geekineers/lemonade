@@ -10,14 +10,19 @@
     </div>
     {% endif %}
 </div>
-<div class="form-group">
-	<div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-</div>
+        <div class="form-inline pull-right">
+            <div class="form-group">
+
+                <input type="" id="dateranger-from" name="from" class="form-control datepicker" placeholder="From" >
+            </div>
+            <div class="form-group">
+
+                <input type="" id="dateranger-to" name="to" class="form-control datepicker" placeholder="To" >
+            </div>
+            <div class="form-group">
+                <a href="#" class="btn btn-default dateranger-btn"><i class="fa fa-search"></i></a>
+            </div>
+        </div>
 <table class="table table-bordered table-hover dataTable">
 	<tr>
 		<th></th>
@@ -27,16 +32,17 @@
 		<th>Time Out</th>
 		<th>Hours</th>
 	</tr>
-	{% for time in timesheets %}
-		<tr>
-			<td></td>
-			<td>{{ time.getEmployee.getName() }}</td>
-			<td>{{ time.getEmployee.getJobPosition() }}</td>
-			<td>{{ time.time_in }}</td>
-			<td>{{ time.getTimeOut() }}</td>
-			<td>{{ time.getTimeDiff() }}</td>
-		</tr>
+    {% for time in timesheets %}
+    <tr class="">
+        <td>{% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}</td>
+        <td>{{ time.getEmployee.getName() }}</td>
+        <td>{{ time.getEmployee.getJobPosition() }}</td>
+        <td>{{ time.time_in }}</td>
+        <td>{{ time.getTimeOut() }}</td>
+        <td>{{ time.getTimeDiff() }}</td>
+             
+    </tr>
 
-	{% endfor %}
+    {% endfor %}
 </table>
 {% endblock %}

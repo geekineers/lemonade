@@ -38,4 +38,9 @@ class Timesheet extends Eloquent {
   	return $interval->format('%H:%I:%s');
   }
 
+  public function checkIfUndertime()
+  {
+    return (boolean) $this->getEmployee()->getUnderTime($this->time_in, $this->time_out);    
+  }
+
 }

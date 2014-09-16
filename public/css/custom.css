@@ -1,3 +1,9 @@
+.red-warning-row {
+    background-color: rgba(131, 56, 56, 0.96);
+    color: rgb(248, 140, 140);
+
+}
+
 .loigin-box .register-btn {
     text-decoration: underline;
     text-align: center;
