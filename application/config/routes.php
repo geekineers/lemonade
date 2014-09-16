@@ -43,16 +43,18 @@ Pigeon::map(function ($r) {
     $r->get('payroll/bank', 'PayrollController#bank');
 
     $r->get('payroll/group/(:num)', 'PayrollController#groupList');
-
     $r->get('payroll/payslip/(:num)', 'PayrollController#slip');
-
+    $r->get('payroll/payslip-xls/(:num)','PayrollController#slipXls');
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
-
     $r->get('payroll/masterlist-xls/(:num)', 'PayrollController#masterListInXls');
+
 
     $r->get('testpdf', 'PayrollController#test');
 
     /*Admin Settings */
+    $r->get('settings/sss-config','SSSConfigController#index');
+
+    
     $r->get('settings/roles', 'UserRolesController#index');
     $r->get('settings/roles/add', 'UserRolesController#add');
     $r->post('settings/roles/add', 'UserRolesController#save');

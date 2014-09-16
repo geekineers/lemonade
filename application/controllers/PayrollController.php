@@ -82,7 +82,23 @@ class PayrollController extends BaseController {
 		$this->render('payroll/payslip.twig.html', $data);
 
 	}
-	public function slip($id) {
+
+	public function slipXls($id)
+	{
+		$slip    = $this->payslipsRepository->getSlipById($id);
+		$company = $this->company;
+
+		$data = [
+			'employee' => $slip->getEmployee(),
+			'payslip'  => $slip,
+			'company'  => $company,
+		];
+
+
+	}
+
+	public function slip($id) 
+	{
 
 		$slip    = $this->payslipsRepository->getSlipById($id);
 		$company = $this->company;
@@ -91,7 +107,6 @@ class PayrollController extends BaseController {
 			'employee' => $slip->getEmployee(),
 			'payslip'  => $slip,
 			'company'  => $company,
-
 		];
 
 		// dd($data);
@@ -143,7 +158,6 @@ class PayrollController extends BaseController {
 
     public function masterListInXls($id)
     {
-       
         $from = $this->input->get('from');
 		$to   = $this->input->get('to');
 		recursiveRemoveDirectory('excel_files');
@@ -164,10 +178,6 @@ class PayrollController extends BaseController {
 		{
 			redirect('excel_files/masterlist-'.$data['date'].'.xlsx');
 		}
-		
-
     }
-
-
 
 }
