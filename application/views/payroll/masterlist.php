@@ -42,7 +42,7 @@
   <div>
     <ul>
       <li>Payroll Period: <?php echo $from .'-'.$to ?></li>
-      <li>Payroll Date: 08/09/2013</li>
+      <li>Payroll Date: <?php echo $date;?></li>
       <li>Payroll Mode:  <?php echo $period->getPayrollGroup()->period ?>  </li>
     </ul>
   </div>
