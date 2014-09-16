@@ -355,7 +355,7 @@ class EmployeeRepository extends BaseRepository
             
         $filename = $path.'/add_employee_template.xlsx';
             // dd($filename);
-         unlink($filename);
+        unlink($filename);
         $file->upload();
 
             // Try to upload file
@@ -388,8 +388,8 @@ class EmployeeRepository extends BaseRepository
                 'first_name'      => $user_info[1],
                 'last_name'       => $user_info[3],
                 'middle_name'     => $user_info[2],
-                'full_address'    => $user_info[4],
-                'birthdate'       => $user_info[8],
+                    'full_address'    => $user_info[4],
+                    'birthdate'       => $user_info[8],
                 'gender'          => $user_info[9],
                 'marital_status'  => $user_info[7],
                 'spouse_name'     => $user_info[5],
@@ -403,7 +403,7 @@ class EmployeeRepository extends BaseRepository
                 'date_ended'      => $user_info[3],
                 'basic_pay'       => $user_info[17],
                 'tin_number'      => $user_info[18],
-                'sss_number'      => $user_info[19],
+                'ssss_number'      => $user_info[19],
                 'pagibig_number'  => $user_info[20],
                 'dependents'      => $user_info[6],
                 'contact_number'  => $user_info[23],
