@@ -47,9 +47,6 @@ class EmployeeController extends BaseController
 
     public function index()
     {
-        // $employee = Employee::find(2);
-        // $absent = $employee->getAbsent('2014-08-25','2014-08-29');
-        // dd($absent);
         $data['company']       = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ? null

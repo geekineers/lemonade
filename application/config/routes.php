@@ -170,6 +170,13 @@ Pigeon::map(function ($r) {
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
+    $r->get('reports/(:num)/branch', 'ReportsController#branch');
+    $r->get('reports/(:num)/branch/gross', 'ReportsController#grossReport');
+    $r->get('reports/(:num)/branch/absent', 'ReportsController#absentReport');
+    $r->get('reports/(:num)/branch/late', 'ReportsController#lateReport');
+    $r->get('reports/company/gross', 'ReportsController#companyGrossReport');
+    $r->get('reports/company', 'ReportsController#company');
+
     $r->get('sss', 'MainController#test');
 
     $r->get('media', 'ImageController');

@@ -52,12 +52,13 @@ class BranchController extends BaseController
 
     public function edit()
     {
-        $id              = $this->input->get('id');
+       
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']  = "Branches";
         $data['branch'] = $this->branchRepository->find($id);
 
+  
         $this->render('branch/edit.twig.html', $data);
 
     }
