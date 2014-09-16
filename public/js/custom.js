@@ -207,6 +207,9 @@ $(document).ready(function(){
 	        $('.save-cancel-btn').fadeIn();
 	    });
 
+	    $('.employee_batch').on('click', function(){
+			$('#batchUpload').modal('show');
+		});
 
 	$('.view-training').on('click', function(){
 		var name = $(this).attr('data-name');

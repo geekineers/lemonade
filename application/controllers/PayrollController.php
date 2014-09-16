@@ -1,4 +1,4 @@
-<?php
+    <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
 
@@ -44,7 +44,8 @@ class PayrollController extends BaseController {
 			'from'         => $from,
 			'to'           => $to,
 			'period'       => $this->payslipsGroupRepository->getPayslipById($id, $from, $to),
-			'company_logo' => $company->company_logo
+			'company_logo' => $company->company_logo,
+			'date'		   => date('Y-m-d',strtotime($this->payslipsGroupRepository->getPayslipById($id,$from,$to)->created_at))
 		];
 		$html = $this->load->view('payroll/masterlist', $data, true);
 		// dd($html);
@@ -132,24 +133,41 @@ class PayrollController extends BaseController {
 	}
 
 // GET
-	public function govform($id) {
-		$form = $this->input->get('form');
-		$from = $this->input->get('from');
-		$to   = $this->input->get('to');
-		$this->payslipsRepository->generateGovermentForms($id, $form, $from, $to);
-	}
+    public function govform($id)
+    {
+        $form = $this->input->get('form');
+        $from = $this->input->get('from');
+        $to   = $this->input->get('to');
+        $this->payslipsRepository->generateGovermentForms($id, $form, $from, $to);
+    }
 
-	public function masterListInXls($id) {
-		$from = $this->input->get('from');
+    public function masterListInXls($id)
+    {
+       
+        $from = $this->input->get('from');
 		$to   = $this->input->get('to');
+		recursiveRemoveDirectory('excel_files');
 		$slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getAllPayslips();
-
-		$data = [
-			'payslips' => $slip,
-			'from'     => $from,
-			'to'       => $to
+		
+		$company = $this->company;
+		$data    = [
+			'payslips'     => $slip,
+			'from'         => $from,
+			'to'           => $to,
+			'period'       => $this->payslipsGroupRepository->getPayslipById($id, $from, $to),
+			'company_logo' => $company->company_logo,
+			'date'		   => date('Y-m-d',strtotime($this->payslipsGroupRepository->getPayslipById($id,$from,$to)->created_at))
 		];
 
-	}
+        $check = $this->payslipsRepository->generateMasterXLS($data);
+		if($check)
+		{
+			redirect('excel_files/masterlist-'.$data['date'].'.xlsx');
+		}
+		
+
+    }
+
+
 
 }

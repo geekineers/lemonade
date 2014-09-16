@@ -140,6 +140,8 @@ Pigeon::map(function ($r) {
     $r->post('employees/trainings', 'TrainingController#save');
     $r->get('employees/trainings/delete', 'TrainingController#delete');
 
+    $r->post('employees/batch-upload','EmployeeController#addEmployeeByBatch');
+
     $r->get('hr', 'HumanResourceController#index');
     $r->get('hr/form-application', 'HumanResourceController#application');
     $r->post('hr/approved', 'HumanResourceController#approve');

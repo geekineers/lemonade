@@ -4,6 +4,18 @@ function ci_app_path($path = null) {
 	return APPPATH.$path;
 }
 
+function recursiveRemoveDirectory($directory)
+{
+    foreach(glob("{$directory}/*") as $file)
+    {
+        if(is_dir($file)) { 
+            recursiveRemoveDirectory($file);
+        } else {
+            unlink($file);
+        }
+    }
+}
+
 function sendJSON($data)
 {
 	try
