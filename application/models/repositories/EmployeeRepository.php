@@ -320,6 +320,12 @@ class EmployeeRepository extends BaseRepository
 
     }
 
+    public function searchGetId($query)
+    {
+        $search = $this->search($query)->toArray();
+        return array_column($search, 'id');
+    }
+
     function deleteEmployee($id)
 {
         $employee = Employee::find($id);

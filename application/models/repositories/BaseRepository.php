@@ -119,6 +119,10 @@ abstract class BaseRepository
         return $this->class->orWhere($column, $operator, $value);
     }
 
+    public function whereIn($column, $values,  $boolean = 'and', $not = false)
+    {
+        return $this->class->whereIn($column,$values, $boolean,$not);
+    }
     public function orderBy($column, $order)
     {
         return $this->class->orderBy($column, $order);

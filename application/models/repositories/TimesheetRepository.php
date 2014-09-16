@@ -86,26 +86,43 @@ class TimesheetRepository extends BaseRepository
         $this->update($data, $timesheet_id);
         return true;
     }
+
+    public function search($query=null, $from=null, $to=null)
+    {
+        $employees = ($query == null ) ? null : $this->employeeRepository->searchGetId($query);
+        // dd($employees);
+        return $this->getByRange($from, $to, $employees);
+    }
+
 /**
  * Get All Timesheet in a given Date Range
  * @param  [date] $from        [description]
  * @param  [date] $to          [description]
- * @param  [int] $employee_id [description]
+ * @param  [int|array] $employee_id [description]
  * @return [object array]              [description]
  */
-    public function getByRange($from, $to, $employee_id = null)
+    public function getByRange($from=null, $to=null, $employee_id = null)
     {
-        $from = date('Y-m-d', strtotime($from));
-        $to   = date('Y-m-d', strtotime($to));
-
-        if ($employee_id == null) {
-            return $this->whereBetween('time_in', [$from, $to])->orderBy('time_in', 'desc')->get();
+        // dd($from, $to);
+        $from = (is_null($from) || $from == "") ? date('Y-m-d', strtotime('2000-01-01')) : date('Y-m-d', strtotime($from));
+        $to   = (is_null($to) || $to == "") ? date('Y-m-d') : date('Y-m-d', strtotime($to));
+        $search = $this;
+        // dd($employee_id);
+        if($employee_id != NULL || $employee_id != "NULL"){
+            if(is_array($employee_id)){
+         
+                $search = $search->whereIn('employee_id', $employee_id);
+            }
+            else if (!is_array($employee_id) && $employee_id != null) {
+                $search = $search->where('employee_id', '=', $employee_id);
+            }
+            
         }
 
-        return $this->whereBetween('time_in', [$from, $to])
-                    ->where('employee_id', '=', $employee_id)
+         return $search->whereBetween('time_in', [$from, $to])
                     ->orderBy('time_in', 'desc')
                     ->get();
+        // dd($s);
     }
 
 }
