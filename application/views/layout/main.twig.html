@@ -42,6 +42,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
         <script src="/js/jquery.min.js"></script>
+                {% block styles %}{% endblock %}
     </head>
     <body class="skin-blue fixed">
         <!-- header logo: style can be found in header.less -->
@@ -122,16 +123,19 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <!-- Content Header (Page header) -->
+                
                 <section class="content-header">
-                    <h1>
+              <div class="row">
+                    <div class="col-md-7">
+                        <h4>
                         {{ title }}
-                    </h1>
-                   <!--  <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li><a href="#">Examples</a></li>
-                        <li class="active">Blank page</li>
-                    </ol>
- -->                </section>
+                    </h4>
+                    </div>
+                    <div class="col-md-5">
+                       {% block content_header %}{% endblock %}
+                    </div>
+                </div>
+                </section>
 
                 <!-- Main content -->
                 <section class="content">
