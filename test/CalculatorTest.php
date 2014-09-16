@@ -1,7 +1,7 @@
 <?php
 
 require 'application/helpers/helper_helper.php';
-
+require 'application/models/eloquent/Branch.php';
 class CalculatorTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp()
@@ -16,6 +16,11 @@ class CalculatorTest extends PHPUnit_Framework_TestCase {
 		$payroll_period = "semi-monthly";
 
 		$this->assertEquals(615.48, getWTax($basic_salary, $payroll_period));
+	}
+
+	public function getModel()
+	{
+		Branch::all();
 	}
 
 

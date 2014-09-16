@@ -7,6 +7,7 @@ class BranchController extends BaseController
 
     protected $branchRepository;
     protected $employeeRepository;
+    
     public function __construct()
     {
         parent::__construct();
@@ -20,12 +21,11 @@ class BranchController extends BaseController
     public function index()
     {
         $data['company'] = $this->company;
-
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
         $data['title']    = "Branches";
         $data['branches'] = $this->branchRepository->all();
+
         $this->render('branch/index.twig.html', $data);
 
     }
@@ -34,8 +34,8 @@ class BranchController extends BaseController
     {
 
         $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
         $data['title'] = "Branches";
+
         $this->render('branch/add.twig.html', $data);
 
     }
@@ -43,9 +43,7 @@ class BranchController extends BaseController
     public function save()
     {
         $branch_name = $this->input->post('branch_name');
-
         $save = $this->branchRepository->create($this->input->post());
-        // dd($save);
         $this->session->set_flashdata('message', $branch_name . ' has been added.');
 
         redirect('/settings/branches', 'location');
@@ -57,7 +55,6 @@ class BranchController extends BaseController
         $id              = $this->input->get('id');
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
         $data['title']  = "Branches";
         $data['branch'] = $this->branchRepository->find($id);
 
@@ -71,6 +68,7 @@ class BranchController extends BaseController
         $id          = $this->input->post('id');
         $save        = $this->branchRepository->find($id)->update($this->input->post());
         $this->session->set_flashdata('message', $branch_name . ' has been updated.');
+        
         redirect('/settings/branches', 'location');
 
     }
@@ -78,11 +76,10 @@ class BranchController extends BaseController
     public function delete()
     {
         $id = $this->input->get('id');
-
         $branch_name = $this->branchRepository->find($id)->branch_name;
-
         $this->branchRepository->delete($id);
         $this->session->set_flashdata('message', $branch_name . ' has been deleted.');
+       
         redirect('/settings/branches', 'location');
 
     }

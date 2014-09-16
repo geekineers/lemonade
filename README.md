@@ -8,7 +8,7 @@ git pull origin develop
 
 
 After pulling the repo update composer :
-
+cd application
 php composer.phar install
 
 thanks..
