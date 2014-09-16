@@ -1,11 +1,21 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 <div class="row">
-    <div class="col-md-5">
-        <a data-toggle="modal" data-target="#addTimesheet" class="btn-add-branch btn btn-success" href="#addTimesheet"><i class="fa fa-plus"></i></a>
+    <div class="col-md-2">
+        <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet"><i class="fa fa-plus"></i></a>
         
     </div>
-
-    <div class="col-md-7 ">
+<div class="col-md-5">
+    <div class="form-group">
+    <div class="input-group">
+        <input type="text" name="q" id="query" class="form-control" placeholder="Search...">
+        <span class="input-group-btn">
+            <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
+</div>
+</div>
+    <div class="col-md-5 ">
        
         <div class="form-inline pull-right">
             <div class="form-group">
@@ -23,15 +33,7 @@
     </div>
 
 </div>
-<div class="form-group">
-    <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
-        <span class="input-group-btn">
-            <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-            </button>
-        </span>
-    </div>
-</div>
+
 <table class="table table-bordered table-hover dataTable">
     <tr>
         <th></th>
@@ -43,8 +45,8 @@
         <th>Options</th>
     </tr>
     {% for time in timesheets %}
-    <tr>
-        <td></td>
+    <tr >
+        <td>{% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}</td>
         <td>{{ time.getEmployee.getName() }}</td>
         <td>{{ time.getEmployee.getJobPosition() }}</td>
         <td>{{ time.time_in }}</td>
@@ -204,8 +206,9 @@
 {% block scripts %}
 
 <script type="text/javascript">
-$('.dateranger-btn').on('click', function(e){
+$('#query').on('keyup', function(e){
     e.preventDefault();
+    var query = $('#query').val();
     var from = $('#dateranger-from').val();
     var to = $('#dateranger-to').val();
 
@@ -213,7 +216,25 @@ $('.dateranger-btn').on('click', function(e){
         alert('Kindly input date range');
     }
     else{
-        $.get('/timesheet/range', {from : from, to : to}, function(resp){
+        $.get('/timesheet/range', {query:query, from : from, to : to}, function(resp){
+            $('.dataTable').html(resp);
+        });
+
+    }
+
+});
+
+$('.dateranger-btn').on('click', function(e){
+    e.preventDefault();
+    var query = $('#query').val();
+    var from = $('#dateranger-from').val();
+    var to = $('#dateranger-to').val();
+
+    if(from == null && to == null){
+        alert('Kindly input date range');
+    }
+    else{
+        $.get('/timesheet/range', {query:query, from : from, to : to}, function(resp){
             $('.dataTable').html(resp);
         });
 

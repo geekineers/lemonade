@@ -5,15 +5,27 @@
         <th>Time In</th>
         <th>Time Out</th>
         <th>Hours</th>
+        <th>Options</th>
     </tr>
     {% for time in timesheets %}
-    <tr>
-        <td></td>
+    <tr >
+        <td>{% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}</td>
         <td>{{ time.getEmployee.getName() }}</td>
         <td>{{ time.getEmployee.getJobPosition() }}</td>
         <td>{{ time.time_in }}</td>
         <td>{{ time.getTimeOut() }}</td>
         <td>{{ time.getTimeDiff() }}</td>
+               <td>
+            <a href="#" 
+            data-id = "{{ time.id }}"
+            data-employee-name="{{ time.getEmployee.getName() }}" 
+            data-employee-id="{{ time.getEmployee.id }}" 
+            data-time-in="{{ time.time_in }}" 
+            data-time-out="{{ time.time_out }}" 
+
+            class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
+              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+        </td>
     </tr>
 
     {% endfor %}

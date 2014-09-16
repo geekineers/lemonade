@@ -10,23 +10,31 @@
                 	<div class="box">
                                 <div class="box-header">
                                     <!-- <h3 class="box-title"></h3> -->
-                                    <div class="col-md-3" style="margin-top:20px"> 
-                                        <a href="/payroll/masterlist/{{ id }}?from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
-                                            <i class="fa  fa-arrow-circle-o-down"></i>
-                                            Download the Employee's Masterlist</a>
+                                    <div class="row" style="margin-top:20px"> 
+                                        <div class="col-lg-3 col-xs-3">
+                                            <a href="/payroll/masterlist/{{ id }}?from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
+                                                <i class="fa  fa-arrow-circle-o-down"></i>
+                                                Download the Employee's Masterlist</a>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-4">
+                                            <a href="/payroll/masterlist-xls/{{ id }}?from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
+                                                <i class="fa  fa-arrow-circle-o-down"></i>
+                                                Download the Employee's Masterlist Excel format
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-1 col-xs-1">
+                                            <a href="/payroll/gov-form/{{ id }}?form=mcrf&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
+                                                <i class="fa  fa-arrow-circle-o-down"></i>
+                                               MCRF </a>
+                                        </div>
+                                        <div class="col-lg-1 col-xs-1">
+                                            <a href="/payroll/gov-form/{{ id }}?form=sss-r3&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
+                                                <i class="fa  fa-arrow-circle-o-down"></i>
+                                               SSS R3</a>
+                                        </div>
                                     </div>
 
-                                     <div class="col-md-3" style="margin-top:20px"> 
-                                        <a href="/payroll/gov-form/{{ id }}?form=mcrf&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
-                                            <i class="fa  fa-arrow-circle-o-down"></i>
-                                           MCRF </a>
-                                        
-                                        <a href="/payroll/gov-form/{{ id }}?form=sss-r3&from={{from}}&to={{to}}" class="btn btn-info" target="_blank">
-                                            <i class="fa  fa-arrow-circle-o-down"></i>
-                                           SSS R3</a>
-                                    </div>
-                                    <div class="col-md-3" style="margin-top:20px"> 
-                                    </div>
+
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive">
                                     <table id="group" class="table table-bordered table-striped">

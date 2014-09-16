@@ -59,7 +59,7 @@ class TimesheetController extends BaseController
     public function range()
     {
         $input              = $this->input->get();
-        $data['timesheets'] = $this->timesheetRepository->getByRange($input['from'], $input['to']);
+        $data['timesheets'] = $this->timesheetRepository->search($input['query'], $input['from'], $input['to']);
 
         $this->render('/timesheet/search.twig.html', $data);
 
