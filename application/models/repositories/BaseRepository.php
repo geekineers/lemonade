@@ -135,7 +135,7 @@ abstract class BaseRepository
 
     public function onlyTrashed()
     {
-        return $this->onlyTrashed();
+        return $this->class->onlyTrashed();
     }
 
     public function whereRaw($sql, $array_binding)

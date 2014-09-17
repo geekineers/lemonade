@@ -49,7 +49,12 @@
    <tbody>
     {% for time in timesheets %}
     <tr >
-        <td>{% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}</td>
+        <td>
+        {% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}
+        {% if time.checkIfEmployeeDeleted() %}
+            <span class="label label-default">Terminated</span>
+        {% endif %}
+        </td>
         <td>{{ time.getEmployee.getName() }}</td>
         <td>{{ time.getEmployee.getJobPosition() }}</td>
         <td>{{ time.time_in }}</td>
