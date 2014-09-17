@@ -69,6 +69,10 @@ Pigeon::map(function ($r) {
     $r->post('settings/philhealth-config','PHConfigController#store');
     $r->post('settings/philhealth-config/update','PHConfigController#update');
 
+    $r->get('settings/withholding-config','WithholdingtaxController#index');
+    $r->post('settings/withholding-config','WithholdingtaxController#store');
+    $r->post('settings/withholding-config/update','WithholdingtaxController#update');
+
     
     $r->get('settings/roles', 'UserRolesController#index');
     $r->get('settings/roles/add', 'UserRolesController#add');
