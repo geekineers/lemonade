@@ -1,3 +1,4 @@
+
 <?php
 
 /* |-----------------------------------------
@@ -28,6 +29,8 @@ Pigeon::map(function ($r) {
 
     $r->post('announcement', 'AnnouncementController#save');
 
+    $r->get('public/payslip/(:num)', 'AttachedEmailController#slip');
+   
     $r->get('slip', 'MainController#slip');
 
     $r->get('settings/branches', 'BranchController#index');
@@ -47,16 +50,30 @@ Pigeon::map(function ($r) {
     $r->get('payroll/bank', 'PayrollController#bank');
 
     $r->get('payroll/group/(:num)', 'PayrollController#groupList');
-
     $r->get('payroll/payslip/(:num)', 'PayrollController#slip');
-
+    $r->get('payroll/payslip-xls/(:num)','PayrollController#slipXls');
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
-
     $r->get('payroll/masterlist-xls/(:num)', 'PayrollController#masterListInXls');
+
+    $r->get('payroll/test','PayrollController#test');
+
 
     $r->get('testpdf', 'PayrollController#test');
 
     /*Admin Settings */
+    $r->get('settings/sss-config','SSSConfigController#index');
+    $r->post('settings/sss-config','SSSConfigController#store');
+    $r->post('settings/sss-config/update','SSSConfigController#update');
+
+    $r->get('settings/philhealth-config','PHConfigController#index');
+    $r->post('settings/philhealth-config','PHConfigController#store');
+    $r->post('settings/philhealth-config/update','PHConfigController#update');
+
+    $r->get('settings/withholding-config','WithholdingtaxController#index');
+    $r->post('settings/withholding-config','WithholdingtaxController#store');
+    $r->post('settings/withholding-config/update','WithholdingtaxController#update');
+
+    
     $r->get('settings/roles', 'UserRolesController#index');
     $r->get('settings/roles/add', 'UserRolesController#add');
     $r->post('settings/roles/add', 'UserRolesController#save');

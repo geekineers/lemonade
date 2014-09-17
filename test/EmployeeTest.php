@@ -1,7 +1,6 @@
 <?php
 
 require 'application/helpers/calculator_helper.php';
-
 class EmployeeTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp()

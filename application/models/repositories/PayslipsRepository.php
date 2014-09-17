@@ -93,9 +93,8 @@ class PayslipsRepository extends BaseRepository {
             return json_encode(['status'=>'fail']);
         }
 
-			
-		
 	}
+
 	public function generate($input)
 	{
 		$from = $input['from'];
@@ -124,11 +123,35 @@ class PayslipsRepository extends BaseRepository {
 					$employee_slip['prepared_by']	= $prepared_by;
 
 					$this->create($employee_slip);
-			
+					
+					$this->sendEmail($employee->email,'payroll '.$from.'-'.$to,'Your payslip is ready check account');
 
 			}
 
 		return  json_encode(['status'=>'success']);
+	}
+
+
+	public function sendEmail($email=null,$subject=null,$message=null)
+	{
+		$instance = get_instance();
+		$config = Array(
+		    'protocol' => 'smtp',
+		    'smtp_host' => 'ssl://smtp.sendgrid.net',
+		    'smtp_port' => 465,
+		    'smtp_user' => 'naroejesus',
+		    'smtp_pass' => 'oxygen05',
+		    'mailtype'  => 'html', 
+		    'charset'   => 'iso-8859-1'
+		);
+		$instance->load->library('email',$config);
+		$instance->email->set_newline("\r\n");
+	    $instance->email->from('admin@lemon.com'); // change it to yours
+	    $instance->email->to($email);// change it to yours
+	    $instance->email->subject($subject);
+	    $instance->email->message($message);
+
+	    return $instance->email->send();
 	}
 
 	public function generateMasterXLS($data)
@@ -184,6 +207,53 @@ class PayslipsRepository extends BaseRepository {
 			dd($e);
 		}
 
+	}
+
+	public function generatePayslipXls($data)
+	{
+		get_instance()->load->library('excel');
+		try{
+	        $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
+			$objPHPExcel->setActiveSheetIndex(0);
+			$row = $objPHPExcel->getActiveSheet()->getHighestRow()+1;
+			//echo $row;
+			$objPHPExcel->getActiveSheet()->SetCellValue('B1',$from .'-'.$to);
+			$objPHPExcel->getActiveSheet()->SetCellValue('B2',$date);
+			$objPHPExcel->getActiveSheet()->SetCellValue('B3',$period->getPayrollGroup()->period );
+			
+			foreach ($slip as $key => $payslip ) 
+			{
+
+					$objPHPExcel->getActiveSheet()->SetCellValue('A'.$row,$payslip->getEmployee()->getJobPosition() );
+					$objPHPExcel->getActiveSheet()->SetCellValue('B'.$row,$payslip->getEmployee()->id);
+					$objPHPExcel->getActiveSheet()->SetCellValue('C'.$row,$payslip->getEmployee()->getName());
+					$objPHPExcel->getActiveSheet()->SetCellValue('D'.$row,$payslip->getEmployee()->getMonthlyRate(true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('E'.$row,$payslip->getEmployee()->getSemiMonthlyRate(true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('F'.$row,$payslip->getEmployee()->getDailyRate());
+					$objPHPExcel->getActiveSheet()->SetCellValue('G'.$row,$payslip->getEmployee()->getTaxStatus());
+					$objPHPExcel->getActiveSheet()->SetCellValue('H'.$row,$payslip->getEmployee()->getTotalAllowances($from,$to));
+					$objPHPExcel->getActiveSheet()->SetCellValue('I'.$row,$payslip->getEmployee()->getGross($from,$to));
+					$objPHPExcel->getActiveSheet()->SetCellValue('J'.$row,$payslip->getEmployee()->getSSSValue(true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('K'.$row,$payslip->getEmployee()->getPhilhealthValue(true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('L'.$row,$payslip->getEmployee()->getHDMFValue(true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('M'.$row,$payslip->getEmployee()->getAbsentDeduction($from,$to));
+					$objPHPExcel->getActiveSheet()->SetCellValue('N'.$row,$payslip->getEmployee()->getLateDeduction($from,$to,'minute',true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('O'.$row,$payslip->getEmployee()->getUnderTimeDeduction($from,$to,'minute',true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('P'.$row,$payslip->getEmployee()->getTotalDeductions($from,$to,'minute',true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row,$payslip->getEmployee()->getWithholdingTax($from,$to,true));
+					$objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row,$payslip->getEmployee()->getNet($from,$to));
+					
+				$row++;				
+			}
+			
+			$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+			$objWriter->save('excel_files/masterlist-'.$date.'.xlsx');
+			return true;
+		}
+		catch(Exception $e)
+		{
+			dd($e);
+		}
 	}
 
 	
