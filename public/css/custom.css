@@ -507,9 +507,9 @@ a {
         padding: 10px 0px 9px;
     }
 
-    .company-setting .company-logo { margin: 20px;}
-
-
+.company-setting .company-logo { margin: 20px;}
 .center {
     text-align: center;
 }
+
+.box-body.reports { min-height: 250px;}

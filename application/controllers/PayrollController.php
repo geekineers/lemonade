@@ -16,6 +16,11 @@ class PayrollController extends BaseController {
 		$this->payslipsGroupRepository = new PayslipsGroupRepository();
 	}
 // GET
+
+	public function test()
+	{
+
+	}
 	public function index() {
 
 		$data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());

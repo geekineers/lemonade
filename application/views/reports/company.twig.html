@@ -1,0 +1,275 @@
+{% extends "layout/main.twig.html" %} {% block styles %}
+<link rel="stylesheet" type="text/css" href="/css/morris/morris.css">{% endblock %} 
+{% block content_header %}
+      <select id="year-select" class="pull-right form-control inline">
+     {% set minimumYear = 1992 %}
+     {% set currentYear = "now"|date("Y") %}   
+     {% for year_loop in (currentYear)..minimumYear %}
+        <option {% if year == year_loop %} selected {% endif %}value="{{ year_loop }}">{{year_loop}}</option>
+    {% endfor %}
+    </select>
+     <select id="branch-id-select" class="pull-right form-control inline">
+   
+    </select>
+{% endblock %}
+{% block content %}
+<input type="hidden" value="{{ branch_id }}" id="branch_id">
+<input type="hidden" value="{{year}}" id="year">
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>
+                    {{ total_expenses }}
+                </h3>
+                <p>
+                    New Orders
+                </p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>
+                    {{ total_employee }}
+                </h3>
+                <p>
+                    Number of Employees
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>
+                    {{ tardiness_rate }}<sup style="font-size: 20px">%</sup>
+                </h3>
+                <p>
+                    Tardiness Rate
+                </p>
+
+                </p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>
+                    {{ total_absent }}
+                </h3>
+                <p>
+                    Number of Absents
+                </p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<div class="box grap-container">
+    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Header tooltip">
+
+        <div class="box-tools pull-right">
+            <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button class="btn btn-primary btn-xs" data-widget="remove"><i class="fa fa-times"></i>
+            </button>
+        </div>
+        <ul id="profile-tabs" class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <a href="#basic-info-tab" id="expense-btn" role="tab" data-toggle="tab"><i class='fa fa-user'></i>&nbsp;Expense Report</a>
+            </li>
+            <li class="">
+                <a href="#revenue-chart" id="absent-btn" role="tab" data-toggle="tab"><i class='fa fa-money'></i>&nbsp; Absents Report</a>
+            </li>
+           <li class="">
+                <a href="#revenue-chart" id="late-btn" role="tab" data-toggle="tab"><i class='fa fa-money'></i>&nbsp; Late/Undertime Report</a>
+            </li>
+        </ul>
+    </div>
+    <div class="box-body reports">
+
+        <div id="revenue-chart"></div>
+
+    </div>
+    <div class="overlay"></div>
+    <div class="loading-img"></div>
+</div>
+
+
+{% endblock %} {% block scripts %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script type="text/javascript" src="/js/plugins/morris/morris.min.js"></script>
+<script type="text/javascript">
+$(function() {
+
+    var branch_id = $('#branch_id').val();
+    var year = $('#year').val();
+
+    "use strict";
+    $.get('/reports/company/gross', {
+        year: year
+    }, function(data) {
+        var area = new Morris.Area({
+            element: 'revenue-chart',
+            // resize: true,
+            data: data,
+            xkey: 'year',
+            ykeys: [
+                {% for branch in branches %}
+                    '{{branch.branch_name}}-expense',
+                {% endfor %}
+                    ],
+                }
+            labels: [
+                 {% for branch in branches %}
+                    '{{branch.branch_name}} Expense(Gross)',
+                {% endfor %}
+            ],
+            xLabels: "month",
+            lineColors: ['#a0d0e0'],
+            hideHover: 'auto'
+        });
+
+        $('.loading-img').fadeOut();
+        $('.overlay').fadeOut();
+    });
+
+    $('#year-select').on('change', function(){
+        var year = $(this).val();
+        var branch_id = $('#branch-id-select').val();
+
+        window.location = "/reports/" + branch_id + "/branch?year=" + year;
+
+
+    });
+
+    $('#branch-id-select').on('change', function(){
+        var year = $('#year-select').val();
+        var branch_id = $('#branch-id-select').val();
+
+        window.location = "/reports/" + branch_id + "/branch?year=" + year;
+
+
+    });
+
+    // // AREA CHART
+     // Expense 
+    $('#expense-btn').on('click', function() {
+        $("#revenue-chart").html('');
+
+            $('.loading-img').fadeIn();
+            $('.overlay').fadeIn();
+        var branch_id = $('#branch_id').val();
+        var year = $('#year').val();
+        "use strict";
+        $.get('/reports/' + branch_id + '/branch/gross', {
+            year: year
+        }, function(data) {
+            var area = new Morris.Area({
+                element: 'revenue-chart',
+                // resize: true,
+                data: data,
+                xkey: 'year',
+           ykeys: ['expense'],
+            labels: ['Expense(Gross)'],
+                xLabels: "month",
+                lineColors: ['#a0d0e0'],
+                hideHover: 'auto'
+            });
+
+            $('.loading-img').fadeOut();
+            $('.overlay').fadeOut();
+        });
+    });
+    // Absent
+    $('#absent-btn').on('click', function() {
+        $("#revenue-chart").html('');
+
+            $('.loading-img').fadeIn();
+            $('.overlay').fadeIn();
+        var branch_id = $('#branch_id').val();
+        var year = $('#year').val();
+        "use strict";
+        $.get('/reports/' + branch_id + '/branch/absent', {
+            year: year
+        }, function(data) {
+            var area = new Morris.Area({
+                element: 'revenue-chart',
+                // resize: true,
+                data: data,
+                xkey: 'year',
+                ykeys: ['absent'],
+                labels: ['Absents(day)'],
+                xLabels: "month",
+                lineColors: ['#a0d0e0'],
+                hideHover: 'auto'
+            });
+
+            $('.loading-img').fadeOut();
+            $('.overlay').fadeOut();
+        });
+    });
+    $('#late-btn').on('click', function() {
+        $("#revenue-chart").html('');
+
+            $('.loading-img').fadeIn();
+            $('.overlay').fadeIn();
+        var branch_id = $('#branch_id').val();
+        var year = $('#year').val();
+        "use strict";
+        $.get('/reports/' + branch_id + '/branch/late', {
+            year: year
+        }, function(data) {
+            var area = new Morris.Area({
+                element: 'revenue-chart',
+                // resize: true,
+                data: data,
+                xkey: 'year',
+                ykeys: ['late'],
+                labels: ['Tardiness(min)'],
+                xLabels: "month",
+                lineColors: ['#a0d0e0'],
+                hideHover: 'auto'
+            });
+
+            $('.loading-img').fadeOut();
+            $('.overlay').fadeOut();
+        });
+    });
+});
+</script>
+
+{% endblock %}

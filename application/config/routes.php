@@ -1,3 +1,4 @@
+
 <?php
 
 /* |-----------------------------------------
@@ -16,6 +17,10 @@ Pigeon::map(function ($r) {
     $r->get('auth', 'AuthController#index');
     $r->post('auth', 'AuthController#login');
     $r->get('register', 'AuthController#register');
+    $r->get('reset-password/(:num)/(:num)', 'AuthController#resetPassword');
+    $r->post('reset-password/(:num)/(:num)', 'AuthController#postResetPassword');
+    $r->get('forgot-password', 'AuthController#forgotPassword');
+    $r->post('forgot-password', 'AuthController#forgot');
     $r->post('register', 'AuthController#saveRegister');
     $r->get('auth/logout', 'AuthController#logout');
     $r->get('auth/time-in', 'AuthController#timeIn');
@@ -47,6 +52,8 @@ Pigeon::map(function ($r) {
     $r->get('payroll/payslip-xls/(:num)','PayrollController#slipXls');
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
     $r->get('payroll/masterlist-xls/(:num)', 'PayrollController#masterListInXls');
+
+    $r->get('payroll/test','PayrollController#test');
 
 
     $r->get('testpdf', 'PayrollController#test');
@@ -177,6 +184,13 @@ Pigeon::map(function ($r) {
     $r->post('timesheet/save', 'TimesheetController#save');
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
+
+    $r->get('reports/(:num)/branch', 'ReportsController#branch');
+    $r->get('reports/(:num)/branch/gross', 'ReportsController#grossReport');
+    $r->get('reports/(:num)/branch/absent', 'ReportsController#absentReport');
+    $r->get('reports/(:num)/branch/late', 'ReportsController#lateReport');
+    $r->get('reports/company/gross', 'ReportsController#companyGrossReport');
+    $r->get('reports/company', 'ReportsController#company');
 
     $r->get('sss', 'MainController#test');
 

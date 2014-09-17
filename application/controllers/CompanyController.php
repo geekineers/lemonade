@@ -196,11 +196,10 @@ class CompanyController extends BaseController
     public function delete()
     {
         $id = $this->input->get('id');
-
         $branch_name = $this->branchRepository->find($id)->branch_name;
-
         $this->branchRepository->delete($id);
         $this->session->set_flashdata('message', $branch_name . ' has been deleted.');
+       
         redirect('/branches', 'location');
 
     }

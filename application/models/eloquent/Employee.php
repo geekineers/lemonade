@@ -312,10 +312,22 @@ class Employee extends BaseModel
         return $allowance;
     }
 
-    public function getBasicPay($format = true)
+    public function getBasicPay($format = true, $from=null, $to=null)
     {
+    	$pay = BasicPayAdjustment::where('employee_id', '=', $this->id);
         if (count($this->getBasicPayAdjustments()) > 0) {
-            $adjustment = BasicPayAdjustment::where('effective_date', '<=', date('Y-m-d'))->orderBy('id', 'desc')->first();
+           if(is_null($from) && is_null($to)){
+            $pay = $pay->where('effective_date', '<=', date('Y-m-d'));           	
+          
+           }
+           else{
+           	$pay = $pay
+                     // ->whereBetween('effective_date' [$from, $to])
+                       ->where('effective_date', '<=', $from);
+            
+           }	
+
+           $adjustment = $pay->orderBy('id', 'desc')->first();
 
             if ($adjustment) {
                 if ($format) {
