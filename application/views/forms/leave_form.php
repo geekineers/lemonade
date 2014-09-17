@@ -3,7 +3,12 @@
         <h3 class="box-title">Leave Form</h3>
     </div><!-- /.box-header -->
     <div class="box-body">    
+        <?php if($remaining<=0) { ?>
+            
+            no credits remaining
 
+        <?php } else { ?>
+       
             <form action="/settings/forms" method="post" class="ob_form">
                      Remaining Credits: <?php echo $remaining;?>
                     <div class="form-group row">
@@ -48,6 +53,7 @@
                           </div>
                     </div>
             </form>
+         <?php } ?>
         </div>
     </div>
 

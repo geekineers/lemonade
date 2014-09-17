@@ -4,7 +4,7 @@
     </div><!-- /.box-header -->
     <div class="box-body">    
             <form action="/settings/forms" method="post" class="ob_form">
-                  Remaining Credits: <?php echo $remaining;?>
+                  
                     <div class="form-group row">
                         <div class="col-md-2 ">
                             <label>Effective Date: </label>

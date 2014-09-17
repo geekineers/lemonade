@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 	
 	// Search 
@@ -236,4 +235,4 @@ $(document).ready(function(){
 
 	});
 
-	});
+});

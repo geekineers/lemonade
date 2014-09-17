@@ -179,7 +179,20 @@ class Employee extends BaseModel
     public function getSSSValue()
     {
         if ($this->deduct_sss == null) {
-            $sss = floatval(getSSS($this->getBasicPay(false))['EE']);
+            $pay = $this->getBasicPay(false);
+           
+            $first = SSSConfigs::first();
+            $last = SSSConfigs::orderby('created_at', 'desc')->first();
+            if($pay < $first->to_range){
+                $sss = $first->EE;
+            }else if($pay > $last->to_range){
+                 $sss = $last->EE;
+            }else {
+                 $sss = SSSConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->EE;
+            }
+
+            $sss = floatval($sss);
+            
             if ($this->getPayrollPeriod()->period == "Semi-monthly") {
                 return floatval($sss / 2);
             }
@@ -190,7 +203,22 @@ class Employee extends BaseModel
     public function getPhilhealthValue()
     {
         if ($this->deduct_sss == null) {
-            $ph = floatval(getPH($this->getBasicPay(false))['Employee_Share']);
+            
+            $pay = $this->getBasicPay(false);
+
+            $first = PHConfigs::first();
+            $last = PHConfigs::orderby('created_at', 'desc')->first();
+            
+            if($pay < $first->to_range){
+                $ph = $first->employee_share;
+            }else if($pay > $last->to_range){
+                 $ph = $last->employee_share;
+            }else {
+                 $ph = PHConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->employee_share;
+            }
+
+            $ph = floatval($ph);
+           
             if ($this->getPayrollPeriod()->period == "Semi-monthly") {
                 return floatval($ph / 2);
             }
@@ -427,7 +455,6 @@ class Employee extends BaseModel
         if ($english_format) {
             if ($this->deduct_philhealth) {return 'Yes';
             }
-
             return 'No';
         }
 
@@ -1062,15 +1089,15 @@ class Employee extends BaseModel
     public function getRemainingCredits($type)
     {
 
-        $form = EmployeeCredits::where('employee_id', '=', $this->id)
-                                                                ->where('credit_name', '=', $type)
-                                                                ->first();
+        $form_count = Form_Application::where('employee_id', '=', $this->id)
+                     ->where('form_type','=',$type)
+                     ->where('status','=','approved')->count();
+        $company_leave_credits = Company::where('id','=',$this->company_id)->first()->company_leave_credits;
 
-        if ($form == null) {
-            return 'N/A';
-        } else {
-            return $form->remaining_credits;
-        }
+        $remaining_credits =   intval($company_leave_credits) - intval($form_count);
+
+        return $remaining_credits;
+      
     }
 
     public function getCompany()
