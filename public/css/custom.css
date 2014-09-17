@@ -508,3 +508,8 @@ a {
     }
 
     .company-setting .company-logo { margin: 20px;}
+
+
+.center {
+    text-align: center;
+}

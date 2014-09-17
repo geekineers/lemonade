@@ -1050,15 +1050,15 @@ class Employee extends BaseModel
     public function getRemainingCredits($type)
     {
 
-        $form = EmployeeCredits::where('employee_id', '=', $this->id)
-                                                                ->where('credit_name', '=', $type)
-                                                                ->first();
+        $form_count = Form_Application::where('employee_id', '=', $this->id)
+                     ->where('form_type','=',$type)
+                     ->where('status','=','approved')->count();
+        $company_leave_credits = Company::where('id','=',$this->company_id)->first()->company_leave_credits;
 
-        if ($form == null) {
-            return 'N/A';
-        } else {
-            return $form->remaining_credits;
-        }
+        $remaining_credits =   intval($company_leave_credits) - intval($form_count);
+
+        return $remaining_credits;
+      
     }
 
     public function getCompany()

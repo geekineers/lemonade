@@ -1,0 +1,146 @@
+{% extends "layout/main.twig.html" %}
+{% block content %}
+<div class="row">
+	<section class="col-md-12 connectedSortable ui-sortable">
+		<div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+          		<li  ><a href="/settings/sss-config" >SSS Form table</a></li>
+              <li ><a href="#bir" >Widthholding Tax Tables</a></li>
+          		<li class="active"><a href="/settings/philhealth-config">PhilHealth Form table</a></li>
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="bir" style="position: relative; height: 300px;">
+             
+                	<table class="table table-bordered center">
+                      <thead>
+                        <tr>
+                          <th>Range</th>
+                          <th>Salary Base</th>
+                          <th>Total Monthly Premium</th>
+                          <th>Employee Share</th>
+                          <th>Employer Share</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                	     {% for set in sets %}
+                          <tr data-id="{{ set.id }}">
+                                
+                              <td > 
+                                <span class="col-md-12 range_from">{{ set.from_range }} - {{ set.to_range }}</span>
+                                <input type="text" class="input-sm range_from hide" value="{{ set.from_range }}" placeholder="from">
+                                <input type="text" class="input-sm  range_to hide" value="{{ set.to_range }}" placeholder="to">
+                              </td>
+
+                              <td>
+                                <span class="col-md-12 salary_base">{{ set.salary_base }}</span>
+                                <input type="text" class="input-sm salary_base hide" value="{{ set.salary_base }}" placeholder="from">
+                              </td>
+                              <td>
+                                <span class="col-md-12 EC">
+                                  {{ set.total_monthly_premium }}
+                                </span>
+                                  <input type="text" class="input-sm total_monthly_premium hide" placeholder="total monthly premium" value="{{ set.total_monthly_premium }}">
+                              </td>
+                              <td>
+                                <span class="col-md-12 employee_share">
+                                  {{ set.employee_share }}
+                                </span>
+                                <input type="text" class="input-sm employee_share hide" placeholder="er" value="{{ set.employee_share }}">
+                              </td>
+                              <td>
+                                <span class="col-md-12 employer_share">
+                                  {{ set.employer_share }}
+                                </span>
+                                <input type="text" class="input-sm employer_share hide" placeholder="employer_share" value="{{ set.employer_share }}">
+                              </td>
+                              <td>
+                                <button class="btn btn-info save" style="display:none"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-default edit"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                              </td>
+                          </tr>
+                       {% endfor %}
+                	</table>
+               		<div class="col-md-12 center">
+               			<button class="btn add-range">Add Ranges</button>
+               		</div>
+                </div>
+                <!-- sss table -->
+                <div class="tab-pane" id="sss" style="position: relative; height: 300px;">
+                </div>
+
+                <div class="tab-pane" id=""></div>
+            </div>
+        </div>
+	</section>
+</div>
+{% include 'modal/add-ph.twig.html' %}
+<script type="text/javascript">
+
+  var sssController = {
+
+    addRange:function(){
+      
+      $('#addPH').modal('show');
+    
+    },
+
+    editSSS:function(){
+    
+      $(this).hide();
+    
+      var $parent = $(this).parent().parent();
+      
+      $parent.find('.save').show();
+
+      $parent.find('td span').hide();
+    
+      $parent.find('td input').removeClass('hide');
+      
+    },
+
+    saveSSS:function(){
+       $.notify('saving...','info');
+
+        var $parent = $(this).parent().parent();
+        var $this =  $(this);
+        var data = {
+          'id': $parent.data('id'),
+          'from_range' : $parent.find('td input.range_from').val(),
+          'to_range' : $parent.find('td input.range_to').val(),
+          'salary_base' : $parent.find('td input.salary_base').val(),
+          'total_monthly_premium' : $parent.find('td input.total_monthly_premium').val() ,
+          'employee_share' : $parent.find('td input.employee_share').val() ,
+          'employer_share' : $parent.find('td input.employer_share').val() ,
+        }
+        $.post('/settings/philhealth-config/update',data,function(response){
+           $('table').loading(false );
+          if(response.status=="ok"){
+            $this.hide();
+
+            $parent.find('.edit').show();
+            
+            $parent.find('td span').show();
+
+            $parent.find('td input').addClass('hide');
+
+            $.notify('edit success','success');
+
+            window.location.reload();
+          }else{
+            $.notify('there is some error','error');
+          }
+        });
+    }
+  }
+
+  // events
+	$( '.add-range' ).on( 'click' , sssController.addRange );
+  $( '.edit' ).on( 'click' , sssController.editSSS );
+  $('.save').on('click', sssController.saveSSS );
+
+</script>
+
+{% endblock %}
+ 

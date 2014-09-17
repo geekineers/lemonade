@@ -53,6 +53,12 @@ Pigeon::map(function ($r) {
 
     /*Admin Settings */
     $r->get('settings/sss-config','SSSConfigController#index');
+    $r->post('settings/sss-config','SSSConfigController#store');
+    $r->post('settings/sss-config/update','SSSConfigController#update');
+
+    $r->get('settings/philhealth-config','PHConfigController#index');
+    $r->post('settings/philhealth-config','PHConfigController#store');
+    $r->post('settings/philhealth-config/update','PHConfigController#update');
 
     
     $r->get('settings/roles', 'UserRolesController#index');
