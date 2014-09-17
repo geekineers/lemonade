@@ -34,7 +34,8 @@
 
 </div>
 
-<table class="table table-bordered table-hover dataTable">
+<table id="timesheet1" class="table table-bordered table-hover dataTable">
+   <thead>
     <tr>
         <th></th>
         <th>Name</th>
@@ -44,6 +45,8 @@
         <th>Hours</th>
         <th>Options</th>
     </tr>
+   </thead>
+   <tbody>
     {% for time in timesheets %}
     <tr >
         <td>{% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}</td>
@@ -65,7 +68,9 @@
         </td>
     </tr>
 
-    {% endfor %}
+    {% endfor %}       
+   </tbody>
+
 </table>
 
 
@@ -204,7 +209,7 @@
 
 {% endblock %} 
 {% block scripts %}
-
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript">
 $('#query').on('keyup', function(e){
     e.preventDefault();
@@ -306,6 +311,16 @@ function getHours(h){
 
     return h;
 }
+
+    (function($){
+        $('#timesheet1').dataTable({
+            "bPaginate": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+    })(jQuery);
 </script>
 
 {% endblock %}
