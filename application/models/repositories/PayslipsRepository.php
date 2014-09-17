@@ -123,11 +123,35 @@ class PayslipsRepository extends BaseRepository {
 					$employee_slip['prepared_by']	= $prepared_by;
 
 					$this->create($employee_slip);
-			
+					
+					$this->sendEmail($employee->email,'payroll '.$from.'-'.$to,'Your payslip is ready check account');
 
 			}
 
 		return  json_encode(['status'=>'success']);
+	}
+
+
+	public function sendEmail($email=null,$subject=null,$message=null)
+	{
+		$instance = get_instance();
+		$config = Array(
+		    'protocol' => 'smtp',
+		    'smtp_host' => 'ssl://smtp.sendgrid.net',
+		    'smtp_port' => 465,
+		    'smtp_user' => 'naroejesus',
+		    'smtp_pass' => 'oxygen05',
+		    'mailtype'  => 'html', 
+		    'charset'   => 'iso-8859-1'
+		);
+		$instance->load->library('email',$config);
+		$instance->email->set_newline("\r\n");
+	    $instance->email->from('admin@lemon.com'); // change it to yours
+	    $instance->email->to($email);// change it to yours
+	    $instance->email->subject($subject);
+	    $instance->email->message($message);
+
+	    return $instance->email->send();
 	}
 
 	public function generateMasterXLS($data)

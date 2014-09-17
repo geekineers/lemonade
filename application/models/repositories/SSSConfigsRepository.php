@@ -1,5 +1,5 @@
 <?php
-use WTConfigs as WTConfigs;
+use SSSConfigs as SSSConfigs;
 use Respect\Validation\Validator as Validator;
 
 class SSSConfigsRepository extends BaseRepository {
@@ -8,7 +8,7 @@ class SSSConfigsRepository extends BaseRepository {
 	
 	public function __construct()
 	{
-		$this->class = new WTConfigs();
+		$this->class = new SSSConfigs();
 
 		$this->employeeRepository = new EmployeeRepository();
         $this->payrollGroupRepository= new PayrollGroupRepository();
@@ -16,7 +16,7 @@ class SSSConfigsRepository extends BaseRepository {
 	}
 
 	
-	public function createWt($data)
+	public function createSSS($data)
 	{
 		$validator = Validator::arr()->key('from_range', Validator::notEmpty())
                                      ->key('to_range', Validator::notEmpty())
@@ -36,7 +36,7 @@ class SSSConfigsRepository extends BaseRepository {
         }
 	}
 
-	public function updateWt($data , $id)
+	public function updateSSS($data , $id)
 	{
 
 		$validator = Validator::arr()->key('from_range', Validator::notEmpty())

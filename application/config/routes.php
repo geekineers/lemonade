@@ -29,6 +29,8 @@ Pigeon::map(function ($r) {
 
     $r->post('announcement', 'AnnouncementController#save');
 
+    $r->get('public/payslip/(:num)', 'AttachedEmailController#slip');
+   
     $r->get('slip', 'MainController#slip');
 
     $r->get('settings/branches', 'BranchController#index');
