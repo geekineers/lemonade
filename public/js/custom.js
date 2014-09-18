@@ -1,7 +1,17 @@
 $(document).ready(function(){
 	
 	// 
-
+	$('.announcement-modal').on('click',function(){
+		$('#view-announcment').modal('show');
+		$('#view-announcment .box').loading(true);
+		var id = $(this).data('id');
+		$elem = $(this);
+		$.get('dashboard/announcement-rest',{id:id},function(res){
+			$('#view-announcment .box').loading(false);	
+			$('#view-announcment').find('.word').text(res.content);
+			$('#view-announcment').find('.title').text(res.title);
+		});
+	});
 	
 	$('.announcement .delete').on('click',function(){
 		var conf = confirm('delete this announcement');

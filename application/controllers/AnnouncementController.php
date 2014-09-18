@@ -56,4 +56,11 @@ class AnnouncementController extends BaseController
         $this->announcementRepository->where('id','=',$id)->delete();
         $this->sendJSON(['status'=>'ok']);
     }
+
+    public function getAnnouncement()
+    {
+        $id = $this->input->get('id');
+        $data = $this->announcementRepository->getAnnouncementById($id);
+        $this->sendJSON($data);
+    }
 }

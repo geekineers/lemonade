@@ -25,6 +25,7 @@ Pigeon::map(function ($r) {
     $r->get('auth/time-in', 'AuthController#timeIn');
 
     $r->get('dashboard', 'MainController#dashboard');
+    $r->get('dashboard/announcement-rest','AnnouncementController#getAnnouncement');
     $r->post('dashboard/delete-announcement','AnnouncementController#delete');
     $r->post('dashboard/delete-memo','MemoController#delete');
     $r->post('announcement', 'AnnouncementController#save');
