@@ -2,6 +2,21 @@
 <div class="row container">
     <a class="employee_create btn-add-branch btn btn-success" href="/employees/add"><i class="fa fa-plus"></i></a>
     <a class="employee_batch btn btn-default" href="#">Batch upload</a>
+    <div class="dropdown inline" >
+    <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+    </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li>
+        <a href="/employees/terminated">View Terminated Employees</a>
+    </li>
+    <li>
+        <a href="/employees/">
+            View Current Employees
+        </a>
+    </li>
+  </ul>      
+    </div>
+  
 
     {% if alert_message != null %}
     <div class="col-md-7 alert alert-success alert-dismissable">
@@ -10,6 +25,7 @@
         <b>Success!</b> {{ alert_message }}.
     </div>
     {% endif %}
+
 </div>
 <div class="form-group">
     <div class="input-group">
@@ -45,7 +61,7 @@
         <td>{{ employee.email }}</td>
         <td>
             <a href="/employees/{{ employee.id }}/profile" class="btn btn-default"><i class="fa fa-folder-open-o"></i></a>
-            <a  onclick="return confirm('Are you sure?')"  href="/employees/delete?token={{ employee.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+            <a  onclick="return confirm('Are you sure you want to terminate this employee?')"  href="/employees/delete?token={{ employee.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
         </td>
 
     </tr>

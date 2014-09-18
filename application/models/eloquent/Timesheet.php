@@ -16,7 +16,16 @@ class Timesheet extends Eloquent {
 
   public function getEmployee()
   {
-  	return Employee::find($this->employee_id);
+    return Employee::where('id', '=',$this->employee_id)->withTrashed()->first();
+    // if($employee){
+    //   $employee = Employee::find($this->employee_id);
+    // }
+
+    // $employee = new Employee();
+    // $employee->first_name = "Deleted";
+    // $employee->last_name = "User";
+
+    // return 
   }
 
   public function getTimeOut()
@@ -41,6 +50,11 @@ class Timesheet extends Eloquent {
   public function checkIfUndertime()
   {
     return (boolean) $this->getEmployee()->getUnderTime($this->time_in, $this->time_out);    
+  }
+
+  public function checkIfEmployeeDeleted()
+  {
+    return (boolean) $this->getEmployee()->trashed();
   }
 
 }

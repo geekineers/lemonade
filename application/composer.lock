@@ -611,12 +611,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/routing.git",
-                "reference": "9cf724d85c6ee68476985c56449b8b1604bd4bbb"
+                "reference": "823ef804e1e873444800a848ff5ca5e60477956b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/routing/zipball/9cf724d85c6ee68476985c56449b8b1604bd4bbb",
-                "reference": "9cf724d85c6ee68476985c56449b8b1604bd4bbb",
+                "url": "https://api.github.com/repos/illuminate/routing/zipball/823ef804e1e873444800a848ff5ca5e60477956b",
+                "reference": "823ef804e1e873444800a848ff5ca5e60477956b",
                 "shasum": ""
             },
             "require": {
@@ -654,7 +654,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-10 19:08:20"
+            "time": "2014-09-15 12:29:16"
         },
         {
             "name": "illuminate/session",
@@ -714,12 +714,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "b6716d34afce6e69523725f2534a5c3a54dba964"
+                "reference": "735a35c50bb4b3906bb2e56474235d34ae2b94fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/b6716d34afce6e69523725f2534a5c3a54dba964",
-                "reference": "b6716d34afce6e69523725f2534a5c3a54dba964",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/735a35c50bb4b3906bb2e56474235d34ae2b94fe",
+                "reference": "735a35c50bb4b3906bb2e56474235d34ae2b94fe",
                 "shasum": ""
             },
             "require": {
@@ -753,7 +753,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-12 21:42:43"
+            "time": "2014-09-15 04:03:56"
         },
         {
             "name": "illuminate/view",
@@ -850,12 +850,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "6d5af36de6efdaf76dd2c062c8d694d6d0e77df0"
+                "reference": "68476282c2d85cb071ad3522b987f7fcd494a86e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/6d5af36de6efdaf76dd2c062c8d694d6d0e77df0",
-                "reference": "6d5af36de6efdaf76dd2c062c8d694d6d0e77df0",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/68476282c2d85cb071ad3522b987f7fcd494a86e",
+                "reference": "68476282c2d85cb071ad3522b987f7fcd494a86e",
                 "shasum": ""
             },
             "require": {
@@ -907,7 +907,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2014-09-13 22:40:42"
+            "time": "2014-09-15 19:00:35"
         },
         {
             "name": "nesbot/carbon",
@@ -1546,12 +1546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "cec87359655f901a11de336576851d3957449947"
+                "reference": "c645c7a1102969c89df334015779ef319c6d4b8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/cec87359655f901a11de336576851d3957449947",
-                "reference": "cec87359655f901a11de336576851d3957449947",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/c645c7a1102969c89df334015779ef319c6d4b8f",
+                "reference": "c645c7a1102969c89df334015779ef319c6d4b8f",
                 "shasum": ""
             },
             "require": {
@@ -1590,7 +1590,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-03 09:00:14"
+            "time": "2014-09-17 09:50:16"
         },
         {
             "name": "symfony/http-kernel",
@@ -1599,12 +1599,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "18bce9aefd7fb009bb21e6ec61d64d421e9d30df"
+                "reference": "e667a9ef1b1a052638ce4634ca5a5b79032ad0bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/18bce9aefd7fb009bb21e6ec61d64d421e9d30df",
-                "reference": "18bce9aefd7fb009bb21e6ec61d64d421e9d30df",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/e667a9ef1b1a052638ce4634ca5a5b79032ad0bd",
+                "reference": "e667a9ef1b1a052638ce4634ca5a5b79032ad0bd",
                 "shasum": ""
             },
             "require": {
@@ -1661,7 +1661,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-03 12:51:22"
+            "time": "2014-09-17 09:50:16"
         },
         {
             "name": "symfony/routing",
@@ -1736,12 +1736,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "3294aea1af045eb67346257d364c3065cdda23b9"
+                "reference": "d69e39ee9b49b12806f7958e2b5e54ec660f8a11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/3294aea1af045eb67346257d364c3065cdda23b9",
-                "reference": "3294aea1af045eb67346257d364c3065cdda23b9",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/d69e39ee9b49b12806f7958e2b5e54ec660f8a11",
+                "reference": "d69e39ee9b49b12806f7958e2b5e54ec660f8a11",
                 "shasum": ""
             },
             "require": {
@@ -1789,7 +1789,7 @@
             ],
             "description": "Symfony Security Component - Core Library",
             "homepage": "http://symfony.com",
-            "time": "2014-09-03 09:22:15"
+            "time": "2014-09-17 09:50:16"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

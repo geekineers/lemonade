@@ -25,7 +25,7 @@ class PayrollGroupRepository extends BaseRepository{
 
 	public function getPayrollGroupbyEmployeeBranch($id)
 	{
-		$employee = Employee::where('id','=',$id)->first();
+		$employee = Employee::where('id','=',$id)->withTrashed()->first();
 		
 		return $this->where('branch_id','=',$employee->branch_id)->get();
 	}
