@@ -49,4 +49,11 @@ class AnnouncementController extends BaseController
         $this->render('announcements/index.twig.html', $data);
 
     }
+
+    public function delete()
+    {
+        $id = $this->input->post('id');
+        $this->announcementRepository->where('id','=',$id)->delete();
+        $this->sendJSON(['status'=>'ok']);
+    }
 }

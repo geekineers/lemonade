@@ -1,3 +1,4 @@
+
 .red-warning-row {
     background-color: rgba(131, 56, 56, 0.96);
     color: rgb(248, 140, 140);
@@ -513,3 +514,20 @@ a {
 }
 
 .box-body.reports { min-height: 250px;}
+
+
+.chat .tools{
+    float: right;
+    top: 16px;
+    position: relative;
+    color: red;
+     cursor: pointer;
+}
+
+.announcement .tools{
+    float: right;
+    top: 16px;
+    position: relative;
+    color: red;
+    cursor: pointer;
+}

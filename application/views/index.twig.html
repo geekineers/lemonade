@@ -14,7 +14,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="box-body">
+                <div class="box-body announcement">
                     {% if employee.getDeductions()|length
                     <=0 %} <center>
                         <button class="post_announcement btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>
@@ -28,7 +28,9 @@
                                 </center>
                                 {% endif %} {% for announcement in announcements %}
                                 <div class="item">
-
+                                    <div class="tools">
+                                        <i class="fa fa-trash-o delete" data-id="{{ announcement.id}}"></i>
+                                    </div>
                                     <p class="message">
                                         <a href="{{ announcement.getAuthor().getProfileLink() }}" class="name">
                                             <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ announcement.getPostTimeDiff() }} posted by {{announcement.getAuthor().getName() }}</small>
@@ -74,11 +76,14 @@
                         </center>
                 </div>
                 {% endif %}
-                <div class="box-body chat" id="chat-box">
+                <div class="box-body chat memo" id="chat-box">
 
 
                     {% for memo in memos %}
                     <div class="item">
+                        <div class="tools">
+                            <i class="fa fa-trash-o delete" data-id="{{memo.id}}"></i>
+                        </div>
                         <img src="{{ memo.getFrom().getProfilePicture() }}" alt="user image" class="offline">
                         <p class="message">
                             <a href="{{ memo.getFrom().getProfileLink() }}" class="name">

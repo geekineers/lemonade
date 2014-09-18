@@ -25,12 +25,16 @@ Pigeon::map(function ($r) {
     $r->get('auth/time-in', 'AuthController#timeIn');
 
     $r->get('dashboard', 'MainController#dashboard');
-
+    $r->post('dashboard/delete-announcement','AnnouncementController#delete');
+    $r->post('dashboard/delete-memo','MemoController#delete');
     $r->post('announcement', 'AnnouncementController#save');
 
     $r->get('public/payslip/(:num)', 'AttachedEmailController#slip');
    
     $r->get('slip', 'MainController#slip');
+
+
+
 
     $r->get('settings/branches', 'BranchController#index');
     $r->get('settings/branches/add', 'BranchController#add');

@@ -1,5 +1,40 @@
 $(document).ready(function(){
 	
+	// 
+
+	
+	$('.announcement .delete').on('click',function(){
+		var conf = confirm('delete this announcement');
+		var elem = $(this).parent().parent();
+		var id = $(this).data('id');
+			
+		if(conf){
+			$.post('dashboard/delete-announcement',{'id': id},function(res){
+				if(res.status=="ok"){
+					$.notify('announcement deleted','success');
+					elem.remove();
+				}else{
+					$.notify('error in deleting contact your administrator','error');
+				}
+			});
+		}
+	});
+	$('.memo .delete').on('click',function(){
+		var conf = confirm('delete this memo');
+		var elem = $(this).parent().parent();
+		var id = $(this).data('id');console.log(id);
+		if(conf){
+			$.post('dashboard/delete-memo',{'id': id},function(res){
+				if(res.status=="ok"){
+					$.notify('memo deleted','success');
+					elem.remove();
+				}else{
+					$.notify('error in deleting contact your administrator','error');
+				}
+			});
+		}
+	});
+
 	// Search 
 	$('.search').on('keyup', function(){
 		var data = $(this).val();

@@ -25,6 +25,14 @@ class MemoController extends BaseController
 
 	}
 
+	public function delete()
+	{
+		$id = $this->input->post('id');
+
+        $this->memoRepository->where('id','=',$id)->delete();
+        $this->sendJSON(['status'=>'ok']);
+    
+	}
 	
 
 
