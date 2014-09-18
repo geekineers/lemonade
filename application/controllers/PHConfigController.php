@@ -17,10 +17,13 @@ class PHConfigController extends BaseController
         $this->branchRepository       = new BranchRepository();
         $this->payrollGroupRepository = new PayrollGroupRepository();
         $this->phConfigRepository = new PHConfigsRepository();
+         $this->employeeRepository   = new EmployeeRepository();
     }
 
     public function index()
     {   
+        $data['company'] = $this->company;
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['sets'] = $this->phConfigRepository->all();
         $this->render('settings/ph-config.twig.html',$data);
     }

@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
 
 class SSSConfigController extends BaseController
@@ -17,10 +16,14 @@ class SSSConfigController extends BaseController
         $this->branchRepository       = new BranchRepository();
         $this->payrollGroupRepository = new PayrollGroupRepository();
         $this->sssConfigRepository = new SSSConfigsRepository();
+        $this->employeeRepository   = new EmployeeRepository();
+        $this->load->library('session');
     }
 
     public function index()
     {   
+        $data['company'] = $this->company;
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['sets'] = $this->sssConfigRepository->all();
         $this->render('settings/sss-config.twig.html',$data);
     }

@@ -79,14 +79,14 @@
         </div>
 	</section>
 </div>
-{% include 'modal/add-ph.twig.html' %}
+{% include 'modal/add-wt.twig.html' %}
 <script type="text/javascript">
 
   var sssController = {
 
     addRange:function(){
       
-      $('#addPH').modal('show');
+      $('#addWT').modal('show');
     
     },
 
@@ -118,7 +118,7 @@
           'employee_share' : $parent.find('td input.employee_share').val() ,
           'employer_share' : $parent.find('td input.employer_share').val() ,
         }
-        $.post('/settings/philhealth-config/update',data,function(response){
+        $.post('/settings/withholding-config/update',data,function(response){
            $('table').loading(false );
           if(response.status=="ok"){
             $this.hide();

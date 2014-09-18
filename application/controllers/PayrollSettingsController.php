@@ -12,26 +12,24 @@ class PayrollSettingsController extends BaseController
         $this->mustBeLoggedIn();
         $this->branchRepository       = new BranchRepository();
         $this->payrollGroupRepository = new PayrollGroupRepository();
+         $this->employeeRepository   = new EmployeeRepository();
 
     }
 
     public function index()
     {
+
         $data['user']  = $this->sentry->getUser();
         $data['title'] = 'Payroll Settings';
         $data['wtax']  = taxlist();
         redirect('/settings/payroll-group');
-        // $this->output
-        //    ->set_content_type('application/json')
-        //    ->set_output(json_encode(iterator_to_array($data['wtax'])));
-        //     // dd());
-        // $this->render('payroll_settings/index.twig.html',$data);
+  
     }
 
     public function payrollGroup()
     {
         $data['company']  = $this->company;
-        $data['user']     = $this->sentry->getUser();
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']    = 'Payroll Settings';
         $data['branches'] = $this->branchRepository->all();
         $data['groups']   = $this->payrollGroupRepository->all();
