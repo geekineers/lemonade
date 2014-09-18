@@ -13,6 +13,6 @@ class PHConfigs extends BaseModel
     public $table    = "ph_settings";
     protected $datas = ['deleted_at'];
 
-    protected $fillable = ['from_range', ',company_id','to_range', 'salary_base', 'total_monthly_premium', 'employee_share', 'employer_share'];
+    protected $fillable = ['from_range', 'company_id','to_range', 'salary_base', 'total_monthly_premium', 'employee_share', 'employer_share'];
 
 }

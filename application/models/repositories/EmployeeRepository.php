@@ -232,6 +232,7 @@ class EmployeeRepository extends BaseRepository
         $file = new \Upload\File('display_picture', $this->fileSystem);
         
         if($profile_picture != 'none'){
+        
             $path = realpath(APPPATH . '../uploads/');
             unlink($path . '/' . $profile_picture);
             $profile_picture = explode('.', $profile_picture);        
@@ -334,6 +335,8 @@ class EmployeeRepository extends BaseRepository
     function deleteEmployee($id)
 {
         $employee = Employee::find($id);
+        $employee->date_ended = date('Y-m-d');
+
         return $employee->delete();
 
     }
@@ -420,6 +423,17 @@ class EmployeeRepository extends BaseRepository
         }         
 
 
+    }
+
+    public function reactivateEmployee($id)
+    {
+        $employee = $this->where('id', '=', $id)
+                         ->onlyTrashed()
+                        ->first();
+
+
+       $restore =  $employee->restore();
+       return $restore;
     }
 
 

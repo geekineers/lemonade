@@ -11,7 +11,7 @@ class PayslipsGroup extends BaseModel {
 	 protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['payroll_group', 'from','to','status','prepared_by'];
+  protected $fillable = ['payroll_group', 'from','to','status','prepared_by','company_id'];
 
   public function setPasswordAttribute($password)
   {

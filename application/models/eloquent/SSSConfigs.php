@@ -9,6 +9,6 @@ class SSSConfigs extends BaseModel
     public $table    = "sss_settings";
     protected $datas = ['deleted_at'];
 
-    protected $fillable = ['from_range', ',company_id','to_range', 'monthly_salary_credit', 'ER', 'EE', 'EC', 'TTC'];
+    protected $fillable = ['from_range', 'company_id','to_range', 'monthly_salary_credit', 'ER', 'EE', 'EC', 'TTC'];
 
 }

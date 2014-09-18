@@ -62,6 +62,23 @@ class EmployeeController extends BaseController
         $this->render('/employee/index.twig.html', $data);
     }
 
+    public function terminated()
+    {
+        $data['company']       = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null)
+        ? null
+        : $this->session->flashdata('message');
+        $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']     = "Employee";
+        $data['employees'] = $this->employeeRepository->onlyTrashed()->get();
+
+        $data['job_positions']  = $this->jobPositionRepository->all();
+        $data['departments']    = $this->departmentRepository->all();
+        $data['payroll_groups'] = $this->payrollGroupRepository->all();
+
+        $this->render('/employee/trashed.twig.html', $data);
+    }
+
     public function add()
     {
         $data['company'] = $this->company;
@@ -154,7 +171,7 @@ class EmployeeController extends BaseController
 
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         $data['departments']     = $this->departmentRepository->all();
-        $data['employee']        = $this->employeeRepository->find($id);
+        $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);
@@ -238,6 +255,14 @@ class EmployeeController extends BaseController
         $this->employeeRepository->deleteEmployee($id);
 
         redirect('/employees');
+    }
+
+    public function reactivate()
+    {
+        $id = $this->input->get('token');
+        $this->employeeRepository->reactivateEmployee($id);
+
+        redirect('/employees');    
     }
 
     public function apiAll()

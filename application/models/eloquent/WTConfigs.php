@@ -13,6 +13,13 @@ class WTConfigs extends BaseModel
     public $table    = "wt_settings";
     protected $datas = ['deleted_at'];
 
-    protected $fillable = ['from_range', ',company_id','to_range', 'monthly_salary_credit', 'ER', 'EE', 'EC', 'TTC'];
+    protected $fillable = ['period',
+    					   'to_range',
+    					   'to_range',
+    					   'dependents',
+    					   'index',
+    					   'exemption', 
+    					   'status'
+    					    ];
 
 }

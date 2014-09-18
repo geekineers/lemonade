@@ -4,15 +4,15 @@ if (!defined('BASEPATH')) {exit('No direct script access allowed');
 
 require_once ('connection.php');
 
-// use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Cartalyst\Sentry\Groups\Eloquent\Group;
 
 class Employee extends BaseModel
 {
-    // use SoftDeletingTrait;
+    use SoftDeletingTrait;
     protected $table = "employees";
 
-    // protected $datas = ['deleted_at'];
+    protected $datas = ['deleted_at'];
 
     protected $fillable = [
         'user_id',
@@ -165,7 +165,8 @@ class Employee extends BaseModel
 
     public function getDateEnded()
     {
-        return $this->date_ended;
+
+        return ($this->deleted_at) ?  date('Y-m-d', strtotime($this->deleted_at)) : 'Currently Employed';
     }
     public function getTin()
     {
