@@ -171,6 +171,7 @@ class Employee extends BaseModel
     public function getTin()
     {
         return $this->tin_number;
+    
     }
     public function getSSS()
     {
@@ -181,21 +182,28 @@ class Employee extends BaseModel
     {
         if ($this->deduct_sss == null) {
             $pay = $this->getBasicPay(false);
-           
+            
             $first = SSSConfigs::first();
             $last = SSSConfigs::orderby('created_at', 'desc')->first();
-            if($pay < $first->to_range){
-                $sss = $first->EE;
-            }else if($pay > $last->to_range){
-                 $sss = $last->EE;
-            }else {
-                 $sss = SSSConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->EE;
-            }
+            if($first != null && $last !=null){
 
-            $sss = floatval($sss);
-            
-            if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                return floatval($sss / 2);
+                if($pay < $first->to_range){
+                    $sss = $first->EE;
+                }else if($pay > $last->to_range){
+                     $sss = $last->EE;
+                }else {
+                     $sss = SSSConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->EE;
+                }
+                
+                $sss = floatval($sss);
+                
+                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    return floatval($sss / 2);
+                }else{
+                    return floatval($sss);
+                }
+            }else{
+                return (int) $this->fixed_sss_amount;
             }
         }
         return (int) $this->fixed_sss_amount;
@@ -209,19 +217,24 @@ class Employee extends BaseModel
 
             $first = PHConfigs::first();
             $last = PHConfigs::orderby('created_at', 'desc')->first();
-            
-            if($pay < $first->to_range){
-                $ph = $first->employee_share;
-            }else if($pay > $last->to_range){
-                 $ph = $last->employee_share;
-            }else {
-                 $ph = PHConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->employee_share;
-            }
+            if($first != null && $last !=null){
+                if($pay < $first->to_range){
+                    $ph = $first->employee_share;
+                }else if($pay > $last->to_range){
+                     $ph = $last->employee_share;
+                }else {
+                     $ph = PHConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->employee_share;
+                }
 
-            $ph = floatval($ph);
-           
-            if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                return floatval($ph / 2);
+                $ph = floatval($ph);
+               
+                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    return floatval($ph / 2);
+                }else{
+                    return floatval($ph);
+                }
+            }else{
+                return (int) $this->fixed_philhealth_amount;
             }
         }
         return (int) $this->fixed_philhealth_amount;
