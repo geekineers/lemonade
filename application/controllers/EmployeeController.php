@@ -257,6 +257,14 @@ class EmployeeController extends BaseController
         redirect('/employees');
     }
 
+    public function reactivate()
+    {
+        $id = $this->input->get('token');
+        $this->employeeRepository->reactivateEmployee($id);
+
+        redirect('/employees');    
+    }
+
     public function apiAll()
     {
         // dd('mark');

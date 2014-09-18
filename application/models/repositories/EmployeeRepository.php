@@ -425,5 +425,16 @@ class EmployeeRepository extends BaseRepository
 
     }
 
+    public function reactivateEmployee($id)
+    {
+        $employee = $this->where('id', '=', $id)
+                         ->onlyTrashed()
+                        ->first();
+
+
+       $restore =  $employee->restore();
+       return $restore;
+    }
+
 
 }

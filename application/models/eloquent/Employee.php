@@ -165,7 +165,8 @@ class Employee extends BaseModel
 
     public function getDateEnded()
     {
-        return date('Y-m-d', strtotime($this->deleted_at));
+
+        return ($this->deleted_at) ?  date('Y-m-d', strtotime($this->deleted_at)) : 'Currently Employed';
     }
     public function getTin()
     {
