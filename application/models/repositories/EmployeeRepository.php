@@ -232,6 +232,7 @@ class EmployeeRepository extends BaseRepository
         $file = new \Upload\File('display_picture', $this->fileSystem);
         
         if($profile_picture != 'none'){
+        
             $path = realpath(APPPATH . '../uploads/');
             unlink($path . '/' . $profile_picture);
             $profile_picture = explode('.', $profile_picture);        
