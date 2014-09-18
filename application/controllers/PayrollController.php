@@ -19,9 +19,9 @@ class PayrollController extends BaseController {
 
 	public function test()
 	{
-		$this->payslipsRepository->sendEmail();
-		$employee = Employee::where('id','=',3)->first();
-		dd($employee->getSSSValue());
+
+		
+		
 	}
 	public function index() {
 

@@ -10,53 +10,48 @@
             </ul>
 
             <div class="tab-content ">
-                <div class="tab-pane active" id="bir" style="position: relative; height: 300px;">
+                <div class="tab-pane active" id="bir" style="position: relative;  ">
              
-                	<table class="table table-bordered center">
+                	<table class="table table-bordered center" id="wttable">
                       <thead>
                         <tr>
                           <th>Period</th>
-                          <th>1</th>
-                          <th>2</th>
-                          <th>3</th>
-                          <th>4</th>
-                          <th>5</th>
-                          <th>6</th>
-                          <th>7</th>
-                          <th>8</th>
+                          <th>Index</th>
+                          <th>Range</th>
+                          <th>Dependents</th>
+                          <th>Status</th>
+                          <th>Exemption</th>
                           <th>Action</th>
                         </tr>
                       </thead>
+
+                      <tbody>
                 	     {% for set in sets %}
                           <tr data-id="{{ set.id }}">
-                                
+                              <td > 
+                                <span class="col-md-12 dependents">{{ set.period }}</span>
+                                <input type="text" class="input-sm hide period" value="{{ set.period }}" placeholder="period">
+                              </td>
+                              <td > 
+                                <span class="col-md-12 dependents">{{ set.index }}</span>
+                                <input type="text" class="input-sm hide index" value="{{ set.index }}" placeholder="index">
+                              </td>
                               <td > 
                                 <span class="col-md-12 range_from">{{ set.from_range }} - {{ set.to_range }}</span>
-                                <input type="text" class="input-sm range_from hide" value="{{ set.from_range }}" placeholder="from">
-                                <input type="text" class="input-sm  range_to hide" value="{{ set.to_range }}" placeholder="to">
+                                <input type="text" class="input-sm hide range_from hide" value="{{ set.from_range }}" placeholder="from">
+                                <input type="text" class="input-sm hide range_to hide" value="{{ set.to_range }}" placeholder="to">
                               </td>
-
-                              <td>
-                                <span class="col-md-12 salary_base">{{ set.salary_base }}</span>
-                                <input type="text" class="input-sm salary_base hide" value="{{ set.salary_base }}" placeholder="from">
+                              <td > 
+                                <span class="col-md-12 dependents">{{ set.dependents }}</span>
+                                <input type="text" class="input-sm hide index dependents" value="{{ set.dependents }}" placeholder="from">
                               </td>
-                              <td>
-                                <span class="col-md-12 EC">
-                                  {{ set.total_monthly_premium }}
-                                </span>
-                                  <input type="text" class="input-sm total_monthly_premium hide" placeholder="total monthly premium" value="{{ set.total_monthly_premium }}">
+                              <td > 
+                                <span class="col-md-12 dependents">{{ set.status }}</span>
+                                <input type="text" class="input-sm hide index status" value="{{ set.status }}" placeholder="status">
                               </td>
-                              <td>
-                                <span class="col-md-12 employee_share">
-                                  {{ set.employee_share }}
-                                </span>
-                                <input type="text" class="input-sm employee_share hide" placeholder="er" value="{{ set.employee_share }}">
-                              </td>
-                              <td>
-                                <span class="col-md-12 employer_share">
-                                  {{ set.employer_share }}
-                                </span>
-                                <input type="text" class="input-sm employer_share hide" placeholder="employer_share" value="{{ set.employer_share }}">
+                              <td > 
+                                <span class="col-md-12 dependents">{{ set.exemption }}</span>
+                                <input type="text" class="input-sm hide index exemption" value="{{ set.exemption }}" placeholder="exemption">
                               </td>
                               <td>
                                 <button class="btn btn-info save" style="display:none"><i class="fa fa-save"></i></button>
@@ -65,6 +60,7 @@
                               </td>
                           </tr>
                        {% endfor %}
+                      </tbody>
                 	</table>
                		<div class="col-md-12 center">
                			<button class="btn add-range">Add Ranges</button>
@@ -80,8 +76,20 @@
 	</section>
 </div>
 {% include 'modal/add-wt.twig.html' %}
-<script type="text/javascript">
 
+<script src="/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+(function($){
+$('#wttable').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false
+        });
+    })(jQuery);
+    
   var sssController = {
 
     addRange:function(){
@@ -113,10 +121,10 @@
           'id': $parent.data('id'),
           'from_range' : $parent.find('td input.range_from').val(),
           'to_range' : $parent.find('td input.range_to').val(),
-          'salary_base' : $parent.find('td input.salary_base').val(),
-          'total_monthly_premium' : $parent.find('td input.total_monthly_premium').val() ,
-          'employee_share' : $parent.find('td input.employee_share').val() ,
-          'employer_share' : $parent.find('td input.employer_share').val() ,
+          'period' : $parent.find('td input.period').val(),
+          'index' : $parent.find('td input.index').val() ,
+          'status' : $parent.find('td input.status').val() ,
+          'exemption' : $parent.find('td input.exemption').val() ,
         }
         $.post('/settings/withholding-config/update',data,function(response){
            $('table').loading(false );
@@ -143,6 +151,7 @@
 	$( '.add-range' ).on( 'click' , sssController.addRange );
   $( '.edit' ).on( 'click' , sssController.editSSS );
   $('.save').on('click', sssController.saveSSS );
+
 
 </script>
 

@@ -136,7 +136,7 @@
 	*/
 
 	$( '#branch' ).change( payrollGenerationEvents.onBranchChange );
-	$('#group_name').change( payrollGenerationEvents.onGroupNameChange );
+	// $('#group_name').change( payrollGenerationEvents.onGroupNameChange );
 	$('#generate-payroll').on('click',payrollGenerationEvents.generatePayroll );
 	$('.delete').on('click',payrollGenerationEvents.delete );
 	

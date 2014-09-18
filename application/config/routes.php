@@ -70,6 +70,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/philhealth-config/update','PHConfigController#update');
 
     $r->get('settings/withholding-config','WithholdingtaxController#index');
+    $r->get('settings/withholding-config/seed','WithholdingtaxController#seeder');
     $r->post('settings/withholding-config','WithholdingtaxController#store');
     $r->post('settings/withholding-config/update','WithholdingtaxController#update');
 

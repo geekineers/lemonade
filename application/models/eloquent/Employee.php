@@ -626,7 +626,7 @@ class Employee extends BaseModel
 
         $curr_salary = ($salary + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents);
 
-        $widthholding_tax = getWTax($curr_salary, $period, $dependents);
+        $widthholding_tax = $this->getWTax($curr_salary, $period, $dependents);
 
         $deductions = ($sss_val + $philhealth_val + $pagibig_val + intval($this->getTotalDeductions()) + $absents);
 
@@ -1025,7 +1025,7 @@ class Employee extends BaseModel
             $wtax = $this->getExpandedWithholdingTax(true) * $curr_salary;
             // dd($wtax);
         } else {
-            $wtax = getWTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
+            $wtax = $this->getTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
 
         }
 
@@ -1034,6 +1034,27 @@ class Employee extends BaseModel
         }
         return $wtax;
 
+    }
+
+    public function getTax($pay,$period,$dependents)
+    {
+        $WTConfigs = WTConfigs::get();
+        
+            $first = WTConfigs::first();
+            $last = WTConfigs::orderby('created_at', 'desc')->first();
+            $wtax = [];
+            if($pay < $first->to_range){
+                $wtax = $first;
+            }else if($pay > $last->to_range){
+                 $wtax = $last;
+            }else {
+                 $wtax = WTConfigs::where('period','=',$period)
+                                    ->where('dependents','=',$dependents)
+                                    ->where('to_range','>=',$pay)->where('from_range','<=',$pay)->first();
+            }
+         
+        $wt = (($pay - $wtax['to_range']) *  $wtax['status'] +  $wtax['exemption']);
+        return $wt;
     }
 
     public function getAllandTotalDeduction($from, $to, $number_format = true)
