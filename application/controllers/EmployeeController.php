@@ -23,7 +23,6 @@ class EmployeeController extends BaseController
 
     public function __construct()
     {
-
         parent::__construct();
 
         $this->mustBeLoggedIn();
@@ -89,7 +88,7 @@ class EmployeeController extends BaseController
         $data['job_positions']  = $this->jobPositionRepository->all();
         $data['departments']    = $this->departmentRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
-        $data['branches'] = $this->branchesRepository->all();
+        $data['branches']       = $this->branchesRepository->all();
         $this->render('employee/add.twig.html', $data);
 
     }
@@ -262,7 +261,7 @@ class EmployeeController extends BaseController
         $id = $this->input->get('token');
         $this->employeeRepository->reactivateEmployee($id);
 
-        redirect('/employees');    
+        redirect('/employees');
     }
 
     public function apiAll()
@@ -275,12 +274,11 @@ class EmployeeController extends BaseController
              ->set_output(json_encode($employees));
     }
 
-
     public function addEmployeeByBatch()
     {
-        
+
         $input = $this->input->post();
-        $this->employeeRepository->uploadBybatch($input);   
+        $this->employeeRepository->uploadBybatch($input);
         redirect('/employees');
     }
 }

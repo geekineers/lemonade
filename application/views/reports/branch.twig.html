@@ -27,13 +27,13 @@
                     {{ total_expenses }}
                 </h3>
                 <p>
-                    New Orders
+                    Total Payroll
                 </p>
             </div>
             <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fa fa-dollar"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="/payroll" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
                                 </a>
         </div>
@@ -50,9 +50,9 @@
                     Number of Employees
             </div>
             <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="fa fa-users"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="/employees" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
                                 </a>
         </div>
@@ -72,9 +72,9 @@
                 </p>
             </div>
             <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa fa-clock-o"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="/timesheet" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
                                 </a>
         </div>
@@ -92,9 +92,9 @@
                 </p>
             </div>
             <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="fa fa-calendar"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="/timesheet" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
                                 </a>
         </div>
@@ -112,18 +112,26 @@
         </div>
         <ul id="profile-tabs" class="nav nav-tabs" role="tablist">
             <li class="active">
-                <a href="#basic-info-tab" id="expense-btn" role="tab" data-toggle="tab"><i class='fa fa-user'></i>&nbsp;Expense Report</a>
+                <a href="#basic-info-tab" id="expense-btn" role="tab" data-toggle="tab" class="report-tab" ><i class='fa fa-user'></i>&nbsp;Expense Report</a>
             </li>
             <li class="">
-                <a href="#revenue-chart" id="absent-btn" role="tab" data-toggle="tab"><i class='fa fa-money'></i>&nbsp; Absents Report</a>
+                <a href="#revenue-chart" id="absent-btn" role="tab" data-toggle="tab" class="report-tab"><i class='fa fa-money'></i>&nbsp; Absents Report</a>
             </li>
            <li class="">
-                <a href="#revenue-chart" id="late-btn" role="tab" data-toggle="tab"><i class='fa fa-money'></i>&nbsp; Late/Undertime Report</a>
+                <a href="#revenue-chart" id="late-btn" role="tab" data-toggle="tab" class="report-tab"><i class='fa fa-money'></i>&nbsp; Late/Undertime Report</a>
             </li>
         </ul>
     </div>
     <div class="box-body reports">
-
+        <div class="pull-right">
+            <select name="" id="department_id" class="form-control">
+               <option value="NULL">All Departments</option>
+                {% for department in departments %}
+                <option value="{{ department.id }}">{{ department.department_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
         <div id="revenue-chart"></div>
 
     </div>
@@ -188,9 +196,11 @@ $(function() {
             $('.overlay').fadeIn();
         var branch_id = $('#branch_id').val();
         var year = $('#year').val();
+      var department_id = $('#department_id').val();
         "use strict";
         $.get('/reports/' + branch_id + '/branch/gross', {
-            year: year
+            year: year,
+            department_id: department_id
         }, function(data) {
             var area = new Morris.Area({
                 element: 'revenue-chart',
@@ -216,9 +226,11 @@ $(function() {
             $('.overlay').fadeIn();
         var branch_id = $('#branch_id').val();
         var year = $('#year').val();
+      var department_id = $('#department_id').val();
         "use strict";
         $.get('/reports/' + branch_id + '/branch/absent', {
-            year: year
+            year: year,
+            department_id: department_id
         }, function(data) {
             var area = new Morris.Area({
                 element: 'revenue-chart',
@@ -243,9 +255,11 @@ $(function() {
             $('.overlay').fadeIn();
         var branch_id = $('#branch_id').val();
         var year = $('#year').val();
+        var department_id = $('#department_id').val();
         "use strict";
         $.get('/reports/' + branch_id + '/branch/late', {
-            year: year
+            year: year,
+            department_id: department_id
         }, function(data) {
             var area = new Morris.Area({
                 element: 'revenue-chart',
@@ -262,6 +276,10 @@ $(function() {
             $('.loading-img').fadeOut();
             $('.overlay').fadeOut();
         });
+    });
+
+    $('#department_id').on('change', function(){
+        $('li.active>.report-tab').trigger('click');
     });
 });
 </script>

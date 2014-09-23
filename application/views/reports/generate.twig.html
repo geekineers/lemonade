@@ -12,17 +12,11 @@
 </div>
 <table class="table table-bordered table-hovered">
   <tr>
-		<th>Name</th>
+		<th>Report</th>
 		<th>Options</th>
 	</tr>
-	 {% for group in groups %}
-	 	<tr>
-			<td>{{ group.department_name }}</td>		
-	 		<td><a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
-            <a onclick="return confirm('Are you sure?')" href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
-      </td>
-	 	</tr>
-	 {% endfor %}
+     <td>Employee List</td>
+	   <td><a href="" class="btn btn-primary">Genarate</a></td>
 </table>
 
 

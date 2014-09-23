@@ -49,7 +49,7 @@ class Timesheet extends Eloquent {
 
   public function checkIfUndertime()
   {
-    return (boolean) $this->getEmployee()->getUnderTime($this->time_in, $this->time_out);    
+    return (boolean) $this->getEmployee()->getLate($this->time_in, $this->time_out);    
   }
 
   public function checkIfEmployeeDeleted()
