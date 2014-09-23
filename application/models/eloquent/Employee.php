@@ -134,6 +134,31 @@ class Employee extends BaseModel
         }
     }
 
+    public function getRoleName()
+    {
+        $this->getRole()->name;
+    }
+
+    public function getContactNumber()
+    {
+        return $this->contact_number;
+    }
+
+    public function getFacebook()
+    {
+        return $this->fb;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getSpouseName()
+    {
+        return $this->spouse_name;
+    }
+
     public function getAllRoles()
     {
         $groups = Group::all();
@@ -144,6 +169,12 @@ class Employee extends BaseModel
     {
         $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
         return $payroll_period;
+    }
+
+    public function getPayrollPeriodName()
+    {
+        $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
+        return $payroll_period->group_name;
     }
 
     public function getJobPosition()
@@ -167,6 +198,11 @@ class Employee extends BaseModel
         return 'none';
     }
 
+    public function getDependents()
+    {
+        return $this->dependents;
+    }
+
     public function getDateEnded()
     {
 
@@ -174,7 +210,7 @@ class Employee extends BaseModel
     }
     public function getTin()
     {
-        return $this->tin_number;
+        return (is_null($this->tin_number)) ? $this->tin_number : 'none';
 
     }
     public function getSSS()
@@ -455,6 +491,11 @@ class Employee extends BaseModel
 
     }
 
+    public function getFixedSssAmount()
+    {
+        return $this->fixed_sss_amount;
+    }
+
     public function getDeductHDMF($english_format = true)
     {
         if ($english_format) {
@@ -467,6 +508,11 @@ class Employee extends BaseModel
         return $this->deduct_hdmf;
     }
 
+    public function getFixedHdmfAmount()
+    {
+        return $this->fixed_hdmf_amount;
+    }
+
     public function getDeductPhilhealth($english_format = true)
     {
         if ($english_format) {
@@ -477,6 +523,11 @@ class Employee extends BaseModel
 
         return $this->deduct_philhealth;
 
+    }
+
+    public function getFixPhilhealthAmount()
+    {
+        return $this->fixed_philhealth_amount;
     }
 
     public function getUnderTimeDeductionRate($per_unit)
@@ -580,7 +631,7 @@ class Employee extends BaseModel
         // dd($totalLate);
 
         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
-    	
+
         return $totalLate;
     }
 
@@ -711,7 +762,7 @@ class Employee extends BaseModel
         $payroll_period = $this->getPayrollPeriod()->period;
         ;
 
-        return getRate($basic_salary, $payroll_period, 'hour');
+        return getRate($basic_pay, $payroll_period, 'hour');
 
     }
     /**
@@ -1001,7 +1052,12 @@ class Employee extends BaseModel
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
-    public function getExpandedWithholdingTax($forcomputation)
+    public function getWithholdingTaxType()
+    {
+        return $this->withholding_tax_type;
+    }
+
+    public function getExpandedWithholdingTax($forcomputation = false)
     {
         if ($forcomputation) {
             return $this->expanded_withholding_tax / 100;
@@ -1143,6 +1199,11 @@ class Employee extends BaseModel
     public function getCompany()
     {
         return Company::find($this->company_id);
+    }
+
+    public function getCompanyName()
+    {
+        return $this->getCompany()->company_name;
     }
 
 }

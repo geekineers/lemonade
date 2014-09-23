@@ -202,6 +202,8 @@ Pigeon::map(function ($r) {
     $r->get('reports/company/gross', 'ReportsController#companyGrossReport');
     $r->get('reports/company', 'ReportsController#company');
     $r->get('reports/generate', 'ReportsController#generate');
+    $r->post('reports/generate-employee-list', 'ReportsController#generateEmployeeList');
+    $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
 
     $r->get('sss', 'MainController#test');
 
