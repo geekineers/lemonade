@@ -90,33 +90,33 @@ $active_group  = 'default';
 $query_builder = true;
 
 $db_host     = '127.0.0.1';
-$db_name     = 'lemonade_dev';
+$db_name     = 'lemonade_2';
 $db_username = 'root';
 $db_password = 'root';
 
 // Setup the default config
 $db['default'] = array(
-	// PDO requires the host, dbname and charset are all specified in the "dsn",
-	// so we'll go ahead and do these now.
-	'dsn'      => "mysql:host={$db_host};dbname={$db_name};charset=utf8;",
-	'hostname' => $db_host,
-	'username' => $db_username,
-	'password' => $db_password,
-	'database' => $db_name,
-	'dbdriver' => 'pdo',
-	'dbprefix' => '',
-	'pconnect' => true,
-	'db_debug' => true,
-	'cache_on' => false,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'autoinit' => true,
-	'encrypt'  => false,
-	'compress' => false,
-	'stricton' => false,
-	'failover' => array()
+    // PDO requires the host, dbname and charset are all specified in the "dsn",
+    // so we'll go ahead and do these now.
+    'dsn'      => "mysql:host={$db_host};dbname={$db_name};charset=utf8;",
+    'hostname' => $db_host,
+    'username' => $db_username,
+    'password' => $db_password,
+    'database' => $db_name,
+    'dbdriver' => 'pdo',
+    'dbprefix' => '',
+    'pconnect' => true,
+    'db_debug' => true,
+    'cache_on' => false,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'autoinit' => true,
+    'encrypt'  => false,
+    'compress' => false,
+    'stricton' => false,
+    'failover' => array()
 );
 
 /* End of file database.php */
