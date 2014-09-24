@@ -43,9 +43,9 @@ class AnnouncementController extends BaseController
 
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
         $data['title']    = "Announcements";
         $data['branches'] = $this->announcementRepository->all();
+
         $this->render('announcements/index.twig.html', $data);
 
     }
