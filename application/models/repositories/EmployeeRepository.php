@@ -1,4 +1,7 @@
 <?php
+
+require_once APPPATH . '/libraries/excel.php';
+
 use Employee as Employee;
 use Upload\Storage\FileSystem as FileSystem;
 

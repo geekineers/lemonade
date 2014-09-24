@@ -173,7 +173,7 @@
 							 <div class="earnings panel panel-default">
 							<form method="post" action="/employees/{{ employee.id }}/update-contributions" >
 
-						  		<div class="panel-heading"><i class="fa fa-dollar"></i> HR Form Credits
+						  		<div class="panel-heading"><i class="fa fa-dollar"></i> Leave Credits
 						  		<button class="employee_edit edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
 						  		</div>
 						  	 <div class="panel-body">
@@ -209,21 +209,7 @@
 											<input class="edit-input" name="fixed_hdmf_amount">
 										</td>
 									</tr>	
-									<tr>
-										<td>
-											<span class="form-label">Deduct Philhealth Contribution</span>
-											<span class="profile-value">{{ employee.getDeductPhilhealth() }}</span>
-											<select name="deduct_philhealth" class="edit-input">
-												<option value="1">Yes</option>
-												<option value="0">No</option>
-											</select>
-										</td>
-										<td>
-											<span class="form-label">Philhealth Fixed Amount</span>
-											<span class="profile-value">{{ employee.fixed_philhealth_amount }}</span>
-											<input class="edit-input" name="fixed_philhealth_amount">
-										</td>
-									</tr>	
+									
 								
 								 </table>
 						 	<div class="save-cancel-btn pull-right">
