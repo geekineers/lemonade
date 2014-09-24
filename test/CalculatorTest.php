@@ -1,28 +1,26 @@
 <?php
 
 require 'application/helpers/helper_helper.php';
-require 'application/models/eloquent/Branch.php';
-class CalculatorTest extends PHPUnit_Framework_TestCase {
+// require 'application/models/eloquent/Branch.php';
+class CalculatorTest extends PHPUnit_Framework_TestCase
+{
 
-	public function setUp()
-	{
+    public function setUp()
+    {
 
+    }
 
-	}
+    public function testWtax()
+    {
+        $basic_salary   = 6306.55;
+        $payroll_period = "semi-monthly";
 
-	public function testWtax()
-	{
-		$basic_salary = 6306.55;
-		$payroll_period = "semi-monthly";
+        $this->assertEquals(615.48, getWTax($basic_salary, $payroll_period));
+    }
 
-		$this->assertEquals(615.48, getWTax($basic_salary, $payroll_period));
-	}
-
-	public function getModel()
-	{
-		Branch::all();
-	}
-
-
+    public function getModel()
+    {
+        // Branch::all();
+    }
 
 }

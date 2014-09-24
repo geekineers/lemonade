@@ -1,5 +1,6 @@
 <?php
 use Timesheet as Timesheet;
+use Upload\Storage\FileSystem as FileSystem;
 
 class TimesheetRepository extends BaseRepository
 {
@@ -9,6 +10,8 @@ class TimesheetRepository extends BaseRepository
     {
         $this->class              = new Timesheet();
         $this->employeeRepository = new EmployeeRepository();
+        $path                     = realpath(APPPATH . '../uploads/');
+        $this->fileSystem         = new FileSystem($path);
     }
 
     public function timeIn($sentry_user, $employee_id = null)
@@ -67,11 +70,11 @@ class TimesheetRepository extends BaseRepository
     public function updateTime($timesheet_id, $employee_id, $timestart, $timeend, $from, $to)
     {
 
-        $cookie   = $_COOKIE['cartalyst_sentry'];
+        $cookie    = $_COOKIE['cartalyst_sentry'];
         $timestart = date('H:i:s', strtotime($timestart));
-        $timeend = date('H:i:s', strtotime($timeend));
-    
-        $time_in  = date('Y-m-d H:i:s', strtotime($from . ' ' . $timestart));
+        $timeend   = date('H:i:s', strtotime($timeend));
+
+        $time_in = date('Y-m-d H:i:s', strtotime($from . ' ' . $timestart));
 
         $time_out = date('Y-m-d H:i:s', strtotime($to . ' ' . $timeend));
         $source   = "Manual Input";
@@ -87,9 +90,9 @@ class TimesheetRepository extends BaseRepository
         return true;
     }
 
-    public function search($query=null, $from=null, $to=null)
+    public function search($query = null, $from = null, $to = null)
     {
-        $employees = ($query == null ) ? null : $this->employeeRepository->searchGetId($query);
+        $employees = ($query == null) ? null : $this->employeeRepository->searchGetId($query);
         // dd($employees);
         return $this->getByRange($from, $to, $employees);
     }
@@ -101,28 +104,93 @@ class TimesheetRepository extends BaseRepository
  * @param  [int|array] $employee_id [description]
  * @return [object array]              [description]
  */
-    public function getByRange($from=null, $to=null, $employee_id = null)
+    public function getByRange($from = null, $to = null, $employee_id = null)
     {
         // dd($from, $to);
-        $from = (is_null($from) || $from == "") ? date('Y-m-d', strtotime('2000-01-01')) : date('Y-m-d', strtotime($from));
-        $to   = (is_null($to) || $to == "") ? date('Y-m-d') : date('Y-m-d', strtotime($to));
+        $from   = (is_null($from) || $from == "") ? date('Y-m-d', strtotime('2000-01-01')) : date('Y-m-d', strtotime($from));
+        $to     = (is_null($to) || $to == "") ? date('Y-m-d') : date('Y-m-d', strtotime($to));
         $search = $this;
         // dd($employee_id);
-        if($employee_id != NULL || $employee_id != "NULL"){
-            if(is_array($employee_id)){
-         
+        if ($employee_id != null || $employee_id != "NULL") {
+            if (is_array($employee_id)) {
+
                 $search = $search->whereIn('employee_id', $employee_id);
-            }
-            else if (!is_array($employee_id) && $employee_id != null) {
+            } else if (!is_array($employee_id) && $employee_id != null) {
                 $search = $search->where('employee_id', '=', $employee_id);
             }
-            
+
         }
 
-         return $search->whereBetween('time_in', [$from, $to])
-                    ->orderBy('time_in', 'desc')
-                    ->get();
+        return $search->whereBetween('time_in', [$from, $to])
+                      ->orderBy('time_in', 'desc')
+                      ->get();
         // dd($s);
+    }
+
+    public function uploadByBatch($data)
+    {
+        get_instance()->load->library('excel');
+
+        $file = new \Upload\File('excel_file', $this->fileSystem);
+        // $filename = 'none';
+        $path = realpath(APPPATH . '../uploads/');
+        // if ($file->isOk()) {
+        $filename = $path . '/add_timesheet.xlsx';
+        if (file_exists($filename)) {
+            unlink($filename);
+
+        }
+
+        $file->setName('add_timesheet');
+        $file->upload();
+        // }
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objReader->setReadDataOnly(false);
+
+        $objPHPExcel = $objReader->load($filename);
+
+        $objWorksheet = $objPHPExcel->getActiveSheet(0);
+
+        $highestRow    = $objWorksheet->getHighestRow();// e.g. 10
+        $highestColumn = $objWorksheet->getHighestColumn();// e.g 'F'
+
+        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);// e.g. 5
+
+        $timesheet_infos = [];
+
+        for ($index = 0, $row = 2; $row <= $highestRow; ++$row) {
+            // var_dump(''$index);
+            for ($col = 0; $col <= $highestColumnIndex; ++$col) {
+                var_dump('Column : ' . $col);
+                if ($col <= 4) {
+                    $timesheet_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+                } else {
+                    $timesheet_infos[$index][$col] = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow($col, $row)->getValue()));
+                }
+            }
+            $index++;
+        }
+
+        // dd($timesheet_infos);
+        foreach ($timesheet_infos as $timesheet_info) {
+            $employee = $this->employeeRepository->where('first_name', '=', $timesheet_info[0])
+                             ->where('last_name', '=', $timesheet_info[1])
+                             ->where('email', '=', $timesheet_info[2])
+                             ->where('company_id', '=', COMPANY_ID)
+                             ->first();
+
+            if ($employee == null) {
+                continue;
+            } else {
+                $employee_id = $employee->id;
+                $timestart   = $timesheet_info[3];
+                $timeend     = $timesheet_info[4];
+                $from        = $timesheet_info[5];
+                $to          = $timesheet_info[6];
+                $this->saveTime($employee_id, $timestart, $timeend, $from, $to);
+
+            }
+        }
     }
 
 }

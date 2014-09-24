@@ -11,6 +11,7 @@ class DepartmentController extends BaseController
         $this->mustBeLoggedIn();
         $this->departmentRepository = new DepartmentRepository();
         $this->employeeRepository   = new EmployeeRepository();
+        $this->branchRepository   = new BranchRepository();
         $this->load->library('session');
 
     }
@@ -18,6 +19,7 @@ class DepartmentController extends BaseController
     {
         $data['company'] = $this->company;
         $data['groups']  = $this->departmentRepository->all();
+        $data['branches']  = $this->branchRepository->all();
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "Department";
         // dd($data);
@@ -41,6 +43,7 @@ class DepartmentController extends BaseController
     {
         $input['department_name']        = (string) $this->input->post('department_name');
         $input['department_description'] = (string) $this->input->post('department_description');
+        $input['branch_id'] = (int) $this->input->post('branch_id');
 
         // dd($input);
         $job = $this->departmentRepository->createNotExist($input);

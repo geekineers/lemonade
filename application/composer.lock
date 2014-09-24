@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
-                "reference": "3fd8deccb023561d39651e8ad00af725c2bd4811"
+                "reference": "e0ff3c39081d9f1aa0ebc1afa7ea26aa9cf9d584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/cache/zipball/3fd8deccb023561d39651e8ad00af725c2bd4811",
-                "reference": "3fd8deccb023561d39651e8ad00af725c2bd4811",
+                "url": "https://api.github.com/repos/illuminate/cache/zipball/e0ff3c39081d9f1aa0ebc1afa7ea26aa9cf9d584",
+                "reference": "e0ff3c39081d9f1aa0ebc1afa7ea26aa9cf9d584",
                 "shasum": ""
             },
             "require": {
@@ -241,7 +241,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-10 16:29:36"
+            "time": "2014-09-18 12:14:37"
         },
         {
             "name": "illuminate/config",
@@ -566,12 +566,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
-                "reference": "34a3012bf8f502ac38c7f1c012366dc4f62d1a49"
+                "reference": "17fbf5771e62c988a4ad30e514011c2ae3e0350b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/http/zipball/34a3012bf8f502ac38c7f1c012366dc4f62d1a49",
-                "reference": "34a3012bf8f502ac38c7f1c012366dc4f62d1a49",
+                "url": "https://api.github.com/repos/illuminate/http/zipball/17fbf5771e62c988a4ad30e514011c2ae3e0350b",
+                "reference": "17fbf5771e62c988a4ad30e514011c2ae3e0350b",
                 "shasum": ""
             },
             "require": {
@@ -602,7 +602,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-10 14:59:29"
+            "time": "2014-09-18 12:14:37"
         },
         {
             "name": "illuminate/routing",
@@ -611,12 +611,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/routing.git",
-                "reference": "823ef804e1e873444800a848ff5ca5e60477956b"
+                "reference": "72f7148e9d03f8dbefc7c0ad28d73b8817a78818"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/routing/zipball/823ef804e1e873444800a848ff5ca5e60477956b",
-                "reference": "823ef804e1e873444800a848ff5ca5e60477956b",
+                "url": "https://api.github.com/repos/illuminate/routing/zipball/72f7148e9d03f8dbefc7c0ad28d73b8817a78818",
+                "reference": "72f7148e9d03f8dbefc7c0ad28d73b8817a78818",
                 "shasum": ""
             },
             "require": {
@@ -654,7 +654,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-15 12:29:16"
+            "time": "2014-09-18 12:14:37"
         },
         {
             "name": "illuminate/session",
@@ -714,12 +714,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "735a35c50bb4b3906bb2e56474235d34ae2b94fe"
+                "reference": "71d4f72ba77336a9d441e87734f5685acc8266c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/735a35c50bb4b3906bb2e56474235d34ae2b94fe",
-                "reference": "735a35c50bb4b3906bb2e56474235d34ae2b94fe",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/71d4f72ba77336a9d441e87734f5685acc8266c0",
+                "reference": "71d4f72ba77336a9d441e87734f5685acc8266c0",
                 "shasum": ""
             },
             "require": {
@@ -753,7 +753,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-15 04:03:56"
+            "time": "2014-09-16 20:37:16"
         },
         {
             "name": "illuminate/view",
