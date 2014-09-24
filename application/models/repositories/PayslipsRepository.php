@@ -164,7 +164,7 @@ class PayslipsRepository extends BaseRepository {
 
 
 		
-		get_instance()->load->library('excel');
+		get_instance()->load->library('Excel');
 		try{
 	        $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
 			$objPHPExcel->setActiveSheetIndex(0);
