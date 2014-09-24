@@ -1,5 +1,7 @@
 <?php
 
+require_once APPPATH . '/libraries/excel.php';
+
 class ReportRepository extends BaseRepository
 {
 

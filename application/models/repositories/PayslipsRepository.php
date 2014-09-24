@@ -1,4 +1,7 @@
 <?php
+
+require_once APPPATH . '/libraries/excel.php';
+
 use Payslips as Payslips;
 use Respect\Validation\Validator as Validator;
 
