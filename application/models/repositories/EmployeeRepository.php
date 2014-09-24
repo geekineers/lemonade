@@ -367,7 +367,10 @@ class EmployeeRepository extends BaseRepository
             
         $filename = $path.'/add_employee_template.xlsx';
             // dd($filename);
+           if (file_exists($filename)) {
         unlink($filename);
+           }
+        
         $file->upload();
 
             // Try to upload file
