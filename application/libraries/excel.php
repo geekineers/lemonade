@@ -1,19 +1,21 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/* 
- *  ======================================= 
- *  Author     : Muhammad Surya Ikhsanudin 
- *  License    : Protected 
- *  Email      : mutofiyah@gmail.com 
- *   
- *  Dilarang merubah, mengganti dan mendistribusikan 
- *  ulang tanpa sepengetahuan Author 
- *  ======================================= 
- */  
+<?php
+if (!defined('BASEPATH')) {exit('No direct script access allowed');
+}
 
-require_once APPPATH.'/third_party/PHPExcel/PHPExcel.php';
+/*
+ *  =======================================
+ *  Author     : Muhammad Surya Ikhsanudin
+ *  License    : Protected
+ *  Email      : mutofiyah@gmail.com
+ *
+ *  Dilarang merubah, mengganti dan mendistribusikan
+ *  ulang tanpa sepengetahuan Author
+ *  =======================================
+ */
 
-class Excel extends PHPExcel {
-	public function __construct() {
-		parent::__construct();
-	}
+require_once APPPATH . '/third_party/PHPExcel/PHPExcel.php';
+
+class Excel extends PHPExcel
+{
+
 }
