@@ -363,14 +363,14 @@ class EmployeeRepository extends BaseRepository
         // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
         
         $filename = 'none';
-          $path = realpath(APPPATH . '../uploads/');
+        $path = realpath(APPPATH . '../uploads/');
             
         $filename = $path.'/add_employee_template.xlsx';
             // dd($filename);
-           if (file_exists($filename)) {
-        unlink($filename);
-           }
-        
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+        $file->setName('add_employee_template');
         $file->upload();
 
             // Try to upload file
