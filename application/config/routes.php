@@ -204,6 +204,7 @@ Pigeon::map(function ($r) {
     $r->get('reports/generate', 'ReportsController#generate');
     $r->post('reports/generate-employee-list', 'ReportsController#generateEmployeeList');
     $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
+    $r->post('reports/generate-sss-report', 'ReportsController#generateSssReport');
 
     $r->get('sss', 'MainController#test');
 

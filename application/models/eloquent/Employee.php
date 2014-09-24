@@ -249,6 +249,37 @@ class Employee extends BaseModel
         return (int) $this->fixed_sss_amount;
     }
 
+    public function getSSSEmployerValue()
+    {
+        if ($this->deduct_sss == null) {
+            $pay = $this->getBasicPay(false);
+
+            $first = SSSConfigs::first();
+            $last  = SSSConfigs::orderby('created_at', 'desc')->first();
+            if ($first != null && $last != null) {
+
+                if ($pay < $first->to_range) {
+                    $sss = $first->ER;
+                } else if ($pay > $last->to_range) {
+                    $sss = $last->ER;
+                } else {
+                    $sss = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->ER;
+                }
+
+                $sss = floatval($sss);
+
+                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    return floatval($sss / 2);
+                } else {
+                    return floatval($sss);
+                }
+            } else {
+                return (int) $this->fixed_sss_amount;
+            }
+        }
+        return (int) $this->fixed_sss_amount;
+    }
+
     public function getPhilhealthValue()
     {
         if ($this->deduct_sss == null) {

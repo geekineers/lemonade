@@ -4,7 +4,7 @@ require_once ('BaseController.php');
 
 class ReportsController extends BaseController
 {
-    protected $branchRepository, $employeeRepository, $departmentRepository;
+    protected $branchRepository, $employeeRepository, $departmentRepository, $reportRepository;
 
     public function __construct()
     {
@@ -13,6 +13,8 @@ class ReportsController extends BaseController
         $this->branchRepository     = new BranchRepository();
         $this->departmentRepository = new DepartmentRepository();
         $this->employeeRepository   = new EmployeeRepository();
+
+        $this->reportRepository = new ReportRepository();
 
     }
 
@@ -31,6 +33,7 @@ class ReportsController extends BaseController
     public function generateEmployeeList()
     {
         $output           = [];
+        $output_column    = [];
         $index            = 0;
         $selected_columns = $this->input->post('columns');
         $columns          = array_keys($selected_columns);
@@ -50,9 +53,19 @@ class ReportsController extends BaseController
 
             $index++;
         }
+        array_push($output_column, "First Name");
+        array_push($output_column, "Middle Name");
+        array_push($output_column, "Last Name");
 
-        dd($output);
+        foreach ($columns as $column) {
+            array_push($output_column, _snakeToTitle($column));
+        }
 
+        $xls_file = $this->reportRepository->generateXLS($output, $output_column, 'employee');
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
     }
 
     public function generateIncomeTaxReport()
@@ -69,22 +82,71 @@ class ReportsController extends BaseController
         );
 
         foreach ($quarter_dates as $key => $value) {
+            array_push($output, ['quarter' => $key]);
             $employees = $this->employeeRepository->all();
             foreach ($employees as $employee) {
                 $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
                 // dd($date_hired);
                 if ($date_hired >= $value['start']) {
-                    $item['quarter'] = $key;
-                    $item['name']    = $employee->getName();
-                    $item['tin']     = $employee->getTin();
-                    $item['tax']     = $employee->getWithholdingTax($value['start'], $value['end']);
+                    $item['name'] = $employee->getName();
+                    $item['tin']  = $employee->getTin();
+                    $item['tax']  = $employee->getWithholdingTax($value['start'], $value['end']);
                     array_push($output, $item);
                 }
 
             }
+            array_push($output, ['break' => '']);
         }
 
-        dd($output);
+        $columns = ['Name', 'Tin Number', 'Tax Withheld'];
+
+        $xls_file = $this->reportRepository->generateXLS($output, $columns, 'tax-report');
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
+
+    }
+
+    public function generateSssReport()
+    {
+        $output = [];
+        $index  = 0;
+        $year   = $this->input->post('year');
+
+        $quarter_dates = array(
+            'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
+            'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
+            'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
+            'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
+        );
+
+        foreach ($quarter_dates as $key => $value) {
+            array_push($output, ['quarter' => $key]);
+            $employees = $this->employeeRepository->all();
+            foreach ($employees as $employee) {
+                $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
+                // dd($date_hired);
+                if ($date_hired >= $value['start']) {
+
+                    $item['name']         = $employee->getName();
+                    $item['sss_number']   = $employee->getSSS();
+                    $item['sss']          = $employee->getSSSValue();
+                    $item['employer_sss'] = $employee->getSSSEmployerValue();
+                    array_push($output, $item);
+                }
+
+            }
+            array_push($output, ['break' => '']);
+        }
+
+        $columns = ['Name', 'SSS Number', 'Employee', 'Employer'];
+
+        $xls_file = $this->reportRepository->generateXLS($output, $columns, 'sss-report');
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
 
     }
 

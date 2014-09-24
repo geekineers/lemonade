@@ -4,7 +4,7 @@ function _snakeToCamel($val) {
     return str_replace(' ', '', ucwords(str_replace('_', ' ', $val)));
 }
 
-function _snakeToTitle()
+function _snakeToTitle($val)
 {
     return ucwords(str_replace('_', ' ', $val));
 }
