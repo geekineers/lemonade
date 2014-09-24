@@ -43,10 +43,24 @@ class AnnouncementController extends BaseController
 
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-
         $data['title']    = "Announcements";
         $data['branches'] = $this->announcementRepository->all();
+
         $this->render('announcements/index.twig.html', $data);
 
+    }
+
+    public function delete()
+    {
+        $id = $this->input->post('id');
+        $this->announcementRepository->where('id','=',$id)->delete();
+        $this->sendJSON(['status'=>'ok']);
+    }
+
+    public function getAnnouncement()
+    {
+        $id = $this->input->get('id');
+        $data = $this->announcementRepository->getAnnouncementById($id);
+        $this->sendJSON($data);
     }
 }

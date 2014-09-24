@@ -18,5 +18,10 @@ class AnnouncementRepository extends BaseRepository {
 	{
 		return $this->all();
 	}
+
+	public function getAnnouncementById($id)
+	{
+		return $this->where('id','=',$id)->first();
+	}
 	
 }

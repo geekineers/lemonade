@@ -18,44 +18,11 @@ class WTConfigsRepository extends BaseRepository {
 	
 	public function createWt($data)
 	{
-		$validator = Validator::arr()->key('from_range', Validator::notEmpty())
-                                     ->key('to_range', Validator::notEmpty())
-                                     ->key('monthly_salary_credit', Validator::notEmpty())
-                                     ->key('ER', Validator::notEmpty())
-                                     ->key('EE',  Validator::notEmpty())
-                                     ->key('EC',  Validator::notEmpty())
-                                     ->key('TTC',  Validator::notEmpty())
-                                     ->validate($data);
-
-
-        if ($validator) {
             return $this->create($data);
-        } else {
-
-            return false;
-        }
 	}
 
 	public function updateWt($data , $id)
 	{
-
-		$validator = Validator::arr()->key('from_range', Validator::notEmpty())
-                                     ->key('to_range', Validator::notEmpty())
-                                     ->key('monthly_salary_credit', Validator::notEmpty())
-                                     ->key('ER', Validator::notEmpty())
-                                     ->key('EE',  Validator::notEmpty())
-                                     ->key('EC',  Validator::notEmpty())
-                                     ->key('TTC',  Validator::notEmpty())
-                                     ->validate($data);
-
-                                
-        if ($validator) {
-
             return $this->where('id','=',$id)->update($data);
-       
-        } else {
-        	
-            return false;
-        }
 	}
 }

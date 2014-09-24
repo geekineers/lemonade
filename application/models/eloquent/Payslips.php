@@ -24,7 +24,8 @@ class Payslips extends Eloquent {
                         'from',
                         'to',
                         'net',
-                        'gross'
+                        'gross',
+                        'company_id'
                ];
 
   public function getPayslipsGroup()

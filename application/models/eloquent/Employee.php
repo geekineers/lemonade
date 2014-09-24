@@ -171,6 +171,7 @@ class Employee extends BaseModel
     public function getTin()
     {
         return $this->tin_number;
+    
     }
     public function getSSS()
     {
@@ -181,21 +182,28 @@ class Employee extends BaseModel
     {
         if ($this->deduct_sss == null) {
             $pay = $this->getBasicPay(false);
-           
+            
             $first = SSSConfigs::first();
             $last = SSSConfigs::orderby('created_at', 'desc')->first();
-            if($pay < $first->to_range){
-                $sss = $first->EE;
-            }else if($pay > $last->to_range){
-                 $sss = $last->EE;
-            }else {
-                 $sss = SSSConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->EE;
-            }
+            if($first != null && $last !=null){
 
-            $sss = floatval($sss);
-            
-            if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                return floatval($sss / 2);
+                if($pay < $first->to_range){
+                    $sss = $first->EE;
+                }else if($pay > $last->to_range){
+                     $sss = $last->EE;
+                }else {
+                     $sss = SSSConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->EE;
+                }
+                
+                $sss = floatval($sss);
+                
+                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    return floatval($sss / 2);
+                }else{
+                    return floatval($sss);
+                }
+            }else{
+                return (int) $this->fixed_sss_amount;
             }
         }
         return (int) $this->fixed_sss_amount;
@@ -209,19 +217,24 @@ class Employee extends BaseModel
 
             $first = PHConfigs::first();
             $last = PHConfigs::orderby('created_at', 'desc')->first();
-            
-            if($pay < $first->to_range){
-                $ph = $first->employee_share;
-            }else if($pay > $last->to_range){
-                 $ph = $last->employee_share;
-            }else {
-                 $ph = PHConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->employee_share;
-            }
+            if($first != null && $last !=null){
+                if($pay < $first->to_range){
+                    $ph = $first->employee_share;
+                }else if($pay > $last->to_range){
+                     $ph = $last->employee_share;
+                }else {
+                     $ph = PHConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->employee_share;
+                }
 
-            $ph = floatval($ph);
-           
-            if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                return floatval($ph / 2);
+                $ph = floatval($ph);
+               
+                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    return floatval($ph / 2);
+                }else{
+                    return floatval($ph);
+                }
+            }else{
+                return (int) $this->fixed_philhealth_amount;
             }
         }
         return (int) $this->fixed_philhealth_amount;
@@ -613,7 +626,7 @@ class Employee extends BaseModel
 
         $curr_salary = ($salary + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents);
 
-        $widthholding_tax = getWTax($curr_salary, $period, $dependents);
+        $widthholding_tax = $this->getWTax($curr_salary, $period, $dependents);
 
         $deductions = ($sss_val + $philhealth_val + $pagibig_val + intval($this->getTotalDeductions()) + $absents);
 
@@ -1012,7 +1025,7 @@ class Employee extends BaseModel
             $wtax = $this->getExpandedWithholdingTax(true) * $curr_salary;
             // dd($wtax);
         } else {
-            $wtax = getWTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
+            $wtax = $this->getTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
 
         }
 
@@ -1021,6 +1034,27 @@ class Employee extends BaseModel
         }
         return $wtax;
 
+    }
+
+    public function getTax($pay,$period,$dependents)
+    {
+        $WTConfigs = WTConfigs::get();
+        
+            $first = WTConfigs::first();
+            $last = WTConfigs::orderby('created_at', 'desc')->first();
+            $wtax = [];
+            if($pay < $first->to_range){
+                $wtax = $first;
+            }else if($pay > $last->to_range){
+                 $wtax = $last;
+            }else {
+                 $wtax = WTConfigs::where('period','=',$period)
+                                    ->where('dependents','=',$dependents)
+                                    ->where('to_range','>=',$pay)->where('from_range','<=',$pay)->first();
+            }
+         
+        $wt = (($pay - $wtax['to_range']) *  $wtax['status'] +  $wtax['exemption']);
+        return $wt;
     }
 
     public function getAllandTotalDeduction($from, $to, $number_format = true)

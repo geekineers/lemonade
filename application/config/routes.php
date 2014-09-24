@@ -25,12 +25,17 @@ Pigeon::map(function ($r) {
     $r->get('auth/time-in', 'AuthController#timeIn');
 
     $r->get('dashboard', 'MainController#dashboard');
-
+    $r->get('dashboard/announcement-rest','AnnouncementController#getAnnouncement');
+    $r->post('dashboard/delete-announcement','AnnouncementController#delete');
+    $r->post('dashboard/delete-memo','MemoController#delete');
     $r->post('announcement', 'AnnouncementController#save');
 
     $r->get('public/payslip/(:num)', 'AttachedEmailController#slip');
    
     $r->get('slip', 'MainController#slip');
+
+
+
 
     $r->get('settings/branches', 'BranchController#index');
     $r->get('settings/branches/add', 'BranchController#add');
@@ -61,6 +66,7 @@ Pigeon::map(function ($r) {
 
     /*Admin Settings */
     $r->get('settings/sss-config','SSSConfigController#index');
+    $r->get('settings/sss-config/seeder','SSSConfigController#sssSeeder');
     $r->post('settings/sss-config','SSSConfigController#store');
     $r->post('settings/sss-config/update','SSSConfigController#update');
 
@@ -69,6 +75,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/philhealth-config/update','PHConfigController#update');
 
     $r->get('settings/withholding-config','WithholdingtaxController#index');
+    $r->get('settings/withholding-config/seed','WithholdingtaxController#seeder');
     $r->post('settings/withholding-config','WithholdingtaxController#store');
     $r->post('settings/withholding-config/update','WithholdingtaxController#update');
 
