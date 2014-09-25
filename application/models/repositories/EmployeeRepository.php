@@ -413,7 +413,7 @@ class EmployeeRepository extends BaseRepository
                 'job_position'    =>  Job_Position::where('Job_Position','like',"%{$user_info[12]}%")->first()->id,
                 'department'      =>  Department::where('department_name','like',"%{$user_info[13]}%")->first()->id,
                 'role_id'         => $user_info[15],
-                'branch_id'       => Branch::where('department_name','like',"%{$user_info[11]}%")->first()->id,
+                'branch_id'       => Branch::where('branch_name','like',"%{$user_info[11]}%")->first()->id,
                 'date_hire'      => $user_info[16],
                 'date_ended'      => $user_info[3],
                 'basic_pay'       => $user_info[17],
