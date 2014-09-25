@@ -131,6 +131,10 @@ Pigeon::map(function ($r) {
     $r->post('settings/holidays/update/(:num)', 'HolidayController#update');
     $r->post('settings/holidays/save/(:num)', 'HolidayController#add');
 
+
+    $r->get('settings/leave-types', 'LeaveTypeController#index');
+    $r->get('settings/leave-types/add', 'LeaveTypeController#add');
+
     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 
     $r->post('evaluations/save', 'EvaluationController#store');

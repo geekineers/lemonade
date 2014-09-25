@@ -363,14 +363,14 @@ class EmployeeRepository extends BaseRepository
         // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
         
         $filename = 'none';
-          $path = realpath(APPPATH . '../uploads/');
+        $path = realpath(APPPATH . '../uploads/');
             
         $filename = $path.'/add_employee_template.xlsx';
             // dd($filename);
-           if (file_exists($filename)) {
-        unlink($filename);
-           }
-        
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+        $file->setName('add_employee_template');
         $file->upload();
 
             // Try to upload file
@@ -399,6 +399,48 @@ class EmployeeRepository extends BaseRepository
         
 
         foreach ($user_infos as  $user_info ) {
+
+            $branch = Branch::where('branch_name','=', $user_info[11])->first();
+            if($branch){
+                $branch_id =$branch->id;
+            }
+            else{
+                $branch= Branch::create(array('branch_name' => $user_info[11], 'branch_description' => 'null', 'branch_address' => 'null', 'branch_contact_number' => 'null', 'company_id' => COMPANY_ID));
+                
+                $branch_id = $branch->id;
+            }
+            // dd($branch_id);
+            $department = Department::where('department_name', '=',  $user_info[13])->first();
+            if($department){
+                $department_id =$department->id;
+            }
+            else{
+                $department = Department::create(array('department_name' => $user_info[13],'branch_id' => $branch_id, 'company_id' => COMPANY_ID, 'department_description' => 'null'));
+                $department_id = $department_id;
+            }
+
+            $job_position = Job_Position::where('Job_Position','=', $user_info[12])->first();
+            if($job_position){
+                $job_position_id = $job_position->id;
+            }
+            else{
+                $job_position = Job_Position::create(array('job_position' => $user_info[12], 'company_id' => COMPANY_ID, 'job_description' => 'null'));
+                   $job_position_id = $job_position->id;
+            }
+
+
+            $payroll_period = PayrollGroup::where('group_name','=',$user_info[14])->first();
+            if($payroll_period){
+                
+                $payroll_period_id = $payroll_period->id;
+            }
+            else{
+     
+                $period  = ucwords(strtolower($user_info[15]));
+                $payroll_period = PayrollGroup::create(array('group_name' => $user_info[14], 'period' => $period, 'branch_id' => $branch_id,'company_id' => COMPANY_ID));
+                 $payroll_period_id = $payroll_period->id;
+            }
+
             $data = array(
                 'first_name'      => $user_info[1],
                 'last_name'       => $user_info[3],
@@ -409,21 +451,21 @@ class EmployeeRepository extends BaseRepository
                 'marital_status'  => $user_info[7],
                 'spouse_name'     => $user_info[5],
                 'employee_type'   => $user_info[10],
-                'payroll_period'  =>  PayrollGroup::where('group_name','like',"%{$user_info[14]}%")->first()->id,
-                'job_position'    =>  Job_Position::where('Job_Position','like',"%{$user_info[12]}%")->first()->id,
-                'department'      =>  Department::where('department_name','like',"%{$user_info[13]}%")->first()->id,
-                'role_id'         => $user_info[15],
-                'branch_id'       => Branch::where('department_name','like',"%{$user_info[11]}%")->first()->id,
-                'date_hire'      => $user_info[16],
+                'payroll_period'  =>  $payroll_period_id,
+                'job_position'    =>  $job_position_id,
+                'department'      =>  $department_id,
+                'role_id'         => $user_info[16],
+                'branch_id'       => $branch_id,
+                'date_hire'      => $user_info[17],
                 'date_ended'      => $user_info[3],
-                'basic_pay'       => $user_info[17],
-                'tin_number'      => $user_info[18],
-                'ssss_number'      => $user_info[19],
-                'pagibig_number'  => $user_info[20],
+                'basic_pay'       => $user_info[18],
+                'tin_number'      => $user_info[19],
+                'sss_number'      => $user_info[20],
+                'pagibig_number'  => $user_info[21],
                 'dependents'      => $user_info[6],
-                'contact_number'  => $user_info[23],
-                'email_address'           =>$user_info[21],
-                'fb'              => $user_info[22]
+                'contact_number'  => $user_info[24],
+                'email_address'           =>$user_info[22],
+                'fb'              => $user_info[23]
             );
             $this->createEmployee($data,"");
         }         
