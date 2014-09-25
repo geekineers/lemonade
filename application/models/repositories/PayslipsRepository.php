@@ -173,10 +173,11 @@ class PayslipsRepository extends BaseRepository {
 					$objPHPExcel->getActiveSheet()->SetCellValue('B1',$from .'-'.$to);
 					$objPHPExcel->getActiveSheet()->SetCellValue('B2',$date);
 					$objPHPExcel->getActiveSheet()->SetCellValue('B3',$period->getPayrollGroup()->period );
+					
 			foreach ($slip as $key => $payslip ) 
 			{
 
-						$objPHPExcel->getActiveSheet()->SetCellValue('A'.$row,$payslip->getEmployee()->getJobPosition() );
+					$objPHPExcel->getActiveSheet()->SetCellValue('A'.$row,$payslip->getEmployee()->getJobPosition() );
 					$objPHPExcel->getActiveSheet()->SetCellValue('B'.$row,$payslip->getEmployee()->id);
 					$objPHPExcel->getActiveSheet()->SetCellValue('C'.$row,$payslip->getEmployee()->getName());
 					$objPHPExcel->getActiveSheet()->SetCellValue('D'.$row,$payslip->getEmployee()->getMonthlyRate(true));
