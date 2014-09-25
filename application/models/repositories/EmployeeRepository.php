@@ -1,4 +1,7 @@
 <?php
+
+require_once APPPATH . '/libraries/excel.php';
+
 use Employee as Employee;
 use Upload\Storage\FileSystem as FileSystem;
 
@@ -360,11 +363,14 @@ class EmployeeRepository extends BaseRepository
         // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
         
         $filename = 'none';
-          $path = realpath(APPPATH . '../uploads/');
+        $path = realpath(APPPATH . '../uploads/');
             
         $filename = $path.'/add_employee_template.xlsx';
             // dd($filename);
-        unlink($filename);
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+        $file->setName('add_employee_template');
         $file->upload();
 
             // Try to upload file
@@ -407,7 +413,7 @@ class EmployeeRepository extends BaseRepository
                 'job_position'    =>  Job_Position::where('Job_Position','like',"%{$user_info[12]}%")->first()->id,
                 'department'      =>  Department::where('department_name','like',"%{$user_info[13]}%")->first()->id,
                 'role_id'         => $user_info[15],
-                'branch_id'       => Branch::where('department_name','like',"%{$user_info[11]}%")->first()->id,
+                'branch_id'       => Branch::where('branch_name','like',"%{$user_info[11]}%")->first()->id,
                 'date_hire'      => $user_info[16],
                 'date_ended'      => $user_info[3],
                 'basic_pay'       => $user_info[17],

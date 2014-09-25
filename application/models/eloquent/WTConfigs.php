@@ -14,12 +14,12 @@ class WTConfigs extends BaseModel
     protected $datas = ['deleted_at'];
 
     protected $fillable = ['period',
-    					   'to_range',
-    					   'to_range',
-    					   'dependents',
-    					   'index',
-    					   'exemption', 
-    					   'status'
-    					    ];
+        'to_range',
+        'from_range',
+        'dependents',
+        'index',
+        'exemption',
+        'status'
+    ];
 
 }

@@ -4,8 +4,8 @@ if (!defined('BASEPATH')) {exit('No direct script access allowed');
 
 require_once ('connection.php');
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Cartalyst\Sentry\Groups\Eloquent\Group;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Employee extends BaseModel
 {
@@ -54,6 +54,10 @@ class Employee extends BaseModel
 
     ];
 
+    public function getEmployeeID()
+    {
+        return createEmployeeID($this->id);
+    }
     public function getGroup()
     {
 
@@ -130,6 +134,31 @@ class Employee extends BaseModel
         }
     }
 
+    public function getRoleName()
+    {
+        $this->getRole()->name;
+    }
+
+    public function getContactNumber()
+    {
+        return $this->contact_number;
+    }
+
+    public function getFacebook()
+    {
+        return $this->fb;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getSpouseName()
+    {
+        return $this->spouse_name;
+    }
+
     public function getAllRoles()
     {
         $groups = Group::all();
@@ -140,6 +169,12 @@ class Employee extends BaseModel
     {
         $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
         return $payroll_period;
+    }
+
+    public function getPayrollPeriodName()
+    {
+        $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
+        return $payroll_period->group_name;
     }
 
     public function getJobPosition()
@@ -163,15 +198,20 @@ class Employee extends BaseModel
         return 'none';
     }
 
+    public function getDependents()
+    {
+        return $this->dependents;
+    }
+
     public function getDateEnded()
     {
 
-        return ($this->deleted_at) ?  date('Y-m-d', strtotime($this->deleted_at)) : 'Currently Employed';
+        return ($this->deleted_at) ? date('Y-m-d', strtotime($this->deleted_at)) : 'Currently Employed';
     }
     public function getTin()
     {
-        return $this->tin_number;
-    
+        return (is_null($this->tin_number)) ? $this->tin_number : 'none';
+
     }
     public function getSSS()
     {
@@ -182,27 +222,58 @@ class Employee extends BaseModel
     {
         if ($this->deduct_sss == null) {
             $pay = $this->getBasicPay(false);
-            
-            $first = SSSConfigs::first();
-            $last = SSSConfigs::orderby('created_at', 'desc')->first();
-            if($first != null && $last !=null){
 
-                if($pay < $first->to_range){
+            $first = SSSConfigs::first();
+            $last  = SSSConfigs::orderby('created_at', 'desc')->first();
+            if ($first != null && $last != null) {
+
+                if ($pay < $first->to_range) {
                     $sss = $first->EE;
-                }else if($pay > $last->to_range){
-                     $sss = $last->EE;
-                }else {
-                     $sss = SSSConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->EE;
+                } else if ($pay > $last->to_range) {
+                    $sss = $last->EE;
+                } else {
+                    $sss = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->EE;
                 }
-                
+
                 $sss = floatval($sss);
-                
+
                 if ($this->getPayrollPeriod()->period == "Semi-monthly") {
                     return floatval($sss / 2);
-                }else{
+                } else {
                     return floatval($sss);
                 }
-            }else{
+            } else {
+                return (int) $this->fixed_sss_amount;
+            }
+        }
+        return (int) $this->fixed_sss_amount;
+    }
+
+    public function getSSSEmployerValue()
+    {
+        if ($this->deduct_sss == null) {
+            $pay = $this->getBasicPay(false);
+
+            $first = SSSConfigs::first();
+            $last  = SSSConfigs::orderby('created_at', 'desc')->first();
+            if ($first != null && $last != null) {
+
+                if ($pay < $first->to_range) {
+                    $sss = $first->ER;
+                } else if ($pay > $last->to_range) {
+                    $sss = $last->ER;
+                } else {
+                    $sss = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->ER;
+                }
+
+                $sss = floatval($sss);
+
+                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    return floatval($sss / 2);
+                } else {
+                    return floatval($sss);
+                }
+            } else {
                 return (int) $this->fixed_sss_amount;
             }
         }
@@ -212,28 +283,28 @@ class Employee extends BaseModel
     public function getPhilhealthValue()
     {
         if ($this->deduct_sss == null) {
-            
+
             $pay = $this->getBasicPay(false);
 
             $first = PHConfigs::first();
-            $last = PHConfigs::orderby('created_at', 'desc')->first();
-            if($first != null && $last !=null){
-                if($pay < $first->to_range){
+            $last  = PHConfigs::orderby('created_at', 'desc')->first();
+            if ($first != null && $last != null) {
+                if ($pay < $first->to_range) {
                     $ph = $first->employee_share;
-                }else if($pay > $last->to_range){
-                     $ph = $last->employee_share;
-                }else {
-                     $ph = PHConfigs::where('to_range','>=',$pay)->where('from_range','<=',$pay)->first()->employee_share;
+                } else if ($pay > $last->to_range) {
+                    $ph = $last->employee_share;
+                } else {
+                    $ph = PHConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->employee_share;
                 }
 
                 $ph = floatval($ph);
-               
+
                 if ($this->getPayrollPeriod()->period == "Semi-monthly") {
                     return floatval($ph / 2);
-                }else{
+                } else {
                     return floatval($ph);
                 }
-            }else{
+            } else {
                 return (int) $this->fixed_philhealth_amount;
             }
         }
@@ -354,22 +425,21 @@ class Employee extends BaseModel
         return $allowance;
     }
 
-    public function getBasicPay($format = true, $from=null, $to=null)
+    public function getBasicPay($format = true, $from = null, $to = null)
     {
-    	$pay = BasicPayAdjustment::where('employee_id', '=', $this->id);
+        $pay = BasicPayAdjustment::where('employee_id', '=', $this->id);
         if (count($this->getBasicPayAdjustments()) > 0) {
-           if(is_null($from) && is_null($to)){
-            $pay = $pay->where('effective_date', '<=', date('Y-m-d'));           	
-          
-           }
-           else{
-           	$pay = $pay
-                     // ->whereBetween('effective_date' [$from, $to])
-                       ->where('effective_date', '<=', $from);
-            
-           }	
+            if (is_null($from) && is_null($to)) {
+                $pay = $pay->where('effective_date', '<=', date('Y-m-d'));
 
-           $adjustment = $pay->orderBy('id', 'desc')->first();
+            } else {
+                $pay = $pay
+                // ->whereBetween('effective_date' [$from, $to])
+                    ->where('effective_date', '<=', $from);
+
+            }
+
+            $adjustment = $pay->orderBy('id', 'desc')->first();
 
             if ($adjustment) {
                 if ($format) {
@@ -452,6 +522,11 @@ class Employee extends BaseModel
 
     }
 
+    public function getFixedSssAmount()
+    {
+        return $this->fixed_sss_amount;
+    }
+
     public function getDeductHDMF($english_format = true)
     {
         if ($english_format) {
@@ -464,6 +539,11 @@ class Employee extends BaseModel
         return $this->deduct_hdmf;
     }
 
+    public function getFixedHdmfAmount()
+    {
+        return $this->fixed_hdmf_amount;
+    }
+
     public function getDeductPhilhealth($english_format = true)
     {
         if ($english_format) {
@@ -474,6 +554,11 @@ class Employee extends BaseModel
 
         return $this->deduct_philhealth;
 
+    }
+
+    public function getFixPhilhealthAmount()
+    {
+        return $this->fixed_philhealth_amount;
     }
 
     public function getUnderTimeDeductionRate($per_unit)
@@ -500,11 +585,11 @@ class Employee extends BaseModel
 
     public function getUnderTime($from, $to, $unit = 'minute')
     {
-    	$company = $this->getCompany();
+        $company        = $this->getCompany();
         $days           = createDateRangeArray($from, $to);
         $timeshift_ends = $this->getTimeShiftEnd(true);
         // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
-        $date = new DateTime($timeshift_ends);
+        $date                 = new DateTime($timeshift_ends);
         $date_interval_string = 'PT' . $company->company_lunch_break . 'M';
         $date->sub(new DateInterval($date_interval_string));
         // dd($date->format('H:i:s'));
@@ -568,8 +653,8 @@ class Employee extends BaseModel
 
                 $arrival_time = $resultDate->format('H:i:s');
                 $late         = getInterval($this->getTimeShiftStart(true), $arrival_time, $unit);
-                if($late > $this->getCompany()->company_late_grace_period){
-	                $totalLate += $late;
+                if ($late > $this->getCompany()->company_late_grace_period) {
+                    $totalLate += $late;
                 }
 
             }
@@ -577,6 +662,7 @@ class Employee extends BaseModel
         // dd($totalLate);
 
         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
+
         return $totalLate;
     }
 
@@ -707,7 +793,7 @@ class Employee extends BaseModel
         $payroll_period = $this->getPayrollPeriod()->period;
         ;
 
-        return getRate($basic_salary, $payroll_period, 'hour');
+        return getRate($basic_pay, $payroll_period, 'hour');
 
     }
     /**
@@ -736,7 +822,8 @@ class Employee extends BaseModel
     public function getMonthlyRate($number_format = false)
     {
         $basic_pay      = $this->getBasicSalary(true);
-        $payroll_period = $this->getPayrollPeriod()->period;;
+        $payroll_period = $this->getPayrollPeriod()->period;
+        ;
 
         // return $basic_pay;
         if ($number_format) {return number_format(getRate($basic_pay, $payroll_period, 'Monthly'), 2);
@@ -996,7 +1083,12 @@ class Employee extends BaseModel
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
-    public function getExpandedWithholdingTax($forcomputation)
+    public function getWithholdingTaxType()
+    {
+        return $this->withholding_tax_type;
+    }
+
+    public function getExpandedWithholdingTax($forcomputation = false)
     {
         if ($forcomputation) {
             return $this->expanded_withholding_tax / 100;
@@ -1021,7 +1113,7 @@ class Employee extends BaseModel
         $curr_salary = ($basic_pay + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents + $late);
 
         if ($this->withholding_tax_type == "Expanded") {
-        	// dd('here');
+            // dd('here');
             $wtax = $this->getExpandedWithholdingTax(true) * $curr_salary;
             // dd($wtax);
         } else {
@@ -1036,24 +1128,24 @@ class Employee extends BaseModel
 
     }
 
-    public function getTax($pay,$period,$dependents)
+    public function getTax($pay, $period, $dependents)
     {
         $WTConfigs = WTConfigs::get();
-        
-            $first = WTConfigs::first();
-            $last = WTConfigs::orderby('created_at', 'desc')->first();
-            $wtax = [];
-            if($pay < $first->to_range){
-                $wtax = $first;
-            }else if($pay > $last->to_range){
-                 $wtax = $last;
-            }else {
-                 $wtax = WTConfigs::where('period','=',$period)
-                                    ->where('dependents','=',$dependents)
-                                    ->where('to_range','>=',$pay)->where('from_range','<=',$pay)->first();
-            }
-         
-        $wt = (($pay - $wtax['to_range']) *  $wtax['status'] +  $wtax['exemption']);
+
+        $first = WTConfigs::first();
+        $last  = WTConfigs::orderby('created_at', 'desc')->first();
+        $wtax  = [];
+        if ($pay < $first->to_range) {
+            $wtax = $first;
+        } else if ($pay > $last->to_range) {
+            $wtax = $last;
+        } else {
+            $wtax = WTConfigs::where('period', '=', $period)
+                ->where('dependents', '=', $dependents)
+                ->where('to_range', '>=', $pay)    ->where('from_range', '<=', $pay)    ->first();
+        }
+
+        $wt = (($pay - $wtax['to_range']) * $wtax['status']+$wtax['exemption']);
         return $wt;
     }
 
@@ -1125,19 +1217,24 @@ class Employee extends BaseModel
     {
 
         $form_count = Form_Application::where('employee_id', '=', $this->id)
-                     ->where('form_type','=',$type)
-                     ->where('status','=','approved')->count();
-        $company_leave_credits = Company::where('id','=',$this->company_id)->first()->company_leave_credits;
+                                                                       ->where('form_type', '=', $type)
+                                                                       ->where('status', '=', 'approved')->count();
+        $company_leave_credits = Company::where('id', '=', $this->company_id)->first()->company_leave_credits;
 
-        $remaining_credits =   intval($company_leave_credits) - intval($form_count);
+        $remaining_credits = intval($company_leave_credits) - intval($form_count);
 
         return $remaining_credits;
-      
+
     }
 
     public function getCompany()
     {
         return Company::find($this->company_id);
+    }
+
+    public function getCompanyName()
+    {
+        return $this->getCompany()->company_name;
     }
 
 }

@@ -25,17 +25,14 @@ Pigeon::map(function ($r) {
     $r->get('auth/time-in', 'AuthController#timeIn');
 
     $r->get('dashboard', 'MainController#dashboard');
-    $r->get('dashboard/announcement-rest','AnnouncementController#getAnnouncement');
-    $r->post('dashboard/delete-announcement','AnnouncementController#delete');
-    $r->post('dashboard/delete-memo','MemoController#delete');
+    $r->get('dashboard/announcement-rest', 'AnnouncementController#getAnnouncement');
+    $r->post('dashboard/delete-announcement', 'AnnouncementController#delete');
+    $r->post('dashboard/delete-memo', 'MemoController#delete');
     $r->post('announcement', 'AnnouncementController#save');
 
     $r->get('public/payslip/(:num)', 'AttachedEmailController#slip');
-   
+
     $r->get('slip', 'MainController#slip');
-
-
-
 
     $r->get('settings/branches', 'BranchController#index');
     $r->get('settings/branches/add', 'BranchController#add');
@@ -47,7 +44,7 @@ Pigeon::map(function ($r) {
     $r->get('payroll', 'PayrollController#index');
     $r->get('payroll/payslip', 'PayrollController#payslip');
 
-    $r->get('payroll/rest-payroll-group','PayrollController#restGetPayrollGroup');
+    $r->get('payroll/rest-payroll-group', 'PayrollController#restGetPayrollGroup');
     $r->post('payroll/payslip/generate', 'PayrollController#generatePayslip');
     $r->post('payroll/payslip/delete', 'PayrollController#deletePayslips');
     $r->get('payroll/gov-form/(:num)', 'PayrollController#govform');
@@ -55,31 +52,29 @@ Pigeon::map(function ($r) {
 
     $r->get('payroll/group/(:num)', 'PayrollController#groupList');
     $r->get('payroll/payslip/(:num)', 'PayrollController#slip');
-    $r->get('payroll/payslip-xls/(:num)','PayrollController#slipXls');
+    $r->get('payroll/payslip-xls/(:num)', 'PayrollController#slipXls');
     $r->get('payroll/masterlist/(:num)', 'PayrollController#masterList');
     $r->get('payroll/masterlist-xls/(:num)', 'PayrollController#masterListInXls');
 
-    $r->get('payroll/test','PayrollController#test');
-
+    $r->get('payroll/test', 'PayrollController#test');
 
     $r->get('testpdf', 'PayrollController#test');
 
     /*Admin Settings */
-    $r->get('settings/sss-config','SSSConfigController#index');
-    $r->get('settings/sss-config/seeder','SSSConfigController#sssSeeder');
-    $r->post('settings/sss-config','SSSConfigController#store');
-    $r->post('settings/sss-config/update','SSSConfigController#update');
+    $r->get('settings/sss-config', 'SSSConfigController#index');
+    $r->get('settings/sss-config/seeder', 'SSSConfigController#sssSeeder');
+    $r->post('settings/sss-config', 'SSSConfigController#store');
+    $r->post('settings/sss-config/update', 'SSSConfigController#update');
 
-    $r->get('settings/philhealth-config','PHConfigController#index');
-    $r->post('settings/philhealth-config','PHConfigController#store');
-    $r->post('settings/philhealth-config/update','PHConfigController#update');
+    $r->get('settings/philhealth-config', 'PHConfigController#index');
+    $r->post('settings/philhealth-config', 'PHConfigController#store');
+    $r->post('settings/philhealth-config/update', 'PHConfigController#update');
 
-    $r->get('settings/withholding-config','WithholdingtaxController#index');
-    $r->get('settings/withholding-config/seed','WithholdingtaxController#seeder');
-    $r->post('settings/withholding-config','WithholdingtaxController#store');
-    $r->post('settings/withholding-config/update','WithholdingtaxController#update');
+    $r->get('settings/withholding-config', 'WithholdingtaxController#index');
+    $r->get('settings/withholding-config/seed', 'WithholdingtaxController#seeder');
+    $r->post('settings/withholding-config', 'WithholdingtaxController#store');
+    $r->post('settings/withholding-config/update', 'WithholdingtaxController#update');
 
-    
     $r->get('settings/roles', 'UserRolesController#index');
     $r->get('settings/roles/add', 'UserRolesController#add');
     $r->post('settings/roles/add', 'UserRolesController#save');
@@ -136,6 +131,10 @@ Pigeon::map(function ($r) {
     $r->post('settings/holidays/update/(:num)', 'HolidayController#update');
     $r->post('settings/holidays/save/(:num)', 'HolidayController#add');
 
+
+    $r->get('settings/leave-types', 'LeaveTypeController#index');
+    $r->get('settings/leave-types/add', 'LeaveTypeController#add');
+
     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 
     $r->post('evaluations/save', 'EvaluationController#store');
@@ -169,7 +168,7 @@ Pigeon::map(function ($r) {
     $r->post('employees/trainings', 'TrainingController#save');
     $r->get('employees/trainings/delete', 'TrainingController#delete');
 
-    $r->post('employees/batch-upload','EmployeeController#addEmployeeByBatch');
+    $r->post('employees/batch-upload', 'EmployeeController#addEmployeeByBatch');
 
     $r->get('hr', 'HumanResourceController#index');
     $r->get('hr/form-application', 'HumanResourceController#application');
@@ -196,6 +195,7 @@ Pigeon::map(function ($r) {
     $r->get('timein', 'TimesheetController#timein');
     $r->get('timeout', 'TimesheetController#timeout');
     $r->post('timesheet/save', 'TimesheetController#save');
+    $r->post('timesheet/upload', 'TimesheetController#batchUpload');
     $r->post('deductions/employee_add', 'DeductionController#addEmployeeDeduction');
     $r->post('allowances/employee_add', 'AllowanceController#addEmployeeAllowance');
 
@@ -205,6 +205,10 @@ Pigeon::map(function ($r) {
     $r->get('reports/(:num)/branch/late', 'ReportsController#lateReport');
     $r->get('reports/company/gross', 'ReportsController#companyGrossReport');
     $r->get('reports/company', 'ReportsController#company');
+    $r->get('reports/generate', 'ReportsController#generate');
+    $r->post('reports/generate-employee-list', 'ReportsController#generateEmployeeList');
+    $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
+    $r->post('reports/generate-sss-report', 'ReportsController#generateSssReport');
 
     $r->get('sss', 'MainController#test');
 

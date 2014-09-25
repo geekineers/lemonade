@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | 6. Language files
 | 7. Models
 |
-*/
+ */
 
 /*
 | -------------------------------------------------------------------
@@ -63,10 +63,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
 |
-*/
+ */
 
 $autoload['packages'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -83,10 +82,9 @@ $autoload['packages'] = array();
 | in the controller:
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
-*/
+ */
 
 $autoload['libraries'] = array('database');
-
 
 /*
 | -------------------------------------------------------------------
@@ -99,10 +97,9 @@ $autoload['libraries'] = array('database');
 | Prototype:
 |
 |	$autoload['drivers'] = array('session', 'cache');
-*/
+ */
 
 $autoload['drivers'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -111,10 +108,9 @@ $autoload['drivers'] = array();
 | Prototype:
 |
 |	$autoload['helper'] = array('url', 'file');
-*/
+ */
 
-$autoload['helper'] = array('helper','url','cookie', 'calculator','fpdf','date');
-
+$autoload['helper'] = array('helper', 'url', 'cookie', 'calculator', 'fpdf', 'date', 'employee');
 
 /*
 | -------------------------------------------------------------------
@@ -127,10 +123,9 @@ $autoload['helper'] = array('helper','url','cookie', 'calculator','fpdf','date')
 | NOTE: This item is intended for use ONLY if you have created custom
 | config files.  Otherwise, leave it blank.
 |
-*/
+ */
 
 $autoload['config'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -143,10 +138,9 @@ $autoload['config'] = array();
 | NOTE: Do not include the "_lang" part of your file.  For example
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
 |
-*/
+ */
 
 $autoload['language'] = array();
-
 
 /*
 | -------------------------------------------------------------------
@@ -160,10 +154,9 @@ $autoload['language'] = array();
 | in the controller:
 |
 |	$autoload['model'] = array('first_model' => 'first');
-*/
+ */
 
 $autoload['model'] = array();
-
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

@@ -1,8 +1,8 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 <div class="row">
     <div class="col-md-2">
-        <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet"><i class="fa fa-plus"></i></a>
-        
+        <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet btn-sm"><i class="fa fa-plus"></i></a>
+        <a data-toggle="modal" data-target="#uploadTimesheet" class="btn btn-default btn-sm"><i class="fa fa-file"></i>Upload Sheet</a>
     </div>
 <div class="col-md-5">
     <div class="form-group">
@@ -207,6 +207,34 @@
 
 </form>
 
+
+<form method="post" enctype="multipart/form-data" action="/timesheet/upload">
+<div class="modal fade" id="uploadTimesheet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload XLS Timesheet</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Get the timsheet template. <a href="/xls_template/timesheet.xlsx">Click Here</a></p>
+                    <div class="form-group">
+                        <label>Upload Excel File</label>
+                        <input type="file" required name="excel_file" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 
 
