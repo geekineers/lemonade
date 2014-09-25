@@ -134,6 +134,11 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/leave-types', 'LeaveTypeController#index');
     $r->get('settings/leave-types/add', 'LeaveTypeController#add');
+    $r->post('settings/leave-types/submit', 'LeaveTypeController#store');
+
+
+    $r->get('notification/form-notification','LeaveNotificationController#notify');
+    $r->get('notification/form-approve','LeaveNotificationController#approved');
 
     $r->post('employees/(:num)/update-contributions', 'EmployeeController#updateContributions');
 

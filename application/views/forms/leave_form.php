@@ -33,9 +33,9 @@
                             <label>Type of leave: </label>
                             <select required name="department" class="form-control type_of_leave"  placeholder="">
                                 <option value="" disabled selected>select type of leave</option>
-                                <option value="vl">Vacation Leave</option>
-                                <option value="sl">Sick Leave</option>
-                                <option value="ab">Absent</option>
+                                <?php foreach ($leaves as $leave ) { ?>
+                                    <option value="<?php echo $leave->id ?>" ><?php echo $leave->leave_type_name ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -43,7 +43,6 @@
                             <input type="number" class="form-control remaining" placeholder="example: 7">
                           
                         </div>
-
 
                     </div>
 

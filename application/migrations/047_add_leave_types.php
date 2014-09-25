@@ -50,6 +50,7 @@ class Migration_Add_leave_types extends CI_Migration {
                       			'type' => 'DATETIME',
                       			'null' => TRUE,
                       	),
+                      
 
 
                 ));

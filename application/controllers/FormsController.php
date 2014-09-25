@@ -7,6 +7,7 @@ class FormsController extends BaseController
     protected $formRepository;
     protected $employeeRepository;
     protected $formApplicationRepository;
+    protected  $leaveCreditsRepository;
 
     public function __construct()
     {
@@ -16,6 +17,7 @@ class FormsController extends BaseController
 
         $this->formRepository            = new FormRepository();
         $this->employeeRepository        = new EmployeeRepository();
+        $this->leaveTypeRepository = new LeaveTypeRepository();
         $this->formApplicationRepository = new FormApplicationRepository();
     }
 
@@ -145,7 +147,7 @@ class FormsController extends BaseController
 
         $employee          = $this->employeeRepository->getUserById($employee_id);
         $data['remaining'] = $employee->getRemainingCredits($template);
-
+        $data['leaves'] = $this->leaveTypeRepository->all();
         if ($template == 'ob') {
             return $this->load->view('forms/ob_form', $data);
         } else if ($template == 'ot') {

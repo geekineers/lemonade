@@ -18,7 +18,7 @@ class LeaveTypeRepository extends BaseRepository {
 	 * @param  [string] $type_of_point_earnin [description]
 	 * @return [type]                       [description]
 	 */
-	public function createType($name, $approval_seq, $required_approval, $base_points, $type_of_point_earnin )
+	public function createType($name, $approval_seq, $required_approval, $base_points, $type_of_point_earning	 )
 	{
 
 		$required_approval = implode("|", $required_approval);		

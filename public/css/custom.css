@@ -531,3 +531,14 @@ a {
     color: red;
     cursor: pointer;
 }
+.checkbox, .radio {
+    padding-left: 20px; 
+}
+
+.select_position_list {
+    margin-top: 22px;
+}
+.delete_role_list {
+    cursor: pointer;
+    float: right;
+}
