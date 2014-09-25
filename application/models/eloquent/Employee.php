@@ -136,7 +136,7 @@ class Employee extends BaseModel
 
     public function getRoleName()
     {
-        $this->getRole()->name;
+        return ($this->getRole() == 'None') ? 'None' : $this->getRole()->name;
     }
 
     public function getContactNumber()
