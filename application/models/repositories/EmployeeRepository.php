@@ -314,7 +314,7 @@ class EmployeeRepository extends BaseRepository
         $startDate = Carbon::now();
         $endDate   = $startDate->copy()->addWeeks(3);
         $query     = $this->whereRaw("DATE_FORMAT(birthdate, '%m%d') BETWEEN " . $startDate->format('m') . $startDate->day . " AND " . $endDate->format('m') . $endDate->day, []);
-        return $query->get();
+        return $query->take(5)->get();
     }
 
     public function search($query)
