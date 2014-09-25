@@ -1,6 +1,39 @@
 $(document).ready(function(){
 	
-	// 
+	var approve = function(){
+		var $this = $(this).parent().parent();
+		var data = {
+			'id' : $this.attr('id'),
+			'sequence' : $this.children().data('sq'),
+			'status' : $this.children().data('status'),
+			'leave_id': $this.children().data('leave')	
+		}
+		$.get('/notification/form-approve',data,function(res){
+			$.notify('approve','success');
+			window.location.reload();	
+		});
+	}
+	$.get('/notification/form-notification',function(res) {
+		var notification = $('.notifications-menu');
+
+		notification.find('.number').text(res.length);
+
+		$.each(res,function(i,e){
+			parent = $('<li/>',{class:'menu',id:e.id});
+			parent.append(' <a href="#" data-leave="'+e.leave_id+'" data-status="'+e.status+'" data-sq="'+e.leave_type_approval_sequence +'"><i class="ion ion-ios7-people info"></i> '+e.employee_name+ ' is requesting ' + e.leave_type_name + '<span class="btn btn-sm btn-default approve" style="position:absolute;right:0">approve</span> </a>' );
+				
+
+			notification.find('.menu').append(parent);
+			notification.find('.menu li .approve').click(approve);	
+		});
+		// <li>
+	 //        <a href="#">
+	 //            <i class="ion ion-ios7-people info"></i> 5 new members joined today
+	 //        </a>
+	 //    </li>
+	})
+
+
 	$('.announcement-modal').on('click',function(){
 		$('#view-announcment').modal('show');
 		$('#view-announcment .box').loading(true);
