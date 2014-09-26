@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 		$.each(res,function(i,e){
 			parent = $('<li/>',{class:'menu',id:e.id});
-			parent.append(' <a href="#" data-leave="'+e.leave_id+'" data-status="'+e.status+'" data-sq="'+e.leave_type_approval_sequence +'"><i class="ion ion-ios7-people info"></i> '+e.employee_name+ ' is requesting ' + e.leave_type_name + '<span class="btn btn-sm btn-default approve" style="position:absolute;right:0">approve</span> </a>' );
+			parent.append(' <a href="/forms" data-leave="'+e.leave_id+'" data-status="'+e.status+'" data-sq="'+e.leave_type_approval_sequence +'"><i class="ion ion-ios7-people info"></i> '+e.employee_name+ ' is requesting ' + e.leave_type_name + '<span class="btn btn-sm btn-default approve" style="position:absolute;right:0">approve</span> </a>' );
 				
 
 			notification.find('.menu').append(parent);

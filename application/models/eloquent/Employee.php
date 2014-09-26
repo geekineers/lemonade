@@ -161,7 +161,7 @@ class Employee extends BaseModel
 
     public function getAllRoles()
     {
-        $groups = Group::all();
+        $groups = Group::where('company_id', '=', COMPANY_ID)->get();
         return $groups;
     }
 
@@ -924,7 +924,7 @@ class Employee extends BaseModel
      * @param  [string] $unit (minute|hours)
      * @return [int]
      */
-    public function getNightDifferentialPay($from, $to, $unit)
+    public function getNightDifferentialPay($from, $to, $unit = 'min')
     {
         return floatval($this->getNightly($from, $to, $unit) * $this->getNightlyRate());
     }

@@ -273,11 +273,10 @@ class EmployeeRepository extends BaseRepository
             }
     }
 
-    public function getLoginUser($sentry)
+    public function getLoginUser($sentry = null)
     {
 
-        // dd($sentry->id);
-        // dd(COMPANY_ID);
+        $sentry = get_instance()->sentry->getUser();
         $employee = Employee::where('user_id', '=', $sentry->id)->first();
         // dd($employee);
         if ($employee) {
@@ -299,7 +298,7 @@ class EmployeeRepository extends BaseRepository
         $employee->full_address = 'N/A';
         $employee->birthdate    = date('Y-m-d');
         $employee->birthdate    = date('Y-m-d');
-
+        $employee->branch_administrator = true;
         return $employee;
     }
 

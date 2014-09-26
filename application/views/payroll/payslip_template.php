@@ -125,6 +125,24 @@ $to = $payslip->getPayslipsGroup()->to;
 <?php echo $employee->getOvertime($from, $to)?>
 </td>
           </tr>
+             <tr>
+            <td >Night Differential Rate</td>
+            <td style="text-align:right;">
+<?php echo $employee->getNightDifferentialPay($from, $to)?>
+</td>
+          </tr>
+             <tr>
+            <td >Regular Holiday Pay</td>
+            <td style="text-align:right;">
+<?php echo $employee->getOvertime($from, $to)?>
+</td>
+          </tr>
+           <tr>
+              <td >Overtime</td>
+              <td style="text-align:right;">
+                <?php echo $employee->getOvertime($from, $to)?>
+              </td>
+          </tr>
 <?php if (count($employee->getAllowances())) {?>
 	<tr>
 																								                        <td>Allowances</td>

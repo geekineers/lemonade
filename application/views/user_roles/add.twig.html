@@ -12,6 +12,19 @@
                                             <label for="exampleInputEmail1">Role Name</label>
                                             <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter Role">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Branch</label>
+                                             {% if user.branch_administrator %}
+                                            <select class="form-control" name="branch">
+                                               
+                                                {% for branch in branches %}
+                                                    <option value="branch.branch_name">{{ branch.branch_name }}</option>
+                                               {% endfor %}
+                                            </select>
+                                             {% else %}
+                                                <input name="branch" class="form-control" type="text" value="{{ user.getBranch() }}" readonly="readonly">    
+                                            {% endif %}
+                                        </div>
                                     <h4 class="box-title">User Permission
                                      <input type="checkbox" class="select_all"><small>Select All</small></h4> 
                                      <div class="row">

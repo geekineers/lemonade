@@ -126,7 +126,7 @@
 						 			<span class="form-label">Time Shift Starts</span>
 						 			<span class="form-label">{{ employee.getTimeShiftStart() }}</span>
 					 			  <div class="input-group edit-time bootstrap-timepicker">
-				                    <input id="timepicker1" type="text" name="timeshift_start" class="timepicker form-control input-small">
+				                    <input id="timepicker1" value="{{ employee.getTimeShiftStart() }}" type="text" name="timeshift_start" class="timepicker form-control input-small">
 				                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
 				                </div>
 						 		</td>
@@ -134,7 +134,7 @@
 						 			<span class="form-label">Time Shift Ends</span>
 						 			<span class="form-label">{{ employee.getTimeShiftEnd() }}</span>
 					 			  	<div class="input-group edit-time  bootstrap-timepicker">
-					                    <input id="timepicker1" type="text" name="timeshift_end" class="form-control timepicker input-small">
+					                    <input id="timepicker1" value="{{ employee.getTimeShiftEnd() }}" type="text" name="timeshift_end" class="form-control timepicker input-small">
 					                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
 					                </div>
 						 		</td>
