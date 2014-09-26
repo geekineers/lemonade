@@ -38,6 +38,7 @@
 
 </div>
 <table id="employee-list" class="table table-bordered table-hover dataTable">
+     <thead>
     <tr>
         <th></th>
         <th>Name</th>
@@ -47,6 +48,7 @@
         <th>Email Address</th>
         <th></th>
     </tr>
+    </thead>
     {% for employee in employees %}
     <tr action="/employees/{{ employee.id }}/profile">
         <td>
@@ -67,4 +69,24 @@
     </tr>
     {% endfor %}
 </table>
+{% endblock %}
+
+
+{% block scripts %}
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  (function($){
+        $('#employee-list').dataTable({
+            "bPaginate": true,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+
+        $('.dataTables_paginate > a').addClass('btn btn-default');
+    })(jQuery);
+</script>
+
+
 {% endblock %}

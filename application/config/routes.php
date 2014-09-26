@@ -136,6 +136,8 @@ Pigeon::map(function ($r) {
     $r->get('settings/leave-types/add', 'LeaveTypeController#add');
     $r->post('settings/leave-types/submit', 'LeaveTypeController#store');
 
+    $r->get('settings/users', 'UserController#index');
+    $r->get('settings/users/delete', 'UserController#delete');
 
     $r->get('notification/form-notification','LeaveNotificationController#notify');
     $r->get('notification/form-approve','LeaveNotificationController#approved');
