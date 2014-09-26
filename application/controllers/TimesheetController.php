@@ -82,6 +82,6 @@ class TimesheetController extends BaseController {
 	public function batchUpload() {
 		$input = $this->input->post();
 		$this->timesheetRepository->uploadByBatch($input);
-		redirect('employees');
+		redirect('/timesheet');
 	}
 }
