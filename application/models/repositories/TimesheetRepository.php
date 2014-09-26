@@ -173,20 +173,25 @@ class TimesheetRepository extends BaseRepository
 
         // dd($timesheet_infos);
         foreach ($timesheet_infos as $timesheet_info) {
-            $employee = $this->employeeRepository->where('first_name', '=', $timesheet_info[0])
-                             ->where('last_name', '=', $timesheet_info[1])
-                             ->where('email', '=', $timesheet_info[2])
-                             ->where('company_id', '=', COMPANY_ID)
-                             ->first();
+            $employee = $this->employeeRepository->where('employee_number', '=', $timesheet_info[0])                        
+                                                 ->first();
 
             if ($employee == null) {
                 continue;
             } else {
+
+                $time_in = date('H:i:s', strtotime($timesheet_info[1]));
+                $date_in = date('Y-m-d', strtotime($timesheet_info[1]));
+
+                $time_out = date('H:i:s', strtotime($timesheet_info[2]));
+                $date_out = date('Y-m-d', strtotime($timesheet_info[2]));
+
+
                 $employee_id = $employee->id;
-                $timestart   = $timesheet_info[3];
-                $timeend     = $timesheet_info[4];
-                $from        = $timesheet_info[5];
-                $to          = $timesheet_info[6];
+                $timestart   = $time_in;
+                $timeend     = $time_out;
+                $from        = $date_in;
+                $to          = $date_out;
                 $this->saveTime($employee_id, $timestart, $timeend, $from, $to);
 
             }

@@ -15,6 +15,7 @@ class UserRolesController extends BaseController
 
         $this->mustBeLoggedIn();
         $this->employeeRepository = new EmployeeRepository();
+        $this->branchRepository = new BranchRepository();
     }
 
     public function index()
@@ -33,6 +34,7 @@ class UserRolesController extends BaseController
         $data['company']     = $this->company;
         $data['permissions'] = $this->config->item('permissions');
         $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['branch']        = $this->branchRepository->all();
         $data['title']       = "User Roles";
 
         $this->render('/user_roles/add.twig.html', $data);
@@ -41,7 +43,8 @@ class UserRolesController extends BaseController
 
     public function save()
     {
-        $input['name']       = $this->input->post('name');
+        $branch_name = $this->input->post('branch');
+        $input['name']       = $branch_name . '-' . $this->input->post('name');
         $permissions         = $this->input->post('permissions');
         $input['company_id'] = COMPANY_ID;
         foreach ($permissions as $key => $value) {

@@ -2,20 +2,20 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Migration_Add_form_application_leave_types extends CI_Migration
+class Migration_Add_form_application_types extends CI_Migration
 {
 
     public function up()
     {
         // $this->dbforge->drop_table('form_application');
-        $this->dbforge->add_column('form_application', array(
-                'company_id' => array(
-                    'type'       => 'INT',
-                    'constraint' => 5,
-                ),
+        // $this->dbforge->add_column('form_application', array(
+        //         'company_id' => array(
+        //             'type'       => 'INT',
+        //             'constraint' => 5,
+        //         ),
                 
 
-        ));
+        // ));
     
     
     

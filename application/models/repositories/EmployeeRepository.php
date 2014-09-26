@@ -53,6 +53,7 @@ class EmployeeRepository extends BaseRepository
             'birthdate'      => $data['birthdate'],
             'gender'         => $data['gender'],
             'marital_status' => $data['marital_status'],
+            'employee_number' => createEmployeeID($employee_id),
             // 'spouse_name' => $data['spouse_name'],
             'dependents' => (int) $data['dependents'],
 
@@ -223,8 +224,13 @@ class EmployeeRepository extends BaseRepository
                 'profile_picture' => $filename ,
                 'email'           => (string) $email_address,
                 'fb'              => (string) $fb,
+                
+
             )
         );
+
+        $save->employee_number = createEmployeeID($save->id);
+        $save->save();
 
 
     }
@@ -273,11 +279,10 @@ class EmployeeRepository extends BaseRepository
             }
     }
 
-    public function getLoginUser($sentry)
+    public function getLoginUser($sentry = null)
     {
 
-        // dd($sentry->id);
-        // dd(COMPANY_ID);
+        $sentry = get_instance()->sentry->getUser();
         $employee = Employee::where('user_id', '=', $sentry->id)->first();
         // dd($employee);
         if ($employee) {
@@ -299,7 +304,7 @@ class EmployeeRepository extends BaseRepository
         $employee->full_address = 'N/A';
         $employee->birthdate    = date('Y-m-d');
         $employee->birthdate    = date('Y-m-d');
-
+        $employee->branch_administrator = true;
         return $employee;
     }
 
@@ -314,7 +319,7 @@ class EmployeeRepository extends BaseRepository
         $startDate = Carbon::now();
         $endDate   = $startDate->copy()->addWeeks(3);
         $query     = $this->whereRaw("DATE_FORMAT(birthdate, '%m%d') BETWEEN " . $startDate->format('m') . $startDate->day . " AND " . $endDate->format('m') . $endDate->day, []);
-        return $query->get();
+        return $query->take(5)->get();
     }
 
     public function search($query)
