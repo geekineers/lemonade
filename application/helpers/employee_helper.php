@@ -1,6 +1,6 @@
 <?php
 
 function createEmployeeID($id) {
-    return (string) sprintf("%'010s", $id);
+    return (string) COMPANY_ID . sprintf("%'05s", $id);
 
 }

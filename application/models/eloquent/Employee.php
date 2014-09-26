@@ -51,6 +51,7 @@ class Employee extends BaseModel
         'profile_picture',
         'fb',
         'email',
+        'employee_number'
 
     ];
 
@@ -58,6 +59,12 @@ class Employee extends BaseModel
     {
         return createEmployeeID($this->id);
     }
+
+    public function getEmployeeNumber()
+    {
+        return $this->employee_number;
+    }
+
     public function getGroup()
     {
 

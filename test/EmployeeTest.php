@@ -22,7 +22,7 @@ class EmployeeTest extends PHPUnit_Framework_TestCase
     public function testEmployeeID()
     {
         $id       = 1;
-        $expected = "0000000001";
+        $expected = "00001";
 
         $employee_id = createEmployeeID($id);
         $this->assertEquals($expected, $employee_id);

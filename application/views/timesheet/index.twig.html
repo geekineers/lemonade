@@ -347,12 +347,14 @@ function getHours(h){
 
     (function($){
         $('#timesheet1').dataTable({
-            "bPaginate": false,
+            "bPaginate": true,
             "bFilter": false,
             "bSort": true,
             "bInfo": true,
             "bAutoWidth": true
         });
+
+        $('.dataTables_paginate > a').addClass('btn btn-default');
     })(jQuery);
 </script>
 

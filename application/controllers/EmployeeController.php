@@ -7,8 +7,8 @@ require_once ('BaseController.php');
 use Cartalyst\Sentry\Groups\Eloquent\Group;
 use Upload\Storage\FileSystem as FileSystem;
 
-class EmployeeController extends BaseController
-{
+    class EmployeeController extends BaseController
+    {
 
     protected $employeeRepository,
     $branchesRepository,
@@ -46,6 +46,7 @@ class EmployeeController extends BaseController
 
     public function index()
     {
+        // dd(createEmployeeID('1'));
         $data['company']       = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ? null
