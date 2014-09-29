@@ -169,18 +169,27 @@ class Employee extends BaseModel
     public function getAllRoles()
     {
         $groups = Group::where('company_id', '=', COMPANY_ID)->get();
+        if(is_null($group)){
+            return null;
+        }
         return $groups;
     }
 
     public function getPayrollPeriod()
     {
         $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
+        if(is_null($payroll_period)){
+            return null;
+        }
         return $payroll_period;
     }
 
     public function getPayrollPeriodName()
     {
         $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
+            if(is_null($payroll_period)){
+            return null;
+        }
         return $payroll_period->group_name;
     }
 
