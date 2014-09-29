@@ -83,7 +83,7 @@ $(document).ready(function(){
 		var data = $(this).val();
 		var url = $(this).attr('data-url');
 		$.get(url, {search : data}, function(response){
-			$('tbody').html(response);
+			$('table').html(response);
 		});
 
 	});	

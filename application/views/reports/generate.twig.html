@@ -51,7 +51,14 @@
     {% endfor %}
               </select>
             </div>
-           
+            <div class="form-group">
+              <label>Select Type</label>
+              <select name="type" class="form-control">
+                <option value="quarterly">Quarterly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-primary" value="Generate">
@@ -82,6 +89,13 @@
      {% for year_loop in (currentYear)..minimumYear %}
         <option {% if year == year_loop %} selected {% endif %}value="{{ year_loop }}">{{year_loop}}</option>
     {% endfor %}
+              </select>
+            </div>
+                <div class="form-group">
+              <label>Select Type</label>
+              <select name="type" class="form-control">
+                <option value="quarterly">Quarterly</option>
+                <option value="monthly">Monthly</option>
               </select>
             </div>
            

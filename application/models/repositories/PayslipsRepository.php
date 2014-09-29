@@ -112,11 +112,13 @@ class PayslipsRepository extends BaseRepository
             $employee_slip['payroll_group']    = $payrollGroup->id;
             $employee_slip['branch_id']        = $payrollGroup->branch_id;
             $employee_slip['sss']              = $employee->getSSSValue();
+            $employee_slip['sss_employer']              = $employee->getSSSEmployerValue();
             $employee_slip['philhealth']       = $employee->getPhilhealthValue();
             $employee_slip['pagibig']          = $employee->getHDMFValue();
             $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
             $employee_slip['net']              = $employee->getNet($from, $to, false);
             $employee_slip['gross']            = $employee->getGross($from, $to, false);
+            $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
             $employee_slip['prepared_by']      = $prepared_by;
 
             $this->create($employee_slip);

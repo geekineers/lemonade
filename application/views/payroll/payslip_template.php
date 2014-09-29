@@ -119,24 +119,39 @@ $to = $payslip->getPayslipsGroup()->to;
             <td style="text-align:right;"><?php echo $employee->getBasicSalary(true);
 ?></td>
           </tr>
+          <?php if($employee->getOvertime($from, $to)) { ?>           
            <tr>
             <td >Overtime</td>
             <td style="text-align:right;">
-<?php echo $employee->getOvertime($from, $to)?>
-</td>
+              <?php echo $employee->getOvertime($from, $to)?>
+            </td>
           </tr>
+          <?php } ?>
+          <?php if($employee->getNightDifferentialPay($from, $to)) { ?> 
              <tr>
-            <td >Night Differential Rate</td>
+            <td >Night Differential Pay</td>
             <td style="text-align:right;">
-<?php echo $employee->getNightDifferentialPay($from, $to)?>
-</td>
+              <?php echo $employee->getNightDifferentialPay($from, $to)?>
+            </td>
           </tr>
+          <?php } ?>
+          <?php if($employee->getRegularHolidayPay($from, $to)) { ?> 
              <tr>
             <td >Regular Holiday Pay</td>
             <td style="text-align:right;">
-<?php echo $employee->getOvertime($from, $to)?>
-</td>
+              <?php echo $employee->getRegularHolidayPay($from, $to)?>
+            </td>
           </tr>
+          <?php } ?>
+          <?php if($employee->getSpecialHolidayPay($from, $to)) { ?> 
+          
+           <tr>
+            <td >Special Holiday Pay</td>
+            <td style="text-align:right;">
+              <?php echo $employee->getSpecialHolidayPay($from, $to)?>
+            </td>
+          </tr>
+          <?php } ?>
            <tr>
               <td >Overtime</td>
               <td style="text-align:right;">

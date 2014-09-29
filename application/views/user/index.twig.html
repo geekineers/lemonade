@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row container">
-	<a class="user_role_create deduction_create btn-add-branch btn btn-success" href="/settings/roles/add" ><i class="fa fa-plus"></i></a>
+<!-- 	<a class="user_role_create deduction_create btn-add-branch btn btn-success" href="/settings/roles/add" ><i class="fa fa-plus"></i></a> -->
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -11,17 +11,23 @@
     </div>
     {% endif %}
 </div>
-<table class="table table-bordered table-hovered">
-	<tr>
-		<th>Name</th>
-		<th>Options</th>
-	</tr>
-	 {% for users in users %}
+<table id="userTable" class="table dataTable table-bordered table-hovered">
+<thead>
+    <tr>
+    <th>Email</th>
+    <th>Access Level</th>
+    <th>Last Login</th>
+    <th>Options</th>
+  </tr>  
+</thead>
+
+	 {% for user in users %}
 	 	<tr>
-			<td>{{ users.name }}</td>		
+      <td>{{ user.email }}</td>    
+      <td>{{ user.role }}</td>    
+			<td>{{ user.last_login }}</td>		
 	 		<td>
-	 			<a href="/settings/roles/edit?token={{ group.id }}" class="btn btn-primary">View</a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/roles/delete?token={{ group.id }}" class="btn btn-danger">Delete</a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/users/delete?token={{ user.id }}" class="btn btn-danger"><i class="fa fa-trash-o" ></i></a>
 
 	 		</td>
 	 	</tr>
@@ -62,5 +68,22 @@
 
 
 {% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  (function($){
+        $('#userTable').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
 
+        $('.dataTables_paginate > a').addClass('btn btn-default');
+    })(jQuery);
+</script>
+
+
+{% endblock %}
 
