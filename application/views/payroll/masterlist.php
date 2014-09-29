@@ -85,7 +85,7 @@
              <td><?php echo $payslip->getEmployee()->getSSSValue(true); ?></td>
              <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
              <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
-             <td><?php echo number_format($payslip->getEmployee()->getAbsentDeduction($from, $to),2); ?></td>
+             <td><?php echo $payslip->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
              <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
              <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
              <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>

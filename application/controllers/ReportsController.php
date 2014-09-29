@@ -73,31 +73,47 @@ class ReportsController extends BaseController
         $output = [];
         $index  = 0;
         $year   = $this->input->post('year');
+        $type   = $this->input->post('type');
+        if ($type == 'quarterly') {
 
-        $quarter_dates = array(
-            'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
-            'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
-            'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
-            'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
-        );
+            $array_dates = array(
+                'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
+                'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
+                'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
+                'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
+            );
+        } else {
+            $months = getMonths($year);
 
-        foreach ($quarter_dates as $key => $value) {
+            foreach ($months as $month) {
+                $array_dates[$month->monthName] = array('start' => date('Y-m-d', strtotime($month->startMonth)), 'end' => date('Y-m-d', strtotime($month->endMonth)));
+            }
+
+        }
+
+        foreach ($array_dates as $key   => $value) {
             array_push($output, ['quarter' => $key]);
             $employees = $this->employeeRepository->all();
+            $total = 0;
             foreach ($employees as $employee) {
                 $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
                 // dd($date_hired);
-                if ($date_hired >= $value['start']) {
+                // var_dump($date_hired . ' : ' . $value['start']);
+                // var_dump($date_hired <= $value['start']);
+                if ($date_hired <= $value['start']) {
                     $item['name'] = $employee->getName();
                     $item['tin']  = $employee->getTin();
-                    $item['tax']  = $employee->getWithholdingTax($value['start'], $value['end']);
+                    $item['tax']  = $employee->getGeneratedWtax($value['start'], $value['end']);
+                    $total += $item['tax'];
                     array_push($output, $item);
                 }
 
             }
+            array_push($output, ['whitespace' => '', 'total'=>'TOTAL', 'total_tax' => $total]);
             array_push($output, ['break' => '']);
         }
-
+        // exit();
+        // dd($output);
         $columns = ['Name', 'Tin Number', 'Tax Withheld'];
 
         $xls_file = $this->reportRepository->generateXLS($output, $columns, 'tax-report');
@@ -113,33 +129,50 @@ class ReportsController extends BaseController
         $output = [];
         $index  = 0;
         $year   = $this->input->post('year');
+        
+        $type   = $this->input->post('type');
+        if ($type == 'quarterly') {
 
-        $quarter_dates = array(
-            'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
-            'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
-            'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
-            'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
-        );
+            $array_dates = array(
+                'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
+                'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
+                'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
+                'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
+            );
+        } else {
+            $months = getMonths($year);
 
-        foreach ($quarter_dates as $key => $value) {
+            foreach ($months as $month) {
+                $array_dates[$month->monthName] = array('start' => date('Y-m-d', strtotime($month->startMonth)), 'end' => date('Y-m-d', strtotime($month->endMonth)));
+            }
+
+        }
+        
+
+        foreach ($array_dates as $key => $value) {
             array_push($output, ['quarter' => $key]);
             $employees = $this->employeeRepository->all();
+            $total_employee = 0;
+            $total_employer = 0;
             foreach ($employees as $employee) {
                 $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
-                // dd($date_hired);
-                if ($date_hired >= $value['start']) {
-
+             
+                if ($date_hired <= $value['start']) {
                     $item['name']         = $employee->getName();
                     $item['sss_number']   = $employee->getSSS();
-                    $item['sss']          = $employee->getSSSValue();
-                    $item['employer_sss'] = $employee->getSSSEmployerValue();
+                    $item['sss']          = $employee->getGeneratedSSSEmployee($value['start'], $value['end']);
+                    $item['employer_sss'] = $employee->getGeneratedSSSEmployer($value['start'], $value['end']);
+                    $total_employer += $item['employer_sss'];
+                    $total_employee += $item['sss'];
                     array_push($output, $item);
                 }
 
             }
+            array_push($output, ['whitespace' => '', 'total'=>'TOTAL', 'total_employee' => $total_employee, 'total_employer' => $total_employer]);
             array_push($output, ['break' => '']);
         }
 
+            
         $columns = ['Name', 'SSS Number', 'Employee', 'Employer'];
 
         $xls_file = $this->reportRepository->generateXLS($output, $columns, 'sss-report');
@@ -157,8 +190,8 @@ class ReportsController extends BaseController
         $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $this->render('reports/company.twig.html', $data);
     }
-    function branch($id)
-{
+    public function branch($id)
+    {
         $year                   = ($this->input->get('year') == null) ? date('Y') : $this->input->get('year');
         $data['company']        = $this->company;
         $data['user']           = $this->employeeRepository->getLoginUser($this->sentry->getUser());
@@ -180,8 +213,8 @@ class ReportsController extends BaseController
 
     }
 
-    function grossReport($id)
-{
+    public function grossReport($id)
+    {
         $year = ($this->input->get('year') == null) ? null : $this->input->get('year');
         $data = [];
 
@@ -211,8 +244,8 @@ class ReportsController extends BaseController
         $this->sendJSON($data);
     }
 
-    function companyGrossReport()
-{
+    public function companyGrossReport()
+    {
         $year     = ($this->input->get('year') == null) ? null : $this->input->get('year');
         $data     = [];
         $branches = $this->branchRepository->all();
@@ -236,8 +269,8 @@ class ReportsController extends BaseController
 
         $this->sendJSON($data);
     }
-    function absentReport($id)
-{
+    public function absentReport($id)
+    {
         $year          = ($this->input->get('year') == null) ? null : $this->input->get('year');
         $data          = [];
         $department_id = ($this->input->get('department_id') == null) ? null : $this->input->get('department_id');
@@ -265,8 +298,8 @@ class ReportsController extends BaseController
         $this->sendJSON($data);
     }
 
-    function lateReport($id)
-{
+    public function lateReport($id)
+    {
         $year          = ($this->input->get('year') == null) ? null : $this->input->get('year');
         $department_id = ($this->input->get('department_id') == null) ? null : $this->input->get('department_id');
         $data          = [];

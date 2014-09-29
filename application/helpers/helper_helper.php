@@ -1,6 +1,7 @@
 <?php
 
-function _snakeToCamel($val) {
+function _snakeToCamel($val) 
+{
     return str_replace(' ', '', ucwords(str_replace('_', ' ', $val)));
 }
 

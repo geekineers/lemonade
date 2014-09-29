@@ -404,11 +404,16 @@ class Employee extends BaseModel
 
     public function getGross($from, $to, $format = true)
     {
+        $regular_holiday    = $this->getRegularHolidayPay($from, $to);
+        $special_holiday    = $this->getSpecialHolidayPay($from, $to);
+        $night_differential = $this->getNightDifferentialPay($from, $to);
 
         $total_Allowance = 0;
         $total           = 0;
 
         $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() + $this->getOvertime($from, $to);
+
+        $total = $total + $regular_holiday + $special_holiday + $night_differential;
 
         if ($format) {
             return number_format($total, 2);
@@ -1110,14 +1115,18 @@ class Employee extends BaseModel
         $absents = $this->getAbsentDeduction($from, $to);
         $late    = $this->getUnderTimeAndLateDeduction($from, $to, 'minute');
 
-        $overtime = $this->getOvertime($from, $to);
-        $sss_val  = $this->getSSSValue();
+        $overtime           = $this->getOvertime($from, $to);
+        $regular_holiday    = $this->getRegularHolidayPay($from, $to);
+        $special_holiday    = $this->getSpecialHolidayPay($from, $to);
+        $night_differential = $this->getNightDifferentialPay($from, $to);
+
+        $sss_val = $this->getSSSValue();
 
         $philhealth_val = $this->getPhilhealthValue();
         $pagibig_val    = $this->getHDMFValue();
         $basic_pay      = $this->getBasicSalary();
 
-        $curr_salary = ($basic_pay + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents + $late);
+        $curr_salary = ($basic_pay + $overtime + $regular_holiday + $special_holiday + $night_differential)-($sss_val + $philhealth_val + $pagibig_val + $absents + $late);
 
         if ($this->withholding_tax_type == "Expanded") {
             // dd('here');
@@ -1242,6 +1251,78 @@ class Employee extends BaseModel
     public function getCompanyName()
     {
         return $this->getCompany()->company_name;
+    }
+
+    public function getGeneratedPayslips($from, $to)
+    {
+        // var_dump($from, $to);
+        $payroll_group = PayslipsGroup::whereBetween('from', [$from, $to])->get();
+
+        $output = [];
+
+        // if(count($payroll_group) > 0){
+        //     dd($payroll_group);
+        // }
+
+        // var_dump($payroll_group);
+        foreach ($payroll_group as $group) {
+            $payslip = Payslips::where('payslip_group_id', '=', $group->id)->where('employee_id', '=', $this->id)->first();
+            if (is_null($payslip)) {
+
+            } else {
+                // var_dump('here');
+                array_push($output, $payslip);
+
+            }
+        }
+
+        return $output;
+
+    }
+
+    public function getGeneratedWtax($from, $to)
+    {
+        $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+
+                $total += $payslip->withholding_tax;
+            }
+
+        }
+
+        return $total;
+    }
+
+    public function getGeneratedSSSEmployee($from, $to)
+    {
+        $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+
+                $total += $payslip->sss;
+            }
+
+        }
+
+        return $total;
+    }
+
+    public function getGeneratedSSSEmployer($from, $to)
+    {
+        $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+                
+                $total += $payslip->sss_employer;
+            }
+
+        }
+
+        return $total;
     }
 
 }

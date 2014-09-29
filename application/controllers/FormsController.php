@@ -47,6 +47,8 @@ class FormsController extends BaseController
             ['name' => 'Leave Form', 'string_key' => 'leave']
 
         ];
+        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+       
         $data['company']   = $this->company;
         $data['title']     = $title;
         $data['employees'] = $this->employeeRepository->all();
