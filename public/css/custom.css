@@ -31,6 +31,8 @@ border-radius: 4px;
 user-select: none;
 }
 
+.user-header.bg-light-blue { background-color: #D6B712 !important; }
+
 .red-warning-row {
     background-color: rgba(131, 56, 56, 0.96);
     color: rgb(248, 140, 140);
