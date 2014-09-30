@@ -30,7 +30,9 @@ class TimesheetRepository extends BaseRepository
 
         ];
 
-        $this->create($data);
+        $time_in = $this->create($data);
+
+        // dd($time_in->id);
 
         return true;
 

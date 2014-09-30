@@ -1,0 +1,52 @@
+{% extends "layout/main.twig.html" %} {% block content %}
+<div class="dashboard">
+            <div class="box box-solid box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">All Announcements</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button class=" btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body announcement">
+                    {% if employee.getDeductions()|length
+                    <=0 %} <center>
+                        <button class="post_announcement btn btn-default btn-sm" data-toggle="modal" data-target="#post-announcment">Post Announcement</button>
+                        </center>
+                        <div class="">
+                            {% if announcements|length
+                            <=0 %} <center>
+                                <p><i>
+                                                    <i class="fa fa-info-circle"></i> No Announcements Yet.</i>
+                                </p>
+                                </center>
+                                {% endif %} {% for announcement in announcements %}
+                                <div class="item">
+                                    <div class="tools">
+                                        <i class="fa fa-trash-o delete" data-id="{{ announcement.id}}"></i>
+                                    </div>
+                                    <p class="message">
+                                        <a data-id="{{ announcement.id}}" class="name announcement-modal">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ announcement.getPostTimeDiff() }} posted by {{announcement.getAuthor().getName() }}</small>
+                                            {{ announcement.title }}
+                                        </a>
+                                        <br>{{   announcement.getMessage() |striptags|slice(0, 40) }} ..
+                                    </p>
+
+                                </div>
+                                {% endfor %}
+
+
+                        </div>
+                        {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+</div>
+
+
+{% include 'modal/new-announcement.twig.html' %}
+{% include 'modal/view-announcement.twig.html' %}
+{% endblock %}

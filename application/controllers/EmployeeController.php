@@ -172,6 +172,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         $data['departments']     = $this->departmentRepository->all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
+        // dd($data['employee']->getAllRoles());
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);

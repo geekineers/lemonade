@@ -199,7 +199,7 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        $this->timeSheetRepository->timeOut();
+        // $this->timeSheetRepository->timeOut();
         $this->sentry->logout();
         redirect('/auth');
     }

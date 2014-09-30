@@ -16,7 +16,12 @@ class AnnouncementRepository extends BaseRepository {
 
 	public function getAllAnnouncement()
 	{
-		return $this->all();
+		return $this->orderBy('id', 'desc')->get();
+	}
+
+	public function getLatest()
+	{
+		return $this->orderBy('id', 'desc')->take(5)->get();
 	}
 
 	public function getAnnouncementById($id)

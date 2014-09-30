@@ -33,6 +33,9 @@ class HolidayController extends BaseController
     public function add($year)
     {
         $data = $this->input->post();
+     	$data['holiday_type'] = ($data['holiday_type'] != "") ? $data['holiday_type'] : $data['holiday_type_select'];
+     	unset($data['holiday_type_select']);
+     	// dd($data);
         $this->holidayRepository->create($data);
         redirect('settings/holidays/' . $year, 'location');
     }

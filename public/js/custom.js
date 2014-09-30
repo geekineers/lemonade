@@ -33,6 +33,15 @@ $(document).ready(function(){
 	 //    </li>
 	})
 
+	$('#holiday_select').on('change', function (){
+		// alert($(this).val());
+		if($(this).val() == "others"){
+			$('#holiday_input').val('').fadeIn();
+		}
+		else{
+			$('#holiday_input').val('').fadeOut();
+		}
+	});
 
 	$('.announcement-modal').on('click',function(){
 		$('#view-announcment').modal('show');
