@@ -20,9 +20,11 @@ Pigeon::map(function ($r) {
     $r->post('reset-password/(:num)/(:num)', 'AuthController#postResetPassword');
     $r->get('forgot-password', 'AuthController#forgotPassword');
     $r->post('forgot-password', 'AuthController#forgot');
+    $r->post('auth/changepassword', 'AuthController#changePassword');
     $r->post('register', 'AuthController#saveRegister');
     $r->get('auth/logout', 'AuthController#logout');
     $r->get('auth/time-in', 'AuthController#timeIn');
+    $r->get('accounts', 'AuthController#accountSettings');
 
     $r->get('birthday', 'MainController#birthday');
     $r->get('announcements', 'MainController#announcements');
@@ -221,6 +223,9 @@ Pigeon::map(function ($r) {
     $r->post('reports/generate-employee-list', 'ReportsController#generateEmployeeList');
     $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
     $r->post('reports/generate-sss-report', 'ReportsController#generateSssReport');
+
+
+    $r->post('history/save', 'HistoryController#save');
 
     $r->get('sss', 'MainController#test');
 

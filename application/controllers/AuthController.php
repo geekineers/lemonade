@@ -15,6 +15,7 @@ class AuthController extends BaseController
         $this->userRepository      = new UserRepository();
         $this->timeSheetRepository = new TimesheetRepository();
         $this->companyRepository   = new CompanyRepository();
+        $this->employeeRepository   = new EmployeeRepository();
         $this->load->library('session');
     }
 
@@ -243,6 +244,36 @@ class AuthController extends BaseController
 
         $this->session->set_flashdata('new_user', "true");
         redirect('settings/company');
+    }
+
+    public function accountSettings()
+    {   
+         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+          $data['company']       = $this->company;
+          $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+          $data['user_account'] = $this->sentry->getUser();
+            $data['title']     = "User Accounts";
+
+            $this->render('account_settings.twig.html', $data);
+    }
+
+    public function changePassword()
+    {
+      $current = $this->input->post('current_password');  
+      $new = $this->input->post('new_password');  
+      $confirm = $this->input->post('confirm_password');  
+
+      $sentry = get_instance()->sentry;
+      $user = $sentry->getUser();
+      // dd($user->checkPassword($current));
+      if($user->checkPassword($current)){
+        if($new == $confirm){
+            $user->password = $new;
+            $user->save();
+             $this->session->set_flashdata('message', 'Password has been changed.');
+            redirect('accounts');
+        }
+      }
     }
 
     /* ADMIN Creator */
