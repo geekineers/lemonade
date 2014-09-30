@@ -169,7 +169,9 @@ class Employee extends BaseModel
     public function getAllRoles()
     {
         $groups = Group::where('company_id', '=', COMPANY_ID)->get();
-        if(is_null($group)){
+        // dd($groups);
+        if(is_null($groups)){
+            // dd('here');
             return null;
         }
         return $groups;

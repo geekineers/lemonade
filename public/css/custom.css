@@ -31,6 +31,11 @@ border-radius: 4px;
 user-select: none;
 }
 
+.add_history {margin: 12px;}
+.has-danger { border-color: red !important;}
+.has-success { border-color: green !important;}
+.user-header.bg-light-blue { background-color: #D6B712 !important; }
+
 .red-warning-row {
     background-color: rgba(131, 56, 56, 0.96);
     color: rgb(248, 140, 140);

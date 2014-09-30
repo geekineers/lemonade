@@ -42,13 +42,51 @@ class MainController extends BaseController
         $data['evaluations_trainings'] = $this->evaluationRepository->getMyEval($data['user']->id);
         $data['title']                 = "Dashboard";
         $data['birthdays']             = $this->employeeRepository->getNearBirthday();
-        $data['memos']                 = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->get();
+        $data['memos']                 = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->take(5)->get();
         $data['holidays']              = $this->holidayRepository->whereBetween('holiday_from', [date('Y-m-d'), date('Y-m-d', strtotime('+1 year'))])->take(3)->get();
-        $data['announcements']         = $this->announcementRepository->getAllAnnouncement();
+        $data['announcements']         = $this->announcementRepository->getLatest();
 
        // dd( $this->employeeRepository->getAllPermissions() );
 
         $this->render('index.twig.html', $data);
+    }
+
+
+    public function birthday()
+    {
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']                 = "Birthdays ";
+        $data['company']               = $this->company;
+        $data['birthdays']          = $this->employeeRepository->getBirthdays();
+        $this->render('birthday.twig.html', $data);
+    }
+
+    public function announcements()
+    {
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']                 = "Announcements ";
+        $data['company']               = $this->company;
+        $data['announcements']          = $this->announcementRepository->getAllAnnouncement();
+        $this->render('announcements.twig.html', $data);       
+    }
+
+    public function memos()
+    {
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']                 = "Memos ";
+        $data['company']               = $this->company;
+        $data['memos']                 = $this->memoRepository->where('to', $data['user']->id)->orderBy('id', 'desc')->get();
+     
+        $this->render('memos.twig.html', $data); 
+    }
+
+    public function events()
+    {
+        $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']                 = "Events ";
+        $data['company']               = $this->company;
+        $data['events']                = $this->holidayRepository->getAllEvents();
+        $this->render('events.twig.html', $data);
     }
 
     public function test()

@@ -56,7 +56,12 @@ $config['permissions'] = [
 		'timesheet_import',		
 		'timesheet_view',
 
-		'interbranch'
+		'interbranch',
+
+		'reports',
+
+		'form_application',
+		'form_approval'
 
 		// 'branch.delete',
 	

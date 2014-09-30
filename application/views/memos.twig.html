@@ -1,0 +1,54 @@
+{% extends "layout/main.twig.html" %} {% block content %}
+<div class="dashboard">
+                      <div class="box box-solid box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">All Memo</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-custom btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button class="btn btn-custom btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    {% if memos|length
+                    <=0 %} <div class="">
+
+                        <center>
+                            <p><i>
+                                            <i class="fa fa-info-circle"></i> No Memo Yet.
+                                </i>
+                            </p>
+                        </center>
+                </div>
+                {% endif %}
+                <div class="box-body chat memo" id="chat-box">
+
+
+                    {% for memo in memos %}
+                    <div class="item">
+                        <div class="tools">
+                            <i class="fa fa-trash-o delete" data-id="{{memo.id}}"></i>
+                        </div>
+                        <img src="{{ memo.getFrom().getProfilePicture() }}" alt="user image" class="offline">
+                        <p class="message">
+                            <a href="{{ memo.getFrom().getProfileLink() }}" class="name">
+                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ memo.getPostTimeDiff() }}</small>
+                                {{ memo.getFrom().getName() }}
+                            </a>
+                            {{ memo.getMessage() }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+</div>
+
+
+{% include 'modal/new-announcement.twig.html' %}
+{% include 'modal/view-announcement.twig.html' %}
+{% endblock %}

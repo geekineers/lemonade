@@ -86,7 +86,12 @@
                     </div>
                     <div class="form-group">
                         <label>Type</label>
-                        <input type="text" class="form-control" name="holiday_type">
+                        <select id="holiday_select" name='holiday_type_select' class="form-control">
+                            <option value="regular">Regular</option>
+                            <option value="special non-working">Special Holiday</option>
+                            <option value="others">Others</option>
+                        </select>
+                        <input type="text" id="holiday_input" style="display:none" class="form-control" name="holiday_type">
                     </div>
                     <div class="form-group">
                         <label>From</label>

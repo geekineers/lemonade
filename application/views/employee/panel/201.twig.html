@@ -152,7 +152,7 @@
 						 			<span class="form-label">Employee Role</span>
 						 			<span class="profile-value">{{ employee.getRole().name }}</span>
 						 			<select name="role_id" class="form-control  edit-input">
-						 				{% for role in employee.getAllRoles %}
+						 				{% for role in employee.getAllRoles() %}
 						 					<option {% if role.id == employee.getRole().id %} selected="selected"  {% endif %}value="{{ role.id }}">{{ role.name }}</option>
 						 				{% endfor %}
 						 			</select>

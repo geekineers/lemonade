@@ -1,6 +1,6 @@
 <?php
 use Holiday as Holiday;
-use \Curl\Curl;
+
 
 class HolidayRepository extends BaseRepository {
 
@@ -58,6 +58,26 @@ class HolidayRepository extends BaseRepository {
 
 		// dd($start, $end);
 		return $this->where('holiday_from', '=', $date)->count();
+	}
+
+	public function getAllEvents()
+	{
+		$output = [];
+		$item = [];
+
+		$holidays = $this->all();
+
+		foreach ($holidays as $holiday) {
+			$item['name'] = $holiday->holiday_name;
+			$item['day'] = $holiday->getDay(true);
+			$item['month'] = $holiday->getNumericMonth();
+			$item['year'] = $holiday->getyear();
+			$item['type'] = $holiday->holiday_type;
+			array_push($output, $item);
+		}
+
+		return $output;
+
 	}
 
 }

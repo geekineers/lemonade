@@ -20,10 +20,16 @@ Pigeon::map(function ($r) {
     $r->post('reset-password/(:num)/(:num)', 'AuthController#postResetPassword');
     $r->get('forgot-password', 'AuthController#forgotPassword');
     $r->post('forgot-password', 'AuthController#forgot');
+    $r->post('auth/changepassword', 'AuthController#changePassword');
     $r->post('register', 'AuthController#saveRegister');
     $r->get('auth/logout', 'AuthController#logout');
     $r->get('auth/time-in', 'AuthController#timeIn');
+    $r->get('accounts', 'AuthController#accountSettings');
 
+    $r->get('birthday', 'MainController#birthday');
+    $r->get('announcements', 'MainController#announcements');
+    $r->get('memos', 'MainController#memos');
+    $r->get('events', 'MainController#events');
     $r->get('dashboard', 'MainController#dashboard');
     $r->get('dashboard/announcement-rest', 'AnnouncementController#getAnnouncement');
     $r->post('dashboard/delete-announcement', 'AnnouncementController#delete');
@@ -134,6 +140,7 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/leave-types', 'LeaveTypeController#index');
     $r->get('settings/leave-types/add', 'LeaveTypeController#add');
+    $r->get('settings/leave-types/add', 'LeaveTypeController#add');
     $r->post('settings/leave-types/submit', 'LeaveTypeController#store');
 
     $r->get('settings/users', 'UserController#index');
@@ -216,6 +223,9 @@ Pigeon::map(function ($r) {
     $r->post('reports/generate-employee-list', 'ReportsController#generateEmployeeList');
     $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
     $r->post('reports/generate-sss-report', 'ReportsController#generateSssReport');
+
+
+    $r->post('history/save', 'HistoryController#save');
 
     $r->get('sss', 'MainController#test');
 

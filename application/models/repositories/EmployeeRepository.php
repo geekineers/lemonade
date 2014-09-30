@@ -287,6 +287,7 @@ class EmployeeRepository extends BaseRepository
         // dd($employee);
         if ($employee) {
             $group                     = $sentry->getGroups()[0];
+            // dd($sentry->getGroups());
             $employee->permissions     = $group->getPermissions();
             $employee->all_permissions = $this->getAllPermissions();
             return $employee;
@@ -320,6 +321,23 @@ class EmployeeRepository extends BaseRepository
         $endDate   = $startDate->copy()->addWeeks(3);
         $query     = $this->whereRaw("DATE_FORMAT(birthdate, '%m%d') BETWEEN " . $startDate->format('m') . $startDate->day . " AND " . $endDate->format('m') . $endDate->day, []);
         return $query->take(5)->get();
+    }
+
+    public function getBirthdays()
+    {
+        $bdays = [];
+        // $item = [ 'name' => '', 'day' => '', 'month' => ''];
+        $employees = Employee::all();
+
+        foreach ($employees as $employee) {
+            $item['name'] = $employee->getName() . "- Birthday";
+            $item['day'] = date('d', strtotime($employee->getBirthdate()));
+            $item['month'] = date('m', strtotime($employee->getBirthdate())) - 1;
+            $item['year'] = date('Y', strtotime($employee->getBirthdate()));
+            array_push($bdays, $item);
+        }
+
+        return $bdays;
     }
 
     public function search($query)

@@ -17,6 +17,7 @@ use Upload\Storage\FileSystem as FileSystem;
     $documentRepository,
     $deductionRepository,
     $allowanceRepository,
+    $historyRepository,
     $basicPayAdjustmentRepository,
     $fileSystem,
     $payrollGroupRepository;
@@ -40,6 +41,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->deductionRepository          = new DeductionRepository();
         $this->allowanceRepository          = new AllowanceRepository();
         $this->documentRepository           = new DocumentRepository();
+        $this->historyRepository           = new HistoryRepository();
         $this->basicPayAdjustmentRepository = new BasicPayAdjustmentRepository();
         $this->load->library('session');
     }
@@ -172,6 +174,9 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         $data['departments']     = $this->departmentRepository->all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
+        $data['histories']        = $this->historyRepository->getByEmployee($id);
+        // dd($data['histories']);
+        // dd($data['employee']->getAllRoles());
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);

@@ -16,14 +16,20 @@ class Holiday extends BaseModel
     protected $fillable = ['year', 'holiday_year_id', 'holiday_name', 'holiday_type', 'holiday_from', 'holiday_to', 'company_id'];
 
 
-    public function getDay()
+    public function getDay($numeric = false)
     {
+         if($numeric) return date('d', strtotime($this->holiday_from));
     	return date('j', strtotime($this->holiday_from));
     }
 
     public function getMonth()
     {
+
     	return date('M', strtotime($this->holiday_from));
+    }
+
+    public function getNumericMonth(){
+        return date('m', strtotime($this->holiday_from));
     }
 
     public function getYear()
