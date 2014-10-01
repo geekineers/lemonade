@@ -107,6 +107,8 @@ Pigeon::map(function ($r) {
     $r->get('settings/payroll', 'payrollSettingsController#index');
     $r->get('settings/payroll-group', 'payrollSettingsController#payrollGroup');
     $r->post('settings/payroll-group', 'payrollSettingsController#postPayrollGroup');
+    $r->post('settings/payroll-group/update', 'payrollSettingsController#updatePayrollGroup');
+    $r->get('settings/payroll-group/delete', 'payrollSettingsController#delete');
 
     $r->get('settings/forms', 'FormSettingsController#index');
     $r->get('settings/forms/new', 'FormSettingsController#create');
