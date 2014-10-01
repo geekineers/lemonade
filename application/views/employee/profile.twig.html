@@ -113,3 +113,13 @@
 
 	</div>
 {% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			{% if(alert) %}
+			 $.notify('Successfully save changes', 'success');
+			{% endif %}
+		});
+	</script>
+{% endblock %}
