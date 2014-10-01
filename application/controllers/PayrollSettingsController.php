@@ -47,4 +47,24 @@ class PayrollSettingsController extends BaseController
 
         redirect('/settings/payroll-group');
     }
+
+    public function updatePayrollGroup()
+    {
+        $id = $this->input->post('payroll_group_id');
+        $data = array(
+                 'branch_id'   => $this->input->post('branch-id'),
+                'group_name'  => $this->input->post('group-name'),
+                'period'      => $this->input->post('period')
+            );
+
+        $this->payrollGroupRepository->find($id)->update($data);
+         redirect('/settings/payroll-group');
+    }
+
+    public function delete($id)
+    {
+         $id = $this->input->get('token');
+        $this->payrollGroupRepository->delete($id);
+        redirect('/settings/payroll-group');
+    }
 }

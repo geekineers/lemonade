@@ -39,9 +39,15 @@
 						 		</td>
 						 		<td><span class="form-label">Marital Status</span>
 						 		<span class="profile-value">
-							 		Single
+							 		{{ employee.getMaritalStatus() }}
 						 		</span>
-						 		<input type="text" class="edit-input" name="marital_status" value="{{ employee.getMaritalStatus() }}"	>
+						 				<select class="edit-input" name="marital_status">
+                        				<option {% if(employee.getMaritalStatus() == "Single") %} selected {% endif %} value="Single">Single</option>
+                        				<option {% if(employee.getMaritalStatus() == "Married") %} selected {% endif %} value="Married">Married</option>
+                        				<option {% if(employee.getMaritalStatus() == "Divorced") %} selected {% endif %} value="Divorced">Divorced</option>
+				                        <option {% if(employee.getMaritalStatus() == "Seperated") %} selected {% endif %} value="Seperated">Seperated</option>
+				                        <option {% if(employee.getMaritalStatus() == "Widowed") %} selected {% endif %} value="Widowed">Widowed</option>
+				                    </select>
 						 		</td>
 						 	
 						 	</tr>
@@ -174,7 +180,13 @@
 						 	<tr>
 						 		<td><span class="form-label">Tax Status</span>
 						 		<span class="profile-value">{{ employee.getMaritalStatus() }}</span>
-						 			<input type="text" class="edit-input" value="{{ employee.getMaritalStatus() }}" >
+						 			<select class="edit-input">
+                        				<option {% if(employee.getMaritalStatus() == "Single") %} selected {% endif %} value="Single">Single</option>
+                        				<option {% if(employee.getMaritalStatus() == "Married") %} selected {% endif %} value="Married">Married</option>
+                        				<option {% if(employee.getMaritalStatus() == "Divorced") %} selected {% endif %} value="Divorced">Divorced</option>
+				                        <option {% if(employee.getMaritalStatus() == "Seperated") %} selected {% endif %} value="Seperated">Seperated</option>
+				                        <option {% if(employee.getMaritalStatus() == "Widowed") %} selected {% endif %} value="Widowed">Widowed</option>
+				                    </select>
 						 		</td>
 						 		<td><span class="form-label">TIN</span>
 						 			<span class="profile-value">{{ employee.getTin() }}</span>

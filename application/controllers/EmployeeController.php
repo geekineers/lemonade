@@ -118,6 +118,8 @@ use Upload\Storage\FileSystem as FileSystem;
         $data        = $this->input->post();
 
         $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }
 
@@ -135,6 +137,8 @@ use Upload\Storage\FileSystem as FileSystem;
 
         );
         $update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }
 
@@ -152,6 +156,8 @@ use Upload\Storage\FileSystem as FileSystem;
         );
 
         $update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
 
     }
@@ -159,12 +165,15 @@ use Upload\Storage\FileSystem as FileSystem;
     {
         $data = $this->input->post();
         $this->employeeRepository->where('id', '=', $id)->update($data);
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $id . '/profile', 'location');
 
     }
 
     public function profile($id)
     {
+        $data['alert'] = $this->session->flashdata('alert');
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
@@ -189,6 +198,9 @@ use Upload\Storage\FileSystem as FileSystem;
     public function uploadFile()
     {
         $this->documentRepository->saveDocument($this->input->post());
+
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
     }
@@ -197,6 +209,8 @@ use Upload\Storage\FileSystem as FileSystem;
     {
 
         $this->documentRepository->delete($this->input->get());
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->get('eid') . '/profile', 'location');
 
     }
@@ -204,6 +218,8 @@ use Upload\Storage\FileSystem as FileSystem;
     public function uploadCertificate()
     {
         $this->documentRepository->saveCertificate($this->input->post());
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
     }
 
@@ -211,6 +227,8 @@ use Upload\Storage\FileSystem as FileSystem;
     {
         $input = $this->input->post();
         $this->employeeRepository->updateProfilePicture($input, $id);
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $id . '/profile', 'location');
     }
 
@@ -240,6 +258,8 @@ use Upload\Storage\FileSystem as FileSystem;
         // dd($post);
 
         $this->basicPayAdjustmentRepository->create($post);
+        
+          $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
     }
