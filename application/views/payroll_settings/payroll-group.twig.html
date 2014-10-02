@@ -169,5 +169,11 @@
       });
 
   });
+
+    $(document).ready(function(){
+      {% if(alert) %}
+       $.notify('Successfully added', 'success');
+      {% endif %}
+    });
 </script>
 {% endblock %}

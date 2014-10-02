@@ -13,6 +13,7 @@ class PayrollSettingsController extends BaseController
         $this->branchRepository       = new BranchRepository();
         $this->payrollGroupRepository = new PayrollGroupRepository();
          $this->employeeRepository   = new EmployeeRepository();
+                 $this->load->library('session');
 
     }
 
@@ -28,6 +29,8 @@ class PayrollSettingsController extends BaseController
 
     public function payrollGroup()
     {
+
+        $data['alert'] = $this->session->flashdata('alert');
         $data['company']  = $this->company;
         $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']    = 'Payroll Settings';
@@ -44,7 +47,7 @@ class PayrollSettingsController extends BaseController
                 'period'      => $this->input->post('period'),
                 'prepared_by' => $this->sentry->getUser()->id
             ]);
-
+        $this->session->set_flashdata('alert', true);
         redirect('/settings/payroll-group');
     }
 
