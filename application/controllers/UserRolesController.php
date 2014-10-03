@@ -34,7 +34,8 @@ class UserRolesController extends BaseController
         $data['company']     = $this->company;
         $data['permissions'] = $this->config->item('permissions');
         $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['branch']        = $this->branchRepository->all();
+        $data['is_interbranch'] = $this->sentry->getUser()->hasPermission('interbranch');
+        $data['branches']        = $this->branchRepository->all();
         $data['title']       = "User Roles";
 
         $this->render('/user_roles/add.twig.html', $data);
