@@ -96,4 +96,31 @@ class AllowanceController extends BaseController
         redirect('/settings/allowances', 'location');
 
     }
+
+   public function trash()
+    {
+        $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']    = "Deleted Allowances";
+        $data['allowances'] = $this->allowanceRepository->onlyTrashed()->get();
+
+        $this->render('allowance/trash.twig.html', $data);
+    }
+
+    public function restore($id)
+    {
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/allowances/trash','location');
+        }
+
+        $this->allowanceRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first()
+                               ->restore();
+
+        $this->session->set_flashdata('message', 'Succesfully Restored!');
+            redirect('settings/allowances/trash','location');
+    }
 }

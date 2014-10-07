@@ -3,6 +3,20 @@
 
 <div class="row container">
 	<a class="deduction_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-plus"></i></a>
+     <div class="dropdown inline" >
+     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+    </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li>
+        <a href="/settings/deductions/trash">View Deleted Deductions</a>
+    </li>
+    <li>
+        <a href="/settings/deductions/">
+            View Current Deductions
+        </a>
+    </li>
+  </ul>   
+  </div>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -11,13 +25,16 @@
     </div>
     {% endif %}
 </div>
-<table class="table table-bordered table-hovered">
-	<tr>
-		<th>Name</th>
-		<th>Type</th>
-		<th>Created By</th>
-		<th>Option</th>
-	</tr>
+<table id="deduction-list" class="table table-bordered table-hovered">
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Created By</th>
+    <th>Option</th>
+  </tr>
+</thead>
+
 	 {% for deduction in deductions %}
 	 	<tr>
 	 		<td>{{ deduction.deduction_name }}</td>
@@ -97,8 +114,16 @@
 
 
 {% block scripts %}
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
+    $('#deduction-list').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
       $('.btn-update-deduction').on('click', function(){
         var id = $(this).data('id');
         var name = $(this).data('name');

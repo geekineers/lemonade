@@ -197,14 +197,12 @@ class Employee extends BaseModel
 
     public function getJobPosition()
     {
-        try {
             $job = Job_Position::find($this->job_position);
+            // dd($job);
             if ($job) {
                 return $job->job_position;
             }
-        } catch (Exception $e) {
-            return $e;
-        }
+            return 'None'; 
 
     }
     public function getDepartment()
@@ -357,7 +355,12 @@ class Employee extends BaseModel
     }
     public function getBranch()
     {
-        return Branch::find($this->branch_id)->branch_name;
+        $branch = Branch::find($this->branch_id);
+        
+        if($branch){
+            return $branch->branch_name;
+        }
+        return 'None';
     }
 
     public function getDocuments()

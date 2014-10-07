@@ -85,4 +85,30 @@ class BranchController extends BaseController
 
     }
 
+    public function trash()
+    {
+        $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']    = "Deleted Branches";
+        $data['branches'] = $this->branchRepository->onlyTrashed()->get();
+
+        $this->render('branch/trash.twig.html', $data);
+    }
+
+    public function restore($id)
+    {
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/branches/trash','location');
+        }
+
+        $this->branchRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first()
+                               ->restore();
+
+        $this->session->set_flashdata('message', 'Succesfully Restored!');
+            redirect('settings/branches/trash','location');
+    }
 }

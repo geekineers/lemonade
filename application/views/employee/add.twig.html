@@ -1,4 +1,12 @@
 {% extends "layout/main.twig.html" %} {% block content %}
+      {% if alert_message != null %}  
+    <div class="col-md-11 alert alert-danger alert-dismissable">
+        <i class="fa fa-exclamation"></i>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <b>Error!</b> {{ alert_message }}.
+    </div>
+
+    {% endif %}
 <div class="col-md-12">
     <div class="box box-primary">
         <div class="box-header">
@@ -17,7 +25,7 @@
                         <input required type="text" name="first_name" class="form-control " id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="col-md-4">
-                        <input required type="text" name="middle_name" class="form-control " id="exampleInputEmail1" placeholder="Middle Name">
+                        <input  type="text" name="middle_name" class="form-control " id="exampleInputEmail1" placeholder="Middle Name">
                     </div>
                     <div class="col-md-4">
                         <input required type="text" name="last_name" class="form-control " id="exampleInputEmail1" placeholder="Last Name">
@@ -86,7 +94,7 @@
                 </label>
                 <br>
 
-                <input required type="radio" name="dependents" class="dependents-radio" id="" value="0" placeholder="">0
+                <input required type="radio" checked name="dependents" class="dependents-radio" id="" value="0" placeholder="">0
                 <input required type="radio" name="dependents" class="dependents-radio" id="" value="1" placeholder="">1
                 <input required type="radio" value="2" name="dependents" class="dependents-radio " id="" placeholder="">2
                 <input required type="radio" value="3" name="dependents" class="dependents-radio" id="" placeholder="">3
@@ -280,11 +288,11 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" class="form-control " id="exampleInputEmail1" placeholder="">
+                    <input type="password" name="password" class="form-control " id="password" placeholder="">
                 </div>
                 <div class="form-group">
                     <label>Confirm Password</label>
-                    <input type="password" name="confirm_password" class="form-control " id="exampleInputEmail1" placeholder="">
+                    <input type="password" name="confirm_password" class="form-control " id="confirm_password" placeholder="">
                 </div>
             </div>
 
@@ -303,6 +311,21 @@
 </div>
 </div>
 <script type="text/javascript">
+$(document).ready(function(){
+    $('#confirm_password').on('keyup', function(){
+    var password = $('#password').val();
+    var confirm_password = $(this).val();
+    // console.log($(this).parent());
+    if(password != confirm_password){
+        $(this).parent().addClass('has-error');
+    }
+    else{
+        $(this).parent().removeClass('has-error');
+        $(this).parent().addClass('has-success');
+
+    }
+});
+
 $('#branch').change(function(elem) {
 
     var el = this;
@@ -316,5 +339,7 @@ $('#branch').change(function(elem) {
         $('#group_name').html(group_string);
     });
 });
+});
+
 </script>
 {% endblock %}

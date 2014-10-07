@@ -86,7 +86,9 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "Employees";
-
+  $data['alert_message'] = ($this->session->flashdata('message') == null)
+        ? null
+        : $this->session->flashdata('message');
         $data['groups']         = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions']  = $this->jobPositionRepository->all();
         $data['departments']    = $this->departmentRepository->all();
@@ -99,7 +101,18 @@ use Upload\Storage\FileSystem as FileSystem;
     public function save()
     {
         $data = $this->input->post();
-        $this->employeeRepository->createEmployee($data, $this->sentry);
+        $saving = $this->employeeRepository->createEmployee($data, $this->sentry);
+        
+        if($saving == "confirm_password_error"){
+            
+        $this->session->set_flashdata('message', 'Kindly confirm the user password.');
+        redirect('/employees/add', 'location');
+        
+        }
+        else{
+        $this->session->set_flashdata('message', 'Successfully added!');
+            
+        }
         redirect('/employees', 'location');
     }
 

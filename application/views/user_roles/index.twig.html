@@ -11,17 +11,20 @@
     </div>
     {% endif %}
 </div>
-<table class="table table-bordered table-hovered">
-	<tr>
-		<th>Name</th>
-		<th>Options</th>
-	</tr>
+<table id="roles-list" class="table table-bordered table-hovered">
+	<thead>
+    <tr>
+  		<th>Name</th>
+  		<th>Options</th>
+  	</tr>
+    
+  </thead>
 	 {% for group in groups %}
 	 	<tr>
 			<td>{{ group.name }}</td>		
 	 		<td>
-	 			<a href="/settings/roles/edit?token={{ group.id }}" class="btn btn-primary">View</a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/roles/delete?token={{ group.id }}" class="btn btn-danger">Delete</a>
+	 			<a href="/settings/roles/edit?token={{ group.id }}" class="btn btn-primary"><span class="fa fa-edit"></span></a>
+	 			<a onclick="return confirm('Are you sure?')" href="/settings/roles/delete?token={{ group.id }}" class="btn btn-danger"><span class="fa fa-trash-o"></span></a>
 
 	 		</td>
 	 	</tr>
@@ -64,3 +67,21 @@
 {% endblock %}
 
 
+{% block scripts %}
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+       $('#roles-list').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+
+
+  });
+
+</script>
+
+{% endblock %}

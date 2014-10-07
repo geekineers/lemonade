@@ -46,6 +46,8 @@ Pigeon::map(function ($r) {
     $r->get('settings/branches/edit', 'BranchController#edit');
     $r->post('settings/branches/edit', 'BranchController#update');
     $r->get('settings/branches/delete', 'BranchController#delete');
+    $r->get('settings/branches/trash', 'BranchController#trash');
+    $r->get('settings/branches/restore/(:num)', 'BranchController#restore');
 
     $r->get('payroll', 'PayrollController#index');
     $r->get('payroll/payslip', 'PayrollController#payslip');
@@ -95,6 +97,8 @@ Pigeon::map(function ($r) {
     $r->get('settings/job/edit', 'JobController#edit');
     $r->post('settings/job/edit', 'JobController#update');
     $r->get('settings/job/delete', 'JobController#delete');
+    $r->get('settings/job/trash', 'JobController#trash');
+    $r->get('settings/job/restore/(:num)', 'JobController#restore');
 
     $r->get('settings/department', 'DepartmentController#index');
     $r->get('settings/department/add', 'DepartmentController#add');
@@ -103,6 +107,8 @@ Pigeon::map(function ($r) {
     $r->get('settings/department/edit', 'DepartmentController#edit');
     $r->post('settings/department/edit', 'DepartmentController#update');
     $r->get('settings/department/delete', 'DepartmentController#delete');
+    $r->get('settings/department/trash', 'DepartmentController#trash');
+    $r->get('settings/department/restore/(:num)', 'DepartmentController#restore');
 
     $r->get('settings/payroll', 'payrollSettingsController#index');
     $r->get('settings/payroll-group', 'payrollSettingsController#payrollGroup');
@@ -121,9 +127,13 @@ Pigeon::map(function ($r) {
     $r->get('settings/deductions', 'DeductionController#index');
     $r->post('settings/deductions/save', 'DeductionController#save');
     $r->post('settings/deductions/update', 'DeductionController#update');
+    $r->get('settings/deductions/trash', 'DeductionController#trash');
+    $r->get('settings/deductions/restore/(:num)', 'DeductionController#restore');
 
     $r->get('settings/allowances', 'AllowanceController#index');
     $r->get('settings/allowances/delete', 'AllowanceController#delete');
+    $r->get('settings/allowances/trash', 'AllowanceController#trash');
+    $r->get('settings/allowances/restore/(:num)', 'AllowanceController#restore');
     $r->post('settings/allowances/save', 'AllowanceController#save');
     $r->post('settings/allowances/update', 'AllowanceController#update');
 

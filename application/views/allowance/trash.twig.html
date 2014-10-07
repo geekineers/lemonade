@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row container">
-	<a class="allowance_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewAllowance"><i class="fa fa-plus"></i></a>
+
      <div class="dropdown inline" >
      <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
     </a>
@@ -40,7 +40,7 @@
 	 		<td>{{ allowance.getCreator() }}</td>
 	 		<td>
 	 			<a href="#updateAllowance" data-id="{{ allowance.id }}" data-name="{{ allowance.allowance_name }}" class="btn btn-update-allowance btn-primary"><i class="fa fa-edit"></i></a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
+	 		 <a  onclick="return confirm('Are you sure you want to reactivate this allowance?')"  href="/settings/allowances/restore/{{ allowance.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}

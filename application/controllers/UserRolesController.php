@@ -21,6 +21,7 @@ class UserRolesController extends BaseController
     public function index()
     {
         $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');        
         $data['groups']  = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "User Roles";
@@ -102,7 +103,7 @@ class UserRolesController extends BaseController
     {$id = $this->input->get('token');
         $group                       = $this->sentry->findGroupById($id);
         $group->delete();
-
+        $this->session->set_flashdata('message', 'Successfully Deleted!');
         redirect('settings/roles', 'location');
     }
 }

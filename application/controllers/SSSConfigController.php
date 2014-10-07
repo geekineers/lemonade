@@ -24,6 +24,7 @@ class SSSConfigController extends BaseController
     {   
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title'] = "SSS Config";
         $data['sets'] = $this->sssConfigRepository->all();
         $this->render('settings/sss-config.twig.html',$data);
     }

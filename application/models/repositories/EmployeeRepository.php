@@ -136,8 +136,11 @@ class EmployeeRepository extends BaseRepository
         $cofirm_password = isset($data['confirm_password']) ?  $data['confirm_password'] : "";
 
         // Creation of New Account
-        if ($email != "") {
-
+        
+        if ($email != "" && $password !== "" && $confirm_password != "") {
+            if($password != $confirm_password){
+                return 'confirm_password_error';
+            }
             $user = $sentry->createUser(array(
                     'email'      => $email,
                     'password'   => $password,
@@ -155,7 +158,7 @@ class EmployeeRepository extends BaseRepository
         // Upload Picture
 
         $filename = 'none';
-        try{
+      
              $file = new \Upload\File('display_picture', $this->fileSystem);
             // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
             if($file->isOK()){
@@ -177,22 +180,14 @@ class EmployeeRepository extends BaseRepository
                 $filename = $file->getNameWithExtension();
                 
             }
-        if ($save):
-            try {
+              try {
                 // Success!
                 $file->upload();
-                return true;
+            
             } catch (\Exception $e) {
                 // Fail!
                 $errors = $file->getErrors();
             }
-
-        endif;
-
-        }catch(Exception $e)
-        {
-
-        }
        
 
         $save = $this->create(

@@ -39,12 +39,22 @@ class PayrollGroup extends Eloquent {
 
   public function getBranch()
   {
-        return Branch::find($this->branch_id)->branch_name;
+        $branch =  Branch::find($this->branch_id);
+        if($branch) {
+          return $branch->branch_name;
+        }
+
+        return 'Null';
   }
 
   public function getBranchAddress()
   {
-    return Branch::find($this->branch_id)->branch_address;
+    $branch =  Branch::find($this->branch_id);
+         if($branch) {
+          return $branch->branch_address;
+        }
+
+        return 'Null';
   }
 
   public function getDate()

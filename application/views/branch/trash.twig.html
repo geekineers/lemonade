@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row container">
-	<a class="branch_create btn-add-type btn btn-success" href="/settings/leave-types/add" ><i class="fa fa-plus"></i></a>
+  
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -10,25 +10,39 @@
                                         <b>Success!</b> {{ alert_message }}.
     </div>
     {% endif %}
+<div class="dropdown inline" >
+     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+    </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li>
+        <a href="/settings/branches/trash">View Deleted Branch</a>
+    </li>
+    <li>
+        <a href="/settings/branches/">
+            View Current Branch
+        </a>
+    </li>
+  </ul>   
+  </div>
 </div>
-<table id="leave-list" class="table table-bordered table-hovered">
-  <thead>
-      <tr>
-    <th>Name</th>
-    <th>Location</th>
-    <th>Option</th>
-  </tr>
-  </thead>
 
-	 {% for type in types %}
+
+<table class="table table-bordered table-hovered">
+	<tr>
+		<th>Name</th>
+		<th>Location</th>
+		<th>Option</th>
+	</tr>
+	 {% for branch in branches %}
 	 	<tr>
-	 		<td>{{ type.leave_type_name }}</td>
-	 		<td>{{ type.leave_type_points_earning }}</td>
+	 		<td>{{ branch.branch_name }}</td>
+	 		<td>{{ branch.address }}</td>
 	 
 	 		<td>
-	 			<a href="/settings/leave-types/edit?id={{ type.id }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-	 			<a onclick="return confirm('Are you sure?')" href="/settings/leave-types/delete?id={{ type.id }}" class="branch_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
-	 		</td>
+	 			<a href="/settings/branches/edit?id={{ branch.id }}" class="btn btn-primary"><i class="fa fa-"></i></a>
+	     <a  onclick="return confirm('Are you sure you want to reactivate this branch?')"  href="/settings/branches/restore/{{ branch.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
+      </td>
+
 	 	</tr>
 	 {% endfor %}
 </table>
@@ -68,21 +82,4 @@
 
 {% endblock %}
 
-{% block scripts %}
-<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
-<script type="text/javascript">
-  $(document).ready(function(){
-       $('#leave-list').dataTable({
-            "bPaginate": true,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
 
-
-  });
-
-</script>
-
-{% endblock %}
