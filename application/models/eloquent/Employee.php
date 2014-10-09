@@ -113,7 +113,25 @@ class Employee extends BaseModel
     // Employee Details
     public function getEmployeeType()
     {
-        return $this->employee_type;
+        $eid =  $this->employee_type;
+    
+        $employee_type = EmployeeType::find($eid);
+        if($employee_type){
+            return $employee_type->getName();
+        }
+        
+        return 'None';
+    }
+    public function getEmployeeTypeId()
+    {
+        $eid =  $this->employee_type;
+    
+        $employee_type = EmployeeType::find($eid);
+        if($employee_type){
+            return $employee_type->id;
+        }
+        
+        return 'None';
     }
 
     public function getTaxStatus()

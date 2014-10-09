@@ -164,11 +164,8 @@ class TimesheetRepository extends BaseRepository
             // var_dump(''$index);
             for ($col = 0; $col <= $highestColumnIndex; ++$col) {
                 var_dump('Column : ' . $col);
-                if ($col <= 4) {
                     $timesheet_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
-                } else {
-                    $timesheet_infos[$index][$col] = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow($col, $row)->getValue()));
-                }
+              
             }
             $index++;
         }
@@ -182,11 +179,11 @@ class TimesheetRepository extends BaseRepository
                 continue;
             } else {
 
-                $time_in = date('H:i:s', strtotime($timesheet_info[1]));
+                $time_in = date('H:i:s', strtotime($timesheet_info[2]));
                 $date_in = date('Y-m-d', strtotime($timesheet_info[1]));
 
-                $time_out = date('H:i:s', strtotime($timesheet_info[2]));
-                $date_out = date('Y-m-d', strtotime($timesheet_info[2]));
+                $time_out = date('H:i:s', strtotime($timesheet_info[4]));
+                $date_out = date('Y-m-d', strtotime($timesheet_info[3]));
 
 
                 $employee_id = $employee->id;

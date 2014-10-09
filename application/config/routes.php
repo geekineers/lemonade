@@ -100,6 +100,13 @@ Pigeon::map(function ($r) {
     $r->get('settings/job/trash', 'JobController#trash');
     $r->get('settings/job/restore/(:num)', 'JobController#restore');
 
+    $r->get('settings/employee-types', 'EmployeeTypeController#index');
+    $r->post('settings/employee-types/save', 'EmployeeTypeController#save');
+    $r->post('settings/employee-types/update', 'EmployeeTypeController#update');
+    $r->get('settings/employee-types/delete', 'EmployeeTypeController#delete');
+    $r->get('settings/employee-types/trash', 'EmployeeTypeController#trash');
+    $r->get('settings/employee-types/restore/(:num)', 'EmployeeTypeController#restore');
+
     $r->get('settings/department', 'DepartmentController#index');
     $r->get('settings/department/add', 'DepartmentController#add');
     $r->post('settings/department/add', 'DepartmentController#save');
