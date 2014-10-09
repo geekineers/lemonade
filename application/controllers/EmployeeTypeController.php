@@ -80,9 +80,9 @@ class EmployeeTypeController extends BaseController
     public function delete()
     {
         $id = $this->input->get('id');
-        $branch_name = $this->employeeTypeRepository->find($id)->branch_name;
+        $employee_type_name = $this->employeeTypeRepository->find($id)->employee_type_name;
         $this->employeeTypeRepository->delete($id);
-        $this->session->set_flashdata('message', $branch_name . ' has been deleted.');
+        $this->session->set_flashdata('message', $employee_type_name . ' has been deleted.');
        
         redirect('/settings/employee-types', 'location');
 

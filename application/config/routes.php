@@ -242,6 +242,8 @@ Pigeon::map(function ($r) {
     $r->post('reports/generate-employee-list', 'ReportsController#generateEmployeeList');
     $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
     $r->post('reports/generate-sss-report', 'ReportsController#generateSssReport');
+    $r->post('reports/generate-philhealth-report', 'ReportsController#generatePhilhealthReport');
+    $r->post('reports/generate-pagibig-report', 'ReportsController#generatePagibigReport');
 
 
     $r->post('history/save', 'HistoryController#save');

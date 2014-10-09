@@ -20,6 +20,7 @@ class UserController extends BaseController
         $data['title']   = "User";
         $data['users'] = User::where('company_id', '=', COMPANY_ID)->get();
         // dd($data['users']);
+         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         foreach ($data['users'] as $key => $value) {
             // dd($value->id);
               $user     = get_instance()->sentry->findUserById($value->id);
@@ -31,15 +32,18 @@ class UserController extends BaseController
 
     public function delete()
     {
-        $token = $this->input->post('token');
+        $token = $this->input->get('token');
+
         try
         {
             // Find the user using the user id
-            $user = Sentry::findUserById(1);
 
+            $user = $this->sentry->findUserById($token);
             // Delete the user
             $user->delete();
-            redirect('settings/user');
+           $this->session->set_flashdata('message', 'Succesfully deleted!');
+       
+            redirect('settings/users');
         }
         catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
         {

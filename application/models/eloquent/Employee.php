@@ -43,6 +43,7 @@ class Employee extends BaseModel
         'tin_number',
         'sss_number',
         'pagibig_number',
+        'philhealth_number',
         'dependents',
 
         // Contact info
@@ -312,6 +313,11 @@ class Employee extends BaseModel
             }
         }
         return (int) $this->fixed_sss_amount;
+    }
+
+    public function getPhilhealthNumber()
+    {
+        return $this->philhealth_number;
     }
 
     public function getPhilhealthValue()
@@ -1350,6 +1356,36 @@ class Employee extends BaseModel
             foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
                 
                 $total += $payslip->sss_employer;
+            }
+
+        }
+
+        return $total;
+    }
+
+    public function getGeneratedPhilhealth($from, $to)
+    {
+         $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+                
+                $total += $payslip->philhealth;
+            }
+
+        }
+
+        return $total;
+    }
+
+    public function getGeneratedPagibig($from, $to)
+    {
+         $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+                
+                $total += $payslip->pagibig;
             }
 
         }

@@ -183,6 +183,116 @@ class ReportsController extends BaseController
 
     }
 
+    public function generatePhilhealthReport()
+    {
+        $output = [];
+        $year = $this->input->post('year');
+
+        $type   = $this->input->post('type');
+        if ($type == 'quarterly') {
+
+            $array_dates = array(
+                'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
+                'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
+                'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
+                'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
+            );
+        } else {
+            $months = getMonths($year);
+
+            foreach ($months as $month) {
+                $array_dates[$month->monthName] = array('start' => date('Y-m-d', strtotime($month->startMonth)), 'end' => date('Y-m-d', strtotime($month->endMonth)));
+            }
+
+        }
+
+        foreach ($array_dates as $key => $value) {
+            array_push($output, ['quarter' => $key]);
+            $employees = $this->employeeRepository->all();
+            $total_philhealth = 0;
+            foreach ($employees as $employee) {
+                $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
+             
+                if ($date_hired <= $value['start']) {
+                    $item['name']         = $employee->getName();
+                    $item['philhealth_number']   = $employee->getPhilhealthNumber();
+                    $item['philhealth']          = $employee->getGeneratedPhilhealth($value['start'], $value['end']);
+                    $total_philhealth += $item['philhealth'];
+                    
+                    array_push($output, $item);
+                }
+
+            }
+            array_push($output, ['whitespace' => '', 'total'=>'TOTAL', 'total_philhealth' => $total_philhealth]);
+            array_push($output, ['break' => '']);
+        }
+
+            
+        $columns = ['Name', 'Philhealth Number', 'Total'];
+
+        $xls_file = $this->reportRepository->generateXLS($output, $columns, 'philhealth-report');
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
+
+    }
+    public function generatePagibigReport()
+    {
+        $output = [];
+        $year = $this->input->post('year');
+
+        $type   = $this->input->post('type');
+        if ($type == 'quarterly') {
+
+            $array_dates = array(
+                'Q1' => array('start' => date('Y-m-d', strtotime($year . '-01-01')), 'end' => date('Y-m-d', strtotime($year . '-03-31'))),
+                'Q2'                  => array('start' => date('Y-m-d', strtotime($year . '-04-01')), 'end' => date('Y-m-d', strtotime($year . '-06-30'))),
+                'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
+                'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
+            );
+        } else {
+            $months = getMonths($year);
+
+            foreach ($months as $month) {
+                $array_dates[$month->monthName] = array('start' => date('Y-m-d', strtotime($month->startMonth)), 'end' => date('Y-m-d', strtotime($month->endMonth)));
+            }
+
+        }
+
+        foreach ($array_dates as $key => $value) {
+            array_push($output, ['quarter' => $key]);
+            $employees = $this->employeeRepository->all();
+            $total_pagibig = 0;
+            foreach ($employees as $employee) {
+                $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
+             
+                if ($date_hired <= $value['start']) {
+                    $item['name']         = $employee->getName();
+                    $item['pagibig_number']   = $employee->getPagibig();
+                    $item['pagibig']          = $employee->getGeneratedPagibig($value['start'], $value['end']);
+                    $total_pagibig += $item['pagibig'];
+                    
+                    array_push($output, $item);
+                }
+
+            }
+            array_push($output, ['whitespace' => '', 'total'=>'TOTAL', 'total_pagibig' => $total_pagibig]);
+            array_push($output, ['break' => '']);
+        }
+
+            
+        $columns = ['Name', 'Pagibig Number', 'Total'];
+
+        $xls_file = $this->reportRepository->generateXLS($output, $columns, 'pagibig-report');
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
+
+    }
+
+
     public function company()
     {
         $data['title']    = $this->company->company_name . " Report ({$year})";

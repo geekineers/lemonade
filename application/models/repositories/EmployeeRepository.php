@@ -73,6 +73,7 @@ class EmployeeRepository extends BaseRepository
             'tin_number'     => $data['tin_number'],
             'sss_number'     => $data['sss_number'],
             'pagibig_number' => $data['pagibig_number'],
+            'philhealth_number' => $data['philhealth_number'],
         );
         // dd($post);
 
@@ -123,6 +124,7 @@ class EmployeeRepository extends BaseRepository
         $tin_number     = $data['tin_number'];
         $sss_number     = $data['sss_number'];
         $pagibig_number = $data['pagibig_number'];
+        $philhealth_number = $data['philhealth_number'];
 
         //Contact Information
 

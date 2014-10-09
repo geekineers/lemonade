@@ -14,10 +14,13 @@ class TimesheetController extends BaseController {
 	}
 
 	public function index() {
+        $page  = (is_set($this->input->get('page');
+
 		$data['company']    = $this->company;
 		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title']      = "All Timesheets";
 		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->get();
+
 		$data['employees']  = $this->employeeRepository->all();
 		$this->render('/timesheet/index.twig.html', $data);
 	}
@@ -84,4 +87,6 @@ class TimesheetController extends BaseController {
 		$this->timesheetRepository->uploadByBatch($input);
 		redirect('/timesheet');
 	}
+
+	
 }

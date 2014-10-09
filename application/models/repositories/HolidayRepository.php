@@ -1,6 +1,6 @@
 <?php
 use Holiday as Holiday;
-
+use Curl\Curl;
 
 class HolidayRepository extends BaseRepository {
 
