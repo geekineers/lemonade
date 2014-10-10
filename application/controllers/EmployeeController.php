@@ -55,6 +55,9 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ? null
         : $this->session->flashdata('message');
+         $data['alert_message_error'] = ($this->session->flashdata('message_error') == null)
+        ? null
+        : $this->session->flashdata('message_error');
         $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']     = "Employee";
         $data['employees'] = $this->employeeRepository->where('id', '!=', 1)->get();
@@ -320,7 +323,14 @@ use Upload\Storage\FileSystem as FileSystem;
     {
 
         $input = $this->input->post();
-        $this->employeeRepository->uploadBybatch($input);
+        $output = $this->employeeRepository->uploadBybatch($input);
+        if($output['status']){
+            $this->session->set_flashdata('message', $output['message']);
+        }
+        else{
+            $this->session->set_flashdata('message_error', $output['message']);
+
+        }
         redirect('/employees');
     }
 }
