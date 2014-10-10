@@ -73,6 +73,7 @@ class EmployeeRepository extends BaseRepository
             'tin_number'     => $data['tin_number'],
             'sss_number'     => $data['sss_number'],
             'pagibig_number' => $data['pagibig_number'],
+            'philhealth_number' => $data['philhealth_number'],
         );
         // dd($post);
 
@@ -123,6 +124,7 @@ class EmployeeRepository extends BaseRepository
         $tin_number     = $data['tin_number'];
         $sss_number     = $data['sss_number'];
         $pagibig_number = $data['pagibig_number'];
+        $philhealth_number = $data['philhealth_number'];
 
         //Contact Information
 
@@ -136,8 +138,11 @@ class EmployeeRepository extends BaseRepository
         $cofirm_password = isset($data['confirm_password']) ?  $data['confirm_password'] : "";
 
         // Creation of New Account
-        if ($email != "") {
-
+        
+        if ($email != "" && $password !== "" && $confirm_password != "") {
+            if($password != $confirm_password){
+                return 'confirm_password_error';
+            }
             $user = $sentry->createUser(array(
                     'email'      => $email,
                     'password'   => $password,
@@ -155,8 +160,11 @@ class EmployeeRepository extends BaseRepository
         // Upload Picture
 
         $filename = 'none';
-        try{
+            try{
+
              $file = new \Upload\File('display_picture', $this->fileSystem);
+            
+
             // openssl_csr_export_to_file(csr, outfilename)ionally you can rename the file on upload
             if($file->isOK()){
            
@@ -177,23 +185,18 @@ class EmployeeRepository extends BaseRepository
                 $filename = $file->getNameWithExtension();
                 
             }
-        if ($save):
-            try {
+              try {
                 // Success!
                 $file->upload();
-                return true;
+            
             } catch (\Exception $e) {
                 // Fail!
                 $errors = $file->getErrors();
             }
-
-        endif;
-
-        }catch(Exception $e)
-        {
-
-        }
        
+            }catch(\Exception $e){
+
+            }
 
         $save = $this->create(
             array(
@@ -422,6 +425,34 @@ class EmployeeRepository extends BaseRepository
         
 
         foreach ($user_infos as  $user_info ) {
+            if($user_info[1] == ""){
+                continue;
+            }
+            $required_field = [
+                            'employee_type' => $user_info[10],
+                            'branch' =>  $user_info[11],
+                            'department' => $user_info[13],
+                            'job_position' => $user_info[12],
+                            'payroll_group_name' => $user_info[14],
+                            'payroll_group_period' => $user_info[15],
+                            ];
+            // dd($required_field);
+            // 
+            foreach ($required_field as $key => $value) {
+                if($value == ""){
+                    dd($key, $value);
+                    return ['status' => false, 'message' => $key . ' is required'];
+                }
+            }
+
+            $employee_type = EmployeeType::where('employee_type_name', '=', $user_info[10])->first();
+            if($employee_type){
+                $employee_type_id = $employee_type->id;
+            }
+            else{
+                $employee_type = EmployeeType::create(['employee_type_name' => $user_info[10], 'company_id' => COMPANY_ID]);
+               $employee_type_id = $employee_type->id;
+            }
 
             $branch = Branch::where('branch_name','=', $user_info[11])->first();
             if($branch){
@@ -473,7 +504,7 @@ class EmployeeRepository extends BaseRepository
                 'gender'          => $user_info[9],
                 'marital_status'  => $user_info[7],
                 'spouse_name'     => $user_info[5],
-                'employee_type'   => $user_info[10],
+                'employee_type'   => $employee_type_id,
                 'payroll_period'  =>  $payroll_period_id,
                 'job_position'    =>  $job_position_id,
                 'department'      =>  $department_id,
@@ -484,16 +515,18 @@ class EmployeeRepository extends BaseRepository
                 'basic_pay'       => $user_info[18],
                 'tin_number'      => $user_info[19],
                 'sss_number'      => $user_info[20],
-                'pagibig_number'  => $user_info[21],
+                'pagibig_number'  => $user_info[22],
+                'philhealth_number'  => $user_info[21],
                 'dependents'      => $user_info[6],
-                'contact_number'  => $user_info[24],
-                'email_address'           =>$user_info[22],
-                'fb'              => $user_info[23]
+                'contact_number'  => $user_info[25],
+                'email_address'           =>$user_info[23],
+                'fb'              => $user_info[24],
+                'display_picture' => null
             );
             $this->createEmployee($data,"");
         }         
 
-
+        return ['status' => true, 'message' => 'Successfully Uploaded!'];
     }
 
     public function reactivateEmployee($id)

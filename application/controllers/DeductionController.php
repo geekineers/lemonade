@@ -96,5 +96,31 @@ class DeductionController extends BaseController
 
         redirect('/settings/deductions', 'location');
     }
+    public function trash()
+    {
+        $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']    = "Deleted Deductions";
+        $data['deductions'] = $this->deductionRepository->onlyTrashed()->get();
+
+        $this->render('deductions/trash.twig.html', $data);
+    }
+
+    public function restore($id)
+    {
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/deductions/trash','location');
+        }
+
+        $this->deductionRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first()
+                               ->restore();
+
+        $this->session->set_flashdata('message', 'Succesfully Restored!');
+            redirect('settings/deductions/trash','location');
+    }
 
 }

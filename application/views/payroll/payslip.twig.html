@@ -36,8 +36,10 @@
                                                 <td>{{ payslip.getEmployee().getPayrollPeriod().group_name }} - {{ payslip.getEmployee().getPayrollPeriod().period }}</td>
                                                 <td>{{ payslip.getBranch() }}</td>
                                                 <td> 
-                                                <a href="/payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>
-                                                <a href="/payroll/payslip-xls/{{payslip.id}}" target="_blank" class="btn btn-success fa fa-download"></a>
+                                                <a href="/payroll/payslip/{{payslip.id}}" target="_blank" class="btn btn-primary">
+                                                    <span class="fa fa-download"> PDF(.pdf)</span>
+                                                </a>
+                                                <a href="/payroll/payslip-xls/{{payslip.id}}" target="_blank" class="btn btn-success"><span class="fa fa-download"></span> Excel(.xlsx)</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}

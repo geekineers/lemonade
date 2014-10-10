@@ -17,6 +17,7 @@ use Upload\Storage\FileSystem as FileSystem;
     $documentRepository,
     $deductionRepository,
     $allowanceRepository,
+    $employeeTypeRepository,
     $historyRepository,
     $basicPayAdjustmentRepository,
     $fileSystem,
@@ -40,6 +41,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->departmentRepository         = new DepartmentRepository();
         $this->deductionRepository          = new DeductionRepository();
         $this->allowanceRepository          = new AllowanceRepository();
+        $this->employeeTypeRepository          = new EmployeeTypeRepository();
         $this->documentRepository           = new DocumentRepository();
         $this->historyRepository           = new HistoryRepository();
         $this->basicPayAdjustmentRepository = new BasicPayAdjustmentRepository();
@@ -53,6 +55,9 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['alert_message'] = ($this->session->flashdata('message') == null)
         ? null
         : $this->session->flashdata('message');
+         $data['alert_message_error'] = ($this->session->flashdata('message_error') == null)
+        ? null
+        : $this->session->flashdata('message_error');
         $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']     = "Employee";
         $data['employees'] = $this->employeeRepository->where('id', '!=', 1)->get();
@@ -86,7 +91,9 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "Employees";
-
+  $data['alert_message'] = ($this->session->flashdata('message') == null)
+        ? null
+        : $this->session->flashdata('message');
         $data['groups']         = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions']  = $this->jobPositionRepository->all();
         $data['departments']    = $this->departmentRepository->all();
@@ -99,7 +106,18 @@ use Upload\Storage\FileSystem as FileSystem;
     public function save()
     {
         $data = $this->input->post();
-        $this->employeeRepository->createEmployee($data, $this->sentry);
+        $saving = $this->employeeRepository->createEmployee($data, $this->sentry);
+        
+        if($saving == "confirm_password_error"){
+            
+        $this->session->set_flashdata('message', 'Kindly confirm the user password.');
+        redirect('/employees/add', 'location');
+        
+        }
+        else{
+        $this->session->set_flashdata('message', 'Successfully added!');
+            
+        }
         redirect('/employees', 'location');
     }
 
@@ -188,6 +206,7 @@ use Upload\Storage\FileSystem as FileSystem;
         // dd($data['employee']->getAllRoles());
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
+        $data['employee_types'] = $this->employeeTypeRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);
 
         $data['employee']->getRole();
@@ -304,7 +323,14 @@ use Upload\Storage\FileSystem as FileSystem;
     {
 
         $input = $this->input->post();
-        $this->employeeRepository->uploadBybatch($input);
+        $output = $this->employeeRepository->uploadBybatch($input);
+        if($output['status']){
+            $this->session->set_flashdata('message', $output['message']);
+        }
+        else{
+            $this->session->set_flashdata('message_error', $output['message']);
+
+        }
         redirect('/employees');
     }
 }

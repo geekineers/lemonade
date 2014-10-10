@@ -2,11 +2,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
 
-class BranchController extends BaseController
+class EmployeeTypeController extends BaseController
 {
 
     protected $branchRepository;
     protected $employeeRepository;
+    protected $employeeTypeRepository;
     
     public function __construct()
     {
@@ -14,6 +15,7 @@ class BranchController extends BaseController
         $this->mustBeLoggedIn();
         $this->branchRepository   = new BranchRepository();
         $this->employeeRepository = new EmployeeRepository();
+        $this->employeeTypeRepository = new EmployeeTypeRepository();
         $this->load->library('session');
 
     }
@@ -23,10 +25,10 @@ class BranchController extends BaseController
         $data['company'] = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']    = "Branches";
-        $data['branches'] = $this->branchRepository->all();
+        $data['title']    = "Employee Type";
+        $data['employee_types'] = $this->employeeTypeRepository->all();
 
-        $this->render('branch/index.twig.html', $data);
+        $this->render('employee_type/index.twig.html', $data);
 
     }
 
@@ -36,17 +38,17 @@ class BranchController extends BaseController
         $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title'] = "Branches";
 
-        $this->render('branch/add.twig.html', $data);
+        $this->render('employee-types/add.twig.html', $data);
 
     }
 
     public function save()
     {
-        $branch_name = $this->input->post('branch_name');
-        $save = $this->branchRepository->create($this->input->post());
-        $this->session->set_flashdata('message', $branch_name . ' has been added.');
+        $employee_type_name = $this->input->post('employee_type_name');
+        $save = $this->employeeTypeRepository->saveEmployeeType($employee_type_name);
+        $this->session->set_flashdata('message', $employee_type_name . ' has been added.');
 
-        redirect('/settings/branches', 'location');
+        redirect('/settings/employee-types', 'location');
 
     }
 
@@ -56,32 +58,33 @@ class BranchController extends BaseController
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']  = "Branches";
-        $data['branch'] = $this->branchRepository->find($id);
+        $data['employee-types'] = $this->branchRepository->find($id);
 
   
-        $this->render('branch/edit.twig.html', $data);
+        $this->render('employee-types/edit.twig.html', $data);
 
     }
 
     public function update()
     {
-        $branch_name = $this->input->post('branch_name');
-        $id          = $this->input->post('id');
-        $save        = $this->branchRepository->find($id)->update($this->input->post());
-        $this->session->set_flashdata('message', $branch_name . ' has been updated.');
+        $name = $this->input->post('employee_type_name');
+        $id = $this->input->post('id');
+      
+        $save        = $this->employeeTypeRepository->updateEmployeeType($id, $name);
+        $this->session->set_flashdata('message', $name . ' has been updated.');
         
-        redirect('/settings/branches', 'location');
+        redirect('/settings/employee-types', 'location');
 
     }
 
     public function delete()
     {
         $id = $this->input->get('id');
-        $branch_name = $this->branchRepository->find($id)->branch_name;
-        $this->branchRepository->delete($id);
-        $this->session->set_flashdata('message', $branch_name . ' has been deleted.');
+        $employee_type_name = $this->employeeTypeRepository->find($id)->employee_type_name;
+        $this->employeeTypeRepository->delete($id);
+        $this->session->set_flashdata('message', $employee_type_name . ' has been deleted.');
        
-        redirect('/settings/branches', 'location');
+        redirect('/settings/employee-types', 'location');
 
     }
 
@@ -90,25 +93,25 @@ class BranchController extends BaseController
         $data['company'] = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']    = "Deleted Branches";
-        $data['branches'] = $this->branchRepository->onlyTrashed()->get();
+        $data['title']    = "Deleted employee-types";
+        $data['employee_types'] = $this->employeeTypeRepository->onlyTrashed()->get();
 
-        $this->render('branch/trash.twig.html', $data);
+        $this->render('employee_type/trash.twig.html', $data);
     }
 
     public function restore($id)
     {
         if(is_null($id)){
             $this->session->set_flashdata('message', 'Error!');
-            redirect('settings/branches/trash','location');
+            redirect('settings/employee-types/trash','location');
         }
 
-        $this->branchRepository->where('id', '=', $id)
+        $this->employeeTypeRepository->where('id', '=', $id)
                                ->onlyTrashed()
                                ->first()
                                ->restore();
 
         $this->session->set_flashdata('message', 'Succesfully Restored!');
-            redirect('settings/branches/trash','location');
+            redirect('settings/employee-types/trash','location');
     }
 }

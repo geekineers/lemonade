@@ -43,6 +43,7 @@ class Employee extends BaseModel
         'tin_number',
         'sss_number',
         'pagibig_number',
+        'philhealth_number',
         'dependents',
 
         // Contact info
@@ -113,7 +114,25 @@ class Employee extends BaseModel
     // Employee Details
     public function getEmployeeType()
     {
-        return $this->employee_type;
+        $eid =  $this->employee_type;
+    
+        $employee_type = EmployeeType::find($eid);
+        if($employee_type){
+            return $employee_type->getName();
+        }
+        
+        return 'None';
+    }
+    public function getEmployeeTypeId()
+    {
+        $eid =  $this->employee_type;
+    
+        $employee_type = EmployeeType::find($eid);
+        if($employee_type){
+            return $employee_type->id;
+        }
+        
+        return 'None';
     }
 
     public function getTaxStatus()
@@ -197,14 +216,12 @@ class Employee extends BaseModel
 
     public function getJobPosition()
     {
-        try {
             $job = Job_Position::find($this->job_position);
+            // dd($job);
             if ($job) {
                 return $job->job_position;
             }
-        } catch (Exception $e) {
-            return $e;
-        }
+            return 'None'; 
 
     }
     public function getDepartment()
@@ -298,6 +315,11 @@ class Employee extends BaseModel
         return (int) $this->fixed_sss_amount;
     }
 
+    public function getPhilhealthNumber()
+    {
+        return $this->philhealth_number;
+    }
+
     public function getPhilhealthValue()
     {
         if ($this->deduct_sss == null) {
@@ -357,7 +379,12 @@ class Employee extends BaseModel
     }
     public function getBranch()
     {
-        return Branch::find($this->branch_id)->branch_name;
+        $branch = Branch::find($this->branch_id);
+        
+        if($branch){
+            return $branch->branch_name;
+        }
+        return 'None';
     }
 
     public function getDocuments()
@@ -1329,6 +1356,36 @@ class Employee extends BaseModel
             foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
                 
                 $total += $payslip->sss_employer;
+            }
+
+        }
+
+        return $total;
+    }
+
+    public function getGeneratedPhilhealth($from, $to)
+    {
+         $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+                
+                $total += $payslip->philhealth;
+            }
+
+        }
+
+        return $total;
+    }
+
+    public function getGeneratedPagibig($from, $to)
+    {
+         $total = 0;
+        // var_dump($this->getGeneratedPayslips($from, $to));
+        if (is_array($this->getGeneratedPayslips($from, $to))) {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+                
+                $total += $payslip->pagibig;
             }
 
         }

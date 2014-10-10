@@ -147,4 +147,6 @@ abstract class BaseRepository
         return $this->class->whereNotBetween( $column, $values, $boolean);
    }
 
+
+
 }

@@ -61,6 +61,7 @@ class JobController extends BaseController
     {
         $id = $this->input->get('token');
         $this->jobPositionRepository->delete($id);
+        $this->session->set_flashdata('message', 'Successfully Deleted!');
         redirect('/settings/job');
     }
 
@@ -70,5 +71,30 @@ class JobController extends BaseController
         $input = $this->input->post();
         $this->jobPositionRepository->update($input, $id);
         redirect('/settings/job');
+    }
+    public function trash()
+    {
+        $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']    = "Deleted Job Positions";
+        $data['groups'] = $this->jobPositionRepository->onlyTrashed()->get();
+        $this->render('job_position/trash.twig.html', $data);
+    }
+
+    public function restore($id)
+    {
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/job/trash','location');
+        }
+
+        $this->jobPositionRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first()
+                               ->restore();
+
+        $this->session->set_flashdata('message', 'Succesfully Restored!');
+            redirect('settings/job/trash','location');
     }
 }

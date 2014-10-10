@@ -1,7 +1,7 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
 <div class="row container">
-	<a class="department_create btn-add-branch btn btn-success" data-toggle="modal" data-target="#addDepartment" href="/3"><i class="fa fa-plus"></i></a>
+
     <div class="dropdown inline" >
      <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
     </a>
@@ -37,7 +37,7 @@
 	 	<tr>
 			<td>{{ group.department_name }}</td>		
 	 		<td><a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
-            <a onclick="return confirm('Are you sure?')" href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
+       <a  onclick="return confirm('Are you sure you want to reactivate this department?')"  href="/settings/department/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
       </td>
 	 	</tr>
 	 {% endfor %}
@@ -115,7 +115,6 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Save">
       </div>
     </div>
   </div>

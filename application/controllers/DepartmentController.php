@@ -61,6 +61,7 @@ class DepartmentController extends BaseController
     {
         $id = $this->input->get('token');
         $this->departmentRepository->delete($id);
+        $this->session->set_flashdata('message', 'Successfully deleted!');
         redirect('/settings/department');
     }
 
@@ -72,5 +73,33 @@ class DepartmentController extends BaseController
         $this->departmentRepository->update($input, $id);
         redirect('/settings/department');
 
+    }
+
+    public function trash()
+    {
+        $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']    = "Deleted Departments";
+         $data['branches']  = $this->branchRepository->all();
+        $data['groups'] = $this->departmentRepository->onlyTrashed()->get();
+
+        $this->render('department/trash.twig.html', $data);
+    }
+
+    public function restore($id)
+    {
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/department/trash','location');
+        }
+
+        $this->departmentRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first()
+                               ->restore();
+
+        $this->session->set_flashdata('message', 'Succesfully Restored!');
+        redirect('settings/department/trash','location');
     }
 }

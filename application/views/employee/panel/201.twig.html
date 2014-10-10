@@ -83,9 +83,14 @@
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
-						 		<td><span class="form-label">Employee Status</span>
+						 		<td><span class="form-label">Employee Type</span>
 						 		<span class="profile-value">{{ employee.getEmployeeType() }}</span>
-						 		<input type="text" name="employee_type" class="edit-input" value="{{  employee.getEmployeeType() }}" />
+						 		<select name="employee_type" id="" class="form-control edit-input">
+						 			<option value="null" {% if employee.getEmployeeType() == null %} selected {% endif %} >None</option>
+						 			{% for employee_type in employee_types %}
+									<option value="{{ employee_type.id }}" {% if employee_type.id == employee.getEmployeeTypeId() %} selected {% endif %}>{{ employee_type.getName() }}</option>
+						 			{% endfor %}
+						 		</select>
 						 		</td>
 						 		<td><span class="form-label">Payroll Period</span>
 						 		<span class="profile-value">
@@ -202,6 +207,14 @@
 						 		<span class="profile-value">{{ employee.getSSS() }}</span>
 						 			<input name="sss_number" type="text" class="edit-input" value="{{ employee.getSSS() }}" >
 						 		</td>
+						 	</tr>
+						 	<td><span class="form-label">Philhealth</span>
+						 		<span class="profile-value">{{ employee.getPhilhealthNumber() }}</span>
+						 			<input name="philhealth_number" type="text" class="edit-input" value="{{ employee.getPhilhealthNumber() }}" >
+						 		</td>
+						 		<td></td>
+						 	<tr>
+						 		
 						 	</tr>
 						
 						 </table>

@@ -48,7 +48,7 @@ class Payslips extends Eloquent
     }
     public function getEmployee()
     {
-        return Employee::where('id', '=', $this->employee_id)->first();
+        return Employee::where('id', '=', $this->employee_id)->withTrashed()->first();
     }
 
     public function getEmployees()
@@ -68,9 +68,14 @@ class Payslips extends Eloquent
 
     public function getName()
     {
-        $first_name = Employee::where('id', '=', $this->employee_id)->first()->first_name;
-        $last_name  = Employee::where('id', '=', $this->employee_id)->first()->last_name;
-        return $first_name . ' ' . $last_name;
+        $employee = Employee::where('id', '=', $this->employee_id)->withTrashed()->first();
+        if($employee){
+            $first_name = $employee->first_name;
+            $last_name  = $employee->last_name;
+            return $first_name . ' ' . $last_name;
+        }
+
+        return 'None';
     }
 
     public function getBranch()

@@ -40,6 +40,7 @@ class PayrollController extends BaseController
     {
         $id   = $this->input->get('id');
         $data = $this->payrollGroupRepository->getPayrollGroupByBranch($id);
+      	// dd($data);
         return $this->sendJSON($data);
     }
 

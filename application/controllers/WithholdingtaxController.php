@@ -15,12 +15,17 @@ class WithholdingtaxController extends BaseController
         parent::__construct();
         $this->mustBeLoggedIn();
         $this->branchRepository       = new BranchRepository();
+        $this->employeeRepository       = new EmployeeRepository();
         $this->payrollGroupRepository = new PayrollGroupRepository();
         $this->wtConfigRepository     = new WTConfigsRepository();
     }
 
     public function index()
     {
+          $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']    = "Withholding Tax Settings";
         $data['sets'] = $this->wtConfigRepository->all();
         $this->render('settings/wt-config.twig.html', $data);
     }

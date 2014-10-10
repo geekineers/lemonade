@@ -3,6 +3,20 @@
 
 <div class="row container">
 	<a class="branch_create btn-add-branch btn btn-success" href="/settings/branches/add" ><i class="fa fa-plus"></i></a>
+   <div class="dropdown inline" >
+     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+    </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li>
+        <a href="/settings/branches/trash">View Deleted Branch</a>
+    </li>
+    <li>
+        <a href="/settings/branches/">
+            View Current Branch
+        </a>
+    </li>
+  </ul>   
+  </div>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
@@ -11,12 +25,15 @@
     </div>
     {% endif %}
 </div>
-<table class="table table-bordered table-hovered">
-	<tr>
-		<th>Name</th>
-		<th>Location</th>
-		<th>Option</th>
-	</tr>
+<table id="branch-list" class="table table-bordered table-hovered">
+	<thead>
+      <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Option</th>
+  </tr>    
+  </thead>
+
 	 {% for branch in branches %}
 	 	<tr>
 	 		<td>{{ branch.branch_name }}</td>
@@ -65,4 +82,22 @@
 
 {% endblock %}
 
+{% block scripts %}
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  (function($){
+        $('#branch-list').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+        $('form-control search').css({display:'hidden'});
+        $('.dataTables_paginate > a').addClass('btn btn-default');
+    })(jQuery);
+</script>
+
+
+{% endblock %}
 

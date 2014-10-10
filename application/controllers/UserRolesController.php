@@ -21,6 +21,7 @@ class UserRolesController extends BaseController
     public function index()
     {
         $data['company'] = $this->company;
+        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');        
         $data['groups']  = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "User Roles";
@@ -34,7 +35,8 @@ class UserRolesController extends BaseController
         $data['company']     = $this->company;
         $data['permissions'] = $this->config->item('permissions');
         $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['branch']        = $this->branchRepository->all();
+        $data['is_interbranch'] = $this->sentry->getUser()->hasPermission('interbranch');
+        $data['branches']        = $this->branchRepository->all();
         $data['title']       = "User Roles";
 
         $this->render('/user_roles/add.twig.html', $data);
@@ -101,7 +103,7 @@ class UserRolesController extends BaseController
     {$id = $this->input->get('token');
         $group                       = $this->sentry->findGroupById($id);
         $group->delete();
-
+        $this->session->set_flashdata('message', 'Successfully Deleted!');
         redirect('settings/roles', 'location');
     }
 }
