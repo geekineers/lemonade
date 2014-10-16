@@ -16,6 +16,18 @@ class EmployeeRepository extends BaseRepository
         $this->fileSystem = new FileSystem($path);
     }
 
+    public function checkEmployeeTypeChanged($data, $input)
+    {
+        if($data['employee_type'] == $input['employee_type']){
+            return array(
+                    'status' => true,
+                    'message' => 'Employee Type changed from ' . $data['employee_type'] . ' to ' . $input['employee_type']
+                );
+        }
+
+        return array('status' => false, 'message' => null);
+    }
+
     public function getAllEmployeesJSON()
     {
 
@@ -78,9 +90,17 @@ class EmployeeRepository extends BaseRepository
         // dd($post);
 
         $employee = $this->where('id', '=', $employee_id);
+        $employee_data = $employee->first()->toArray();
+        $employee_type_changed = $this->checkEmployeeTypeChanged($employee_data, $post);
 
-        $employee->update($post);
-      try{
+        $update = $employee->update($post);
+        
+        if($update){
+            
+        }
+
+        
+        try{
             $user     = $sentry->findUserById($employee->first()->id);
 
             foreach ($user->getGroups() as $group) {
