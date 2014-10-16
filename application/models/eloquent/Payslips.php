@@ -81,7 +81,13 @@ class Payslips extends Eloquent
     public function getBranch()
     {
 
-        return Branch::find($this->branch_id)->branch_name;
+        $branch =  Branch::find($this->branch_id);
+
+        if($branch){
+            return $branch->branch_name;
+        }
+
+        return 'None';
     }
 
     public function setPasswordAttribute($password)
