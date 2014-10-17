@@ -58,9 +58,9 @@ class EmployeeRepository extends BaseRepository
     {
 
         $post = array(
-            'first_name'     => $data['first_name'],
-            'last_name'      => $data['last_name'],
-            'middle_name'    => $data['middle_name'],
+            'first_name'     => toTitleCase($data['first_name']),
+            'last_name'      => toTitleCase($data['last_name']),
+            'middle_name'    => toTitleCase($data['middle_name']),
             'full_address'   => $data['full_address'],
             'birthdate'      => $data['birthdate'],
             'gender'         => $data['gender'],
@@ -120,9 +120,9 @@ class EmployeeRepository extends BaseRepository
     public function createEmployee($data, $sentry)
     {
         // Basic Info
-        $first_name     = $data['first_name'];
-        $last_name      = $data['last_name'];
-        $middle_name    = $data['middle_name'];
+        $first_name     = toTitleCase($data['first_name']);
+        $last_name      = toTitleCase($data['last_name']);
+        $middle_name    = toTitleCase($data['middle_name']);
         $full_address   = $data['full_address'];
         $birthdate      = $data['birthdate'];
         $gender         = $data['gender'];
@@ -155,14 +155,18 @@ class EmployeeRepository extends BaseRepository
         //User Accounts
         $email           = isset($data['email']) ?  $data['email'] : "" ;
         $password        = isset($data['password']) ?  $data['password'] : "";
-        $cofirm_password = isset($data['confirm_password']) ?  $data['confirm_password'] : "";
+        $confirm_password = isset($data['confirm_password']) ?  $data['confirm_password'] : "";
+
+        // dd($email, $password, $confirm_password);
 
         // Creation of New Account
         
         if ($email != "" && $password !== "" && $confirm_password != "") {
             if($password != $confirm_password){
+                // dd('shit');
                 return 'confirm_password_error';
             }
+            // dd('here');
             $user = $sentry->createUser(array(
                     'email'      => $email,
                     'password'   => $password,
@@ -516,21 +520,21 @@ class EmployeeRepository extends BaseRepository
             }
 
             $data = array(
-                'first_name'      => $user_info[1],
-                'last_name'       => $user_info[3],
-                'middle_name'     => $user_info[2],
-                    'full_address'    => $user_info[4],
-                    'birthdate'       => $user_info[8],
+                'first_name'      => toTitleCase($user_info[1]),
+                'last_name'       => toTitleCase($user_info[3]),
+                'middle_name'     => toTitleCase($user_info[2]),
+                    'full_address'    => toTitleCase($user_info[4]),
+                    'birthdate'       => toTitleCase($user_info[8]),
                 'gender'          => $user_info[9],
                 'marital_status'  => $user_info[7],
-                'spouse_name'     => $user_info[5],
+                'spouse_name'     => toTitleCase($user_info[5]),
                 'employee_type'   => $employee_type_id,
                 'payroll_period'  =>  $payroll_period_id,
                 'job_position'    =>  $job_position_id,
                 'department'      =>  $department_id,
                 'role_id'         => $user_info[16],
                 'branch_id'       => $branch_id,
-                'date_hire'      => $user_info[17],
+                'date_hire'      =>  $user_info[17],
                 'date_ended'      => $user_info[3],
                 'basic_pay'       => $user_info[18],
                 'tin_number'      => $user_info[19],
@@ -539,7 +543,7 @@ class EmployeeRepository extends BaseRepository
                 'philhealth_number'  => $user_info[21],
                 'dependents'      => $user_info[6],
                 'contact_number'  => $user_info[25],
-                'email_address'           =>$user_info[23],
+                'email_address'   =>$user_info[23],
                 'fb'              => $user_info[24],
                 'display_picture' => null
             );
