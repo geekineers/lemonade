@@ -13,8 +13,9 @@ class TimesheetController extends BaseController {
 		$this->load->library('session');
 	}
 
-	public function index() {
-        $page  = (is_set($this->input->get('page');
+	public function index() 
+    {
+        $page  = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
 
 		$data['company']    = $this->company;
 		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
@@ -25,19 +26,22 @@ class TimesheetController extends BaseController {
 		$this->render('/timesheet/index.twig.html', $data);
 	}
 
-	public function timein() {
+	public function timein() 
+    {
 		$this->timesheetRepository->timein($this->sentry->getUser());
 		$this->session->set_userdata('time_in_status', 1);
 		redirect('/dashboard', 'location');
 	}
 
-	public function timeout() {
+	public function timeout() 
+    {
 		$this->timesheetRepository->timeout($this->sentry);
 		$this->session->set_userdata('time_in_status', 0);
 		redirect('/dashboard', 'location');
 	}
 
-	public function myTimesheet() {
+	public function myTimesheet() 
+    {
 		$data['company']    = $this->company;
 		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title']      = "My Timesheets";
@@ -45,14 +49,16 @@ class TimesheetController extends BaseController {
 		$this->render('/timesheet/my_timesheet.twig.html', $data);
 	}
 
-	public function save() {
+	public function save() 
+    {
 		$data = $this->input->post();
 		$this->timesheetRepository->saveTime($data['employee'], $data['timestart'], $data['timeend'], $data['from'], $data['to']);
 		redirect('/timesheet');
 
 	}
 
-	public function range() {
+	public function range() 
+    {
 		$input              = $this->input->get();
 		$data['timesheets'] = $this->timesheetRepository->search($input['query'], $input['from'], $input['to']);
 
@@ -60,7 +66,8 @@ class TimesheetController extends BaseController {
 
 	}
 
-	public function update() {
+	public function update() 
+    {
 		$data = $this->input->post();
 		$this->timesheetRepository->updateTime($data['timesheet_id'], $data['employee'], $data['timestart'], $data['timeend'], $data['from'], $data['to']);
 
@@ -68,7 +75,8 @@ class TimesheetController extends BaseController {
 
 	}
 
-	public function delete() {
+	public function delete() 
+    {
 		$id = $this->input->get('token');
 
 		$this->timesheetRepository->delete($id);

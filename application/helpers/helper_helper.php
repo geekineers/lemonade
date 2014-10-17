@@ -10,6 +10,11 @@ function _snakeToTitle($val)
     return ucwords(str_replace('_', ' ', $val));
 }
 
+function toTitleCase($val)
+{
+    return ucwords(strtolower($val));
+}
+
 function ciAppPath($path = null)
 {
     return APPPATH . $path;
