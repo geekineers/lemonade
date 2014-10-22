@@ -51,6 +51,7 @@
     <tr>
         <th></th>
         <th>Name</th>
+        <th>Emp. ID</th>
         <th>Position</th>
         <th>Branch</th>
         <th>Department</th>
@@ -67,6 +68,7 @@
             </center>
         </td>
         <td>{{ employee.last_name }}, {{ employee.first_name }}</td>
+        <td>{{ employee.getEmployeeID() }}</td>
         <td>{{ employee.getJobPosition() }}</td>
         <td>{{ employee.getBranch() }}</td>
         <td>{{ employee.getDepartment() }}</td>

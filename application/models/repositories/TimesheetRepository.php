@@ -163,7 +163,7 @@ class TimesheetRepository extends BaseRepository
         for ($index = 0, $row = 2; $row <= $highestRow; ++$row) {
             // var_dump(''$index);
             for ($col = 0; $col <= $highestColumnIndex; ++$col) {
-                var_dump('Column : ' . $col);
+              
                     $timesheet_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
               
             }

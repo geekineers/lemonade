@@ -507,7 +507,9 @@ class EmployeeRepository extends BaseRepository
             }
 
 
-            $payroll_period = PayrollGroup::where('group_name','=',$user_info[14])->first();
+            $payroll_period = PayrollGroup::where('group_name','=',$user_info[14])
+                                            ->where('branch_id', '=', $branch_id) 
+                                            ->first();
             if($payroll_period){
                 
                 $payroll_period_id = $payroll_period->id;
