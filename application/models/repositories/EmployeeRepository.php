@@ -4,9 +4,27 @@ require_once APPPATH . '/libraries/excel.php';
 
 use Employee as Employee;
 use Upload\Storage\FileSystem as FileSystem;
+use Respect\Validation\Validator as Validator;
 
 class EmployeeRepository extends BaseRepository
 {
+    use ValidableTrait;
+
+    protected $rules = [
+                        'first_name'        => 'required',
+                        'last_name'         => 'required',
+                        'dependents'        => 'numeric|required',
+                        'marital_status'    => 'required',
+                        'birthdate'         => 'date|required',
+                        'gender'            => 'required',
+                        'employee_type'     => 'numeric|required',
+                        'branch_id'         => 'numeric|required',
+                        'job_position'      => 'numeric|required',
+                        'department'        => 'numeric|required',
+                        'payroll_period'    => 'numeric|required',
+                        'date_hired'        => 'date|required',
+                        'basic_pay'         => 'required'
+                           ];
 
     protected $fileSystem;
     public function __construct()
@@ -221,9 +239,7 @@ class EmployeeRepository extends BaseRepository
             }catch(\Exception $e){
 
             }
-
-        $save = $this->create(
-            array(
+        $save_data = array(
 
                 'user_id'         => (string) $user_id,
                 'first_name'      => (string) $first_name,
@@ -253,8 +269,9 @@ class EmployeeRepository extends BaseRepository
                 'fb'              => (string) $fb,
                 
 
-            )
-        );
+            ); 
+ 
+        $save = $this->create($save_data);
 
         $save->employee_number = createEmployeeID($save->id);
         $save->save();
@@ -395,7 +412,7 @@ class EmployeeRepository extends BaseRepository
     }
 
     function getAllExpandedBIR()
-{
+    {
         return Employee::where('withholding_tax_type', '=', 'Expanded')->get();
     }
 
@@ -463,8 +480,9 @@ class EmployeeRepository extends BaseRepository
             // dd($required_field);
             // 
             foreach ($required_field as $key => $value) {
-                if($value == ""){
-                    dd($key, $value);
+                if($value == "" || $value==NULL){
+                    // var_dump('here');
+                    // dd($key, $value);
                     return ['status' => false, 'message' => $key . ' is required'];
                 }
             }
@@ -494,7 +512,7 @@ class EmployeeRepository extends BaseRepository
             }
             else{
                 $department = Department::create(array('department_name' => $user_info[13],'branch_id' => $branch_id, 'company_id' => COMPANY_ID, 'department_description' => 'null'));
-                $department_id = $department_id;
+                $department_id = $department->id;
             }
 
             $job_position = Job_Position::where('Job_Position','=', $user_info[12])->first();
