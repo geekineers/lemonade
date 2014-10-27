@@ -199,6 +199,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['branches']      = $this->branchesRepository->all();
 
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
+        // dd($data['payroll_groups']);
         $data['departments']     = $this->departmentRepository->all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
         $data['histories']        = $this->historyRepository->getByEmployee($id);
@@ -298,6 +299,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $id = $this->input->get('token');
         $this->employeeRepository->deleteEmployee($id);
 
+               $this->session->set_flashdata('message', 'Successfully deleted!');
         redirect('/employees');
     }
 

@@ -37,29 +37,31 @@
 <table id="timesheet1" class="table table-bordered table-hover dataTable">
    <thead>
     <tr>
-        <th>Status</th>
-        <th>Name</th>
-        <th>Position</th>
         <th>Time In</th>
         <th>Time Out</th>
-        <th>Hours</th>
+        <th>Name</th>
+        <th>Emp. ID</th>
+     
+        <th>Status</th>
         <th>Options</th>
     </tr>
    </thead>
    <tbody>
     {% for time in timesheets %}
     <tr >
-        <td>
-        {% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>{% endif %}
-        {% if time.checkIfEmployeeDeleted() %}
-            <span class="label label-default">Terminated</span>
-        {% endif %}
-        </td>
-        <td>{{ time.getEmployee.getName() }}</td>
-        <td>{{ time.getEmployee.getJobPosition() }}</td>
         <td>{{ time.time_in }}</td>
         <td>{{ time.getTimeOut() }}</td>
-        <td>{{ time.getTimeDiff() }}</td>
+        <td>{{ time.getEmployee.getName() }}</td>
+        <td>{{ time.getEmployee.getEmployeeId() }}</td>
+        <td>{{ time.getTimeDiff() }} - 
+        {% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>
+        {% elseif time.checkIfEmployeeDeleted() %}
+            <span class="label label-default">Terminated</span>
+        {% else %}
+            <span class="label label-success">Good</span>
+        {% endif %}
+        </td>
+    
         <td>
             <a href="#" 
             data-id = "{{ time.id }}"
@@ -357,7 +359,7 @@ function getHours(h){
         $('#timesheet1').dataTable({
             "bPaginate": true,
             "bFilter": false,
-            "bSort": true,
+            "bSort": false,
             "bInfo": true,
             "bAutoWidth": true
         });

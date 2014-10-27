@@ -18,7 +18,8 @@
 	"autoload": {
         "classmap": [
             "models/eloquent",
-            "models/repositories"
+            "models/repositories",
+            "traits"
         ]
     },
 	"require-dev": {
