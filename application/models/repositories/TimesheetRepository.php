@@ -27,7 +27,7 @@ class TimesheetRepository extends BaseRepository
 
       $departure_time = $time_out->format('H:i:s');
         // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
-      $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), $unit);
+      $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), 'minute');
       $undertime = ($undertime >= 480) ? 480 : $undertime;
       $is_undertime = ($undertime > 0) ? true : false;
 
