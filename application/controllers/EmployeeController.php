@@ -6,6 +6,7 @@ require_once ('BaseController.php');
 // use Illuminate\Validation\Factory as Validator;
 use Cartalyst\Sentry\Groups\Eloquent\Group;
 use Upload\Storage\FileSystem as FileSystem;
+// use EmployeeTransform;
 
     class EmployeeController extends BaseController
     {
@@ -313,12 +314,28 @@ use Upload\Storage\FileSystem as FileSystem;
 
     public function apiAll()
     {
-        // dd('mark');
-        $employees = $this->employeeRepository->getAllEmployeesJSON();
+        $branch = $this->input->get('branch');
+        // dd($_GET);
+        if($branch){
+
+            $collection = $this->employeeRepository->where('branch_id', $branch)->get();
+
+        }
+        else{
+            $collection = $this->employeeRepository->all();
+
+        }
+        
+        $employees = EmployeeTransformer::transform($collection);
 
         $this->output
              ->set_content_type('application/json')
              ->set_output(json_encode($employees));
+    }
+
+    public function api()
+    {
+
     }
 
     public function addEmployeeByBatch()

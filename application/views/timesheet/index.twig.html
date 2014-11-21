@@ -1,23 +1,13 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-5">
         <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet btn-sm"><i class="fa fa-plus"></i></a>
         <a data-toggle="modal" data-target="#uploadTimesheet" class="btn btn-default btn-sm"><i class="fa fa-file"></i>Upload Sheet</a>
     </div>
-<div class="col-md-5">
-    <div class="form-group">
-    <div class="input-group">
-        <input type="text" name="q" id="query" class="form-control" placeholder="Search...">
-        <span class="input-group-btn">
-            <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-            </button>
-        </span>
-    </div>
-</div>
-</div>
-    <div class="col-md-5 ">
-       
+    <div class="col-md-7 ">
+
         <div class="form-inline pull-right">
+                   <label for="">Date Range</label>
             <div class="form-group">
 
                 <input type="" id="dateranger-from" name="from" class="form-control datepicker" placeholder="From" >
@@ -45,6 +35,37 @@
         <th>Status</th>
         <th>Options</th>
     </tr>
+    <tr>
+        <td>    
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
+                <input id="search-timein" type="text" class="search-input form-control pull-right time">
+            </div>
+        </td>
+        <td>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
+                <input id="search-timeout" type="text" class="search-input form-control pull-right time">
+            </div>
+        </td>
+        <td><input type="text"  id="search-name" class="search-input "></td>
+        <td><input type="text" id="search-employee-id" class="search-input "></td>
+        <td>
+            <select id="search-status" name="" class="search-select form-control" id="">
+                <option value="">--SELECT STATUS --</option>
+                <option value="good">Good</option>
+                <option value="undertime">Under Time</option>
+                <option value="late">Late</option>
+                <option value="absent">Absent</option>
+                <option>Still Logged In</option>
+            </select>
+        </td>
+        <td></td>
+    </tr>
    </thead>
    <tbody>
     {% for time in timesheets %}
@@ -54,12 +75,24 @@
         <td>{{ time.getEmployee.getName() }}</td>
         <td>{{ time.getEmployee.getEmployeeId() }}</td>
         <td>{{ time.getTimeDiff() }} - 
-        {% if time.checkIfUndertime() %}<span class="label label-danger">Under Time</span>
-        {% elseif time.checkIfEmployeeDeleted() %}
+    
+        {% if time.checkIfEmployeeDeleted() %}
             <span class="label label-default">Terminated</span>
-        {% else %}
-            <span class="label label-success">Good</span>
         {% endif %}
+
+        {% if time.status == 'late' %}
+            <span class="label label-warning">Late</span>
+        {% elseif time.status == 'undertime' %}
+            <span class="label label-danger">Undertime</span>
+        {% elseif time.status == 'absent' %}
+            <span class="label label-default">Absent</span>
+        {% elseif time.status == 'good' %}
+            <span class="label label-success">Good</span>
+        {% elseif time.status == 'current' %}
+            <span class="label label-primary">Still Logged In</span>
+        
+        {% endif %}
+
         </td>
     
         <td>
@@ -222,7 +255,7 @@
                     <h4 class="modal-title" id="myModalLabel">Upload XLS Timesheet</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Get the timsheet template. <a href="/xls_template/timesheet.xlsx">Click Here</a></p>
+                    <p>Get the timesheet template. <a href="/xls_template/timesheet.xlsx">Click Here</a></p>
                     <div class="form-group">
                         <label>Upload Excel File</label>
                         <input type="file" required name="excel_file" class="form-control" />
@@ -362,10 +395,80 @@ function getHours(h){
             "bSort": false,
             "bInfo": true,
             "bAutoWidth": true
-        });
+        }).columnFilter({  sPlaceHolder: "head:before",
+                    aoColumns: [    
+                                { type: "date-range" },
+                                { type: "date-range" }
+                                { type: "text" },
+                                { type: "text" },
+                        ]});
+
+
+
+
 
         $('.dataTables_paginate > a').addClass('btn btn-default');
     })(jQuery);
+</script>
+
+
+<script type="text/javascript">
+    $('.search-select').on('change', function(){
+        $('.search-input').trigger('keyup');
+    });
+
+    $('.search-input').on('keyup', function(){
+        var timein = $('#search-timein').val();
+        var timeout = $('#search-timeout').val();
+        var name = $('#search-name').val();
+        var employee_id = $('#search-employee-id').val();
+        var status = $('#search-status').val();
+
+        var data = {
+            'name' : name,
+            'employee_id' : employee_id,
+            'timein' : timein,
+            'timeout' : timeout,
+            'status' : status
+        };
+
+        $.get('/timesheet/search', data, function(response){
+            
+            var newRow = "";
+            response.forEach(function builRows(element, index, array){
+                var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td></tr>";
+                var status = "";
+                if(element.status == 'late'){
+                    status = '<span class="label label-warning">Late</span>';
+                }
+                else if(element.status == 'undertime') {
+                        status = '<span class="label label-danger">Undertime</span>'
+                }
+                else if(element.status == 'absent') {
+                        status = '<span class="label label-default">Absent</span>'
+                }
+                else if(element.status == 'good') {
+                        status = '<span class="label label-success">Good</span>'
+                }
+                else if(element.status == 'current') {
+                        status = '<span class="label label-primary">Still Logged In</span>'
+                }
+
+                temp = temp.replace('timein', element.time_in, 'gi');
+                temp = temp.replace('timeout', element.time_out, 'gi');
+                temp = temp.replace('name', element.employee.full_name, 'gi');
+                temp = temp.replace('employee_id', element.employee.employee_number, 'gi');
+                temp = temp.replace('status', status, 'gi');
+
+                newRow += temp;
+
+
+            })
+
+            $('tbody').html(newRow);
+        });
+
+    });
 </script>
 
 {% endblock %}

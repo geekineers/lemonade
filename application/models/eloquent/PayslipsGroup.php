@@ -46,6 +46,8 @@ class PayslipsGroup extends BaseModel {
   
   public function getPreparedBy()
   {
-    return Employee::where('id','=',$this->prepared_by)->first()->getName();
+    $emp = Employee::where('id','=',$this->prepared_by)->first();
+
+    return (is_null($emp)) ? 'Super Administrator' :  $emp->getName();
   }
 }

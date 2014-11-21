@@ -14,6 +14,43 @@ class TimesheetRepository extends BaseRepository
         $this->fileSystem         = new FileSystem($path);
     }
 
+    public function record($data)
+    {
+     $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_in']);
+
+     $arrival_time = $time_in->format('H:i:s');
+     $employee = $this->employeeRepository->find($data['employee_id']);
+     $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
+     $is_late = ($late > $employee->getCompany()->company_late_grace_period)  ? true :false;
+
+      $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_out']);
+
+      $departure_time = $time_out->format('H:i:s');
+        // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
+      $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), $unit);
+      $undertime = ($undertime >= 480) ? 480 : $undertime;
+      $is_undertime = ($undertime > 0) ? true : false;
+
+
+      $data['status'] = (isset($data['status'])) ? $data['status'] : 'good';
+      
+      if($is_late){
+        $data['status'] = 'late';
+      }
+      else if($is_undertime)
+      {
+        $data['status'] = 'undertime';
+      }
+
+      if(!isset($data['time_out'])){
+        $data['status'] = 'current';
+      }
+
+      $this->create($data);
+      return true;
+
+    }
+
     public function timeIn($sentry_user, $employee_id = null)
     {
 
@@ -21,6 +58,8 @@ class TimesheetRepository extends BaseRepository
         $employee_id = ($employee_id == null) ? $this->employeeRepository->getLoginUser($sentry_user)->id : $employee_id;
         $user        = $sentry_user;
         $current     = date('Y-m-d H:i:s');
+
+        $this->employeeRepository->find($employee_id);
 
         $data = [
             'employee_id'     => $employee_id,
@@ -30,7 +69,7 @@ class TimesheetRepository extends BaseRepository
 
         ];
 
-        $time_in = $this->create($data);
+        $time_in = $this->record($data);
 
         // dd($time_in->id);
 
@@ -66,7 +105,7 @@ class TimesheetRepository extends BaseRepository
             'cookie_registry' => $cookie
         ];
 
-        $this->create($data);
+        $this->record($data);
         return true;
     }
     public function updateTime($timesheet_id, $employee_id, $timestart, $timeend, $from, $to)
@@ -191,6 +230,7 @@ class TimesheetRepository extends BaseRepository
                 $timeend     = $time_out;
                 $from        = $date_in;
                 $to          = $date_out;
+                
                 $this->saveTime($employee_id, $timestart, $timeend, $from, $to);
 
             }

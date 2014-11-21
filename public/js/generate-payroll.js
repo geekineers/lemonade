@@ -45,6 +45,24 @@
 				$('#group_name').html(group_string);
 			
 			}); 
+
+			$.get('/api/employees', {branch : $( $this ).val() }, function(res){
+
+				options = '<option value="none" data-period="none">--Select Employee --</option>';
+				
+				res.forEach(function(element, index, array) {
+   								var row_temp = '<option value="id">name</option>';
+
+   								row_temp = row_temp.replace('id', element.id, 'gi');
+   								row_temp = row_temp.replace('name', element.name, 'gi');
+
+   								options += row_temp;
+   							});
+
+
+				$('#employee_name').html(options);
+			});
+
 			return true;
 		},
 
@@ -90,9 +108,10 @@
 				  end = moment(to).format('YYYY-MM-DD');
 			
 			var group_name = $('#group_name').val();
-
+			var employee_name = $('#employee_name').val();
 			var data = {
 				'group_name' : group_name,
+				'employee_name' : employee_name,
 				'from' : start,
 				'to'   : end
 			};
@@ -101,6 +120,7 @@
 			
 
 			$.post('/payroll/payslip/generate',data,function(res){
+				console.log(res);
 				var res = JSON.parse(res);
 				if(res.status == 'fail'){
 					$.notify('Generation failed there is an existing data of payroll found','error');

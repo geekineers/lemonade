@@ -107,27 +107,36 @@ class PayslipsRepository extends BaseRepository
 
         foreach ($employees as $employee) {
 
-            $employee_slip['payslip_group_id'] = $payslip_group->id;
-            $employee_slip['employee_id']      = $employee->id;
-            $employee_slip['payroll_group']    = $payrollGroup->id;
-            $employee_slip['branch_id']        = $payrollGroup->branch_id;
-            $employee_slip['sss']              = $employee->getSSSValue();
-            $employee_slip['sss_employer']              = $employee->getSSSEmployerValue();
-            $employee_slip['philhealth']       = $employee->getPhilhealthValue();
-            $employee_slip['pagibig']          = $employee->getHDMFValue();
-            $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
-            $employee_slip['net']              = $employee->getNet($from, $to, false);
-            $employee_slip['gross']            = $employee->getGross($from, $to, false);
-            $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
-            $employee_slip['prepared_by']      = $prepared_by;
-
-            $this->create($employee_slip);
+           $this->saveEmployeePayslip($employee, $payslip_group, $payrollGroup, $from, $to, $prepared_by);
 
             $this->sendEmail($employee->email, 'payroll ' . $from . '-' . $to, 'Your payslip is ready check account');
 
         }
 
         return json_encode(['status' => 'success']);
+    }
+
+    public function saveEmployeePayslip(Employee $employee, $payslip_group, $payrollGroup, $from, $to, $prepared_by)
+    {
+        $from = date('Y-m-d', strtotime($from));
+        $to   = date('Y-m-d', strtotime($to));
+
+        $employee_slip['payslip_group_id'] = $payslip_group->id;
+        $employee_slip['employee_id']      = $employee->id;
+        $employee_slip['payroll_group']    = $payrollGroup->id;
+        $employee_slip['branch_id']        = $payrollGroup->branch_id;
+        $employee_slip['sss']              = $employee->getSSSValue();
+        $employee_slip['sss_employer']              = $employee->getSSSEmployerValue();
+        $employee_slip['philhealth']       = $employee->getPhilhealthValue();
+        $employee_slip['pagibig']          = $employee->getHDMFValue();
+        $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
+        $employee_slip['net']              = $employee->getNet($from, $to, false);
+        $employee_slip['gross']            = $employee->getGross($from, $to, false);
+        $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
+        $employee_slip['prepared_by']      = $prepared_by;
+
+        $this->create($employee_slip);
+        return true;
     }
 
     public function sendEmail($email = null, $subject = null, $message = null)

@@ -10,9 +10,12 @@ class Timesheet extends Eloquent {
   	 public $table = "timesheet";
 	 protected $datas = ['deleted_at'];
 
-  protected $fillable = ['id', 'employee_id', 'source', 'time_in', 'time_out', 'cookie_registry'];
+  protected $fillable = ['id', 'employee_id', 'source', 'time_in', 'time_out', 'cookie_registry','status'];
 
-
+  public function employee()
+  {
+        return $this->belongsTo('Employee');
+  }
 
   public function getEmployee()
   {
@@ -47,10 +50,6 @@ class Timesheet extends Eloquent {
   	return $interval->format('%H:%I:%s');
   }
 
-  public function checkIfUndertime()
-  {
-    return (boolean) $this->getEmployee()->getLate($this->time_in, $this->time_out);    
-  }
 
   public function checkIfEmployeeDeleted()
   {
