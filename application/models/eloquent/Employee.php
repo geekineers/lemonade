@@ -56,6 +56,12 @@ class Employee extends BaseModel
 
     ];
 
+    public function name()
+    {
+        return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
+    
+    }
+
     public function getEmployeeID()
     {
         return createEmployeeID($this->id);

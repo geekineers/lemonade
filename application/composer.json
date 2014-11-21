@@ -19,6 +19,7 @@
         "classmap": [
             "models/eloquent",
             "models/repositories",
+            "models/transformers",
             "traits"
         ]
     },

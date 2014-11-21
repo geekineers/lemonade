@@ -5,7 +5,8 @@ require_once ('BaseController.php');
 class TimesheetController extends BaseController {
 
 	protected $employeeRepository;
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->employeeRepository  = new EmployeeRepository();
@@ -20,10 +21,42 @@ class TimesheetController extends BaseController {
 		$data['company']    = $this->company;
 		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title']      = "All Timesheets";
-		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->get();
+		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->take(15)->get();
 
 		$data['employees']  = $this->employeeRepository->all();
 		$this->render('/timesheet/index.twig.html', $data);
+	}
+
+	public function search()
+	{
+	   $page  		= (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
+       $name  		= (is_null($this->input->get('name'))) ? '' : $this->input->get('name');
+       $employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
+       $timein = (is_null($this->input->get('timein'))) ? '' : $this->input->get('timein');
+       $timeout = (is_null($this->input->get('timeout'))) ? '' : $this->input->get('timeout');
+       $status  	= (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
+
+       // dd($empty(var)ployee_id);
+       $data  = $this->timesheetRepository->with('employee')
+       									  ->whereHas('employee', function($q) use ($name, $employee_id)
+													{
+													    $q->where('full_name', 'like', '%'.$name.'%');
+   													     
+													})
+       									  ->whereHas('employee', function($q) use ($name, $employee_id)
+													{
+       									   				$q->Where('employee_number', 'like', '%' . $employee_id . '%');
+   													     
+													})
+       									  ->where('status', 'like',  '%'.$status.'%')
+       									  ->where('time_in', 'like',  '%'.$timein.'%')
+       									  ->where('time_out', 'like',  '%'.$timeout.'%')
+
+       									  ->get();
+
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  
+
 	}
 
 	public function timein() 

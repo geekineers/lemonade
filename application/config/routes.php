@@ -220,6 +220,7 @@ Pigeon::map(function ($r) {
     $r->post('evaluations/save', 'EvaluationController#store');
 
     $r->get('timesheet', 'TimesheetController#index');
+    $r->get('timesheet/search', 'TimesheetController#search');
     $r->get('timesheet/test', 'TimesheetController#testCase');
     $r->get('timesheet/range', 'TimesheetController#range');
     $r->post('timesheet/update', 'TimesheetController#update');

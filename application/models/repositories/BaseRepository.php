@@ -77,7 +77,7 @@ abstract class BaseRepository
         return $this->class->skip($start)->take($limit);
     }
 
-    public function with(array $relationship)
+    public function with($relationship)
     {
         return $this->class->with($relationship);
     }
@@ -124,6 +124,12 @@ abstract class BaseRepository
     {
         return $this->class->whereIn($column,$values, $boolean,$not);
     }
+
+    public function whereHas($relation, $callback, $operator = ">=", $count = 1)
+    {
+        return $this->class->whereHas($relation, $callback, $operator, $count);
+    }
+
     public function orderBy($column, $order)
     {
         return $this->class->orderBy($column, $order);

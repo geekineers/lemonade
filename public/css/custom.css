@@ -1,3 +1,6 @@
+thead { 
+        background: rgba(234, 234, 234, 0.69);
+    }
 .dataTables_paginate > a {
     background-color: #fafafa;
 color: #666;
