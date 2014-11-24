@@ -46,22 +46,22 @@
 			
 			}); 
 
-			$.get('/api/employees', {branch : $( $this ).val() }, function(res){
+			// $.get('/api/employees', {branch : $( $this ).val() }, function(res){
 
-				options = '<option value="none" data-period="none">--Select Employee --</option>';
+			// 	options = '<option value="none" data-period="none">--Select Employee --</option>';
 				
-				res.forEach(function(element, index, array) {
-   								var row_temp = '<option value="id">name</option>';
+			// 	res.forEach(function(element, index, array) {
+   // 								var row_temp = '<option value="id">name</option>';
 
-   								row_temp = row_temp.replace('id', element.id, 'gi');
-   								row_temp = row_temp.replace('name', element.name, 'gi');
+   // 								row_temp = row_temp.replace('id', element.id, 'gi');
+   // 								row_temp = row_temp.replace('name', element.name, 'gi');
 
-   								options += row_temp;
-   							});
+   // 								options += row_temp;
+   // 							});
 
 
-				$('#employee_name').html(options);
-			});
+			// 	$('#employee_name').html(options);
+			// });
 
 			return true;
 		},
