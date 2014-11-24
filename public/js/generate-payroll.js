@@ -5,7 +5,7 @@
 		alerttpl;
 
 	alerttpl = '<div class="alert alert-info alert-dismissable loading">  '+
-                        '<i class="fa fa-ban"></i> '+
+                        '<i class="fa fa-refresh fa-spin"></i> '+
                         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
                         '<b></b> Loading...'+
                    '</div>'; 
@@ -117,14 +117,31 @@
 			};
 			
 			$('#generate-modal .modal-body').prepend(alerttpl);
-			
+			$('#generate-payroll').html('Generating ....')
+								  .attr('disabled', true);
+
+			$('#generate-close').html('Close')
+								  .attr('disabled', true);
+								  
+					  
 
 			$.post('/payroll/payslip/generate',data,function(res){
 				console.log(res);
 				var res = JSON.parse(res);
+					$('#generate-payroll').html('Generate')
+								  .attr('disabled', false);
+
+					$('#generate-close').html('Close')
+								  .attr('disabled', false);
+
+
 				if(res.status == 'fail'){
 					$.notify('Generation failed there is an existing data of payroll found','error');
 					$('#generate-modal').modal('hide')
+
+				
+
+
 					$('.loading').remove();
 				}else if(res.status=='success'){
 					$.notify('Payroll generated','success');
