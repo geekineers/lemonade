@@ -78,9 +78,9 @@ $to = $payslip->getPayslipsGroup()->to;
 
         <tr>
           <td>EMP #</td>
-          <td><?php echo $employee->id;?></td>
+          <td><?php echo $employee->employee_number;?></td>
           <td>PAYROLL PERIOD</td>
-          <td><?php echo $payslip->getPayslipsGroup()->from . '-' . $payslip->getPayslipsGroup()->to;?></td>
+          <td><?php echo $payslip->getPayslipsGroup()->from; ?>-<?php echo $payslip->getPayslipsGroup()->to;?></td>
 
         </tr>
         <tr>

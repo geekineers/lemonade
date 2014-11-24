@@ -100,8 +100,11 @@
             data-id = "{{ time.id }}"
             data-employee-name="{{ time.getEmployee.getName() }}" 
             data-employee-id="{{ time.getEmployee.id }}" 
-            data-time-in="{{ time.time_in }}" 
-            data-time-out="{{ time.time_out }}" 
+            data-time-in="{{ time.getTimeInHours() }}" 
+            data-time-out="{{ time.getTimeOutHours() }}" 
+            data-date-from="{{ time.getTimeInDate() }}" 
+            data-date-to="{{ time.getTimeOutDate() }}" 
+
 
             class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
               <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
@@ -178,7 +181,7 @@
 
 </form>
 
-
+<!-- Edit Modal --> 
 <form method="post" action="/timesheet/update">
     <div class="modal fade" id="updateTimesheet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -243,6 +246,7 @@
 </form>
 
 
+
 <form method="post" enctype="multipart/form-data" action="/timesheet/upload">
 <div class="modal fade" id="uploadTimesheet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -304,64 +308,6 @@ $('#query').on('keyup', function(e){
     }
 
 });
-
-$('.dateranger-btn').on('click', function(e){
-    e.preventDefault();
-    var query = $('#query').val();
-    var from = $('#dateranger-from').val();
-    var to = $('#dateranger-to').val();
-
-    if(from == null && to == null){
-        alert('Kindly input date range');
-    }
-    else{
-        $.get('/timesheet/range', {query:query, from : from, to : to}, function(resp){
-            $('.dataTable').html(resp);
-        });
-
-    }
-
-});
-
-$('.edit-timesheet').on('click', function(e){
-    e.preventDefault();
-    var timesheet_id = $(this).data('id');
-    var employee_name = $(this).data('employee-name'); 
-    var employee_id = $(this).data('employee-id'); 
-    var time_in = $(this).data('time-in'); 
-    var time_out = $(this).data('time-out'); 
-
-    var date_from = new Date(time_in);
-    var date_to = new Date(time_out);
-    $("#updatetimesheet_employee > option").each(function() {
-    $this = $(this);
-      if(this.value == employee_id){
-       
-        $this.attr('selected', 'selected');
-      }
-    });
-
-
-
-    var from = date_from.getFullYear() + "-" + date_from.getMonth() + "-" + date_from.getDate();
-
-    var to = date_to.getFullYear() + "-" + date_to.getMonth() + "-" + date_to.getDate();
-
-
-    var timein = getHours(date_from.getHours()) + ":" + date_from.getMinutes() + " " + getDD(date_from.getHours());
-
-    var timeout = getHours(date_to.getHours()) + ":" + date_to.getMinutes() + " " + getDD(date_to.getHours());
-
-
-    $('#updatetimesheet_id').val(timesheet_id);
-    $('#updatetimesheet_timestart').val(timein);
-    $('#updatetimesheet_timeend').val(timeout);
-    $('#updatetimesheet_from').val(from);
-    $('#updatetimesheet_to').val(to);
-
-    $('#updateTimesheet').modal('show');
-});
-
 function getDD(h)
 {
     dd = "AM";
@@ -388,6 +334,48 @@ function getHours(h){
     return h;
 }
 
+$('.edit-timesheet').on('click', function(e){
+    e.preventDefault();
+    var timesheet_id = $(this).data('id');
+    var employee_name = $(this).data('employee-name'); 
+    var employee_id = $(this).data('employee-id'); 
+    var time_in = $(this).data('time-in'); 
+    var time_out = $(this).data('time-out');
+
+    var from = $(this).data('date-from');
+    var to = $(this).data('date-to');
+
+
+    $('#updatetimesheet_id').val(timesheet_id);
+    $('#updatetimesheet_timestart').val(time_in);
+    $('#updatetimesheet_timeend').val(time_out);
+    $('#updatetimesheet_from').val(from);
+    $('#updatetimesheet_to').val(to);
+
+    $('#updateTimesheet').modal('show');
+});
+
+
+$('.dateranger-btn').on('click', function(e){
+    e.preventDefault();
+    var query = $('#query').val();
+    var from = $('#dateranger-from').val();
+    var to = $('#dateranger-to').val();
+
+    if(from == null && to == null){
+        alert('Kindly input date range');
+    }
+    else{
+        $.get('/timesheet/range', {query:query, from : from, to : to}, function(resp){
+            $('.dataTable').html(resp);
+        });
+
+    }
+
+});
+
+
+
     (function($){
         $('#timesheet1').dataTable({
             "bPaginate": true,
@@ -398,10 +386,11 @@ function getHours(h){
         }).columnFilter({  sPlaceHolder: "head:before",
                     aoColumns: [    
                                 { type: "date-range" },
-                                { type: "date-range" }
+                                { type: "date-range" },
                                 { type: "text" },
                                 { type: "text" },
                         ]});
+
 
 
 

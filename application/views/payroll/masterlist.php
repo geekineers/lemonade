@@ -37,7 +37,7 @@
   </style>
 </head>
 <body>
-  <img src="../uploads/<?php echo $company_logo; ?>" alt="">
+  <img width="150"src="../uploads/<?php echo $company_logo; ?>" alt="">
   <span class="masterlist">Employee's Masterlist</span>
   <div>
     <ul>

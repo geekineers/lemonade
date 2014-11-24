@@ -38,6 +38,29 @@ class Timesheet extends Eloquent {
   	return $this->time_out;
   }
 
+
+  public function getTimeInHours()
+  {
+    // dd($this->time_in);
+    return date('h:i A', strtotime($this->time_in));
+   
+  }
+  
+
+  public function getTimeOutHours()
+  {
+    return date('h:i A', strtotime($this->time_out));
+   
+  }
+
+  public function getTimeInDate()
+  {
+     return date('Y-m-d', strtotime($this->time_in));
+  }
+  public function getTimeOutDate()
+  {
+       return date('Y-m-d', strtotime($this->time_out));
+  }
   public function getTimeDiff()
   {
 

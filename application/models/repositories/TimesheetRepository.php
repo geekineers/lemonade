@@ -46,8 +46,31 @@ class TimesheetRepository extends BaseRepository
         $data['status'] = 'current';
       }
 
-      $this->create($data);
-      return true;
+      $existing = $this->where('employee_id', $data['employee_id'])
+                        ->where(function($query) use($time_in, $time_out){
+                                 $query->where(function($query) use($time_in, $time_out){
+                                   $query->where('time_in', '<=', $time_in )
+                                         ->where('time_in', '>=', $time_in);
+
+                                })
+                                 ->orWhere(function($query) use($time_in, $time_out){
+
+                                   $query->where('time_out', '<=', $time_out )
+                                         ->where('time_out', '>=', $time_out);
+                              });
+                        })->first();
+                  
+      if($existing){
+            // $existing->get();
+            $existing->fill($data);
+            $existing->save();
+            return true; 
+      }
+      else{
+           $this->create($data);
+           return true;
+        
+      }
 
     }
 
