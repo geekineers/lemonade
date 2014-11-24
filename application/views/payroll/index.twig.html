@@ -86,7 +86,7 @@
     
 		                    <label>Branch</label>
 		                    <select class="branch-select form-control" id="branch">
-		                    	<option selected="selected" disabled>Select Branch</option>
+		                    	<option selected="selected">Select Branch</option>
 		                      {% for branch in branches %}
 		                      	<option value="{{ branch.id }}"> {{ branch.branch_name }}</option>
 		                      {% endfor %}
@@ -96,7 +96,7 @@
 
 		                    <label class="payroll-group ">Payroll Group</label>
 		                    <select class="payroll-group form-control" id="group_name">
-		                    	<option selected="selected" disabled>Select Group</option>
+		                    	<option selected="selected">Select Group</option>
 		                    
 		                    </select>
 		        </div>
