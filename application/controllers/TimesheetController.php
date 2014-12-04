@@ -16,13 +16,21 @@ class TimesheetController extends BaseController {
 
 	public function index() 
     {
-        $page  = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
+        $page  = (isset($_GET)) ? $_GET['page'] : 0;
+     	// dd($page);
+        $take = 15;
+        $skip = $page * 15;
 
+        $data['current_page'] = $page;
+        $data['next_page'] = $page + 1;
+        $data['prev_page'] = $page - 1;
 		$data['company']    = $this->company;
 		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title']      = "All Timesheets";
-		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->take(15)->get();
+		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->take($take)->skip($skip)->get();
 
+		$data['max_count'] = count($data['timesheets']);
+		$data['max_page']  = ceil($data['max_count'] / $take);
 		$data['employees']  = $this->employeeRepository->all();
 		$this->render('/timesheet/index.twig.html', $data);
 	}

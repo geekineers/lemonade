@@ -27,7 +27,11 @@ class TimesheetRepository extends BaseRepository
 
       $departure_time = $time_out->format('H:i:s');
         // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
+      var_dump("Departure Time  : " .  $departure_time);
+      var_dump("Timeshift End Time  : " .  $employee->getTimeShiftEnd(true));
       $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), 'minute');
+      // dd($undertime);
+      // dd($undertime);
       $undertime = ($undertime >= 480) ? 480 : $undertime;
       $is_undertime = ($undertime > 0) ? true : false;
 
@@ -45,6 +49,7 @@ class TimesheetRepository extends BaseRepository
       if(!isset($data['time_out'])){
         $data['status'] = 'current';
       }
+
 
       $existing = $this->where('employee_id', $data['employee_id'])
                         ->where(function($query) use($time_in, $time_out){
@@ -128,6 +133,8 @@ class TimesheetRepository extends BaseRepository
             'cookie_registry' => $cookie
         ];
 
+
+        // dd($data);
         $this->record($data);
         return true;
     }
