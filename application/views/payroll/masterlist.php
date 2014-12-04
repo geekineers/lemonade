@@ -84,7 +84,7 @@
           <?php $c += (float)  $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
           <?php $d += (float)  $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?>
           <?php $e += (float)  $payslip->getEmployee()->getWithholdingTax($from,$to); ?>
-          <?php $f += (float)  str_replace(',', $payslip->getEmployee()->getNet($from, $to)); ?>
+          <?php $f += (float)  str_replace(',', "", $payslip->getEmployee()->getNet($from, $to)); ?>
            <tr>
              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
              <td><?php echo $payslip->getEmployee()->id; ?></td>
