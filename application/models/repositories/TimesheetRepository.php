@@ -18,6 +18,7 @@ class TimesheetRepository extends BaseRepository
     {
      $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_in']);
 
+      dd($time_in);
      $arrival_time = $time_in->format('H:i:s');
      $employee = $this->employeeRepository->find($data['employee_id']);
      $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
