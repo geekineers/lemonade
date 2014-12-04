@@ -108,6 +108,7 @@ use Upload\Storage\FileSystem as FileSystem;
     {
         $data = $this->input->post();
         $saving = $this->employeeRepository->createEmployee($data, $this->sentry);
+
         
         if($saving == "confirm_password_error"){
             
@@ -115,12 +116,13 @@ use Upload\Storage\FileSystem as FileSystem;
         redirect('/employees/add', 'location');
         
         }
-        else if($saving == "duplicate error"){
-          $this->session->set_flashdata('message', 'Employee Record is currently existing.');
+        else if($saving == "duplicate_error"){
+          $this->session->set_flashdata('alert_message', 'Employee Record is currently existing.');
         redirect('/employees/add', 'location');    
         }
 
         else{
+
         $this->session->set_flashdata('message', 'Successfully added!');
             
         }
