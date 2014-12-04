@@ -473,7 +473,7 @@ class EmployeeRepository extends BaseRepository
 
         $user_infos = [];
         
-        for ($index = 0,$row = 2; $row <= $highestRow; ++$row) {
+        for ($index = 0,$row = 1; $row <= $highestRow; ++$row) {
           for ($col = 0; $col <= $highestColumnIndex; ++$col) {
             $user_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();  
           }
@@ -560,8 +560,8 @@ class EmployeeRepository extends BaseRepository
                 'first_name'      => toTitleCase($user_info[0]),
                 'last_name'       => toTitleCase($user_info[2]),
                 'middle_name'     => toTitleCase($user_info[1]),
-                    'full_address'    => toTitleCase($user_info[3]),
-                    'birthdate'       => toTitleCase($user_info[7]),
+                'full_address'    => toTitleCase($user_info[3]),
+                'birthdate'       => toTitleCase($user_info[7]),
                 'gender'          => $user_info[8],
                 'marital_status'  => $user_info[6],
                 'spouse_name'     => toTitleCase($user_info[4]),
