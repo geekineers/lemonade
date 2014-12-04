@@ -879,9 +879,9 @@ class Employee extends BaseModel
     }
     public function getMonthlyRate($number_format = false)
     {
-        $basic_pay      = $this->getBasicSalary(true);
+        $basic_pay      = $this->getBasicSalary($number_format);
         $payroll_period = $this->getPayrollPeriod()->period;
-        ;
+
 
         // dd($basic_pay);
 
