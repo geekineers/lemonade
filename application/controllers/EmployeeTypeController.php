@@ -25,7 +25,7 @@ class EmployeeTypeController extends BaseController
         $data['company'] = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']    = "Employee Type";
+        $data['title']    = "Employee Status";
         $data['employee_types'] = $this->employeeTypeRepository->all();
 
         $this->render('employee_type/index.twig.html', $data);
