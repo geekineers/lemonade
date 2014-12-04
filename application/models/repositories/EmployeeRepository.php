@@ -273,12 +273,22 @@ class EmployeeRepository extends BaseRepository
                 
 
             ); 
- 
-        $save = $this->create($save_data);
+        
+        $existing = $this->where('first_name', $save_data['first_name'])
+                            ->where('last_name', $save_data['last_name'])
+                            ->where('middle_name', $save_data['middle_name'])
+                            ->where('birthdate', $save_data['birthdate'])
+                            ->get()
+                            ->count();
 
-        $save->employee_number = createEmployeeID($save->id);
+        if(!$existing){
+            $save = $this->create($save_data);
 
-        $save->save();
+            $save->employee_number = createEmployeeID($save->id);
+
+            $save->save();
+        }
+        
 
     }
 

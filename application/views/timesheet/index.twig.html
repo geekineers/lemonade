@@ -113,8 +113,20 @@
 
     {% endfor %}       
    </tbody>
-
+    
 </table>
+{% if(max_count > 0) %}
+<nav class="pull-right">
+  <ul class="pagination">
+    {% if (current_page > 0) %}
+    <li><a href="?page={{  prev_page }}"><span class="">Previous</span></a></li>
+    {% endif %}
+    {%  if(max_page > current_page) %}
+    <li><a href="?page={{  next_page  }}"><span class="">Next</span></a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
 
 
 
@@ -285,10 +297,10 @@
 <script type="text/javascript">
 
 $('#form-add-timesheet').on('submit', function(e){
-    if($('#updatetimesheet_employee').val() == 0){
-        alert('Select an Employee First');
-        e.preventDefault();
-    }
+    // if($('#updatetimesheet_employee').val() == 0){
+    //     alert('Select an Employee First');
+    //     e.preventDefault();
+    // }
 });
 
 $('#query').on('keyup', function(e){
@@ -378,18 +390,12 @@ $('.dateranger-btn').on('click', function(e){
 
     (function($){
         $('#timesheet1').dataTable({
-            "bPaginate": true,
+            "bPaginate": false,
             "bFilter": false,
             "bSort": false,
-            "bInfo": true,
-            "bAutoWidth": true
-        }).columnFilter({  sPlaceHolder: "head:before",
-                    aoColumns: [    
-                                { type: "date-range" },
-                                { type: "date-range" },
-                                { type: "text" },
-                                { type: "text" },
-                        ]});
+            "bInfo": false,
+            "bAutoWidth": false
+        });
 
 
 
