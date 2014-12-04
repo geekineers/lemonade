@@ -6,6 +6,7 @@
             <span>Dashboard</span>
         </a>
     </li>
+    {% if(user.id != 1)   %}
     <li>
         <a href="/employees/{{ user.id }}/profile">
             <i class="fa fa-user"></i> 
@@ -32,6 +33,7 @@
             <span>Form Application</span>
         </a>
     </li>
+    {% endif %}
 
     <hr>
     <!-- payroll -->
