@@ -19,7 +19,7 @@ class TimesheetRepository extends BaseRepository
 
      $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_in']);
 
-      dd($time_in);
+
      $arrival_time = $time_in->format('H:i:s');
      $employee = $this->employeeRepository->find($data['employee_id']);
      $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
@@ -129,20 +129,23 @@ class TimesheetRepository extends BaseRepository
         $time_out = date('Y-m-d H:i:s', strtotime($to . ' ' . $timeend));
 
 
-
+        if($time_in == $time_out){
+          return false;
+        }
+        else{
           $source   = "Manual Input";
-          $data  = array(
+          $data  = [
               'employee_id'     => $employee_id,
               'source'          => $source,
               'time_in'         => $time_in,
               'time_out'        => $time_out,
               'cookie_registry' => $cookie
-          );
+          ];
         
 
-          $this->record($data);
+        $this->record($data);
 
-        
+        }
 
 
      
