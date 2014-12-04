@@ -1,8 +1,9 @@
 <?php
 
 function getRate($basic_salary, $payroll_period, $per_unit, $number_format = true)
-{
-	$basic_salary = floatval($basic_salary);
+{	
+	$basic_salary = floatval(str_replace(",", "", $basic_salary));
+	// dd($basic_salary);
 	// dd($payroll_period);
 	switch ($payroll_period) {
 		case 'Monthly':

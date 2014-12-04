@@ -219,6 +219,7 @@ use Upload\Storage\FileSystem as FileSystem;
         // $data['documents'] = $this->employeeRepository->find($id);
 
         $data['employee']->getRole();
+        $data['employee']->getInAttendance('2014-01-01', '2014-02-01');
 
         $this->render('/employee/profile.twig.html', $data);
     }
