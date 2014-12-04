@@ -215,7 +215,7 @@ $to = $payslip->getPayslipsGroup()->to;
         </tr>
         <tr>
           <td>HDMF</td>
-          <td style="text-align:right;"><?php echo number_format($payslip->pagibig, 2)?></td>
+          <td style="text-align:right;"><?php echo$employee->getHDMFValue()?></td>
         </tr>
         <tr>
           <td>Philhealth</td>

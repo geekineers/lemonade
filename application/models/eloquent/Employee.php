@@ -360,7 +360,9 @@ class Employee extends BaseModel
 
     public function getHDMFValue()
     {
-        $hdmf = $this->deduct_hdmf == null ? 100 : (int) $this->fixed_hdmf_amount;
+        $hdmf = $this->deduct_hdmf == null ? 100 : 0;
+
+        $hdmf = ((int) $this->fixed_hdmf_amount > 0) ? (int) $this->fixed_hdmf_amount : $hdmf;
 
         if ($this->getPayrollPeriod()->period == "Semi-monthly") {return $hdmf / 2;
         }
