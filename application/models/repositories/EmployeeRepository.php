@@ -21,7 +21,7 @@ class EmployeeRepository extends BaseRepository
                         'branch_id'         => 'numeric|required',
                         'job_position'      => 'numeric|required',
                         'department'        => 'numeric|required',
-                        'payroll_period'    => 'numeric|required',
+                    'payroll_period'    => 'numeric|required',
                         'date_hired'        => 'date|required',
                         'basic_pay'         => 'required'
                            ];
@@ -540,8 +540,9 @@ class EmployeeRepository extends BaseRepository
                    $job_position_id = $job_position->id;
             }
 
+            $group_name = trim(ucwords(strtolower($user_info[13])));
 
-            $payroll_period = PayrollGroup::where('group_name','=',$user_info[13])
+            $payroll_period = PayrollGroup::where('group_name','=',$group_name)
                                             ->where('branch_id', '=', $branch_id) 
                                             ->first();
             if($payroll_period){
@@ -550,8 +551,8 @@ class EmployeeRepository extends BaseRepository
             }
             else{
      
-                $period  = ucwords(strtolower($user_info[14]));
-                $payroll_period = PayrollGroup::create(array('group_name' => $user_info[14], 'period' => $period, 'branch_id' => $branch_id,'company_id' => COMPANY_ID));
+                $period  = trim(ucwords(strtolower($user_info[14])));
+                $payroll_period = PayrollGroup::create(array('group_name' => $group_name, 'period' => $period, 'branch_id' => $branch_id,'company_id' => COMPANY_ID));
                  $payroll_period_id = $payroll_period->id;
             }
 
