@@ -79,11 +79,11 @@
        <?php $e = 0; ?>
        <?php $f = 0; ?>
         <?php foreach ($payslips as $payslip ) : ?>
-          <?php $a += $payslip->getEmployee()->getAbsentDeduction($from, $to, false, true); ?>
-          <?php $b += $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true); ?>
-          <?php $c += $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true); ?>
+          <?php $a += $payslip->getEmployee()->getAbsentDeduction($from, $to, false); ?>
+          <?php $b += $payslip->getEmployee()->getLateDeduction($from, $to, 'minute'); ?>
+          <?php $c += $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
           <?php $d += $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?>
-          <?php $e += $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?>
+          <?php $e += $payslip->getEmployee()->getWithholdingTax($from,$to); ?>
           <?php $f += $payslip->getEmployee()->getNet($from, $to); ?>
            <tr>
              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
@@ -108,6 +108,7 @@
            </tr>
         <?php endforeach;  ?>
            <tr>
+            <td colspan="1"></td>
              <td colspan="1"></td>
              <td colspan="1"></td>
              <td colspan="1"></td>
