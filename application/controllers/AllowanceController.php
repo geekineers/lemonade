@@ -63,9 +63,14 @@ class AllowanceController extends BaseController
             'recurring'    => $recurring,
             'amount'       => floatval($amount),
             'valid_from'   => $valid_from,
-            'valid_to'     => $valid_to,
-
+            'valid_to'     => $valid_to
         );
+
+        if ( strtolower($post['recurring']) == 'yes' ) {
+            $post['valid_to'] = date('Y-m-d', strtotime('01-01-2032'));
+        }
+
+        dd($post);
 
         // dd($post);
 
