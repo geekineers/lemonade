@@ -16,6 +16,7 @@ class TimesheetRepository extends BaseRepository
 
     public function record($data)
     {
+
      $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_in']);
 
       dd($time_in);
@@ -122,26 +123,28 @@ class TimesheetRepository extends BaseRepository
     public function saveTime($employee_id, $timestart, $timeend, $from, $to)
     {
 
+
         $cookie   = $_COOKIE['cartalyst_sentry'];
         $time_in  = date('Y-m-d H:i:s', strtotime($from . ' ' . $timestart));
         $time_out = date('Y-m-d H:i:s', strtotime($to . ' ' . $timeend));
 
 
-        if($time_in == $time_out){
-          return false;
-        }
 
           $source   = "Manual Input";
-      $data  = [
+          $data  = array(
               'employee_id'     => $employee_id,
               'source'          => $source,
               'time_in'         => $time_in,
               'time_out'        => $time_out,
               'cookie_registry' => $cookie
-          ];
-        dd($data);
+          );
+        
 
-        $this->record($data);
+          $this->record($data);
+
+        
+
+
      
 
         return true;
