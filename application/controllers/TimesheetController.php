@@ -16,7 +16,7 @@ class TimesheetController extends BaseController {
 
 	public function index() 
     {
-        $page  = (isset($_GET)) ? $_GET['page'] : 0;
+        $page  = (isset($_GET['page'])) ? $_GET['page'] : 0;
      	// dd($page);
         $take = 15;
         $skip = $page * 15;
