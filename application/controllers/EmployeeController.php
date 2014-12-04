@@ -115,6 +115,11 @@ use Upload\Storage\FileSystem as FileSystem;
         redirect('/employees/add', 'location');
         
         }
+        else if($saving == "duplicate error"){
+          $this->session->set_flashdata('message', 'Employee Record is currently existing.');
+        redirect('/employees/add', 'location');    
+        }
+
         else{
         $this->session->set_flashdata('message', 'Successfully added!');
             
