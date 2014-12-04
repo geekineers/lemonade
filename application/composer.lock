@@ -112,12 +112,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeguy/Upload.git",
-                "reference": "a0ddbb5b1af3c96837d078d519d7ca30fd3b81b3"
+                "reference": "6dd8917c1549cfaea2dbfc612e676ea7b78adc83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Upload/zipball/a0ddbb5b1af3c96837d078d519d7ca30fd3b81b3",
-                "reference": "a0ddbb5b1af3c96837d078d519d7ca30fd3b81b3",
+                "url": "https://api.github.com/repos/codeguy/Upload/zipball/6dd8917c1549cfaea2dbfc612e676ea7b78adc83",
+                "reference": "6dd8917c1549cfaea2dbfc612e676ea7b78adc83",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2014-10-11 11:41:39"
+            "time": "2014-12-02 20:57:08"
         },
         {
             "name": "dompdf/dompdf",
@@ -478,12 +478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "4831699d6bcddd766e3cebbd8279976854d37027"
+                "reference": "888e81e77a675e4848d5b8375a9e68d1b9de3de9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/4831699d6bcddd766e3cebbd8279976854d37027",
-                "reference": "4831699d6bcddd766e3cebbd8279976854d37027",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/888e81e77a675e4848d5b8375a9e68d1b9de3de9",
+                "reference": "888e81e77a675e4848d5b8375a9e68d1b9de3de9",
                 "shasum": ""
             },
             "require": {
@@ -517,7 +517,7 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-09-27 01:17:10"
+            "time": "2014-11-23 23:01:17"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -918,12 +918,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "301d5705725b4e11c6255e443244642eb3b5dfa1"
+                "reference": "56126a29b77d7b30a20fc27a6e32fb80c950d8af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/301d5705725b4e11c6255e443244642eb3b5dfa1",
-                "reference": "301d5705725b4e11c6255e443244642eb3b5dfa1",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/56126a29b77d7b30a20fc27a6e32fb80c950d8af",
+                "reference": "56126a29b77d7b30a20fc27a6e32fb80c950d8af",
                 "shasum": ""
             },
             "require": {
@@ -960,7 +960,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "http://symfony.com",
-            "time": "2014-11-10 18:00:54"
+            "time": "2014-12-02 20:19:50"
         },
         {
             "name": "symfony/finder",
@@ -969,12 +969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "743aabbf4958663ef626e10ae3a6c7b17a0fa3bd"
+                "reference": "e5487b9a23adc4be228ac550100d89c50f1ee8d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/743aabbf4958663ef626e10ae3a6c7b17a0fa3bd",
-                "reference": "743aabbf4958663ef626e10ae3a6c7b17a0fa3bd",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/e5487b9a23adc4be228ac550100d89c50f1ee8d5",
+                "reference": "e5487b9a23adc4be228ac550100d89c50f1ee8d5",
                 "shasum": ""
             },
             "require": {
@@ -1007,7 +1007,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-26 07:41:27"
+            "time": "2014-12-02 20:15:53"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -1146,7 +1146,9 @@
             "time": "2012-08-25 12:49:29"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "codeguy/upload": 20,
@@ -1154,9 +1156,10 @@
         "php-curl-class/php-curl-class": 20,
         "php-excel-reader/spreadsheet-reader": 20
     },
-    "prefer-stable": false,
     "platform": {
         "php": ">=5.2.4"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

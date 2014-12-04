@@ -14,6 +14,9 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
+        {% if alert_message %}
+            <div class="alert alert-warning">{{ alert_message }}</div>
+        {% endif %}
         <form method="post" enctype="multipart/form-data" />
         <div class="box-body">
             <div class="form-group">

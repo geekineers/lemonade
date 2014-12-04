@@ -139,8 +139,6 @@ class EmployeeRepository extends BaseRepository
     public function createEmployee($data, $sentry)
     {
 
-        return false;
-
         // Basic Info
         $first_name     = toTitleCase($data['first_name']);
         $last_name      = toTitleCase($data['last_name']);
@@ -292,7 +290,7 @@ class EmployeeRepository extends BaseRepository
             $save->save();
         }
         else{
-            return 'duplicate error';
+            return 'duplicate_error';
         }
 
     }
