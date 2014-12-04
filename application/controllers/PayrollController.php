@@ -64,7 +64,6 @@ class PayrollController extends BaseController
         // $html = "dsadas";
         // dd($html);
         // echo $html;
-        die();
         $pdf = pdfCreate($html, '', false, true);
         echo $pdf;
     }
