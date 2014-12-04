@@ -123,8 +123,10 @@
                         <span class="req-label">*</span>
                     </label>
                     <select required class="form-control" name="employee_type">
-                        <option value="Regular">Regular</option>
-                        <option value="Irregular">Irregular</option>
+                                    <option value="null" {% if employee.getEmployeeType() == null %} selected {% endif %} >None</option>
+                                    {% for employee_type in employee_types %}
+                                    <option value="{{ employee_type.id }}" {% if employee_type.id == employee.getEmployeeTypeId() %} selected {% endif %}>{{ employee_type.getName() }}</option>
+                                    {% endfor %}
                     </select>
                 </div>
 
@@ -167,7 +169,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label>Payroll Group
+                    <label>Employee Type
                         <span class="req-label">*</span>
                     </label>
                     <select id="group_name" required class="form-control" name="payroll_period">
