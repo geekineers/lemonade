@@ -79,12 +79,12 @@
        <?php $e = 0; ?>
        <?php $f = 0; ?>
         <?php foreach ($payslips as $payslip ) : ?>
-          <?php $a += floatval(str_replace(',', $payslip->getEmployee()->getAbsentDeduction($from, $to, false))); ?>
-          <?php $b += floatval(str_replace(',', $payslip->getEmployee()->getLateDeduction($from, $to, 'minute'))); ?>
-          <?php $c += floatval(str_replace(',', $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'))); ?>
-          <?php $d += floatval(str_replace(',', $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'))); ?>
-          <?php $e += floatval(str_replace(',', $payslip->getEmployee()->getWithholdingTax($from,$to))); ?>
-          <?php $f += floatval(str_replace(',', $payslip->getEmployee()->getNet($from, $to))); ?>
+          <?php $a += (float) str_replace(',', $payslip->getEmployee()->getAbsentDeduction($from, $to, false)); ?>
+          <?php $b += (float) str_replace(',', $payslip->getEmployee()->getLateDeduction($from, $to, 'minute')); ?>
+          <?php $c += (float) str_replace(',', $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute')); ?>
+          <?php $d += (float) str_replace(',', $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute')); ?>
+          <?php $e += (float) str_replace(',', $payslip->getEmployee()->getWithholdingTax($from,$to)); ?>
+          <?php $f += (float) str_replace(',', $payslip->getEmployee()->getNet($from, $to)); ?>
            <tr>
              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
              <td><?php echo $payslip->getEmployee()->id; ?></td>
