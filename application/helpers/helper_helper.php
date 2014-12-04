@@ -45,7 +45,7 @@ function sendJSON($data)
 function pdfCreate($html, $filename = 's', $stream = true, $landscape = false)
 {
 
-    require_once (APPPATH . "helpers/dompdf/dompdf/dompdf_config.inc.php");
+    require_once (APPPATH . "helpers/_dompdf/dompdf/dompdf_config.inc.php");
 
     $dompdf = new DOMPDF();
 
