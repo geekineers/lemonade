@@ -138,6 +138,8 @@ class TimesheetRepository extends BaseRepository
               'time_out'        => $time_out,
               'cookie_registry' => $cookie
           ];
+        dd($data);
+
         $this->record($data);
      
 
