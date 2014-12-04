@@ -83,7 +83,7 @@
 						  <div class="panel-body">
 						  		 <table class="table">
 						 	<tr>
-						 		<td><span class="form-label">Employee Type</span>
+						 		<td><span class="form-label">Employee Status</span>
 						 		<span class="profile-value">{{ employee.getEmployeeType() }}</span>
 						 		<select name="employee_type" id="" class="form-control edit-input">
 						 			<option value="null" {% if employee.getEmployeeType() == null %} selected {% endif %} >None</option>
@@ -92,7 +92,7 @@
 						 			{% endfor %}
 						 		</select>
 						 		</td>
-						 		<td><span class="form-label">Payroll Period</span>
+						 		<td><span class="form-label">Employee Type</span>
 						 		<span class="profile-value">
 							 		{{ employee.getPayrollPeriod().group_name }}	
 						 	     </span>
