@@ -131,7 +131,7 @@ class TimesheetRepository extends BaseRepository
         }
 
           $source   = "Manual Input";
-          $data     = [
+      $data  = [
               'employee_id'     => $employee_id,
               'source'          => $source,
               'time_in'         => $time_in,
@@ -139,11 +139,7 @@ class TimesheetRepository extends BaseRepository
               'cookie_registry' => $cookie
           ];
         $this->record($data);
-          
-        
-
-
-        // dd($data);
+     
 
         return true;
     }
