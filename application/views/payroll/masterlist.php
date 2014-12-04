@@ -79,12 +79,12 @@
        <?php $e = 0; ?>
        <?php $f = 0; ?>
         <?php foreach ($payslips as $payslip ) : ?>
-          <?php $a += $payslip->getEmployee()->getAbsentDeduction($from, $to, false); ?>
-          <?php $b += $payslip->getEmployee()->getLateDeduction($from, $to, 'minute'); ?>
-          <?php $c += $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
-          <?php $d += $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?>
-          <?php $e += $payslip->getEmployee()->getWithholdingTax($from,$to); ?>
-          <?php $f += $payslip->getEmployee()->getNet($from, $to); ?>
+          <?php $a += floatval(str_replace(',', $payslip->getEmployee()->getAbsentDeduction($from, $to, false))); ?>
+          <?php $b += floatval(str_replace(',', $payslip->getEmployee()->getLateDeduction($from, $to, 'minute'))); ?>
+          <?php $c += floatval(str_replace(',', $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'))); ?>
+          <?php $d += floatval(str_replace(',', $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'))); ?>
+          <?php $e += floatval(str_replace(',', $payslip->getEmployee()->getWithholdingTax($from,$to))); ?>
+          <?php $f += floatval(str_replace(',', $payslip->getEmployee()->getNet($from, $to))); ?>
            <tr>
              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
              <td><?php echo $payslip->getEmployee()->id; ?></td>
@@ -121,12 +121,12 @@
              <td colspan="1"></td>
              <td colspan="1"></td>
              <td colspan="1"></td>
-             <td><?php echo $a; ?></td>
-             <td><?php echo $b; ?></td>
-             <td><?php echo $c; ?></td>
-             <td><?php echo $d; ?></td>
-             <td><?php echo $e; ?></td>
-             <td><?php echo $f; ?></td>
+             <td><?php echo number_format($a, 2); ?></td>
+             <td><?php echo number_format($b, 2); ?></td>
+             <td><?php echo number_format($c, 2); ?></td>
+             <td><?php echo number_format($d, 2); ?></td>
+             <td><?php echo number_format($e, 2); ?></td>
+             <td><?php echo number_format($f, 2); ?></td>
            </tr>        
        </tbody>
     </table>
