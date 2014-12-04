@@ -883,6 +883,8 @@ class Employee extends BaseModel
         $payroll_period = $this->getPayrollPeriod()->period;
         ;
 
+        // dd($basic_pay);
+
         // return $basic_pay;
         if ($number_format) {return number_format(getRate($basic_pay, $payroll_period, 'Monthly'), 2);
         }
@@ -1053,6 +1055,38 @@ class Employee extends BaseModel
     public function getSpecialHolidayPay($from, $to)
     {
         return floatval($this->getSpecialHolidayRate() * $this->getSpecialHolidayAttendance($from, $to));
+    }
+
+    public function getInAttendance($from, $to, $weekend_include = false)
+    {
+       
+        $holiday = new \HolidayRepository();
+
+        $date_range = createDateRangeArray($from, $to);
+        // dd($date_range);
+        $in_attendance = 0;
+        foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
+            $dt = new Carbon($date);
+
+            if ($dt->isWeekend() && $weekend_include) {
+                $in_attendance++;
+                
+            } else if ($dt->isWeekday()) {
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->count();
+                if($attended || !$this->timesheet_required)
+                {
+                    $in_attendance++;
+                }
+
+            }
+        }
+        // dd($total_absent);
+       return $in_attendance;
     }
 
     /**

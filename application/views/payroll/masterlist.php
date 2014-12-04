@@ -40,11 +40,11 @@
   <img width="150"src="../uploads/<?php echo $company_logo; ?>" alt="">
   <span class="masterlist">Employee's Masterlist</span>
   <div>
-    <ul>
-      <li>Payroll Period: <?php echo $from .'-'.$to ?></li>
-      <li>Payroll Date: <?php echo $date;?></li>
-      <li>Payroll Mode:  <?php echo $period->getPayrollGroup()->period ?>  </li>
-    </ul>
+    <center>
+      <h2><?php echo date('M d Y', strtotime($from)) .' to '. date('M d Y', strtotime($to)) ?></h2>
+      <span><?php echo $period->getPayrollGroup()->period ?> </span>
+    </center>
+
   </div>
   <div class="container">
     <table>
@@ -62,6 +62,7 @@
            <th>SSS</th>
            <th>PHILHEALTH</th>
            <th>Pag-ibig</th>
+           <th>In Attendance</th>
            <th>Absent</th>
            <th>Late</th>
            <th>Under Time</th>
@@ -85,6 +86,7 @@
              <td><?php echo $payslip->getEmployee()->getSSSValue(true); ?></td>
              <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
              <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
+             <td><?php echo $payslip->getEmployee()->getInAttendance($from, $to, false); ?></td>
              <td><?php echo $payslip->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
              <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
              <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
