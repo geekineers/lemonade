@@ -186,13 +186,20 @@
 
 <script>
   +function($) {
+    var x = 0;
+    hide();
     $('[name=recurring]').on('change', function(evt) {
+      hide(evt);
+    });
+
+    function hide(evt) {
       var toElement = $('#valid-to');
-      if ( evt.target.value.toLowerCase() === 'no' ) {
+      if ( x == 0 || evt.target.value.toLowerCase() === 'yes' ) {
+        x = 1;
         toElement.fadeOut();
       } else {
         toElement.fadeIn();
       }
-    });
+    }
   }(jQuery);
 </script>
