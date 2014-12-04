@@ -124,7 +124,7 @@ class TimesheetRepository extends BaseRepository
         $cookie   = $_COOKIE['cartalyst_sentry'];
         $time_in  = date('Y-m-d H:i:s', strtotime($from . ' ' . $timestart));
         $time_out = date('Y-m-d H:i:s', strtotime($to . ' ' . $timeend));
-        if($time_in == $time_out){
+        if($time_in != $time_out){
           $source   = "Manual Input";
           $data     = [
               'employee_id'     => $employee_id,
@@ -133,12 +133,13 @@ class TimesheetRepository extends BaseRepository
               'time_out'        => $time_out,
               'cookie_registry' => $cookie
           ];
+        $this->record($data);
           
         }
 
 
         // dd($data);
-        $this->record($data);
+
         return true;
     }
     public function updateTime($timesheet_id, $employee_id, $timestart, $timeend, $from, $to)
