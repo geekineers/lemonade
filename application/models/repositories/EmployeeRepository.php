@@ -139,7 +139,6 @@ class EmployeeRepository extends BaseRepository
     public function createEmployee($data, $sentry)
     {
 
-        return false;
 
         // Basic Info
         $first_name     = toTitleCase($data['first_name']);
