@@ -107,27 +107,47 @@
              <td><?php echo $payslip->getEmployee()->getNet($from, $to); ?></td>
            </tr>
         <?php endforeach;  ?>
-           <tr>
+          <tr>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+            <td colspan="1"> </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold">Total:</td>
             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-              <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td colspan="1"></td>
-             <td><?php echo number_format($a, 2); ?></td>
-             <td><?php echo number_format($b, 2); ?></td>
-             <td><?php echo number_format($c, 2); ?></td>
-             <td><?php echo number_format($d, 2); ?></td>
-             <td><?php echo number_format($e, 2); ?></td>
-             <td><?php echo number_format($f, 2); ?></td>
-           </tr>        
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td style="font-weight: bold"><?php echo number_format($a, 2); ?></td>
+            <td style="font-weight: bold"><?php echo number_format($b, 2); ?></td>
+            <td style="font-weight: bold"><?php echo number_format($c, 2); ?></td>
+            <td style="font-weight: bold"><?php echo number_format($d, 2); ?></td>
+            <td style="font-weight: bold"><?php echo number_format($e, 2); ?></td>
+            <td style="font-weight: bold"><?php echo number_format($f, 2); ?></td>
+          </tr>        
        </tbody>
     </table>
   </div>

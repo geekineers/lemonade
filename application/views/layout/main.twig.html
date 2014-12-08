@@ -7,7 +7,7 @@
         <!-- bootstrap 3.0.2 -->
         <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->
-        <link href="/css/font-awesome.min.css" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="/css/bootstrap-timepicker.min.css" rel="stylesheet">
         <!-- Ionicons -->
         <link href="/css/ionicons.min.css" rel="stylesheet" type="text/css" />
@@ -22,8 +22,6 @@
              <!-- DATA TABLES -->
         <link href="/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
         <style type="text/css">
-         
-
          {% for permission in user.all_permissions %}
             {% if permission in user.permissions|keys %}   
                 

@@ -647,9 +647,9 @@ class Employee extends BaseModel
         $days           = createDateRangeArray($from, $to);
         $timeshift_ends = $this->getTimeShiftEnd(true);
         // $timeshift_ends = date('H-1:i', strtotime("-45 minutes",$timeshift_ends));
-        $date                 = new DateTime($timeshift_ends);
+        $date                 = new DateTime($timeshift_ends);  
         $date_interval_string = 'PT' . $company->company_lunch_break . 'M';
-        $date->sub(new DateInterval($date_interval_string));
+            $date->sub(new DateInterval($date_interval_string));
         // dd($date->format('H:i:s'));
         // dd($timeshift_ends);
         $timeshift_ends = $date->format('H:i:s');
