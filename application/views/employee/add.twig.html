@@ -1,5 +1,6 @@
 {% extends "layout/main.twig.html" %} {% block content %}
       {% if alert_message != null %}  
+
     <div class="col-md-11 alert alert-danger alert-dismissable">
         <i class="fa fa-exclamation"></i>
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -182,22 +183,28 @@
                     <label>Time Shift Start
                         <span class="req-label">*</span>
                     </label>
-
-                    <select required name="department" class="form-control " id="exampleInputEmail1" placeholder="">
-                        {% for department in departments %}
-                        <option value="{{  department.id }}">{{ department.department_name }}</option>
-                        {% endfor %}
-                    </select>
-
+                    <div class="input-group edit-time bootstrap-timepicker">
+                        <input id="timepicker1" type="text" name="timeshift_start" class="timepicker form-control input-small">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-time">
+                            </i>
+                        </span>
+                    </div>
+                    <style> .edit-time { visibility: visible; } </style>
                 </div>
 
                 <div class="col-md-6">
                     <label>Time Shift End
                         <span class="req-label">*</span>
                     </label>
-                    <select id="group_name" required class="form-control" name="payroll_period">
-
-                    </select>
+                    <div class="input-group edit-time bootstrap-timepicker">
+                        <input id="timepicker2" type="text" name="timeshift_end" class="timepicker form-control input-small">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-time">
+                            </i>
+                        </span>
+                    </div>
+                    <style> .edit-time { visibility: visible; } </style>
                 </div>
             </div>
             <div class="form-group">

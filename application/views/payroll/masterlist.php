@@ -47,13 +47,13 @@
 
   </div>
   <div class="container">
-    <?php $a = 0; ?>
-    <?php $b = 0; ?>
-    <?php $c = 0; ?>
-    <?php $d = 0; ?>
-    <?php $e = 0; ?>
-    <?php $f = 0; ?>
     <?php foreach ($payslips as $payslip ): ?>
+      <?php $a = 0; ?>
+      <?php $b = 0; ?>
+      <?php $c = 0; ?>
+      <?php $d = 0; ?>
+      <?php $e = 0; ?>
+      <?php $f = 0; ?>
       <?php $a += (float)  $payslip->getEmployee()->getAbsentDeduction($from, $to, false); ?>
       <?php $b += (float)  $payslip->getEmployee()->getLateDeduction($from, $to, 'minute'); ?>
       <?php $c += (float)  $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
@@ -62,6 +62,8 @@
       <?php $f += (float)  str_replace(',', "", $payslip->getEmployee()->getNet($from, $to)); ?>
             
       <?php if($payslip->getEmployee()->getDepartment() == "IT Department"): ?>  
+      <?php  $total_it = 0;
+        $total_it += (float) $f; ?>
         <h1>Department: IT Department</h1>
         <table>
           <thead>
@@ -107,7 +109,7 @@
               <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
               <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
               <td><?php echo $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getNet($from, $to); ?></td>         
+              <td><?php echo $total_it; ?></td>         
             <tr>
               <td colspan="1"> </td>
               <td colspan="1"> </td>
@@ -154,6 +156,8 @@
         <br>
         <br>  
       <?php elseif($payslip->getEmployee()->getDepartment() == "HR Department"): ?>  
+        <?php  $total_hr = 0;
+        $total_hr += (float) $f; ?>
         <h1>Department: HR Department</h1>
         <table>
           <thead>
@@ -199,7 +203,7 @@
               <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
               <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
               <td><?php echo $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getNet($from, $to); ?></td>         
+              <td><?php echo $total_hr; ?></td>         
             <tr>
               <td colspan="1"> </td>
               <td colspan="1"> </td>
@@ -245,6 +249,12 @@
         </table>
       <?php endif; ?>
     <?php endforeach;  ?>
+    <br>
+    <br>
+    <br>
+    <?php $overallTotal = $total_it + $total_hr; ?>
+    <h1>Overall Total: <?php echo $overallTotal; ?></h1>
+
   </div>
 </body>
 </html>
