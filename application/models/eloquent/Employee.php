@@ -37,6 +37,8 @@ class Employee extends BaseModel
         'date_hired',
         'date_ended',
         'basic_pay',
+        'timeshift_start',
+        'timeshift_end',
 
         // Government Details
 
