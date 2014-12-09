@@ -21,7 +21,7 @@ class EmployeeRepository extends BaseRepository
                         'branch_id'         => 'numeric|required',
                         'job_position'      => 'numeric|required',
                         'department'        => 'numeric|required',
-                    'payroll_period'    => 'numeric|required',
+                        'payroll_period'    => 'numeric|required',
                         'date_hired'        => 'date|required',
                         'basic_pay'         => 'required'
                            ];
@@ -152,21 +152,21 @@ class EmployeeRepository extends BaseRepository
         $dependents     = (int) $data['dependents'];
 
         // Employee Details
-        $employee_type  = $data['employee_type'];
-        $payroll_period = $data['payroll_period'];
-        $job_position   = $data['job_position'];
-        $department     = $data['department'];
-        $role_id        = $data['role_id'];
-        $branch_id      = $data['branch_id'];
-        $date_hired     = $data['date_hire'];
-        $basic_pay      = $data['basic_pay'];
+        $employee_type   = $data['employee_type'];
+        $payroll_period  = $data['payroll_period'];
+        $job_position    = $data['job_position'];
+        $department      = $data['department'];
+        $role_id         = $data['role_id'];
+        $branch_id       = $data['branch_id'];
+        $date_hired      = $data['date_hire'];
+        $basic_pay       = $data['basic_pay'];
         $timeshift_start = $data['timeshift_start'];
-        $timeshift_end = $data['timeshift_end'];
+        $timeshift_end   = $data['timeshift_end'];
 
         // Government Details
-        $tin_number     = $data['tin_number'];
-        $sss_number     = $data['sss_number'];
-        $pagibig_number = $data['pagibig_number'];
+        $tin_number        = $data['tin_number'];
+        $sss_number        = $data['sss_number'];
+        $pagibig_number    = $data['pagibig_number'];
         $philhealth_number = $data['philhealth_number'];
 
         //Contact Information
@@ -176,8 +176,8 @@ class EmployeeRepository extends BaseRepository
         $fb             = $data['fb'];
 
         //User Accounts
-        $email           = isset($data['email']) ?  $data['email'] : "" ;
-        $password        = isset($data['password']) ?  $data['password'] : "";
+        $email            = isset($data['email']) ?  $data['email'] : "" ;
+        $password         = isset($data['password']) ?  $data['password'] : "";
         $confirm_password = isset($data['confirm_password']) ?  $data['confirm_password'] : "";
 
         // dd($email, $password, $confirm_password);
@@ -564,34 +564,34 @@ class EmployeeRepository extends BaseRepository
             // dd(date('H:i:s', strtotime($user_info[25])));
 
             $data = array(
-                'first_name'      => toTitleCase($user_info[0]),
-                'last_name'       => toTitleCase($user_info[2]),
-                'middle_name'     => toTitleCase($user_info[1]),
-                'full_address'    => toTitleCase($user_info[3]),
-                'birthdate'       => toTitleCase($user_info[7]),
-                'gender'          => $user_info[8],
-                'marital_status'  => $user_info[6],
-                'spouse_name'     => toTitleCase($user_info[4]),
-                'employee_type'   => $employee_type_id,
-                'payroll_period'  =>  $payroll_period_id,
-                'job_position'    =>  $job_position_id,
-                'department'      =>  $department_id,
-                'role_id'         => $user_info[15],
-                'branch_id'       => $branch_id,
-                'date_hire'      =>  $user_info[16],
-                'date_ended'      => 'none',
-                'basic_pay'       => $user_info[17],
-                'tin_number'      => $user_info[18],
-                'sss_number'      => $user_info[19],
-                'pagibig_number'  => $user_info[21],
-                'philhealth_number'  => $user_info[20],
-                'dependents'      => $user_info[5],
-                'contact_number'  => $user_info[24],
-                'email_address'   =>$user_info[22],
-                'fb'              => $user_info[23],
-                'display_picture' => null,
-                'timeshift_start' => date('H:i:s', strtotime($user_info[25])),
-                'timeshift_end' => date('H:i:s', strtotime($user_info[26]))
+                'first_name'        => toTitleCase($user_info[0]),
+                'last_name'         => toTitleCase($user_info[2]),
+                'middle_name'       => toTitleCase($user_info[1]),
+                'full_address'      => toTitleCase($user_info[3]),
+                'birthdate'         => toTitleCase($user_info[7]),
+                'gender'            => $user_info[8],
+                'marital_status'    => $user_info[6],
+                'spouse_name'       => toTitleCase($user_info[4]),
+                'employee_type'     => $employee_type_id,
+                'payroll_period'    =>  $payroll_period_id,
+                'job_position'      =>  $job_position_id,
+                'department'        =>  $department_id,
+                'role_id'           => $user_info[15],
+                'branch_id'         => $branch_id,
+                'date_hire'         =>  $user_info[16],
+                'date_ended'        => 'none',
+                'basic_pay'         => $user_info[17],
+                'tin_number'        => $user_info[18],
+                'sss_number'        => $user_info[19],
+                'pagibig_number'    => $user_info[21],
+                'philhealth_number' => $user_info[20],
+                'dependents'        => $user_info[5],
+                'contact_number'    => $user_info[24],
+                'email_address'     => $user_info[22],
+                'fb'                => $user_info[23],
+                'display_picture'   => null,
+                'timeshift_start'   => date('H:i:s', strtotime($user_info[25])),
+                'timeshift_end'     => date('H:i:s', strtotime($user_info[26]))
 
 
             );

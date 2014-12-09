@@ -190,16 +190,20 @@
             <div class="icon">
                 <i class="ion ion-ios7-alarm-outline"></i>
             </div>
-            {% if time_in_status %}
-            <a href="/timeout" class="small-box-footer">
-                <b>Time Out</b>  <i class="fa fa-arrow-circle-right"></i>
+            {% if user.id == 1 %}
+                <div class="small-box-footer">
+                    <b>&nbsp; </b>
+                </div>
+            {% elseif time_in_status %}
+                <a href="/timeout" class="small-box-footer">
+                    <b>Time Out</b>  <i class="fa fa-arrow-circle-right"></i>
 
-            </a>
+                </a>
             {% else %}
-            <a href="/timein" class="small-box-footer">
-                <b>Time In</b>  <i class="fa fa-arrow-circle-right"></i>
+                <a href="/timein" class="small-box-footer">
+                    <b>Time In</b>  <i class="fa fa-arrow-circle-right"></i>
 
-            </a>
+                </a>
             {% endif %}
         </div>
     </div>

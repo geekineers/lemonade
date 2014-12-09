@@ -17,12 +17,15 @@ class DepartmentController extends BaseController
     }
     public function index()
     {
-        $data['company'] = $this->company;
-        $data['groups']  = $this->departmentRepository->all();
-        $data['branches']  = $this->branchRepository->all();
-        $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']   = "Department";
-        // dd($data);
+
+         $data['alert_message'] = ($this->session->flashdata('message') == null)
+        ? null
+        : $this->session->flashdata('message');
+        $data['company']   =  $this->company;
+        $data['groups']    =  $this->departmentRepository->all();
+        $data['branches']  =  $this->branchRepository->all();
+        $data['user']      =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']     =  "Department";
         $this->render('department/index.twig.html', $data);
 
     }
@@ -59,9 +62,17 @@ class DepartmentController extends BaseController
 
     public function delete()
     {
-        $id = $this->input->get('token');
-        $this->departmentRepository->delete($id);
-        $this->session->set_flashdata('message', 'Successfully deleted!');
+        $id  = $this->input->get('token');
+        $employee = Department::find($id)->employee;
+        
+        if($employee->count() < 1)
+        {
+            $this->departmentRepository->delete($id);
+            $this->session->set_flashdata('message', 'Successfully deleted!');
+            redirect('/settings/department');
+        }
+
+        $this->session->set_flashdata('message', 'There was registered employees in this department, Please relocate them first');
         redirect('/settings/department');
     }
 
@@ -77,12 +88,12 @@ class DepartmentController extends BaseController
 
     public function trash()
     {
-        $data['company'] = $this->company;
-        $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
-        $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']    = "Deleted Departments";
-         $data['branches']  = $this->branchRepository->all();
-        $data['groups'] = $this->departmentRepository->onlyTrashed()->get();
+        $data['company']       =  $this->company;
+        $data['alert_message'] =  ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']         =  "Deleted Departments";
+        $data['branches']      =  $this->branchRepository->all();
+        $data['groups']        =  $this->departmentRepository->onlyTrashed()->get();
 
         $this->render('department/trash.twig.html', $data);
     }
@@ -101,5 +112,25 @@ class DepartmentController extends BaseController
 
         $this->session->set_flashdata('message', 'Succesfully Restored!');
         redirect('settings/department/trash','location');
+    }
+
+    public function apiAll()
+    {
+        $branch = $this->input->get('branch');
+        if($branch){
+
+            $collection = $this->departmentRepository->where('branch_id', $branch)->get();
+
+        }
+        else{
+            $collection = $this->departmentRepository->all();
+
+        }
+        
+        // $departmentss = DepartmentTransformer::transform($collection);
+
+        $this->output
+             ->set_content_type('application/json')
+             ->set_output(json_encode($employees));
     }
 }
