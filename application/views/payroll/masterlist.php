@@ -76,6 +76,7 @@
           </thead>
 
           <tbody>
+          <?php $total_per_dep = 0; ?>
           <?php foreach ($payslip['items'] as $key => $item) : ?>
 
           <?php $a = 0; ?>
@@ -89,9 +90,9 @@
           <?php $c += (float)  $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
           <?php $d += (float)  $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?>
           <?php $e += (float)  $item->getEmployee()->getWithholdingTax($from,$to); ?>
-          <?php $f += (float)  str_replace(',', "", $item->getEmployee()->getNet($from, $to)); ?>
+          <?php $f  = (float)  str_replace(',', "", $item->getEmployee()->getNet($from, $to)); ?>
                 
-            <?php $total_it += (float) $f; ?>
+            <?php $total_per_dep += (float) $f; ?>
             <tr>
               <td><?php echo $item->getEmployee()->getJobPosition(); ?></td>
               <td><?php echo $item->getEmployee()->id; ?></td>
@@ -111,7 +112,7 @@
               <td><?php echo $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
               <td><?php echo $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
               <td><?php echo $item->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
-              <td><?php echo $total_it; ?></td>   
+              <td><?php echo $f; ?></td>   
             </tr>
         <?php endforeach; ?>      
      <!--        <tr>
@@ -153,7 +154,7 @@
               <td style="font-weight: bold"><?php echo number_format($c, 2); ?></td>
               <td style="font-weight: bold"><?php echo number_format($d, 2); ?></td>
               <td style="font-weight: bold"><?php echo number_format($e, 2); ?></td>
-              <td style="font-weight: bold"><?php echo number_format($f, 2); ?></td>
+              <td style="font-weight: bold"><?php echo number_format($total_per_dep, 2); ?></td>
             </tr>        
          </tbody>
         </table>
