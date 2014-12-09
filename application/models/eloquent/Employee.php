@@ -57,7 +57,10 @@ class Employee extends BaseModel
         'employee_number'
 
     ];
-
+    public function department()
+    {
+        return $this->belongsTo('Department', 'id', 'department');
+    }
     public function name()
     {
         return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -240,6 +243,7 @@ class Employee extends BaseModel
         }
         return 'none';
     }
+
 
     public function getDependents()
     {

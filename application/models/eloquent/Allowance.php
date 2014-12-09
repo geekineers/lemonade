@@ -12,7 +12,7 @@ class Allowance extends BaseModel
     public $table    = "allowances";
     protected $datas = ['deleted_at'];
 
-    protected $fillable = ['allowance_name', 'created_by', 'company_id'];
+    protected $fillable = ['allowance_name', 'created_by', 'company_id', 'frequency'];
 
     public function getCreator()
     {
@@ -23,6 +23,15 @@ class Allowance extends BaseModel
         }
         return 'Super Administrator';
 
+    }
+
+    public function getFrequency()
+    {
+        if($this->frequency == 'daily'){
+            return 'Daily';
+        }
+
+        return 'Once Every Payroll';
     }
 
 }
