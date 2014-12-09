@@ -13,7 +13,7 @@
 										<th>Effective Date</th>
 										<th>Adjustment Date</th>
 										<th>Adjustment Reason</th>
-										<th>Created By</th>
+										<!-- <th>Created By</th> -->
 									</tr>
 									{% for basic_pay in employee.getBasicPayAdjustments %}
 										<tr>
@@ -22,7 +22,7 @@
 											<td>{{ basic_pay.effective_date }}</td>
 											<td>{{ basic_pay.adjustment_date }}</td>
 											<td>{{ basic_pay.adjustment_reason }}</td>
-											<td>{{ basic_pay.getCreatedBy() }}</td>
+											<!-- <td>{{ basic_pay.getCreatedBy() }}</td> -->
 										</tr>
 									{% endfor %}
 								</table>

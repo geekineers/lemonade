@@ -479,7 +479,7 @@ class EmployeeRepository extends BaseRepository
 
         $user_infos = [];
         
-        for ($index = 0,$row = 1; $row <= $highestRow; ++$row) {
+        for ($index = 0,$row = 2; $row <= $highestRow; ++$row) {
           for ($col = 0; $col <= $highestColumnIndex; ++$col) {
             $user_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();  
           }
@@ -561,6 +561,7 @@ class EmployeeRepository extends BaseRepository
                 $payroll_period = PayrollGroup::create(array('group_name' => $group_name, 'period' => $period, 'branch_id' => $branch_id,'company_id' => COMPANY_ID));
                  $payroll_period_id = $payroll_period->id;
             }
+            // dd(date('H:i:s', strtotime($user_info[25])));
 
             $data = array(
                 'first_name'      => toTitleCase($user_info[0]),
@@ -588,7 +589,10 @@ class EmployeeRepository extends BaseRepository
                 'contact_number'  => $user_info[24],
                 'email_address'   =>$user_info[22],
                 'fb'              => $user_info[23],
-                'display_picture' => null
+                'display_picture' => null,
+                'timeshift_start' => date('H:i:s', strtotime($user_info[25])),
+                'timeshift_end' => date('H:i:s', strtotime($user_info[26]))
+
 
             );
             $this->createEmployee($data,"");
