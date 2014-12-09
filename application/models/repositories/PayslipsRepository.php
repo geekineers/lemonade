@@ -170,7 +170,8 @@ class PayslipsRepository extends BaseRepository
         $date   = $data['date'];
 
         get_instance()->load->library('excel');
-        try {
+       
+        try {     
             $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
             $objPHPExcel->setActiveSheetIndex(0);
             $row = $objPHPExcel->getActiveSheet()->getHighestRow() + 1;
@@ -178,11 +179,28 @@ class PayslipsRepository extends BaseRepository
             $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
             $objPHPExcel->getActiveSheet()->SetCellValue('B2', $date);
             $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
+            $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('C')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('D')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('E')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('G')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('H')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('I')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('J')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('K')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('L')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('M')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('N')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('O')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('P')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('Q')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('R')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
             foreach ($slip as $key => $payslip) {
-
-                $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->getJobPosition());
-                $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getName());
+                $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->id);
+                $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->getName());
+                $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getJobPosition());
                 $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, $payslip->getEmployee()->getMonthlyRate(true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, $payslip->getEmployee()->getSemiMonthlyRate(true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, $payslip->getEmployee()->getDailyRate());
@@ -197,7 +215,7 @@ class PayslipsRepository extends BaseRepository
                 $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute', true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getWithholdingTax($from, $to, true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getNet($from, $to));
+                $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $payslip->getEmployee()->getNet($from, $to));
 
                 $row++;
             }
@@ -223,12 +241,12 @@ class PayslipsRepository extends BaseRepository
             $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
             $objPHPExcel->getActiveSheet()->SetCellValue('B2', $date);
             $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
-
+            
             foreach ($slip as $key => $payslip) {
 
-                $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->getJobPosition());
-                $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getName());
+                $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->id);
+                $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->getName());
+                $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getJobPosition());
                 $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, $payslip->getEmployee()->getMonthlyRate(true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, $payslip->getEmployee()->getSemiMonthlyRate(true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, $payslip->getEmployee()->getDailyRate());
@@ -243,10 +261,15 @@ class PayslipsRepository extends BaseRepository
                 $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute', true));
                 $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getWithholdingTax($from, $to, true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getNet($from, $to));
+                $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $payslip->getEmployee()->getNet($from, $to));
 
                 $row++;
             }
+
+            $objPHPExcel->getActiveSheet()
+                ->getStyle( $phpExcel->getActiveSheet()->calculateWorksheetDimension() )
+                ->getAlignment()
+                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
             $objWriter->save('excel_files/masterlist-' . $date . '.xlsx');
@@ -489,4 +512,3 @@ class PayslipsRepository extends BaseRepository
         }
     }
 }
-
