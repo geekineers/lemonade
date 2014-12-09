@@ -19,11 +19,13 @@ class TimesheetRepository extends BaseRepository
 
      $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_in']);
 
+      // var_dump($this->employeeRepository->find($data['employee_id']));
+      // die();
 
-     $arrival_time = $time_in->format('H:i:s');
-     $employee = $this->employeeRepository->find($data['employee_id']);
-     $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
-     $is_late = ($late > $employee->getCompany()->company_late_grace_period)  ? true :false;
+      $arrival_time = $time_in->format('H:i:s');
+      $employee     = $this->employeeRepository->find($data['employee_id']);
+      $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
+      $is_late      = ($late > $employee->getCompany()->company_late_grace_period)  ? true :false;
 
       $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_out']);
 

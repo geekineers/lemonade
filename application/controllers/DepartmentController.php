@@ -64,6 +64,7 @@ class DepartmentController extends BaseController
     {
         $id  = $this->input->get('token');
         $employee = Department::find($id)->employee;
+        
         if($employee->count() < 1)
         {
             $this->departmentRepository->delete($id);
