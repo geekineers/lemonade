@@ -23,7 +23,13 @@ class BasicPayAdjustment extends Eloquent {
 
  public function getCreatedBy()
  {
- 		return Employee::find($this->created_by)->getName();
+    $employee = Employee::find($this->created_by);
+      if($employee){
+        return $employee->getName();
+      }
+      else{
+        return '';
+      }
  }
 
  public function getCurrentBasicPay()
