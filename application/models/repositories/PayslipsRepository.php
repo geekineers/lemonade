@@ -305,7 +305,14 @@ class PayslipsRepository extends BaseRepository
                         $er    = 200;
                         $total = $ee + $er;
                         $pdf->SetXY(7, 69+(4 * $i));
-                        $data = $tin . '                    ' . $birth . '                     ' . $lname . '              ' . $fname . '                           ' . $mname . '                                ' . $ee . '                       ' . $er . '                       ' . $total;
+                        $data = $tin .
+                            $birth .
+                            $fname .
+                            $mname . 
+                            $lname . 
+                            $ee . 
+                            $er . 
+                            $total;
                         $pdf->Write(0, $data);
 
                     }
