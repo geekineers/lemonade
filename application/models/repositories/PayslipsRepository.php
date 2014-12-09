@@ -169,62 +169,87 @@ class PayslipsRepository extends BaseRepository
         $period = $data['period'];
         $date   = $data['date'];
 
+
         get_instance()->load->library('excel');
+        $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
+        $objPHPExcel->setActiveSheetIndex(0);
        
         try {     
-            $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
-            $objPHPExcel->setActiveSheetIndex(0);
-            $row = $objPHPExcel->getActiveSheet()->getHighestRow() + 1;
-            //echo $row;
-            $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
-            $objPHPExcel->getActiveSheet()->SetCellValue('B2', $date);
-            $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
-            $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('C')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('D')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('E')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('G')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('H')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('I')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('J')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('K')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('L')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('M')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('N')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('O')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('P')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('Q')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            $objPHPExcel->getActiveSheet()->getStyle('R')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-            foreach ($slip as $key => $payslip) {
-                $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->getName());
-                $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getJobPosition());
-                $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, $payslip->getEmployee()->getMonthlyRate(true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, $payslip->getEmployee()->getSemiMonthlyRate(true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, $payslip->getEmployee()->getDailyRate());
-                $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $payslip->getEmployee()->getTaxStatus());
-                $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $payslip->getEmployee()->getTotalAllowances($from, $to));
-                $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $payslip->getEmployee()->getGross($from, $to));
-                $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $payslip->getEmployee()->getSSSValue(true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $payslip->getEmployee()->getPhilhealthValue(true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $payslip->getEmployee()->getHDMFValue(true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $payslip->getEmployee()->getAbsentDeduction($from, $to));
-                $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute', true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getWithholdingTax($from, $to, true));
-                $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $payslip->getEmployee()->getNet($from, $to));
+            foreach ($slip as $key => $payslip)
+            {  
+                
+                if($payslip->getEmployee()->getDepartment() == "IT Department")
+                { 
+                    //echo $row;
+                    $row = 7;    
+                    $objPHPExcel->getActiveSheet()->setTitle('Department');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B2', $date);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B4', $payslip->getEmployee()->getDepartment());
+                    
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->id);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->getName());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getJobPosition());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, $payslip->getEmployee()->getMonthlyRate(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, $payslip->getEmployee()->getSemiMonthlyRate(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, $payslip->getEmployee()->getDailyRate());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $payslip->getEmployee()->getTaxStatus());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $payslip->getEmployee()->getTotalAllowances($from, $to));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $payslip->getEmployee()->getGross($from, $to));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $payslip->getEmployee()->getSSSValue(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $payslip->getEmployee()->getPhilhealthValue(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $payslip->getEmployee()->getHDMFValue(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $payslip->getEmployee()->getAbsentDeduction($from, $to));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute', true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getWithholdingTax($from, $to, true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $payslip->getEmployee()->getNet($from, $to));
+                    $row++;
+                } 
+                elseif($payslip->getEmployee()->getDepartment() == "HR Department")
+                {
+                    $A = $objPHPExcel->getActiveSheet();
 
-                $row++;
+                    $B = clone $A;
+                    $B->setTitle('Department2');
+                    $sheetIndex = 1;
+                    $row = 7;
+                    $objPHPExcel->addSheet($B,$sheetIndex);
+                    //echo $row;
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B2', $date);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B4', $payslip->getEmployee()->getDepartment());
+                    
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->id);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row, $payslip->getEmployee()->getName());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $payslip->getEmployee()->getJobPosition());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, $payslip->getEmployee()->getMonthlyRate(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, $payslip->getEmployee()->getSemiMonthlyRate(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, $payslip->getEmployee()->getDailyRate());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $payslip->getEmployee()->getTaxStatus());
+                    $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $payslip->getEmployee()->getTotalAllowances($from, $to));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $payslip->getEmployee()->getGross($from, $to));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $payslip->getEmployee()->getSSSValue(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $payslip->getEmployee()->getPhilhealthValue(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $payslip->getEmployee()->getHDMFValue(true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $payslip->getEmployee()->getAbsentDeduction($from, $to));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute', true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $payslip->getEmployee()->getWithholdingTax($from, $to, true));
+                    $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $payslip->getEmployee()->getNet($from, $to));
+                    $row++;
+                }
             }
 
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
             $objWriter->save('excel_files/masterlist-' . $date . '.xlsx');
             return true;
         }
-         catch (Exception $e) {
+        catch (Exception $e) {
             dd($e);
         }
 
@@ -236,6 +261,8 @@ class PayslipsRepository extends BaseRepository
         try {
             $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
             $objPHPExcel->setActiveSheetIndex(0);
+            $objWorksheet = new PHPExcel_Worksheet($objPHPExcel);
+            $objPHPExcel->addSheet($objWorksheet);
             $row = $objPHPExcel->getActiveSheet()->getHighestRow() + 1;
             //echo $row;
             $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
