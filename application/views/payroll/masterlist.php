@@ -47,24 +47,9 @@
 
   </div>
   <div class="container">
-    <?php foreach ($payslips as $payslip ): ?>
-      <?php $a = 0; ?>
-      <?php $b = 0; ?>
-      <?php $c = 0; ?>
-      <?php $d = 0; ?>
-      <?php $e = 0; ?>
-      <?php $f = 0; ?>
-      <?php $a += (float)  $payslip->getEmployee()->getAbsentDeduction($from, $to, false); ?>
-      <?php $b += (float)  $payslip->getEmployee()->getLateDeduction($from, $to, 'minute'); ?>
-      <?php $c += (float)  $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
-      <?php $d += (float)  $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?>
-      <?php $e += (float)  $payslip->getEmployee()->getWithholdingTax($from,$to); ?>
-      <?php $f += (float)  str_replace(',', "", $payslip->getEmployee()->getNet($from, $to)); ?>
-            
-      <?php if($payslip->getEmployee()->getDepartment() == "IT Department"): ?>  
-      <?php  $total_it = 0;
-        $total_it += (float) $f; ?>
-        <h1>Department: IT Department</h1>
+   <?php  $total_it = 0; ?>
+    <?php foreach ($payslips as $index => $payslip ): ?>
+        <h1>Department: <?php echo $payslip['name']; ?></h1>
         <table>
           <thead>
             <tr>
@@ -89,47 +74,66 @@
               <th>Net</th>
             </tr>
           </thead>
+
           <tbody>
+          <?php foreach ($payslip['items'] as $key => $item) : ?>
+
+          <?php $a = 0; ?>
+          <?php $b = 0; ?>
+          <?php $c = 0; ?>
+          <?php $d = 0; ?>
+          <?php $e = 0; ?>
+          <?php $f = 0; ?>
+          <?php $a += (float)  $item->getEmployee()->getAbsentDeduction($from, $to, false); ?>
+          <?php $b += (float)  $item->getEmployee()->getLateDeduction($from, $to, 'minute'); ?>
+          <?php $c += (float)  $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute'); ?>
+          <?php $d += (float)  $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?>
+          <?php $e += (float)  $item->getEmployee()->getWithholdingTax($from,$to); ?>
+          <?php $f += (float)  str_replace(',', "", $item->getEmployee()->getNet($from, $to)); ?>
+                
+            <?php $total_it += (float) $f; ?>
             <tr>
-              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
-              <td><?php echo $payslip->getEmployee()->id; ?></td>
-              <td><?php echo $payslip->getEmployee()->getName(); ?></td>
-              <td><?php echo $payslip->getEmployee()->getMonthlyRate(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getSemiMonthlyRate(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getDailyRate(); ?></td>
-              <td><?php echo $payslip->getEmployee()->getTaxStatus(); ?></td>
-              <td><?php echo $payslip->getEmployee()->getTotalAllowances($from,$to); ?></td>
-              <td><?php echo $payslip->getEmployee()->getGross($from, $to); ?></td>
-              <td><?php echo $payslip->getEmployee()->getSSSValue(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
-              <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getInAttendance($from, $to, false); ?></td>
-              <td><?php echo $payslip->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
-              <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
-              <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
-              <td><?php echo $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
-              <td><?php echo $total_it; ?></td>         
-            <tr>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
+              <td><?php echo $item->getEmployee()->getJobPosition(); ?></td>
+              <td><?php echo $item->getEmployee()->id; ?></td>
+              <td><?php echo $item->getEmployee()->getName(); ?></td>
+              <td><?php echo $item->getEmployee()->getMonthlyRate(true); ?></td>
+              <td><?php echo $item->getEmployee()->getSemiMonthlyRate(true); ?></td>
+              <td><?php echo $item->getEmployee()->getDailyRate(); ?></td>
+              <td><?php echo $item->getEmployee()->getTaxStatus(); ?></td>
+              <td><?php echo $item->getEmployee()->getTotalAllowances($from,$to); ?></td>
+              <td><?php echo $item->getEmployee()->getGross($from, $to); ?></td>
+              <td><?php echo $item->getEmployee()->getSSSValue(true); ?></td>
+              <td><?php echo $item->getEmployee()->getPhilhealthValue(true);?></td>
+              <td><?php echo $item->getEmployee()->getHDMFValue(true); ?></td>
+              <td><?php echo $item->getEmployee()->getInAttendance($from, $to, false); ?></td>
+              <td><?php echo $item->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
+              <td><?php echo $item->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
+              <td><?php echo $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
+              <td><?php echo $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
+              <td><?php echo $item->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
+              <td><?php echo $total_it; ?></td>   
             </tr>
+        <?php endforeach; ?>      
+     <!--        <tr>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+              <td colspan="1"> </td>
+            </tr> -->
             <tr>
               <td style="font-weight: bold">Total:</td>
               <td colspan="1"></td>
@@ -155,104 +159,12 @@
         </table>
         <br>
         <br>  
-      <?php elseif($payslip->getEmployee()->getDepartment() == "HR Department"): ?>  
-        <?php  $total_hr = 0;
-        $total_hr += (float) $f; ?>
-        <h1>Department: HR Department</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th>Emp. No. </th>
-              <th>Employee Name </th>
-              <th>Monthly Salary</th>
-              <th>Semi-Monthly Salary</th>
-              <th>Daily Rate</th>
-              <th>Tax Status</th>
-              <th>Allowance</th>
-              <th>Gross</th>
-              <th>SSS</th>
-              <th>PHILHEALTH</th>
-              <th>Pag-ibig</th>
-              <th>In Attendance</th>
-              <th>Absent</th>
-              <th>Late</th>
-              <th>Under Time</th>
-              <th>Misc Deductions</th>
-              <th>Tax</th>
-              <th>Net</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><?php echo $payslip->getEmployee()->getJobPosition(); ?></td>
-              <td><?php echo $payslip->getEmployee()->id; ?></td>
-              <td><?php echo $payslip->getEmployee()->getName(); ?></td>
-              <td><?php echo $payslip->getEmployee()->getMonthlyRate(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getSemiMonthlyRate(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getDailyRate(); ?></td>
-              <td><?php echo $payslip->getEmployee()->getTaxStatus(); ?></td>
-              <td><?php echo $payslip->getEmployee()->getTotalAllowances($from,$to); ?></td>
-              <td><?php echo $payslip->getEmployee()->getGross($from, $to); ?></td>
-              <td><?php echo $payslip->getEmployee()->getSSSValue(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getPhilhealthValue(true);?></td>
-              <td><?php echo $payslip->getEmployee()->getHDMFValue(true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getInAttendance($from, $to, false); ?></td>
-              <td><?php echo $payslip->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
-              <td><?php echo $payslip->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
-              <td><?php echo $payslip->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
-              <td><?php echo $payslip->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
-              <td><?php echo $payslip->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
-              <td><?php echo $total_hr; ?></td>         
-            <tr>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-              <td colspan="1"> </td>
-            </tr>
-            <tr>
-              <td style="font-weight: bold">Total:</td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td colspan="1"></td>
-              <td style="font-weight: bold"><?php echo number_format($a, 2); ?></td>
-              <td style="font-weight: bold"><?php echo number_format($b, 2); ?></td>
-              <td style="font-weight: bold"><?php echo number_format($c, 2); ?></td>
-              <td style="font-weight: bold"><?php echo number_format($d, 2); ?></td>
-              <td style="font-weight: bold"><?php echo number_format($e, 2); ?></td>
-              <td style="font-weight: bold"><?php echo number_format($f, 2); ?></td>
-            </tr>        
-          </tbody>
-        </table>
-      <?php endif; ?>
+    
     <?php endforeach;  ?>
     <br>
     <br>
     <br>
-    <?php $overallTotal = $total_it + $total_hr; ?>
+      <?php $overallTotal = $total_it; ?>
     <h1>Overall Total: <?php echo $overallTotal; ?></h1>
 
   </div>

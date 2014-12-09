@@ -29,6 +29,23 @@ class PayslipsGroup extends BaseModel {
   {
     return Payslips::where('payslip_group_id','=',$this->id)->get();
   }
+
+  public function getPayslipsByDepartments()
+  {
+    $output = array();
+
+    $departments = Payslips::where('payslip_group_id', '=', $this->id)->groupBy('department_id')->get();
+
+    foreach ($departments as $department) {
+      $e['name'] = $department->getDepartment();
+      $e['items'] =  Payslips::where('payslip_group_id', '=', $this->id)->where('department_id', $department->department_id)->get();
+
+      array_push($output, $e);
+    }
+
+
+    return $output;
+  }
   public function getPayrollGroup()
   {
   	return PayrollGroup::where('id','=',$this->payroll_group)->first();

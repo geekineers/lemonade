@@ -48,7 +48,8 @@ class PayrollController extends BaseController
     {
         $from = $this->input->get('from');
         $to   = $this->input->get('to');
-        $slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getAllPayslips();
+        $slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getPayslipsByDepartments();
+      
         // dd($slip);
         $company = $this->company;
         $data    = [
@@ -178,7 +179,7 @@ class PayrollController extends BaseController
         $from = $this->input->get('from');
         $to   = $this->input->get('to');
         recursiveRemoveDirectory('excel_files');
-        $slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getAllPayslips();
+        $slip = $this->payslipsGroupRepository->getPayslipById($id, $from, $to)->getPayslipsByDepartments();
         $company = $this->company;
         $data    = [
             'payslips'     => $slip,
