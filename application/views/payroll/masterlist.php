@@ -160,7 +160,7 @@
         </table>
         <br>
         <br>  
-      <?php $total_it += $total_per_dep;
+      <?php $total_it += $total_per_dep; ?>
     <?php endforeach;  ?>
     <br>
     <br>
