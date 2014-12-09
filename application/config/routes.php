@@ -180,7 +180,7 @@ Pigeon::map(function ($r) {
     $r->get('media', 'ImageController');
 
     $r->get('employees', 'EmployeeController#index');
-    $r->get('employees/add ', 'EmployeeController#add');
+    $r->get('employees/add', 'EmployeeController#add');
     $r->get('employees/search', 'EmployeeController#search');
     $r->post('employees/add', 'EmployeeController#save');
     $r->get('employees/edit', 'EmployeeController#edit');
@@ -258,6 +258,8 @@ Pigeon::map(function ($r) {
     $r->get('my-payslip', 'PayrollController#myPaySlips');
 
     $r->get('api/employees', 'EmployeeController#apiAll');
+
+    $r->get('api/department', 'DepartmentController#apiAll');
 
     // $r->post('posts', 'Posts#create' );
     // $r->put('posts/(:num)', array( 'Posts', 'update' ));

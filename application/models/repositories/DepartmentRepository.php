@@ -10,13 +10,16 @@ class DepartmentRepository extends BaseRepository {
 
 	public function createNotExist(array $input)
 	{
-		try{
+		try {
 			$count = $this->where('department_name','=',$input['department_name'])->count();
 			// $this->create($input);
 
-			if($count>0){
+			if($count>0)
+			{
 				return false;
-			}else{
+			}
+			else
+			{
 				$this->create($input);
 
 				return true;
