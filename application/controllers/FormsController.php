@@ -77,6 +77,10 @@ class FormsController extends BaseController
         $data['company'] = $this->company;
         $data['title']   = $title;
         $data['user']    = $user;
+        // dd($)
+        // $data['forms']   = Form_Application::where('provided_by', $user->employee->id)->get();
+        // dd($data['forms']);
+        // dd($data);
         $this->render('forms/employee_form.twig.html', $data);
     }
     public function edit()
