@@ -8,7 +8,9 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 	switch ($payroll_period) {
 		case 'Monthly':
 			$amount = $basic_salary * 12;
-			$daily = $amount / 260;
+			// $daily = $amount / 260;
+			// 
+			$daily = $basic_salary/30;
 			$amount = $daily / 8;
 
 			if($per_unit == 'Monthly')
@@ -43,7 +45,8 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 		case 'Semi-monthly':
 
 			$amount = $basic_salary * 24;
-			$daily = $amount / 260;
+			// $daily = $amount / 260;
+			$daily = $basic_salary/15;
 			$amount = $daily / 8;
 			if($per_unit == 'Monthly'){
 				return $basic_salary * 2;
