@@ -305,13 +305,13 @@ class PayslipsRepository extends BaseRepository
                         $er    = 200;
                         $total = $ee + $er;
                         $pdf->SetXY(7, 69+(4 * $i));
-                        $data = $tin .
-                            $birth .
-                            $fname .
-                            $mname . 
-                            $lname . 
-                            $ee . 
-                            $er . 
+                        $data = $tin . '                           ' .
+                            $birth . '                   ' .
+                            $lname . '                          ' .
+                            $fname . '                      ' .
+                            $mname . '               ' .
+                            $ee . '                       ' .
+                            $er . '                        ' .
                             $total;
                         $pdf->Write(0, $data);
 
@@ -345,7 +345,7 @@ class PayslipsRepository extends BaseRepository
 
                 // use the imported page
                 // fill first page
-                if ($templateId == 1) {
+                if ($templateId == 2) {
 
                     $pdf->useTemplate($templateId);
                     $pdf->SetFont('Helvetica');
@@ -456,8 +456,14 @@ class PayslipsRepository extends BaseRepository
                         $er    = 200;
                         $total = $ee + $er;
                         $pdf->SetXY(15, 69+(4 * $i));
-                        $data = '                                                  ' . $lname . '         ' . $fname . '       ' . $mname;
-
+                        $data = $tin . '                           ' .
+                            $birth . '                   ' .
+                            $lname . '                          ' .
+                            $fname . '                      ' .
+                            $mname . '               ' .
+                            $ee . '                       ' .
+                            $er . '                        ' .
+                            $total;
                         $pdf->CellFitSpaceForce(40, 0, $sss, 2, 1, 1);
                         $pdf->Write(0, $data);
                         $pdf->SetXY(133.5, 69+(4 * $i));

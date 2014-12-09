@@ -160,6 +160,8 @@ class EmployeeRepository extends BaseRepository
         $branch_id      = $data['branch_id'];
         $date_hired     = $data['date_hire'];
         $basic_pay      = $data['basic_pay'];
+        $timeshift_start = $data['timeshift_start'];
+        $timeshift_end = $data['timeshift_end'];
 
         // Government Details
         $tin_number     = $data['tin_number'];
@@ -271,9 +273,13 @@ class EmployeeRepository extends BaseRepository
                 'profile_picture' => $filename,
                 'email'           => (string) $email_address,
                 'fb'              => (string) $fb,
-                
+                'timeshift_start' => date('H:i:s', strtotime($timeshift_start)),
+                'timeshift_end'   => date('H:i:s', strtotime($timeshift_end))                
 
             ); 
+
+        // var_dump($save_data);
+        // die();
         
         $existing = $this->where('first_name', $save_data['first_name'])
                             ->where('last_name', $save_data['last_name'])
