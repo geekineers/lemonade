@@ -58,8 +58,8 @@ class FormsController extends BaseController
     public function viewPrint($id)
     {
         $form = $this->input->get('type');
-        var_dump($form);
-        die();
+        // var_dump($form);
+        // die();
         // $this->formRepository->viewForm($form, $id);
         $forms = $this->formApplicationRepository->getFormAppId($id);
         // var_dump($forms);

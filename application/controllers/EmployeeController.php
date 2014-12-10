@@ -42,9 +42,9 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->departmentRepository         = new DepartmentRepository();
         $this->deductionRepository          = new DeductionRepository();
         $this->allowanceRepository          = new AllowanceRepository();
-        $this->employeeTypeRepository          = new EmployeeTypeRepository();
+        $this->employeeTypeRepository       = new EmployeeTypeRepository();
         $this->documentRepository           = new DocumentRepository();
-        $this->historyRepository           = new HistoryRepository();
+        $this->historyRepository            = new HistoryRepository();
         $this->basicPayAdjustmentRepository = new BasicPayAdjustmentRepository();
         $this->load->library('session');
     }
@@ -248,7 +248,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->documentRepository->delete($this->input->get());
         
           $this->session->set_flashdata('alert', true);
-        redirect('/employees/' . $this->input->get('eid') . '/profile', 'location');
+        redirect('/employees/' . $this->input->get('employee_id') . '/profile', 'location');
 
     }
 
@@ -316,7 +316,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $id = $this->input->get('token');
         $this->employeeRepository->deleteEmployee($id);
 
-               $this->session->set_flashdata('message', 'Successfully deleted!');
+        $this->session->set_flashdata('message', 'Successfully deleted!');
         redirect('/employees');
     }
 

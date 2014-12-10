@@ -18,7 +18,7 @@
   </style> 
 </head>
 <body>
-  <h2 style="text-align: center">LEAVE FORM</h2>
+  <h2 style="text-align: center">Overtime FORM</h2>
   <!-- upper part -->
   <table width="100%">
      <tbody> 
