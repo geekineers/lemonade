@@ -333,16 +333,6 @@ img {
   {% endblock %}
 
   <div class="tab-pane" id="profile-tabs-history">
-					{% if employee.getDocuments()|length <= 0  %}
-							<div class="">
-								
-								<center>
-								<p><i>
-									<i class="fa fa-info-circle"></i> No Files Yet.
-								</i></p>		
-								</center>
-							</div>
-					{% endif %}
 	
     <div class="container-fluid" >
         <div class="container container-pad" id="property-listings">
@@ -447,6 +437,9 @@ img {
                     ).replace(
                         /^(Updated|Update)/i,
                         '<span style="font-weight: normal;">Updated</span>'
+                    ).replace(
+                        /^(from)/i,
+                        '<span style="font-weight: normal;">from</span>'
                     ).replace(
                         /^(to)/i,
                         '<span style="font-weight: normal;">to</span>'
