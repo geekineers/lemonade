@@ -18,7 +18,7 @@
   </ul>   
   </div>
 	{% if alert_message != null %}
-	<div class="col-md-7 alert alert-success alert-dismissable">
+	<div class="col-md-12 alert alert-success alert-dismissable">
                                         <i class="fa fa-check"></i>
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                         <b>Success!</b> {{ alert_message }}.
@@ -29,7 +29,7 @@
 	<thead>
       <tr>
     <th>Name</th>
-    <th>Created By</th>
+    <th>Frequency</th>
     <th>Option</th>
   </tr>
   </thead>
@@ -37,7 +37,7 @@
 	 {% for allowance in allowances %}
 	 	<tr>
 	 		<td>{{ allowance.allowance_name }}</td>
-	 		<td>{{ allowance.getCreator() }}</td>
+	 		<td>{{ allowance.getFrequency() }}</td>
 	 		<td>
 	 			<a href="#updateAllowance" data-id="{{ allowance.id }}" data-name="{{ allowance.allowance_name }}" class="btn btn-update-allowance btn-primary"><i class="fa fa-edit"></i></a>
 	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
@@ -64,7 +64,7 @@
       </div>
       <div class="form-group">
         <label for="">Frequency</label>
-        <select name="" id="">
+        <select name="frequency" id="" class="form-control">
           <option value="once">Once Every Payroll</option>
           <option value="daily">Daily</option>
         </select>

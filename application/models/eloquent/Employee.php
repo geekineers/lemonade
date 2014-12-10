@@ -244,6 +244,7 @@ class Employee extends BaseModel
         return 'none';
     }
 
+
     public function getDependents()
     {
         return $this->dependents;

@@ -29,7 +29,8 @@ class Payslips extends Eloquent
         'gross',
         'company_id',
         'withholding_tax',
-        'sss_employer'
+        'sss_employer',
+        'department_id'
     ];
 
     public function getPayslipsGroup()
@@ -111,5 +112,15 @@ class Payslips extends Eloquent
         }
 
     }
+
+    public function getDepartment()
+    {
+        $department = Department::find($this->department_id);
+        if ($department) {
+            return $department->department_name;
+        }
+        return 'none';
+    }
+
 
 }

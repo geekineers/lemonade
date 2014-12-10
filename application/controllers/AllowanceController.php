@@ -80,6 +80,8 @@ class AllowanceController extends BaseController
 
     }
 
+    
+
     public function delete()
     {
         $id = $this->input->get('id');
