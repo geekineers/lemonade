@@ -1,0 +1,19 @@
+         #!/bin/bash
+        user="root"
+        password="root"
+        myvariable=$(echo "SELECT id from residents limit 100000, 100000" | mysql galactus_dev -u $user -p$password)
+
+        for i in $myvariable
+        do
+
+                if [ "$i" = "id" ]; then
+                        echo "SKipping"
+
+                else
+                        id=$myvariable[{$i}]
+                        curl http://127.0.0.1/api/v1/residents/$id >> backup_100k_200k.bulk
+                        echo "," >> backup_100k_200k.bulk
+                       echo  "$i/${#myvariable[@]}"
+
+                fi
+        done

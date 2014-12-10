@@ -34,4 +34,29 @@ class Allowance extends BaseModel
         return 'Once Every Payroll';
     }
 
+
+    public function getName($from = null, $to = null) 
+    {
+   
+    // dd($this->frequency);
+        if($this->frequency == "daily" && $from != null){
+            return $this->allowance_name . "X" . $this->getEmployee()->getInAttendance($from, $to);
+        }
+        return $this->allowance_name;
+    }
+
+    public function getAmount($number_format = true, $from = null, $to=null) {
+    
+   
+
+        if($this->frequency == "daily") {
+                $amount = $this->amount * $this->getEmployee()->getInAttendance($from, $to);
+                if ($number_format) { return number_format( $amount, 2); }
+        }
+
+        if ($number_format) { return number_format($this->amount, 2); }
+
+        return $this->amount;
+    }
+
 }

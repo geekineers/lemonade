@@ -115,7 +115,8 @@ class EmployeeRepository extends BaseRepository
                 continue;
             }
 
-            $statement = "Updated " . $first->{$field} . " to " . $post[$field];
+            $statement = "Updated " . $field . " from " . $first->{$field} . " to " . $post[$field];
+
             History::create(array(
                 'action' => $statement,
                 'employee_id' => $first->id,
