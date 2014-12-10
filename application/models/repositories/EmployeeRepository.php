@@ -109,13 +109,26 @@ class EmployeeRepository extends BaseRepository
         // dd($post);
 
         $employee = $this->where('id', '=', $employee_id);
+        $first = $employee->first();
+        foreach($post as $field => $value) {
+            if ( strcmp($post[$field], $first->{$field}) == 0 || strcmp($field, 'full_name') == 0 ) {
+                continue;
+            }
+
+            $statement = "Updated " . $first->{$field} . " to " . $post[$field];
+            History::create(array(
+                'action' => $statement,
+                'employee_id' => $first->id,
+                'company_id' => $first->company_id
+            ));
+        }
         $employee_data = $employee->first()->toArray();
         $employee_type_changed = $this->checkEmployeeTypeChanged($employee_data, $post);
 
         $update = $employee->update($post);
         
         if($update){
-            
+                        
         }
 
         
@@ -294,6 +307,12 @@ class EmployeeRepository extends BaseRepository
             $save->employee_number = createEmployeeID($save->id);
 
             $save->save();
+
+            History::create(array(
+                'company_id' => COMPANY_ID,
+                'employee_id' => $save->id,
+                'action' => 'Hired to the company'
+            ));
         }
         else{
             return 'duplicate_error';
