@@ -10,49 +10,49 @@
     {% endif %}
 </div>
 
-<table id="forms" class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Request Form Type</th>
-            <th>Employee's Name</th>
-            <th>Prepared By</th>
-            <th>Status</th>
-            <th>Option</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for form in forms %}
-        <tr action="/">
-            <td>{{ form.created_at|date("m/d/Y")  }}</td>
-            <td>
-                {{ form.form_type }}
-            </td>
-            <td>{{ form.getEmployeeNames() }}</td>
-            <td>{{ form.getPreparedBy() }}</td>
-            <td class="status">
-            {% if form.status == 'not-yet-approved' %}
-                <button class="btn btn-warning btn-flat" >not yet approved</button>
-            {% elseif( form.status == 'approved') %}
-                <button class="btn btn-success btn-flat" >approved</button>
-            {% elseif( form.status == 'disapproved') %}
-                 <button class="btn btn-danger btn-flat" >disapproved</button>
-            {% endif %}
+    <table id="forms" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Request Form Type</th>
+                <th>Employee's Name</th>
+                <th>Prepared By</th>
+                <th>Status</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in forms %}
+            <tr action="/">
+                <td>{{ form.created_at|date("m/d/Y")  }}</td>
+                <td>
+                    {{ form.form_type }}
+                </td>
+                <td>{{ form.getEmployeeNames() }}</td>
+                <td>{{ form.getPreparedBy() }}</td>
+                <td class="status">
+                {% if form.status == 'not-yet-approved' %}
+                    <button class="btn btn-warning btn-flat" >not yet approved</button>
+                {% elseif( form.status == 'approved') %}
+                    <button class="btn btn-success btn-flat" >approved</button>
+                {% elseif( form.status == 'disapproved') %}
+                     <button class="btn btn-danger btn-flat" >disapproved</button>
+                {% endif %}
 
-            </td>
-         
-            <td>
-                <button data-id="{{ form.id }}" class="btn btn-default approved"><i class="fa fa-check-square-o"></i></a>
-                </button>
-                <a href="/forms/view/{{ form.id }}?type={{ form.form_type }}" class="btn btn-info" target="_blank">
-                    <i class="fa fa-print"></i>
-                </a>
-                <button data-id="{{ form.id }}" class="btn btn-danger delete"><i class="fa  fa-trash-o"></i></button>
-                <!-- <a href="/hr/delete?id={{ form.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a> -->
-            </td>
+                </td>
+             
+                <td>
+                    <button data-id="{{ form.id }}" class="btn btn-default approved"><i class="fa fa-check-square-o"></i></a>
+                    </button>
+                    <a href="/forms/view/{{ form.id }}?type={{ form.form_type }}" class="btn btn-info" target="_blank">
+                        <i class="fa fa-print"></i>
+                    </a>
+                    <button data-id="{{ form.id }}" class="btn btn-danger delete"><i class="fa  fa-trash-o"></i></button>
+                    <!-- <a href="/hr/delete?id={{ form.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a> -->
+                </td>
 
-        </tr>
-        {% endfor %}
+            </tr>
+            {% endfor %}
     </tbody>
 </table>
 

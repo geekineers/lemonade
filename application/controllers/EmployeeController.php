@@ -211,7 +211,14 @@ use Upload\Storage\FileSystem as FileSystem;
         // dd($data['payroll_groups']);
         $data['departments']     = $this->departmentRepository->all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
-        $data['histories']        = $this->historyRepository->getByEmployee($id);
+        $data['histories']        = $this->historyRepository->getByEmployee($id)->groupBy(function($value) { return date('Y-m-d', strtotime($value->created_at)); })->reverse();
+        // foreach($data['histories'] as $group) {
+        //     foreach($group as $history => $event) {
+        //         echo $event->created_at;
+        //     }
+        // }
+
+        // die();
         // dd($data['histories']);
         // dd($data['employee']->getAllRoles());
         $data['deduction_types'] = $this->deductionRepository->all();

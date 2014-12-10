@@ -1,5 +1,40 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
+    <table id="forms" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Request Form Type</th>
+                <th>Status</th>
+                <th colspan="1"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in forms %}
+            <tr action="/">
+                <td>{{ form.created_at|date("m/d/Y")  }}</td>
+                <td>
+                    {{ form.form_type|capitalize }}
+                </td>
+                <td class="status">
+                {% if form.status == 'not-yet-approved' %}
+                    <div class="btn btn-warning btn-flat" >Not yet approved</div>
+                {% elseif( form.status == 'approved') %}
+                    <div class="btn btn-success btn-flat" >Approved</div>
+                {% elseif( form.status == 'disapproved') %}
+                     <div class="btn btn-danger btn-flat" >Disapproved</div>
+                {% endif %}
+                </td>
+                <td>
+                    <a href="/forms/view/{{ form.id }}?type=leave" class="btn btn-primary">
+                        <i class="fa fa-folder-open"></i>
+                    </a>
+                </td>
+
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
 <div class="col-md-12">
     <div class="box box-primary rfd">
         <div class="box-header">
@@ -9,6 +44,8 @@
               
             </div>
         </div><!-- /.box-header -->
+
+
         <div class="box-body">    
                 <form action="/settings/forms " method="post">
                         
