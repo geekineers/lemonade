@@ -28,7 +28,7 @@ class AllowanceController extends BaseController
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
-        $data['title']      = "Allowances";
+        $data['title']      = "Benefits";
         $data['allowances'] = $this->allowanceRepository->all();
         $this->render('allowance/index.twig.html', $data);
 
@@ -80,7 +80,7 @@ class AllowanceController extends BaseController
 
     }
 
-    
+
 
     public function delete()
     {
