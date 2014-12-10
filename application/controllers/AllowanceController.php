@@ -70,7 +70,7 @@ class AllowanceController extends BaseController
             $post['valid_to'] = date('Y-m-d', strtotime('01-01-2032'));
         }
 
-        dd($post);
+        // dd($post);
 
         // dd($post);
 

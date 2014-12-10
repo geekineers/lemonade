@@ -21,13 +21,37 @@ class EmployeeAllowance extends Eloquent {
 		'valid_to'
 	];
 
-	public function getName() {
-		return Allowance::find($this->allowance_id)->allowance_name;
+
+	public function getEmployee()
+	{
+		return Employee::find($this->employee_id);
 	}
 
-	public function getAmount($number_format = true) {
-		if ($number_format) {return number_format($this->amount, 2);
+	public function getName($from = null, $to = null) 
+	{
+		$allowance = Allowance::find($this->allowance_id);
+		$name =  $allowance->allowance_name;
+		$allowance_type = $allowance->frequency;
+
+		if($allowance_type == "daily" && $from != null){
+			return $name . " x " . $this->getEmployee()->getInAttendance($from, $to);
 		}
+
+		return $name;
+	}
+
+	public function getAmount($number_format = true, $from = null, $to=null) {
+	
+		$allowance = Allowance::find($this->allowance_id);
+		$allowance_type = $allowance->frequency;
+
+		if($allowance_type == "daily") {
+				$amount = $this->amount * $this->getEmployee()->getInAttendance($from, $to);
+				if ($number_format) { return number_format( $amount, 2); }
+				return $amount;
+		}
+
+		if ($number_format) { return number_format($this->amount, 2); }
 
 		return $this->amount;
 	}

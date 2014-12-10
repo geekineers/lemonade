@@ -165,12 +165,10 @@ $to = $payslip->getPayslipsGroup()->to;
 																								                      </tr>
 	<?php }?>
 <?php foreach ($employee->getAllowances() as $allowance) {?>
-																								                                                <tr>
-																								                                                  <td style="text-align: right;"><?php echo $allowance->getName();
-	?></td>
-																								                                                  <td style="text-align: right;"><?php echo $allowance->getAmount(true);
-	?></td>
-																								                                                </tr>
+      <tr>
+        <td style="text-align: right;"><?php echo $allowance->getName($from, $to); ?></td>
+        <td style="text-align: right;"><?php echo $allowance->getAmount(true, $from, $to); ?></td>
+      </tr>
 
 
 	<?php }?>
