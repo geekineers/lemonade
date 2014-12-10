@@ -267,7 +267,7 @@ class Employee extends BaseModel
     }
     public function getSSSValue()
     {
-        if ($this->deduct_sss == null) {
+        if ($this->deduct_sss == 1 || $this->deduct_sss == null) {
             $pay = $this->getBasicPay(false);
 
             $first = SSSConfigs::first();
@@ -293,12 +293,12 @@ class Employee extends BaseModel
                 return (int) $this->fixed_sss_amount;
             }
         }
-        return (int) $this->fixed_sss_amount;
+        return (int) 0;
     }
 
     public function getSSSEmployerValue()
     {
-        if ($this->deduct_sss == null) {
+        if ($this->deduct_sss == 1 || $this->deduct_sss == null) {
             $pay = $this->getBasicPay(false);
 
             $first = SSSConfigs::first();
@@ -324,7 +324,7 @@ class Employee extends BaseModel
                 return (int) $this->fixed_sss_amount;
             }
         }
-        return (int) $this->fixed_sss_amount;
+        return (int) 0;
     }
 
     public function getPhilhealthNumber()
@@ -334,7 +334,7 @@ class Employee extends BaseModel
 
     public function getPhilhealthValue()
     {
-        if ($this->deduct_sss == null) {
+        if ($this->deduct_philhealth == 1 || $this->deduct_philhealth == null) {
 
             $pay = $this->getBasicPay(false);
 
@@ -360,13 +360,13 @@ class Employee extends BaseModel
                 return (int) $this->fixed_philhealth_amount;
             }
         }
-        return (int) $this->fixed_philhealth_amount;
+        return (int) 0;
 
     }
 
     public function getHDMFValue()
     {
-        $hdmf = $this->deduct_hdmf == null ? 100 : 0;
+        $hdmf = ($this->deduct_hdmf == null || $this->deduct_hdmf == 1)? 100 : 0;
 
         $hdmf = ((int) $this->fixed_hdmf_amount > 0) ? (int) $this->fixed_hdmf_amount : $hdmf;
 
