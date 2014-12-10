@@ -92,7 +92,7 @@ $query_builder = true;
 $db_host     = '127.0.0.1';
 $db_name     = 'lemonade_dev';
 $db_username = 'root';
-$db_password = 'root';
+$db_password = '123';
 
 // Setup the default config
 $db['default'] = array(

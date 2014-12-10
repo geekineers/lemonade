@@ -58,7 +58,10 @@ class FormsController extends BaseController
     public function viewPrint($id)
     {
         $form = $this->input->get('type');
-        $this->formRepository->viewForm($form, $id);
+        // $this->formRepository->viewForm($form, $id);
+        $html = $this->load->view('forms/masterlist', $form, true);
+        $pdf = pdfCreate($html, '', false, true);
+        echo $pdf;
     }
     public function employeeApply()
     {
@@ -77,10 +80,8 @@ class FormsController extends BaseController
         $data['company'] = $this->company;
         $data['title']   = $title;
         $data['user']    = $user;
-        // dd($)
-        // $data['forms']   = Form_Application::where('provided_by', $user->employee->id)->get();
+        $data['forms']   = Form_Application::where('prepared_by', $user->id)->get();
         // dd($data['forms']);
-        // dd($data);
         $this->render('forms/employee_form.twig.html', $data);
     }
     public function edit()
@@ -165,5 +166,4 @@ class FormsController extends BaseController
         }
 
     }
-
 }

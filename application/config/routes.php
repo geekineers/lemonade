@@ -13,6 +13,7 @@ Pigeon::map(function ($r) {
     $r->route('404_override', 'Welcome#error404');
 
     $r->route('create-admin-lemonade', 'AuthController#createAdmin');
+    $r->get('test', 'BranchController#test');
     $r->get('auth', 'AuthController#index');
     $r->post('auth', 'AuthController#login');
     $r->get('register', 'AuthController#register');

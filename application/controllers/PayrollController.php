@@ -9,7 +9,7 @@ class PayrollController extends BaseController
     protected $branchesRepository, $payslipsGroupRepository, $payslipsRepository, $employeeRepository, $payrollGroupRepository;
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct ();
         $this->mustBeLoggedIn();
         $this->branchesRepository      = new BranchRepository();
         $this->payslipsRepository      = new PayslipsRepository();
@@ -60,10 +60,6 @@ class PayrollController extends BaseController
             'date'         => date('Y-m-d', strtotime($this->payslipsGroupRepository->getPayslipById($id, $from, $to)->created_at))
         ];
         $html = $this->load->view('payroll/masterlist', $data, true);
-        // dd($html);
-        // $html = "dsadas";
-        // dd($html);
-        // echo $html;
         $pdf = pdfCreate($html, '', false, true);
         echo $pdf;
     }
