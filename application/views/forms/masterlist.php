@@ -4,6 +4,10 @@
   <title>Master List</title> 
   <style type="text/css">
     @media print{@page {size: landscape}}
+    body {
+      font-family: 'Arial';
+      font-size: 19px;
+    }
     .border {
       border: 1px solid black;
       margin: 0;
@@ -19,13 +23,13 @@
   <table width="100%">
      <tbody> 
       <tr>
-        <td colspan="1">Name:</td>
-        <td colspan="1">Date Prepared:</td>
+        <td colspan="1">Name: <span style="text-decoration: underline"><?php echo $forms->getEmployeeNames(); ?></span></td>
+        <td colspan="1">Date Prepared: <span style="text-decoration: underline"><?php echo $forms->created_at ?></span></td>
       </tr>
 
       <tr>
-        <td colspan="1">Department:</td>
-        <td colspan="1">Position:</td>
+        <td colspan="1">Department: <span style="text-decoration: underline"><?php echo $forms->getDepartment(); ?></span></td>
+        <td colspan="1">Position: <span style="text-decoration: underline"><?php echo $forms->getEmployee()->getJobPosition(); ?></span></td>
       </tr>
     </tbody> 
   </table>
@@ -35,38 +39,38 @@
     <tbody>
       <tr>
         <td colspan="3" class="background border">Start Date:</td>
-        <td colspan="1" class="border">dummy data</td>
+        <td colspan="1" class="border">&nbsp;</td>
         <td colspan="1" class="background border">End Date:</td>
-        <td colspan="1" class="border">dummy data</td>
+        <td colspan="1" class="border">&nbsp;</td>
         <td colspan="1" class="background border">No. of Day:</td>
-        <td colspan="1" class="border">dummy data</td>     
+        <td colspan="1" class="border">&nbsp;</td>     
       </tr>
       
       <tr>
         <td colspan="3" class="background border">Reason:</td>
-        <td colspan="7" class="border">lorem dummy exasdas</td>
+        <td colspan="7" class="border">&nbsp;</td>
       </tr>
       
       <tr>
-        <td colspan="10" class="background border">Type of Leave</td>
+        <td colspan="10" class="background border"><span style="margin-left: 400px">Type of Leave</span></td>
       </tr>
       
       <tr>
         <td colspan="3" class="background border">Vacation Leave:</td>
-        <td colspan="1" class="border">dummy answer</td>
+        <td colspan="1" class="border">&nbsp;</td>
         <td colspan="1" class="background border">Sick Leave:</td>
-        <td colspan="1" class="border">dummy answer</td>
+        <td colspan="1" class="border">&nbsp;</td>
         <td colspan="1" class="background border">Absent:</td>
-        <td colspan="1" class="border">dummy answer</td>
+        <td colspan="1" class="border">&nbsp;</td>
       </tr>
       
       <tr>
-        <td colspan="10" class="background border">Remaining Credits (to be filled up by HR)</td>
+        <td colspan="10" class="background border"><span style="margin-left: 400px">Remaining Credits <span style="font-style: italic">(to be filled up by HR)</span></span></td>
       </tr>
       
       <tr>
-        <td colspan="4" class="border">dummy</td>
-        <td colspan="6" class="border">dummy</td>
+        <td colspan="4" class="border">&nbsp;</td>
+        <td colspan="6" class="border">&nbsp;</td>
       </tr>
 
     </tbody>
@@ -79,18 +83,18 @@
   <table width="100%">
      <tbody> 
       <tr>
-        <td colspan="4">Requested by:</td>
-        <td colspan="6">Date:</td>
+        <td colspan="4">Requested by:<span style="margin-left: 150px; display: block; width: 150px; border: 1px solid black"></span></td>
+        <td colspan="6">Date:<span style="margin-left: 50px; display: block; width: 150px; border: 1px solid black"></span></td>
       </tr>
 
       <tr>
-        <td colspan="4">Checked by:</td>
-        <td colspan="6">Date:</td>
+        <td colspan="4">Checked by:<span style="margin-left: 150px; display: block; width: 150px; border: 1px solid black"></span></td>
+        <td colspan="6">Date:<span style="margin-left: 50px; display: block; width: 150px; border: 1px solid black"></span></td>
       </tr>
 
       <tr>
-        <td colspan="4">Approved by:</td>
-        <td colspan="6">Date:</td>
+        <td colspan="4">Approved by:<span style="margin-left: 150px; display: block; width: 150px; border: 1px solid black"></span></td>
+        <td colspan="6">Date:<span style="margin-left: 50px; display: block; width: 150px; border: 1px solid black"></span></td>
       </tr>
     </tbody> 
   </table>
