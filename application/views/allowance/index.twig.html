@@ -39,7 +39,7 @@
 	 		<td>{{ allowance.allowance_name }}</td>
 	 		<td>{{ allowance.getFrequency() }}</td>
 	 		<td>
-	 			<a href="#updateAllowance" data-id="{{ allowance.id }}" data-name="{{ allowance.allowance_name }}" class="btn btn-update-allowance btn-primary"><i class="fa fa-edit"></i></a>
+	 			<a href="#updateAllowance" data-id="{{ allowance.id }}" data-name="{{ allowance.allowance_name }}" data-frequency="{{ allowance.frequency }}" class="btn btn-update-allowance btn-primary"><i class="fa fa-edit"></i></a>
 	 			<a onclick="return confirm('Are you sure?')" href="/settings/allowances/delete?id={{ allowance.id }}" class="allowance_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
 	 		</td>
 	 	</tr>
@@ -95,7 +95,14 @@
         <label>Name</label>
         <input type="text" id="update-allowance-name" name="allowance_name" class="form-control" placeholder="eg. Transportation" />
       </div>
-  
+      <div class="form-group">
+        <label for="">Frequency</label>
+        <select name="frequency" id="update-allowance-frequency" class="form-control">
+          <option value="once">Once Every Payroll</option>
+          <option value="daily">Daily</option>
+        </select>
+      </div>
+
     
       </div>
       <div class="modal-footer">
@@ -125,8 +132,10 @@
       $('.btn-update-allowance').on('click', function(){
         var id = $(this).data('id');
         var name = $(this).data('name');
+        var frequency = $(this).data('frequency');
 
         $('#update-allowance-name').val(name);
+        $('#update-allowance-frequency').val(frequency);
         $('#update-allowance-id').val(id);
 
         $('#updateAllowance').modal('show');

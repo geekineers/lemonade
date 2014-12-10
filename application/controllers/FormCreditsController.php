@@ -34,7 +34,7 @@ class FormCreditsController extends BaseController
     public function update()
     {
         $data = $this->input->post();
-        $employee_id =  $this->inpupt->post('employee_id');
+        $employee_id =  $this->input->post('employee_id');
         return $this->employeeFormCreditsRepository->updateCreditsForEmployee($employee_id,$data);
     }
 }

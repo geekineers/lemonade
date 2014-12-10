@@ -1,6 +1,43 @@
 	{% block styles %}
   <style type="text/css">
 
+.ker-sapat-n {
+    position: relative;
+    display: inline-block;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+/*.ker-sapat-n::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: -20px;
+    top: 7px;
+    width: 15px;
+    height: 1px;
+    background: gray;
+}*/
+.ker-sapat-n::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: -215px;
+    top: 7px;
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, gray, white);
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label:hover {
+    background: #EED417;
+    transition: 0.5s all;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label * {
+    font-weight: bold;
+}
+
 img {
     vertical-align: middle;
 }
@@ -296,16 +333,6 @@ img {
   {% endblock %}
 
   <div class="tab-pane" id="profile-tabs-history">
-					{% if employee.getDocuments()|length <= 0  %}
-							<div class="">
-								
-								<center>
-								<p><i>
-									<i class="fa fa-info-circle"></i> No Files Yet.
-								</i></p>		
-								</center>
-							</div>
-					{% endif %}
 	
     <div class="container-fluid" >
         <div class="container container-pad" id="property-listings">
@@ -317,43 +344,26 @@ img {
             <div class="row">
                     
               <div class="timeline-centered">
-                   <article class="timeline-entry">
+              {% for history, group in histories %}
+                <h5 style="margin-left: 75px; text-transform: uppercase;" class="ker-sapat-n"> {% if date() == date(history) %} Today {% else %} {{ history | date("M d, Y") }} {% endif %} </h5>
+                {% for h, event in group|reverse %}
+                    <article class="timeline-entry">
 
-                    <div class="timeline-entry-inner">
+                        <div class="timeline-entry-inner">
 
-                        <div class="timeline-icon bg-default">
-                            <i class="entypo-feather"></i>
+                            <div class="timeline-icon bg-default">
+                                <i class="entypo-feather"></i>
+                            </div>
+
+                            <div class="timeline-label">
+                                <h2>{{ event.action }}</h2>
+                               
+
+                            </div>
                         </div>
 
-                        <div class="timeline-label">
-                            <h2>
-                            <a href="#">
-                         Date Hired
-
-                            </a> 
-                            <span>{{ employee.getDateHired() }}</span></h2>
-                           
-                        </div>
-                    </div>
-
-                </article>
-              {% for history in histories %}
-                <article class="timeline-entry">
-
-                    <div class="timeline-entry-inner">
-
-                        <div class="timeline-icon bg-default">
-                            <i class="entypo-feather"></i>
-                        </div>
-
-                        <div class="timeline-label">
-                            <h2><a href="#">{{ history.getAction() }}</a> <span>{{ history.getDate() }}</span></h2>
-                           
-
-                        </div>
-                    </div>
-
-                </article>
+                    </article>
+                {% endfor %}
               {% endfor %}
           
 
@@ -409,3 +419,34 @@ img {
 </form>
 
 
+
+<script>
+    var tl = $('.timeline-label');
+    tl.map(function() {
+        var _this = $(this);
+        _this.html(
+            '<h2>' +
+            _this.html()
+            .split(' ')
+            .map(function(word) {
+                console.log(word);
+                return word
+                    .replace(
+                        /(<(\/)?(\w+)>)/ig,
+                        '' 
+                    ).replace(
+                        /^(Updated|Update)/i,
+                        '<span style="font-weight: normal;">Updated</span>'
+                    ).replace(
+                        /^(from)/i,
+                        '<span style="font-weight: normal;">from</span>'
+                    ).replace(
+                        /^(to)/i,
+                        '<span style="font-weight: normal;">to</span>'
+                    );
+            })
+            .join(' ')
+            + '</h2>'
+        );
+    });
+</script>

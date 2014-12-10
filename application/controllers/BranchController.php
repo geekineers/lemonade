@@ -110,5 +110,5 @@ class BranchController extends BaseController
 
         $this->session->set_flashdata('message', 'Succesfully Restored!');
             redirect('settings/branches/trash','location');
-    }
+    } 
 }
