@@ -57,6 +57,7 @@ class Employee extends BaseModel
         'employee_number'
 
     ];
+
     public function department()
     {
         return $this->belongsTo('Department', 'id', 'department');
@@ -888,11 +889,8 @@ class Employee extends BaseModel
         $basic_pay      = $this->getBasicSalary($number_format);
         $payroll_period = $this->getPayrollPeriod()->period;
 
-
-        // dd($basic_pay);
-
-        // return $basic_pay;
         if ($number_format) {return number_format(getRate($basic_pay, $payroll_period, 'Monthly'), 2);
+        return $basic_pay;
         }
 
         return getRate($basic_pay, $payroll_period, 'Monthly');
@@ -1215,12 +1213,9 @@ class Employee extends BaseModel
         $curr_salary = ($basic_pay + $overtime + $regular_holiday + $special_holiday + $night_differential)-($sss_val + $philhealth_val + $pagibig_val + $absents + $late);
 
         if ($this->withholding_tax_type == "Expanded") {
-            // dd('here');
             $wtax = $this->getExpandedWithholdingTax(true) * $curr_salary;
-            // dd($wtax);
         } else {
             $wtax = $this->getTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
-
         }
 
         if ($number_format) {
@@ -1232,6 +1227,7 @@ class Employee extends BaseModel
 
     public function getTax($pay, $period, $dependents)
     {
+        // dd($period);
         $WTConfigs = WTConfigs::get();
 
         $first = WTConfigs::first();
@@ -1242,7 +1238,7 @@ class Employee extends BaseModel
         } else if ($pay > $last->to_range) {
             $wtax = $last;
         } else {
-            $wtax = WTConfigs::where('period', '=', $period)
+            $wtax = WTConfigs::where('period', '=', strtolower($period))
                 ->where('dependents', '=', $dependents)
                 ->where('to_range', '>=', $pay)    ->where('from_range', '<=', $pay)    ->first();
         }
