@@ -17,7 +17,7 @@ class FormsController extends BaseController
 
         $this->formRepository            = new FormRepository();
         $this->employeeRepository        = new EmployeeRepository();
-        $this->leaveTypeRepository = new LeaveTypeRepository();
+        $this->leaveTypeRepository       = new LeaveTypeRepository();
         $this->formApplicationRepository = new FormApplicationRepository();
     }
 
@@ -59,7 +59,10 @@ class FormsController extends BaseController
     {
         $form = $this->input->get('type');
         // $this->formRepository->viewForm($form, $id);
-        $html = $this->load->view('forms/masterlist', $form, true);
+        $forms = $this->formApplicationRepository->getFormAppId($id);
+        // var_dump($forms);
+        // die();
+        $html = $this->load->view('forms/masterlist', compact('forms'), true);
         $pdf = pdfCreate($html, '', false, true);
         echo $pdf;
     }
