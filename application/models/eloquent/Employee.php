@@ -443,7 +443,7 @@ class Employee extends BaseModel
         $total      = 0;
 
         foreach ($allowances as $allowance) {
-            $total += $allowance->amount;
+            $total += $allowance->getAmount(false, $from, $to);
         }
 
         if ($number_format) {

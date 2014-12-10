@@ -98,6 +98,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['groups']         = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions']  = $this->jobPositionRepository->all();
         $data['departments']    = $this->departmentRepository->all();
+        $data['employee_types']    = $this->employeeTypeRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
         $data['branches']       = $this->branchesRepository->all();
         $this->render('employee/add.twig.html', $data);
