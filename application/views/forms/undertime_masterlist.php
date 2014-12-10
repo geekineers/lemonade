@@ -18,7 +18,7 @@
   </style> 
 </head>
 <body>
-  <h2 style="text-align: center">LEAVE FORM</h2>
+  <h2 style="text-align: center">Undertime FORM</h2>
   <!-- upper part -->
   <table width="100%">
      <tbody> 
@@ -40,28 +40,15 @@
       <tr>
         <td colspan="3" class="background border">Start Date:</td>
         <td colspan="1" class="border">&nbsp;</td>
-        <td colspan="1" class="background border">End Date:</td>
+        <td colspan="2" class="background border">End Date:</td>
         <td colspan="1" class="border">&nbsp;</td>
-        <td colspan="1" class="background border">No. of Day:</td>
+        <td colspan="2" class="background border">No. of Day:</td>
         <td colspan="1" class="border">&nbsp;</td>     
       </tr>
       
       <tr>
         <td colspan="3" class="background border">Reason:</td>
         <td colspan="7" class="border">&nbsp;</td>
-      </tr>
-      
-      <tr>
-        <td colspan="10" class="background border"><span style="margin-left: 400px">Type of Leave</span></td>
-      </tr>
-      
-      <tr>
-        <td colspan="3" class="background border">Vacation Leave:</td>
-        <td colspan="1" class="border">&nbsp;</td>
-        <td colspan="1" class="background border">Sick Leave:</td>
-        <td colspan="1" class="border">&nbsp;</td>
-        <td colspan="1" class="background border">Absent:</td>
-        <td colspan="1" class="border">&nbsp;</td>
       </tr>
       
       <tr>
@@ -83,18 +70,18 @@
   <table width="100%">
      <tbody> 
       <tr>
-        <td colspan="4">Requested by:<span style="margin-left: 150px; display: block; width: 150px; border: 1px solid black"></span></td>
-        <td colspan="6">Date:<span style="margin-left: 50px; display: block; width: 150px; border: 1px solid black"></span></td>
+        <td colspan="4">Requested by:</td>
+        <td colspan="6">Date</td>
       </tr>
 
       <tr>
-        <td colspan="4">Checked by:<span style="margin-left: 150px; display: block; width: 150px; border: 1px solid black"></span></td>
-        <td colspan="6">Date:<span style="margin-left: 50px; display: block; width: 150px; border: 1px solid black"></span></td>
+        <td colspan="4">Checked by:</td>
+        <td colspan="6">Date</td>
       </tr>
 
       <tr>
-        <td colspan="4">Approved by:<span style="margin-left: 150px; display: block; width: 150px; border: 1px solid black"></span></td>
-        <td colspan="6">Date:<span style="margin-left: 50px; display: block; width: 150px; border: 1px solid black"></span></td>
+        <td colspan="4">Approved by:</td>
+        <td colspan="6">Date</td>
       </tr>
     </tbody> 
   </table>

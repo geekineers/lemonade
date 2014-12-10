@@ -58,13 +58,36 @@ class FormsController extends BaseController
     public function viewPrint($id)
     {
         $form = $this->input->get('type');
+        var_dump($form);
+        die();
         // $this->formRepository->viewForm($form, $id);
         $forms = $this->formApplicationRepository->getFormAppId($id);
         // var_dump($forms);
         // die();
-        $html = $this->load->view('forms/masterlist', compact('forms'), true);
-        $pdf = pdfCreate($html, '', false, true);
-        echo $pdf;
+        if($form == 'ob')
+        {
+            $html = $this->load->view('forms/ob_masterlist', compact('forms'), true);
+            $pdf = pdfCreate($html, '', false, true);
+            echo $pdf;
+        }
+        elseif($form == 'ot')
+        {
+            $html = $this->load->view('forms/ot_masterlist', compact('forms'), true);
+            $pdf = pdfCreate($html, '', false, true);
+            echo $pdf;
+        }
+        elseif($form == 'undertime')
+        {
+            $html = $this->load->view('forms/undertime_masterlist', compact('forms'), true);
+            $pdf = pdfCreate($html, '', false, true);
+            echo $pdf;
+        }
+        elseif($form == 'leave')
+        {
+            $html = $this->load->view('forms/leave_masterlist', compact('forms'), true);
+            $pdf = pdfCreate($html, '', false, true);
+            echo $pdf;
+        }
     }
     public function employeeApply()
     {
