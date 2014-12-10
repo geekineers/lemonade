@@ -32,11 +32,11 @@
                 <td>{{ form.getPreparedBy() }}</td>
                 <td class="status">
                 {% if form.status == 'not-yet-approved' %}
-                    <button class="btn btn-warning btn-flat" >not yet approved</button>
+                    <button class="btn btn-warning btn-flat" >Not yet approved</button>
                 {% elseif( form.status == 'approved') %}
-                    <button class="btn btn-success btn-flat" >approved</button>
+                    <button class="btn btn-success btn-flat" >Approved</button>
                 {% elseif( form.status == 'disapproved') %}
-                     <button class="btn btn-danger btn-flat" >disapproved</button>
+                     <button class="btn btn-danger btn-flat" >Disapproved</button>
                 {% endif %}
 
                 </td>
@@ -67,7 +67,7 @@
                     <div class="modal-footer">
                         <button class="btn btn-warning" id="disapproved" >Disapproved</button>
                         <button class="btn btn-primary" id="approved" >Approved</button>
-                        <button class="btn"  data-dismiss="modal" >close</button>
+                        <button class="btn"  data-dismiss="modal" >Close</button>
                     </div>
                 
             </div>
