@@ -44,6 +44,31 @@ class LeaveTypeController extends BaseController {
 
     }
 
+    public function edit()
+    {
+        $id = $this->input->get('id');
+
+        $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['roles'] = Group::where('company_id', '=', COMPANY_ID)->get();
+        $data['title']  = "Edit Leave Type";
+        $this->render('leave-types/edit.twig.html', $data);
+    }
+
+    public function update()
+    {
+        $data = [
+            'leave_type_name' => $this->input->post('leave_type_name'),
+            'leave_type_approval_sequence' => $this->input->post('leave_type_approval_sequence'),
+            'leave_type_base_points' => $this->input->post('leave_type_base_points'),
+            'leave_type_points_earning' => $this->input->post('leave_type_points_earning')
+        ];
+        $id = $this->input->post('id');
+        $save = $this->leaveTypeRepository->find($id)->update($data);
+        $this->session->set_flashdata('message', ' All settings has been updated.');
+        
+        redirect('/settings/leave-types', 'location');
+    }
+
     public function store()
     {
         // $save = $this->create(
@@ -70,5 +95,6 @@ class LeaveTypeController extends BaseController {
         {
             $this->sendJSON(['status'=>'error']);
         }
+        redirect('/settings/leave-types');
     }
 }

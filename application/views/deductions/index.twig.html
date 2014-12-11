@@ -3,48 +3,46 @@
 
 <div class="row container">
 	<a class="deduction_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-plus"></i></a>
-     <div class="dropdown inline" >
-     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+  <div class="dropdown inline" >
+    <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
     </a>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li>
         <a href="/settings/deductions/trash">View Deleted Deductions</a>
-    </li>
-    <li>
-        <a href="/settings/deductions/">
-            View Current Deductions
-        </a>
-    </li>
-  </ul>   
+      </li>
+      <li>
+        <a href="/settings/deductions/">View Current Deductions</a>
+      </li>
+    </ul>   
   </div>
+  <br>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
-                                        <i class="fa fa-check"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Success!</b> {{ alert_message }}.
-    </div>
-    {% endif %}
+    <i class="fa fa-check"></i>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+    </button>
+    <b>Success!</b> {{ alert_message }}.
+  </div>
+  {% endif %}
 </div>
 <table id="deduction-list" class="table table-bordered table-hovered">
-<thead>
+  <thead>
     <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Created By</th>
-    <th>Option</th>
-  </tr>
-</thead>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Option</th>
+    </tr>
+  </thead>
 
 	 {% for deduction in deductions %}
 	 	<tr>
 	 		<td>{{ deduction.deduction_name }}</td>
 	 		<td>{{ deduction.deduction_type }}</td>
-	 		<td>{{ deduction.getCreator() }}</td>
 	 		<td>
 	 			<a href="#updateDeductions" data-id="{{ deduction.id }}"  data-name="{{ deduction.deduction_name }}" class="btn-update-deduction btn btn-primary"><i class="fa fa-edit"></i></a>
 	 			<a onclick="return confirm('Are you sure?')" href="/settings/deductions/delete?id={{ deduction.id }}" class="deduction_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
-	 		</td>
-	 	</tr>
+	 		</td> 
+	 	</tr> 
 	 {% endfor %}
 </table>
 
@@ -53,59 +51,58 @@
 <form method="post" enctype="multipart/form-data" action="/settings/deductions/save">
 
 	<div class="modal fade" id="addNewDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Deduction Type</h4>
-      </div>
-      <div class="modal-body">
-      <div class="form-group">
-      	<label>Name<span class="req-label">*</span></label>
-      	<input type="text" required name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
-      </div>
-      <div class="form-group">
-      	<label>Type</label>
-      	<input type="radio" name="deduction_type" value="fix_amount"> Fix Amount
-      	<input type="radio" name="deduction_type" value="percentage"> Percentage
-      </div>
-    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Save">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">New Deduction Type</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name<span class="req-label">*</span></label>
+            <input type="text" required name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <input type="radio" name="deduction_type" value="fix_amount"> Fix Amount
+            <input type="radio" name="deduction_type" value="percentage"> Percentage
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary" value="Save">
+        </div>
       </div>
     </div>
   </div>
-</div>
 </form>
 
   <!-- Modal -->
 <form method="post" enctype="multipart/form-data" action="/settings/deductions/update">
 
   <div class="modal fade" id="updateDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <input type="hidden" name="id" id="update-deduction-id">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Update Deduction Type</h4>
-      </div>
-      <div class="modal-body">
-      <div class="form-group">
-        <label>Name</label>
-        <input id="update-deduction-name" type="text" name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
-      </div>
- 
-    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Save">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <input type="hidden" name="id" id="update-deduction-id">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update Deduction Type</h4>
+        </div>
+        
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name</label>
+            <input id="update-deduction-name" type="text" name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary" value="Save">
+        </div>
       </div>
     </div>
   </div>
-</div>
 </form>
 
 

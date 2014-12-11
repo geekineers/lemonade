@@ -176,7 +176,6 @@ class PayslipsRepository extends BaseRepository
         $objPHPExcel->setActiveSheetIndex(0);
         $A = $objPHPExcel->getActiveSheet();
         $B = clone $A;
-       
         try 
         { 
            // dd($slip); 
@@ -184,7 +183,7 @@ class PayslipsRepository extends BaseRepository
             {  
                     if($key > 0)
                     {
-                        // var_dump($key);
+                        // var_dump($key); die();
                         // $B = clone $A;
                         $B->setTitle($payslip['name']);
                         $sheetIndex = $key;
@@ -194,52 +193,52 @@ class PayslipsRepository extends BaseRepository
 
                     }
                     //echo $row;
-                        $row = 10;
-                        $objPHPExcel->setActiveSheetIndex($key);
-                        $objPHPExcel->getActiveSheet()->SetTitle($payslip['name']);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('D1', $from . '-' . $to);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('D2', $date);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('D3', $period->getPayrollGroup()->period);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('D7', $payslip['name']);
-                        foreach ($payslip['items'] as $item) 
-                        {
-                            $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $item->getEmployee()->getEmployeeID());
-                            $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, toTitleCase($item->getEmployee()->last_name));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, toTitleCase($item->getEmployee()->first_name));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, toTitleCase($item->getEmployee()->middle_name));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $item->getEmployee()->getJobPosition());
-                            $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $item->getEmployee()->getMonthlyRate(true));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $item->getEmployee()->getSemiMonthlyRate(true));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $item->getEmployee()->getDailyRate());
-                            $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $item->getEmployee()->getTaxStatus());
-                            $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $item->getEmployee()->getInAttendance($from, $to, $weekend_include = true));
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->get#DAYOFF());
-                            $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $item->getEmployee()->getTotalAllowances($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $item->getEmployee()->getOverTimePay($from, $to));
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $item->getEmployee()->get#SUNDAYOVERTIME;
-                            $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getRegularHolidayPay($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getSpecialHolidayPay($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getGross($from, $to));
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $item->getEmployee()->get#CASHADVANCE;
-                            $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $item->getEmployee()->getAbsentDeduction($from, $to, true));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $item->getEmployee()->getLateDeduction($from, $to, true));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $item->getEmployee()->getGeneratedSSSEmployee($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, $item->getEmployee()->get#EC
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AF' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AG' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('AH' . $row, $item->getEmployee()->get#ERSHAR EPAGIBIG
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AI' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('AJ' . $row, $item->getEmployee()->get#EESHAREPHILHEALTH
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('AK' . $row, $item->getEmployee()->get#ERSHAREPHILHEALTH
+                    $row = 10;
+                    $objPHPExcel->setActiveSheetIndex($key);
+                    $objPHPExcel->getActiveSheet()->SetTitle($payslip['name']);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D1', $from . '-' . $to);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D2', $date);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D3', $period->getPayrollGroup()->period);
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D7', $payslip['name']);
+                    foreach ($payslip['items'] as $item) 
+                    {
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $item->getEmployee()->getEmployeeID());
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, toTitleCase($item->getEmployee()->last_name));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, toTitleCase($item->getEmployee()->first_name));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, toTitleCase($item->getEmployee()->middle_name));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $item->getEmployee()->getJobPosition());
+                        $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $item->getEmployee()->getMonthlyRate(true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $item->getEmployee()->getSemiMonthlyRate(true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $item->getEmployee()->getDailyRate());
+                        $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $item->getEmployee()->getTaxStatus());
+                        $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $item->getEmployee()->getInAttendance($from, $to, $weekend_include = true));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->get#DAYOFF());
+                        $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $item->getEmployee()->getTotalAllowances($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $item->getEmployee()->getOverTimePay($from, $to));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $item->getEmployee()->get#SUNDAYOVERTIME;
+                        $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getRegularHolidayPay($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getSpecialHolidayPay($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getGross($from, $to));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $item->getEmployee()->get#CASHADVANCE;
+                        $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $item->getEmployee()->getAbsentDeduction($from, $to, true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $item->getEmployee()->getLateDeduction($from, $to, true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $item->getEmployee()->getGeneratedSSSEmployee($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, $item->getEmployee()->get#EC
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AF' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AG' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AH' . $row, $item->getEmployee()->get#ERSHAR EPAGIBIG
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AI' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AJ' . $row, $item->getEmployee()->get#EESHAREPHILHEALTH
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AK' . $row, $item->getEmployee()->get#ERSHAREPHILHEALTH
 
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getNet($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);
-                            // $objPHPExcel->getActiveSheet()->SetCellValue('AO' . $row, $item->getEmployee()->get#REMARKS
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getNet($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AO' . $row, $item->getEmployee()->get#REMARKS
 
-                            $row++;                               
+                        $row++;                               
                     }       
                            
             }

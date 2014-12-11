@@ -2,29 +2,31 @@
 {% block content %}
 
 <div class="row container">
-  
-	{% if alert_message != null %}
-	<div class="col-md-7 alert alert-success alert-dismissable">
-                                        <i class="fa fa-check"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Success!</b> {{ alert_message }}.
-    </div>
-    {% endif %}
-<div class="dropdown inline" >
-     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+  <div class="dropdown inline" >
+    <a data-toggle="dropdown" href="#" class=" btn btn-default">
+      <i class="fa fa-gear"></i>
     </a>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li>
-        <a href="/settings/branches/trash">View Deleted Branch</a>
-    </li>
-    <li>
-        <a href="/settings/branches/">
-            View Current Branch
-        </a>
-    </li>
-  </ul>   
-  </div>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li>
+      <a href="/settings/branches/trash">View Deleted Branch</a>
+      </li>
+      <li>
+      <a href="/settings/branches/">View Current Branch</a>
+      </li>
+    </ul>   
+  </div>  
 </div>
+
+<br>
+<br>
+{% if alert_message != null %}
+<div class="col-md-7 alert alert-success alert-dismissable">
+  <i class="fa fa-check"></i>
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+  </button>
+  <b>Success!</b> {{ alert_message }}.
+</div>
+% endif %}
 
 
 <table class="table table-bordered table-hovered">
@@ -34,16 +36,14 @@
 		<th>Option</th>
 	</tr>
 	 {% for branch in branches %}
-	 	<tr>
-	 		<td>{{ branch.branch_name }}</td>
-	 		<td>{{ branch.address }}</td>
-	 
-	 		<td>
-	 			<a href="/settings/branches/edit?id={{ branch.id }}" class="btn btn-primary"><i class="fa fa-"></i></a>
-	     <a  onclick="return confirm('Are you sure you want to reactivate this branch?')"  href="/settings/branches/restore/{{ branch.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
-      </td>
 
-	 	</tr>
+	<tr>
+    <td>{{ branch.branch_name }}</td>
+    <td>{{ branch.address }}</td>
+    <td>
+      <a onclick="return confirm('Are you sure you want to reactivate this branch?')"  href="/settings/branches/restore/{{ branch.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i>  Restore</a>
+    </td>
+  </tr>
 	 {% endfor %}
 </table>
 
@@ -52,31 +52,34 @@
 <form method="post" enctype="multipart/form-data" action="/settings/deductions/save">
 
 	<div class="modal fade" id="addNewDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Deduction Type</h4>
-      </div>
-      <div class="modal-body">
-      <div class="form-group">
-      	<label>Name</label>
-      	<input type="text" name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
-      </div>
-      <div class="form-group">
-      	<label>Type</label>
-      	<input type="radio" name="deduction_type" value="fix_amount"> Fix Amount
-      	<input type="radio" name="deduction_type" value="percentage"> Percentage
-      </div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">New Deduction Type</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
+          </div>
+
+          <div class="form-group">
+            <label>Type</label>
+            <input type="radio" name="deduction_type" value="fix_amount"> Fix Amount
+            <input type="radio" name="deduction_type" value="percentage"> Percentage
+          </div>
     
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Save">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close
+            </button>
+            <input type="submit" class="btn btn-primary" value="Save">
+        </div>
       </div>
     </div>
   </div>
-</div>
 </form>
 
 

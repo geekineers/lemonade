@@ -17,6 +17,8 @@
     </li>
   </ul>   
   </div>
+  <br>
+  <br>
     {% if alert_message != null %}
     <div class="col-md-7 alert alert-success alert-dismissable">
         <i class="fa fa-check"></i>
@@ -39,8 +41,7 @@
         <td>{{ group.job_position }}</td>
         <td>{{ group.job_description }}</td>
         <td>
-            <a href="#updateJob" data-id="{{ group.id }}" data-name="{{ group.job_position }}" data-description="{{ group.job_description }}" class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
-                 <a  onclick="return confirm('Are you sure you want to reactivate this job position?')"  href="/settings/job/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
+            <a  onclick="return confirm('Are you sure you want to reactivate this job position?')"  href="/settings/job/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left">  Restore</i></a>
         </td>
     </tr>
     {% endfor %}
