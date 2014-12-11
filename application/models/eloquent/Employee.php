@@ -208,14 +208,20 @@ class Employee extends BaseModel
         return $groups;
     }
 
-    public function getPayrollPeriod()
+    public function getPayrollPeriod($asObject = true)
     {
         $payroll_period = PayrollGroup::where('id', '=', $this->payroll_period)->first();
         if(is_null($payroll_period)){
             return null;
         }
-        return $payroll_period;
+        if($asObject){
+            return $payroll_period;
+
+        }
+
+        return $payroll_period->period;
     }
+
 
     public function getPayrollPeriodName()
     {
@@ -341,24 +347,27 @@ class Employee extends BaseModel
 
             $first = PHConfigs::first();
             $last  = PHConfigs::orderby('created_at', 'desc')->first();
-            if ($first != null && $last != null || $this->fixed_philhealth_amount != "no") {
-                if ($pay < $first->to_range) {
-                    $ph = $first->employee_share;
-                } else if ($pay > $last->to_range) {
-                    $ph = $last->employee_share;
-                } else {
-                    $ph = PHConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->employee_share;
-                }
+            if($this->fixed_philhealth_amount != "no"){
+                if ($first != null && $last != null){
+                    if ($pay < $first->to_range) {
+                        $ph = $first->employee_share;
+                    } else if ($pay > $last->to_range) {
+                        $ph = $last->employee_share;
+                    } else {
+                        $ph = PHConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->employee_share;
+                    }
 
-                $ph = floatval($ph);
+                    $ph = floatval($ph);
 
-                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                    return floatval($ph / 2);
+                    if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                        return floatval($ph / 2);
+                    } else {
+                        return floatval($ph);
+                    }
                 } else {
-                    return floatval($ph);
+                    return (int) $this->fixed_philhealth_amount;
                 }
-            } else {
-                return (int) $this->fixed_philhealth_amount;
+                
             }
         }
         return (int) 0;
@@ -464,7 +473,9 @@ class Employee extends BaseModel
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() + $this->getOvertimePay($from, $to);
+        $base_salary = ($this->getPayrollPeriod(false) == "Daily") ? $this->getBasicSalary() * (float)$this->getInAttendance($from, $to) : $this->getBasicSalary();
+
+        $total = $this->getTotalAllowances($from, $to, false) + $base_salary + $this->getOvertimePay($from, $to);
 
         $total = $total + $regular_holiday + $special_holiday + $night_differential;
 
@@ -699,7 +710,7 @@ class Employee extends BaseModel
      * @param  string $unit (minute|hours)
      * @return [int]
      */
-    public function getLate($from, $to, $unit = 'minute')
+    public function getLateDeduction($from, $to, $unit = 'minute')
     {
         $days           = createDateRangeArray($from, $to);
         $timeShiftStart = $this->getTimeShiftStart(true);
@@ -738,16 +749,16 @@ class Employee extends BaseModel
      * @param  [string] $unit (minute|hours)
      * @return [float]
      */
-    public function getLateDeduction($from, $to, $unit, $number_format = false)
-    {
-        // dd($this->getLate($from, $to, $unit));
+    // public function getLateDeduction($from, $to, $unit, $number_format = false)
+    // {
+    //     // dd($this->getLate($from, $to, $unit));
 
-        $late_deduction = floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
-        if ($number_format) {return number_format($late_deduction, 2);
-        }
+    //     $late_deduction = floatval($this->getLate($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
+    //     if ($number_format) {return number_format($late_deduction, 2);
+    //     }
 
-        return $late_deduction;
-    }
+    //     return $late_deduction;
+    // }
 
     public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format = false)
     {
@@ -880,17 +891,17 @@ class Employee extends BaseModel
         $basic_pay      = $this->getBasicSalary();
         $payroll_period = $this->getPayrollPeriod()->period;
         ;
-        if ($number_format) {return number_format($basic_pay, 2);
-        }
+        // if ($number_format) {return number_format($basic_pay, 2);
+        // }
 
-        return $basic_pay;
-        // return getRate($basic_pay, $payroll_period, 'Semi-Monthly');
+        // return $basic_pay;
+        return getRate($basic_pay, $payroll_period, 'Semi-monthly', $number_format);
     }
     public function getMonthlyRate($number_format = false)
     {
         $basic_pay      = $this->getBasicSalary($number_format);
         $payroll_period = $this->getPayrollPeriod()->period;
-
+        // return $payroll_period;
         return getRate($basic_pay, $payroll_period, 'Monthly', $number_format);
     }
 
