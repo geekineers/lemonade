@@ -29,7 +29,7 @@ class FormsController extends BaseController
         $data['company'] = $this->company;
         $user            = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
-        $data['forms'] = $this->formApplicationRepository->all();
+        $data['forms'] = $data['user']->getSubordinatesApplications();
         $this->render('forms/index.twig.html', $data);
     }
 
@@ -58,8 +58,8 @@ class FormsController extends BaseController
     public function viewPrint($id)
     {
         $form = $this->input->get('type');
-        var_dump($form);
-        die();
+        // var_dump($form);
+        // die();
         // $this->formRepository->viewForm($form, $id);
         $forms = $this->formApplicationRepository->getFormAppId($id);
         // var_dump($forms);
@@ -106,7 +106,7 @@ class FormsController extends BaseController
         $data['company'] = $this->company;
         $data['title']   = $title;
         $data['user']    = $user;
-        $data['forms']   = Form_Application::where('prepared_by', $user->id)->get();
+        $data['forms']   = Form_Application::where('employee_id', $user->id)->get();
         // dd($data['forms']);
         $this->render('forms/employee_form.twig.html', $data);
     }

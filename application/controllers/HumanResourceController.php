@@ -47,7 +47,8 @@ class HumanResourceController extends BaseController
     public function approve()
     {
         $id = $this->input->post('id');
-        echo $this->formApplicationRepository->approved($id);
+        $employee_id = $this->employeeRepository->getLoginUser($this->sentry->getUser())->id;
+        echo $this->formApplicationRepository->approved($id, $employee_id);
 
     }
 

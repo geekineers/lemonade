@@ -847,9 +847,11 @@ class Employee extends BaseModel
      * return overtime pay of an employee from a given date range
      * @return [float]
      */
-    public function getOvertimePay()
+    public function getOvertimePay($from, $to)
     {
-        return floatval($this->getOverTimePayRate() * $this->getOvertime());
+        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to));
+        // dd($op);
+        return $op;
     }
 
     public function getHourlyRate()
@@ -1432,5 +1434,31 @@ class Employee extends BaseModel
 
         return $total;
     }
+
+    public function getSubordinates()
+    {
+        $output = array();
+        $departments = Department::where('department_head_id', $this->id)->lists('id');
+        foreach($departments as $department){
+            $employees = Employee::where('department', $department)->lists('id');
+            foreach ($employees as $employee) {
+                
+                array_push($output, $employee);
+            }
+        }
+        return $output;
+    }
+
+    public function getSubordinatesApplications()
+    {
+        return Form_Application::whereIn('employee_id', $this->getSubordinates())->get();
+
+    }
+
+    public function isDepartmentHead()
+    {
+        return (boolean) Department::where('department_head_id', $this->id)->count();
+    }
+
 
 }

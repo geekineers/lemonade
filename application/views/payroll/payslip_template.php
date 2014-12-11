@@ -123,7 +123,7 @@ $to = $payslip->getPayslipsGroup()->to;
            <tr>
             <td >Overtime</td>
             <td style="text-align:right;">
-              <?php echo $employee->getOvertime($from, $to)?>
+              <?php echo $employee->getOvertimePay($from, $to)?>
             </td>
           </tr>
           <?php } ?>
