@@ -13,13 +13,11 @@
 <table class="table table-bordered table-hovered">
     <tr>
         <th>Year</th>
-        <th>Created By</th>
         <th>Option</th>
     </tr>
     {% for holiday_year in holiday_years %}
     <tr>
         <td>{{ holiday_year.year }}</td>
-        <td>{{ holiday_year.getCreator() }}</td>
         <td>
             <a href="/settings/holidays/{{ holiday_year.year }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
             <a href="/settings/holidays/delete?year={{ holiday_year.year }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>

@@ -16,7 +16,7 @@
                 <th>Date</th>
                 <th>Request Form Type</th>
                 <th>Employee's Name</th>
-                <th>Prepared By</th>
+                
                 <th>Status</th>
                 <th>Option</th>
             </tr>
@@ -29,7 +29,7 @@
                     {{ form.getFormType() }} Form
                 </td>
                 <td>{{ form.getEmployeeNames() }}</td>
-                <td>{{ form.getPreparedBy() }}</td>
+             
                 <td class="status">
                 {% if form.status == 'not-yet-approved' %}
                     <button class="btn btn-warning btn-flat" >Not yet approved</button>

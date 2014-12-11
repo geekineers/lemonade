@@ -77,13 +77,14 @@ class DeductionController extends BaseController
 
     public function delete()
     {
-        $id = $this->input->get('id');
-
+        
         $branch_name = $this->deductionRepository->find($id)->deduction_name;
-
-        $this->deductionRepository->find($id)->delete();
+        $id = $this->input->get('id');
+        
+        Deduction::where('id', '=', $id)->delete();
         $this->session->set_flashdata('message', $branch_name . ' has been deleted.');
-        redirect('/settings/deductions', 'location');
+        redirect('settings/deductions/', 'location');
+
 
     }
 

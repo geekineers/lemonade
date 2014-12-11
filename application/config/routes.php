@@ -135,6 +135,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/deductions', 'DeductionController#index');
     $r->post('settings/deductions/save', 'DeductionController#save');
     $r->post('settings/deductions/update', 'DeductionController#update');
+    $r->get('settings/deductions/delete', 'DeductionController#delete');
     $r->get('settings/deductions/trash', 'DeductionController#trash');
     $r->get('settings/deductions/restore/(:num)', 'DeductionController#restore');
 
@@ -160,6 +161,8 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/leave-types', 'LeaveTypeController#index');
     $r->get('settings/leave-types/add', 'LeaveTypeController#add');
+    $r->get('settings/leave-types/edit', 'LeaveTypeController#edit');
+    $r->post('settings/leave-types/edit', 'LeaveTypeController#update');
     $r->post('settings/leave-types/submit', 'LeaveTypeController#store');
 
     $r->get('settings/users', 'UserController#index');

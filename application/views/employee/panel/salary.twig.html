@@ -178,37 +178,21 @@
 						  		</div>
 						  	 <div class="panel-body">
 						  		 <table class="table">
+									  {% for leave in leave_types %}
 									<tr>
+									  	{% set leave_id = leave.id %}
 										<td>
-											<span class="form-label">Available Leave Credits</span>
-											<span class="profile-value">{{ employee.getDeductSSS() }}</span>
+											<span class="form-label">{{ leave.getName() }} Credits</span>
+											<span class="profile-value">{{ employee.getRemainingLeaveCredit(leave_id) }}</span>
 											<select name="deduct_sss" class="edit-input">
 												<option value="1">Yes</option>
 												<option value="0">No</option>
 											</select>
 										</td>
-										<td>
-											<span class="form-label">Available Sick Leave Credits</span>
-											<span class="profile-value">{{ employee.fixed_sss_amount }}</span>
-											<input class="edit-input" name="fixed_sss_amount">
-
-										</td>
-									</tr>	
-									<tr>
-										<td>
-											<span class="form-label">Available Emergency Leave Credits</span>
-											<span class="profile-value">{{ employee.getDeductHDMF() }}</span>
-											<select name="deduct_hdmf" class="edit-input">
-												<option value="1">Yes</option>
-												<option value="0">No</option>
-											</select>
-										</td>
-										<td>
-											<span class="form-label">Available Vacation Leave Credits</span>
-											<span class="profile-value">{{ employee.fixed_hdmf_amount }}</span>
-											<input class="edit-input" name="fixed_hdmf_amount">
-										</td>
-									</tr>	
+									</tr>
+									  {% endfor %}
+									
+									
 									
 								
 								 </table>

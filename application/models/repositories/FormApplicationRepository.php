@@ -41,8 +41,18 @@ class FormApplicationRepository extends BaseRepository {
 	}
 	public function approved($id, $approved_by)
 	{
+		$form = Form_Application::where('id', '=', $id)->first();
+		$employee_id = $form->employee_id;
+		$type = $form->getFormType();
+
+		if($type == "Leave"){
+			$leave_type_id = $form->getTypeofLeave()->id;
+			EmployeeLeaveCredit::deductPoint($employee_id, $leave_type_id);
+		}
 
 		return $this->where('id','=',$id)->update(['status'=>'approved', 'approved_by' => $approved_by]);
+	
+
 	}
 
 	public function disapproved($id)

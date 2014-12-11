@@ -675,17 +675,23 @@ class Employee extends BaseModel
         foreach ($days as $day) {
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
+            $absolute_day = DateTime::createFromFormat('Y-m-d', $day);
+            $is_undertime_approved = Form_Application::where('form_type', 'undertime')->where('effective_date', $absolute_day)->count();
 
             $result = Timesheet::where('employee_id', '=', $this->id)
                                                                 ->whereBetween('time_out', [$startDate, $endDate])->first();
             if ($result) {
                 $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_out);
 
+
+
                 $departure_time = $resultDate->format('H:i:s');
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
                 $undertime = getInterval($departure_time, $this->getTimeShiftEnd(true), $unit);
                 $undertime = ($undertime >= 480) ? 480 : $undertime;
-                $totalUnderTime += $undertime;
+                if(!is_undertime_approved){
+                    $totalUnderTime += $undertime;                    
+                }
 
             }
         }
@@ -1004,7 +1010,7 @@ class Employee extends BaseModel
 
     public function getRegularHolidayRate()
     {
-        return $this->getDailyRate();
+        return 1;
     }
     /**
      * Regular Holiday Rate
@@ -1014,7 +1020,7 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        return floatval($this->getRegularHolidayRate() * $this->getRegularHolidayAttendance($from, $to));
+        return floatval($this->getRegularHolidayRate() * $this->getDailyRate() * $this->getRegularHolidayAttendance($from, $to));
 
     }
     /**
@@ -1023,8 +1029,8 @@ class Employee extends BaseModel
      */
     public function getSpecialHolidayRate($number_format = true)
     {
-        $daily_rate = floatval($this->getDailyRate());
-        return $daily_rate * 0.3;
+        // $daily_rate = floatval($this->getDailyRate());
+        return 0.3;
     }
     /**
      * total regular attendance from date range given
@@ -1067,7 +1073,7 @@ class Employee extends BaseModel
 
     public function getSpecialHolidayPay($from, $to)
     {
-        return floatval($this->getSpecialHolidayRate() * $this->getSpecialHolidayAttendance($from, $to));
+        return floatval($this->getSpecialHolidayRate() * $this->getDailyRate() * $this->getSpecialHolidayAttendance($from, $to));
     }
 
     public function getInAttendance($from, $to, $weekend_include = false)
@@ -1227,9 +1233,12 @@ class Employee extends BaseModel
             $wtax = $this->getTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
         }
 
+        $wtax = ($wtax > 0) ? $wtax : 0;
+
         if ($number_format) {
             return number_format($wtax, 2);
         }
+        
         return $wtax;
 
     }
@@ -1471,5 +1480,10 @@ class Employee extends BaseModel
         return (boolean) Department::where('department_head_id', $this->id)->count();
     }
 
+
+    public function getRemainingLeaveCredit($leave_type_id)
+    {
+        return EmployeeLeaveCredit::getEmployeeRemainingCredits($this->id, $leave_type_id);
+    }
 
 }

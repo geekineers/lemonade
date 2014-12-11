@@ -210,6 +210,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         // dd($data['payroll_groups']);
         $data['departments']     = $this->departmentRepository->all();
+        $data['leave_types']     = LeaveType::all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
         $data['histories']        = $this->historyRepository->getByEmployee($id)->groupBy(function($value) { return date('Y-m-d', strtotime($value->created_at)); })->reverse();
         // foreach($data['histories'] as $group) {

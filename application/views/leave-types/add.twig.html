@@ -2,80 +2,72 @@
 {% block content %}
 	<div class="col-md-6">
 		<div class="box box-primary">
-                                <div class="box-header">
-                                    <h3 class="box-title">Leave Type Info</h3>
-                                </div><!-- /.box-header -->
+            <div class="box-header">
+                 <h3 class="box-title">Leave Type Info</h3>
+            </div><!-- /.box-header -->
                                 <!-- form start -->
-                                <form role="form" method="post">
-                                    <div class="box-body">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Leave Type Name<span class="req-label">*</span></label>
-                                            <input type="text" required name="leave_type_name" class="form-control" id="leave_type_name" placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label >
-                                                Approval Sequence
-                                            </label>
-                                            <div class="radio">
-                                                <label>
-                                                     <input type="radio"  id="leave_type_approval_sequence" name="leave_type_approval_sequence" value="or">Can be accepted by one personel</input>
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label >
-                                                    <input type="radio"  id="leave_type_approval_sequence" name="leave_type_approval_sequence" value="and">Must be accepted by all personel</input>
-                                                </label>
-                                            </div>
+            <form role="form" method="post" action="/settings/leave-types/submit">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Leave Type Name
+                            <span class="req-label">*</span>
+                        </label>
+                        <input type="text" required name="leave_type_name" class="form-control" id="leave_type_name" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Approval Sequence</label>
+                        <div class="radio">
+                            <label>
+                                <input type="radio"  id="leave_type_approval_sequence" name="leave_type_approval_sequence" value="or">Can be accepted by one personel</input>
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio"  id="leave_type_approval_sequence" name="leave_type_approval_sequence" value="and">Must be accepted by all personel</input>
+                            </label>
+                        </div>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Required Approval Personel</label>
-                                            <div class="form-group">
-                                                
-                                                <div class="col-sm-10">
-                                                    <select class="form-control select_position" name="leave_type_required_approval">
-                                                            <option value=""  disabled="true" selected>Select Positions</option>
-                                                        {% for role in roles %}
-                                                            <option value="{{role.id}}">{{role.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                
-                                                <div class="col-sm-2">
-                                                    <a class="btn btn-info select_position_add">Add</a>
-                                                </div>
-
-                                                <div class="col-sm-12">
-                                                    <ul class="select_position_list">
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-
-                                            <!-- <textarea  class="form-control" id="exampleInputPassword1" name="branch_description" placeholder="Type Full Address here..."></textarea> -->
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">Default Base Points</label>
-                                            <input type="text" name="leave_type_base_points" class="form-control" id="leave_type_base_points" placeholder="default base point">
-                                        </div>
-
-                                          <div class="form-group">
-                                            <label for="exampleInputFile">
-                                                Type of point earning
-                                            </label>
-                                            <select name="leave_type_points_earning" id="leave_type_points_earning">
-                                                <option value="monthly">Monthly</option>
-                                                <option value="yearly">Yearly</option>
-                                            </select>
-                                        </div>
-                               
-                                    </div><!-- /.box-body -->
-
-                                    <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary submit ">Submit</button>
-                                    </div>
-                                </form>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Required Approval Personel
+                        </label>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <select class="form-control select_position" name="leave_type_required_approval">
+                                    <option value=""  disabled="true" selected>Select Positions</option>
+                                    {% for role in roles %}
+                                    <option value="{{role.id}}">{{role.name}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-info select_position_add">Add</a>
+                            </div>
+                            <div class="col-sm-12">
+                                <ul class="select_position_list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Default Base Points</label>
+                        <input type="text" name="leave_type_base_points" class="form-control" id="leave_type_base_points" placeholder="default base point">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputFile">Type of point earning</label>
+                        <select name="leave_type_points_earning" id="leave_type_points_earning">
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                    </div>
+                               
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+            </form>
+        </div>
 	</div>
 
 

@@ -100,6 +100,7 @@ class TimesheetController extends BaseController {
 	public function range() 
     {
 		$input              = $this->input->get();
+		$input['query'] = (isset($input['query'])) ? $input['query'] : '';
 		$data['timesheets'] = $this->timesheetRepository->search($input['query'], $input['from'], $input['to']);
 
 		$this->render('/timesheet/search.twig.html', $data);

@@ -66,4 +66,13 @@ class Form_Application extends BaseModel {
   {
     return Employee::find($this->employee_id);
   }
+
+  public function getTypeofLeave()
+  {
+    $form_data = json_decode($this->form_data);
+
+    $type_id = $form_data->type_of_leave;
+
+    return LeaveType::find($type_id);
+  }
 }
