@@ -115,8 +115,8 @@ $to = $payslip->getPayslipsGroup()->to;
 
         <!-- foreach -->
           <tr>
-            <td>Basic Salary</td>
-            <td style="text-align:right;"><?php echo $employee->getBasicSalary(true);
+            <td>Basic Salary <br><?php if($employee->getPayrollPeriod(false) == "Daily") { echo "PHP" . $employee->getBasicSalary() . " x " . $employee->getInAttendance($from, $to) . " days";  } ?></td>
+            <td style="text-align:right;"><?php echo ($employee->getPayrollPeriod(false) != "Daily") ? $employee->getBasicSalary(true) : $employee->getBasicSalary() * $employee->getInAttendance($from, $to);
 ?></td>
           </tr>
           <?php if($employee->getOvertime($from, $to)): ?>
@@ -137,7 +137,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php } ?>
           <?php if($employee->getRegularHolidayPay($from, $to)) { ?> 
              <tr>
-            <td >Regular Holiday Pay</td>
+            <td >Regular Holiday Pay(<?php echo $employee->getRegularHolidayRate() * 100; ?>%)</td>
             <td style="text-align:right;">
               <?php echo $employee->getRegularHolidayPay($from, $to)?>
             </td>
@@ -146,7 +146,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php if($employee->getSpecialHolidayPay($from, $to)) { ?> 
           
            <tr>
-            <td >Special Holiday Pay</td>
+            <td >Special Holiday Pay(<?php echo $employee->getSpecialHolidayRate()*100; ?>%)</td>
             <td style="text-align:right;">
               <?php echo $employee->getSpecialHolidayPay($from, $to)?>
             </td>

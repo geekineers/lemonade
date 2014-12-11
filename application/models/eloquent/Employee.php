@@ -1004,7 +1004,7 @@ class Employee extends BaseModel
 
     public function getRegularHolidayRate()
     {
-        return $this->getDailyRate();
+        return 1;
     }
     /**
      * Regular Holiday Rate
@@ -1014,7 +1014,7 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        return floatval($this->getRegularHolidayRate() * $this->getRegularHolidayAttendance($from, $to));
+        return floatval($this->getRegularHolidayRate() * $this->getDailyRate() * $this->getRegularHolidayAttendance($from, $to));
 
     }
     /**
@@ -1023,8 +1023,8 @@ class Employee extends BaseModel
      */
     public function getSpecialHolidayRate($number_format = true)
     {
-        $daily_rate = floatval($this->getDailyRate());
-        return $daily_rate * 0.3;
+        // $daily_rate = floatval($this->getDailyRate());
+        return 0.3;
     }
     /**
      * total regular attendance from date range given
@@ -1067,7 +1067,7 @@ class Employee extends BaseModel
 
     public function getSpecialHolidayPay($from, $to)
     {
-        return floatval($this->getSpecialHolidayRate() * $this->getSpecialHolidayAttendance($from, $to));
+        return floatval($this->getSpecialHolidayRate() * $this->getDailyRate() * $this->getSpecialHolidayAttendance($from, $to));
     }
 
     public function getInAttendance($from, $to, $weekend_include = false)
@@ -1227,9 +1227,12 @@ class Employee extends BaseModel
             $wtax = $this->getTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
         }
 
+        $wtax = ($wtax > 0) ? $wtax : 0;
+
         if ($number_format) {
             return number_format($wtax, 2);
         }
+        
         return $wtax;
 
     }
