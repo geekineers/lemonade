@@ -11,12 +11,17 @@ class Department extends BaseModel {
   protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['department_name', 'department_description','created_at', 'branch_id'];
+  protected $fillable = ['department_name', 'department_description','created_at', 'branch_id', 'department_head_id'];
 
 
   public function employee()
   {
     return $this->hasMany('Employee', 'department', 'id');
+  }
+
+  public function getDepartmentHead()
+  {
+    return Employee::find($this->department_head_id);
   }
 
   public function getLateReport($year = null)

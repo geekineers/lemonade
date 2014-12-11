@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>Reason: </label>
-                            <input type="text" class="form-control reason" placeholder="example: Juan Dela Cruz">
+                            <input type="text" class="form-control reason" placeholder="example: Project Completion">
                           
                         </div>
                         <div class="col-md-4 ">

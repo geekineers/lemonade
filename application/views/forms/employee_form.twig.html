@@ -14,7 +14,7 @@
             <tr action="/">
                 <td>{{ form.created_at|date("m/d/Y")  }}</td>
                 <td>
-                    {{ form.form_type|capitalize }}
+                    {{ form.getFormType() }} Form
                 </td>
                 <td class="status">
                 {% if form.status == 'not-yet-approved' %}
