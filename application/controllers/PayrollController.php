@@ -185,9 +185,9 @@ class PayrollController extends BaseController
             'company_logo' => $company->company_logo,
             'date'         => date('Y-m-d', strtotime($this->payslipsGroupRepository->getPayslipById($id, $from, $to)->created_at))
         ];
-
         $check = $this->payslipsRepository->generateMasterXLS($data);
-        if ($check) {
+        if ($check)
+        {
             redirect('excel_files/masterlist-' . $data['date'] . '.xlsx');
         }
     }
