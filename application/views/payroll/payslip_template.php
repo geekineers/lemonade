@@ -119,14 +119,14 @@ $to = $payslip->getPayslipsGroup()->to;
             <td style="text-align:right;"><?php echo $employee->getBasicSalary(true);
 ?></td>
           </tr>
-          <?php if($employee->getOvertime($from, $to)) { ?>           
+          <?php if($employee->getOvertime($from, $to)): ?>
            <tr>
-            <td >Overtime</td>
+            <td >Overtime(<?php echo $employee->getOvertime($from, $to); ?>hrs)</td>
             <td style="text-align:right;">
-              <?php echo $employee->getOvertimePay($from, $to)?>
+              <?php echo $employee->getOverTimePay($from, $to); ?>
             </td>
           </tr>
-          <?php } ?>
+          <?php endif; ?>
           <?php if($employee->getNightDifferentialPay($from, $to)) { ?> 
              <tr>
             <td >Night Differential Pay</td>
@@ -152,13 +152,7 @@ $to = $payslip->getPayslipsGroup()->to;
             </td>
           </tr>
           <?php } ?>
-           <tr>
-              <td >Overtime</td>
-              <td style="text-align:right;">
-                <?php echo $employee->getOvertime($from, $to)?>
-              </td>
-          </tr>
-<?php if (count($employee->getAllowances())) {?>
+       <?php if (count($employee->getAllowances())) {?>
 	<tr>
 																								                        <td>Allowances</td>
 																								                        <td></td>

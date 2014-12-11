@@ -186,7 +186,7 @@ class PayslipsRepository extends BaseRepository
                     {
                         // var_dump($key);
                         // $B = clone $A;
-                        $B->setTitle($payslip['name']->getName());
+                        $B->setTitle($payslip['name']);
                         $sheetIndex = $key;
                         $row = 10;
                         $objPHPExcel->addSheet($B,$sheetIndex);
