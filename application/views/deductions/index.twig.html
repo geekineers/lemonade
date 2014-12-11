@@ -15,6 +15,7 @@
       </li>
     </ul>   
   </div>
+  <br>
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
     <i class="fa fa-check"></i>
@@ -40,8 +41,8 @@
 	 		<td>
 	 			<a href="#updateDeductions" data-id="{{ deduction.id }}"  data-name="{{ deduction.deduction_name }}" class="btn-update-deduction btn btn-primary"><i class="fa fa-edit"></i></a>
 	 			<a onclick="return confirm('Are you sure?')" href="/settings/deductions/delete?id={{ deduction.id }}" class="deduction_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
-	 		</td>
-	 	</tr>
+	 		</td> 
+	 	</tr> 
 	 {% endfor %}
 </table>
 

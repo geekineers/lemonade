@@ -135,6 +135,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/deductions', 'DeductionController#index');
     $r->post('settings/deductions/save', 'DeductionController#save');
     $r->post('settings/deductions/update', 'DeductionController#update');
+    $r->get('settings/deductions/delete', 'DeductionController#delete');
     $r->get('settings/deductions/trash', 'DeductionController#trash');
     $r->get('settings/deductions/restore/(:num)', 'DeductionController#restore');
 
