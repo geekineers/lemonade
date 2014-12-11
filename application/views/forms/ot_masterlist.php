@@ -19,6 +19,7 @@
 </head>
 <body>
   <h2 style="text-align: center"><?php echo $forms->getFormType(); ?> Form</h2>
+
   <!-- upper part -->
   <table width="100%">
      <tbody> 

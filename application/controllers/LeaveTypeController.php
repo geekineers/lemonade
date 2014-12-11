@@ -22,7 +22,7 @@ class LeaveTypeController extends BaseController {
 
     public function index()
     {
-    	 $data['company'] = $this->company;
+    	$data['company'] = $this->company;
         $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']    = "Leave Types";
@@ -33,6 +33,7 @@ class LeaveTypeController extends BaseController {
 
         
     }
+
     public function add()
     {
         $data['company'] = $this->company;
@@ -55,15 +56,18 @@ class LeaveTypeController extends BaseController {
         //         ]
         //      }
         $requiredApproval = $this->input->post('leave_type_required_approval');
-        $name = $this->input->post('leave_type_name');
-        $leavesq = $this->input->post('leave_type_approval_sequence');
-        $basePoints = $this->input->post('leave_type_base_points');
-        $pointsEarning = $this->input->post('leave_type_points_earning');
+        $name             = $this->input->post('leave_type_name');
+        $leavesq          = $this->input->post('leave_type_approval_sequence');
+        $basePoints       = $this->input->post('leave_type_base_points');
+        $pointsEarning    = $this->input->post('leave_type_points_earning');
 
         $check = $this->leaveTypeRepository->createType($name,$leavesq,$requiredApproval,$basePoints,$pointsEarning );
-        if($check){
+        if($check)
+        {
             $this->sendJSON(['status'=>'success']);
-        }else{
+        }
+        else
+        {
             $this->sendJSON(['status'=>'error']);
         }
     }

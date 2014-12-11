@@ -37,32 +37,30 @@ class TimesheetController extends BaseController {
 
 	public function search()
 	{
-	   $page  		= (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
-       $name  		= (is_null($this->input->get('name'))) ? '' : $this->input->get('name');
-       $employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
-       $timein = (is_null($this->input->get('timein'))) ? '' : $this->input->get('timein');
-       $timeout = (is_null($this->input->get('timeout'))) ? '' : $this->input->get('timeout');
-       $status  	= (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
+	   	$page  		 = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
+       	$name  		 = (is_null($this->input->get('name'))) ? '' : $this->input->get('name');
+       	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
+       	$timein      = (is_null($this->input->get('timein'))) ? '' : $this->input->get('timein');
+       	$timeout     = (is_null($this->input->get('timeout'))) ? '' : $this->input->get('timeout');
+       	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
 
-       // dd($empty(var)ployee_id);
-       $data  = $this->timesheetRepository->with('employee')
-       									  ->whereHas('employee', function($q) use ($name, $employee_id)
-													{
-													    $q->where('full_name', 'like', '%'.$name.'%');
-   													     
-													})
-       									  ->whereHas('employee', function($q) use ($name, $employee_id)
-													{
-       									   				$q->Where('employee_number', 'like', '%' . $employee_id . '%');
-   													     
-													})
-       									  ->where('status', 'like',  '%'.$status.'%')
-       									  ->where('time_in', 'like',  '%'.$timein.'%')
-       									  ->where('time_out', 'like',  '%'.$timeout.'%')
+       	// dd($empty(var)ployee_id);
+       	$data  = $this->timesheetRepository->with('employee')
+       		->whereHas('employee', function($q) use ($name, $employee_id)
+			{
+			    $q->where('full_name', 'like', '%'. $name .'%');								     
+			})
+       		->whereHas('employee', function($q) use ($name, $employee_id)
+			{
+       			$q->Where('employee_number', 'like', '%' . $employee_id . '%');										     
+			})
+       		->where('status', 'like',  '%'.$status.'%')
+       		->where('time_in', 'like',  '%'.$timein.'%')
+       		->where('time_out', 'like',  '%'.$timeout.'%')
 
-       									  ->get();
+       		->get();
 
-      $this->output->set_content_type('application/json')->set_output(json_encode($data));
+      	$this->output->set_content_type('application/json')->set_output(json_encode($data));
   
 
 	}

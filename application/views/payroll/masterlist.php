@@ -75,7 +75,7 @@
             </tr>
           </thead>
 
-          <tbody>
+          <tbody>*
           <?php $total_per_dep = 0; ?>
           <?php foreach ($payslip['items'] as $key => $item) : ?>
 
@@ -97,21 +97,21 @@
               <td><?php echo $item->getEmployee()->getJobPosition(); ?></td>
               <td><?php echo $item->getEmployee()->id; ?></td>
               <td><?php echo $item->getEmployee()->getName(); ?></td>
-              <td><?php echo $item->getEmployee()->getMonthlyRate(true); ?></td>
-              <td><?php echo $item->getEmployee()->getSemiMonthlyRate(true); ?></td>
-              <td><?php echo $item->getEmployee()->getDailyRate(); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getMonthlyRate(true); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getSemiMonthlyRate(true); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getDailyRate(); ?></td>
               <td><?php echo $item->getEmployee()->getTaxStatus(); ?></td>
-              <td><?php echo $item->getEmployee()->getTotalAllowances($from,$to); ?></td>
-              <td><?php echo $item->getEmployee()->getGross($from, $to); ?></td>
-              <td><?php echo $item->getEmployee()->getSSSValue(true); ?></td>
-              <td><?php echo $item->getEmployee()->getPhilhealthValue(true);?></td>
-              <td><?php echo $item->getEmployee()->getHDMFValue(true); ?></td>
-              <td><?php echo $item->getEmployee()->getInAttendance($from, $to, false); ?></td>
-              <td><?php echo $item->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
-              <td><?php echo $item->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
-              <td><?php echo $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
-              <td><?php echo $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
-              <td><?php echo $item->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getTotalAllowances($from,$to); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getGross($from, $to); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getSSSValue(true); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getPhilhealthValue(true);?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getHDMFValue(true); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getInAttendance($from, $to, false); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
+              <td style="float: right"><?php echo $item->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
               <td><?php echo $f; ?></td>   
             </tr>
         <?php endforeach; ?>      
