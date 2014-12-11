@@ -76,6 +76,7 @@ class Timesheet extends Eloquent {
 
   public function checkIfEmployeeDeleted()
   {
+    
     return (boolean) $this->getEmployee()->trashed();
   }
 

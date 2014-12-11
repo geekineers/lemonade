@@ -4,7 +4,8 @@ require_once ('BaseController.php');
 
 class TimesheetController extends BaseController {
 
-	protected $employeeRepository;
+	protected $employeeRepository,
+		$timesheetRepository;
 	public function __construct()
 	{
 		parent::__construct();
@@ -120,6 +121,7 @@ class TimesheetController extends BaseController {
 
 		$this->timesheetRepository->delete($id);
 
+		$this->session->set_flashdata('message', 'Successfully deleted!');
 		redirect('/timesheet');
 	}
 

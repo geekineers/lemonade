@@ -1008,7 +1008,7 @@ class Employee extends BaseModel
      * special holiday rate
      * @return [float]
      */
-    public function getSpecialHolidayRate()
+    public function getSpecialHolidayRate($number_format = true)
     {
         $daily_rate = floatval($this->getDailyRate());
         return $daily_rate * 0.3;

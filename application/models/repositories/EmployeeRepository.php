@@ -445,7 +445,7 @@ class EmployeeRepository extends BaseRepository
     }
 
     function deleteEmployee($id)
-{
+    {
         $employee = Employee::find($id);
         $employee->date_ended = date('Y-m-d');
 
