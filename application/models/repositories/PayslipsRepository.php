@@ -233,10 +233,12 @@ class PayslipsRepository extends BaseRepository
                             $objPHPExcel->getActiveSheet()->SetCellValue('AI' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
                             // $objPHPExcel->getActiveSheet()->SetCellValue('AJ' . $row, $item->getEmployee()->get#EESHAREPHILHEALTH
                             // $objPHPExcel->getActiveSheet()->SetCellValue('AK' . $row, $item->getEmployee()->get#ERSHAREPHILHEALTH
+
                             // $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
                             $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getNet($from, $to));
                             $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);
                             // $objPHPExcel->getActiveSheet()->SetCellValue('AO' . $row, $item->getEmployee()->get#REMARKS
+
                             $row++;                               
                     }       
                            
@@ -254,8 +256,7 @@ class PayslipsRepository extends BaseRepository
 
     public function generatePayslipXls($data)
     {
-        dd('generated');
-
+       
         get_instance()->load->library('excel');
         try {
             $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
@@ -266,8 +267,8 @@ class PayslipsRepository extends BaseRepository
             //echo $row;
             $objPHPExcel->getActiveSheet()->SetCellValue('B1', $from . '-' . $to);
             $objPHPExcel->getActiveSheet()->SetCellValue('B2', $date);
-            $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
-            
+            // $objPHPExcel->getActiveSheet()->SetCellValue('B3', $period->getPayrollGroup()->period);
+            $row = 10;
             foreach ($slip as $key => $payslip) {
 
                 $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row, $payslip->getEmployee()->id);
@@ -298,7 +299,7 @@ class PayslipsRepository extends BaseRepository
                 ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-            $objWriter->save('excel_files/masterlist-' . $date . '.xlsx');
+            $objWriter->save('excel_files/payslip-' . $date . '.xlsx');
             return true;
         }
          catch (Exception $e) {

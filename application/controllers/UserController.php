@@ -23,9 +23,10 @@ class UserController extends BaseController
          $data['alert_message'] = ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
         foreach ($data['users'] as $key => $value) {
             // dd($value->id);
-              $user     = get_instance()->sentry->findUserById($value->id);
-             $data['users'][$key]['role'] = $user->getGroups()[0]->name;
+            $user     = get_instance()->sentry->findUserById($value->id);
+            $data['users'][$key]['role'] = $user->getGroups()[0]->name;
         }
+
         $this->render('user/index.twig.html', $data);
 
     }
