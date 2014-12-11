@@ -26,7 +26,7 @@
             <tr action="/">
                 <td>{{ form.created_at|date("m/d/Y")  }}</td>
                 <td>
-                    {{ form.form_type }}
+                    {{ form.getFormType() }} Form
                 </td>
                 <td>{{ form.getEmployeeNames() }}</td>
                 <td>{{ form.getPreparedBy() }}</td>
@@ -111,7 +111,7 @@
         });
         $('#approved').on('click',function(){
             var el = this;
-            $.post('/hr/approved',{id:$(el).data('id')},function(){
+            $.post('/hr/approved',{id:$(selected).data('id')},function(){
                 $('#approve-modal').modal('hide');
                 $.notify('Approved','success');
                 window.location.reload();

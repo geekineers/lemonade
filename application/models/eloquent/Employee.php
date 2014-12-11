@@ -273,7 +273,7 @@ class Employee extends BaseModel
 
             $first = SSSConfigs::first();
             $last  = SSSConfigs::orderby('created_at', 'desc')->first();
-            if ($first != null && $last != null) {
+            if ($first != null && $last != null || $this->fixed_sss_amount != "no") {
 
                 if ($pay < $first->to_range) {
                     $sss = $first->EE;
@@ -341,7 +341,7 @@ class Employee extends BaseModel
 
             $first = PHConfigs::first();
             $last  = PHConfigs::orderby('created_at', 'desc')->first();
-            if ($first != null && $last != null) {
+            if ($first != null && $last != null || $this->fixed_philhealth_amount != "no") {
                 if ($pay < $first->to_range) {
                     $ph = $first->employee_share;
                 } else if ($pay > $last->to_range) {
@@ -369,7 +369,7 @@ class Employee extends BaseModel
     {
         $hdmf = ($this->deduct_hdmf == null || $this->deduct_hdmf == 1)? 100 : 0;
 
-        $hdmf = ((int) $this->fixed_hdmf_amount > 0) ? (int) $this->fixed_hdmf_amount : $hdmf;
+        $hdmf = ($this->fixed_hdmf_amount != "no") ? (int) $this->fixed_hdmf_amount : $hdmf;
 
         if ($this->getPayrollPeriod()->period == "Semi-monthly") {return $hdmf / 2;
         }
@@ -464,7 +464,7 @@ class Employee extends BaseModel
         $total_Allowance = 0;
         $total           = 0;
 
-        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() + $this->getOvertime($from, $to);
+        $total = $this->getTotalAllowances($from, $to, false) + $this->getBasicSalary() + $this->getOvertimePay($from, $to);
 
         $total = $total + $regular_holiday + $special_holiday + $night_differential;
 
@@ -773,7 +773,7 @@ class Employee extends BaseModel
         // return $curr_salary;
         $absents = $this->getAbsentDeduction($from, $to);
 
-        $overtime = $this->getOvertime($from, $to);
+        $overtime = $this->getOvertimePay($from, $to);
 
         $curr_salary = ($salary + $overtime)-($sss_val + $philhealth_val + $pagibig_val + $absents);
 
@@ -813,7 +813,7 @@ class Employee extends BaseModel
                 return $this->getHourlyRate() * 0.1;
             }
         }
-
+        return 0;
     }
     /**
      * return total overtime of an employee from a given date range
@@ -837,7 +837,7 @@ class Employee extends BaseModel
             $ot_to   = new Carbon($ot->to);
             $ot_from = new Carbon($ot->from);
             $diff    = $ot_to->diffInHours($ot_from);
-            $total_overtime += $diff;
+            $total_overtime += $ot->getFormData()->total_hrs;
         }
 
         return $total_overtime;
@@ -847,9 +847,11 @@ class Employee extends BaseModel
      * return overtime pay of an employee from a given date range
      * @return [float]
      */
-    public function getOvertimePay()
+    public function getOvertimePay($from, $to)
     {
-        return floatval($this->getOverTimePayRate() * $this->getOvertime());
+        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to));
+        // dd($op);
+        return $op;
     }
 
     public function getHourlyRate()
@@ -1195,7 +1197,7 @@ class Employee extends BaseModel
         $absents = $this->getAbsentDeduction($from, $to);
         $late    = $this->getUnderTimeAndLateDeduction($from, $to, 'minute');
 
-        $overtime           = $this->getOvertime($from, $to);
+        $overtime           = $this->getOvertimePay($from, $to);
         $regular_holiday    = $this->getRegularHolidayPay($from, $to);
         $special_holiday    = $this->getSpecialHolidayPay($from, $to);
         $night_differential = $this->getNightDifferentialPay($from, $to);
@@ -1432,5 +1434,31 @@ class Employee extends BaseModel
 
         return $total;
     }
+
+    public function getSubordinates()
+    {
+        $output = array();
+        $departments = Department::where('department_head_id', $this->id)->lists('id');
+        foreach($departments as $department){
+            $employees = Employee::where('department', $department)->lists('id');
+            foreach ($employees as $employee) {
+                
+                array_push($output, $employee);
+            }
+        }
+        return $output;
+    }
+
+    public function getSubordinatesApplications()
+    {
+        return Form_Application::whereIn('employee_id', $this->getSubordinates())->get();
+
+    }
+
+    public function isDepartmentHead()
+    {
+        return (boolean) Department::where('department_head_id', $this->id)->count();
+    }
+
 
 }

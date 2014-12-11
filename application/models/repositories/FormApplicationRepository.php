@@ -39,9 +39,10 @@ class FormApplicationRepository extends BaseRepository {
 	{
 		return $this->where('id','=',$id)->first();	
 	}
-	public function approved($id)
+	public function approved($id, $approved_by)
 	{
-		return $this->where('id','=',$id)->update(['status'=>'approved']);
+
+		return $this->where('id','=',$id)->update(['status'=>'approved', 'approved_by' => $approved_by]);
 	}
 
 	public function disapproved($id)
@@ -60,10 +61,17 @@ class FormApplicationRepository extends BaseRepository {
 
 	}
 
+	public function getFormApplicationByDepartment()
+	{
+		
+	}
+
 	public function delete($id)
 	{
 		return $this->find($id)->delete();
 	}
+
+
 	
 	
 	

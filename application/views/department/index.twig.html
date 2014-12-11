@@ -65,6 +65,15 @@
                 <label for="exampleInputEmail1">Deparment Description</label>
                 <input type="text" name="department_description" class="form-control" id="exampleInputEmail1" placeholder="Enter Description">
             </div>
+                       <div class="form-group">
+              <label for="">Department Head</label>
+             <select required name="department_head_id" class="form-control combobox employee-sched">
+                  {% for employee in employees %}
+                  <option></option>
+                  <option value="{{ employee.id }}">{{ employee.getName() }}</option>
+                  {% endfor %}
+              </select>
+            </div>
                   <div class="form-group">
               <label>Department Branch</label>
               <select class="form-control" name="branch_id">
@@ -106,6 +115,15 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Deparment Description</label>
                 <input type="text" name="department_description" class="form-control" id="update-department-description" placeholder="Enter Description">
+            </div>
+            <div class="form-group">
+              <label for="">Department Head</label>
+             <select required name="employee" class="form-control combobox employee-sched">
+                  {% for employee in employees %}
+                  <option></option>
+                  <option data-timestart="{{ employee.getTimeShiftStart() }}" data-timeend="{{ employee.getTimeShiftEnd() }}" value="{{ employee.id }}">{{ employee.getName() }}</option>
+                  {% endfor %}
+              </select>
             </div>
             <div class="form-group">
               <label>Department Branch</label>

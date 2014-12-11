@@ -33,6 +33,14 @@
             <span>Form Application</span>
         </a>
     </li>
+    {% if user.isDepartmentHead()  %}
+    <li>
+        <a href="/forms/">
+            <i class="fa  fa-book"></i>
+            <span>Form For Approval</span> 
+        </a>
+    </li>
+    {% endif %}
     {% endif %}
 
     <hr>

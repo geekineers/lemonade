@@ -25,6 +25,7 @@ class DepartmentController extends BaseController
         $data['groups']    =  $this->departmentRepository->all();
         $data['branches']  =  $this->branchRepository->all();
         $data['user']      =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['employees']  =  $this->employeeRepository->all();
         $data['title']     =  "Department";
         $this->render('department/index.twig.html', $data);
 
@@ -47,6 +48,7 @@ class DepartmentController extends BaseController
         $input['department_name']        = (string) $this->input->post('department_name');
         $input['department_description'] = (string) $this->input->post('department_description');
         $input['branch_id'] = (int) $this->input->post('branch_id');
+        $input['department_head_id'] = (int) $this->input->post('department_head_id');
 
         // dd($input);
         $job = $this->departmentRepository->createNotExist($input);
@@ -55,7 +57,7 @@ class DepartmentController extends BaseController
             redirect('/settings/department');
         } else {
             $this->session->set_flashdata('message', $input['department_name'] . ' is already in here.');
-            dd($message);
+            // dd($message);
             redirect('/department/add');
         }
     }

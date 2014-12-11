@@ -29,7 +29,11 @@ class MainController extends BaseController
     public function dashboard()
     {
 
+
         $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+
+        // dd($data['user']->getSubordinatesApplications());
+
         $data['datetime'] = array(
             'time'  => date('h:i:s A'),
             'day'   => date('l'),
