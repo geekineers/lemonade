@@ -25,16 +25,28 @@ class EmployeeLeaveCredit extends Eloquent {
 		return ($credit) ? $credit->counter : 	(int) $leave_type->leave_type_base_points;
 	}
 
-	public static function deductPoint($employee_id, $leave_type)
+	public static function deductPoint($employee_id, $leave_type_id)
 	{
-		$remaining_points = $this->getEmployeeRemainingCredits($from, $to);
-		$remaining_points = $remaining_points - 1;
+		$remaining_points = self::getEmployeeRemainingCredits($employee_id, $leave_type_id);
+		// dd($remaining_points);
+		$remaining_points = (int) $remaining_points - 1;
 
 		$credit = EmployeeLeaveCredit::where('employee_id', $employee_id)
 									 ->where('leave_type_id', $leave_type_id)
 									 ->first();
-		$credit->counter = $remaining_points;
-		$credit->save();				
+		if($credit){
+			$credit->counter = $remaining_points;
+			$credit->save();				
+			
+		}	
+		else{
+			$credit = new EmployeeLeaveCredit();
+			$credit->employee_id = $employee_id;
+			$credit->leave_type_id = $leave_type_id;
+			$credit->counter = $remaining_points;
+			$credit->save();
+
+		}						 
 
 		return true;
 	}
