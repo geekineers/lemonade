@@ -1,4 +1,4 @@
-<?php
+]<?php
 require_once ('BaseController.php');
 
 class JobController extends BaseController
@@ -61,7 +61,7 @@ class JobController extends BaseController
     {
         $id = $this->input->get('token');
         $this->jobPositionRepository->delete($id);
-        $this->session->set_flashdata('message', 'Successfully Deleted!');
+        $this->session->set_flashdata('alert_message', 'Successfully Deleted!');
         redirect('/settings/job');
     }
 

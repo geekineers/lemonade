@@ -39,8 +39,7 @@
 	 		<td>{{ deduction.deduction_name }}</td>
 	 		<td>{{ deduction.deduction_type }}</td>
 	 		<td>
-	 			<a href="#updateDeductions" data-id="{{ deduction.id }}"  data-name="{{ deduction.deduction_name }}" class="btn-update-deduction btn btn-primary"><i class="fa fa-edit"></i></a>
-	 			 <a  onclick="return confirm('Are you sure you want to reactivate this deduction?')"  href="/settings/deductions/restore/{{ deduction.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
+	 			 <a  onclick="return confirm('Are you sure you want to reactivate this deduction?')"  href="/settings/deductions/restore/{{ deduction.id }}" class="btn btn-success"><i class="fa fa-rotate-left">  Restore</i></a>
 	 		</td>
 	 	</tr>
 	 {% endfor %}
