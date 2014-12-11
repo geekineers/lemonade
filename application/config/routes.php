@@ -161,6 +161,8 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/leave-types', 'LeaveTypeController#index');
     $r->get('settings/leave-types/add', 'LeaveTypeController#add');
+    $r->get('settings/leave-types/edit', 'LeaveTypeController#edit');
+    $r->post('settings/leave-types/edit', 'LeaveTypeController#update');
     $r->post('settings/leave-types/submit', 'LeaveTypeController#store');
 
     $r->get('settings/users', 'UserController#index');
