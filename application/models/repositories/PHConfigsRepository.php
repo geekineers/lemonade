@@ -18,21 +18,16 @@ class PHConfigsRepository extends BaseRepository {
 	
 	public function createPH($data)
 	{
-		$validator = Validator::arr()->key('from_range', Validator::notEmpty())
-                                     ->key('to_range', Validator::notEmpty())
-                                     ->key('salary_base', Validator::notEmpty())
-                                     ->key('total_monthly_premium', Validator::notEmpty())
-                                     ->key('employee_share',  Validator::notEmpty())
-                                     ->key('employer_share',  Validator::notEmpty())
-                                     ->validate($data);
+		// $validator = Validator::arr()->key('from_range', Validator::notEmpty())
+  //                                    ->key('to_range', Validator::notEmpty())
+  //                                    ->key('salary_base', Validator::notEmpty())
+  //                                    ->key('total_monthly_premium', Validator::notEmpty())
+  //                                    ->key('employee_share',  Validator::notEmpty())
+  //                                    ->key('employer_share',  Validator::notEmpty())
+  //                                    ->validate($data);
 
-
-        if ($validator) {
-            return $this->create($data);
-        } else {
-
-            return false;
-        }
+      return $this->create($data);
+      
 	}
 
 	public function updatePH($data , $id)

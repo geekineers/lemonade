@@ -42,7 +42,7 @@
   <div>
     <center>
       <h2><?php echo date('M d Y', strtotime($from)) .' to '. date('M d Y', strtotime($to)) ?></h2>
-      <span><?php echo $period->getPayrollGroup()->period ?> </span>
+      <span><?php echo $period->getPayrollGroup()->period; ?> </span>
     </center>
 
   </div>
@@ -75,7 +75,7 @@
             </tr>
           </thead>
 
-          <tbody>*
+          <tbody>
           <?php $total_per_dep = 0; ?>
           <?php foreach ($payslip['items'] as $key => $item) : ?>
 

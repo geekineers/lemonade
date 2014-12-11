@@ -214,6 +214,13 @@ class TimesheetRepository extends BaseRepository
         // dd($s);
     }
 
+  function delete($id)
+    {
+      $time = Timesheet::find($id);
+
+      return $time->delete();
+    }
+
     public function uploadByBatch($data)
     {
         get_instance()->load->library('excel');
