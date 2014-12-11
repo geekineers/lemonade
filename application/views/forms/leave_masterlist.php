@@ -39,30 +39,22 @@
     <tbody>
       <tr>
         <td colspan="3" class="background border">Start Date:</td>
-        <td colspan="1" class="border">&nbsp;</td>
+        <td colspan="1" class="border"><?php echo $forms->from; ?> </td>
         <td colspan="2" class="background border">End Date:</td>
-        <td colspan="1" class="border">&nbsp;</td>
+        <td colspan="1" class="border"><?php echo $forms->to; ?></td>
         <td colspan="2" class="background border">No. of Day:</td>
-        <td colspan="1" class="border">&nbsp;</td>     
+        <td colspan="1" class="border"><?php echo $forms->getFormData()->no_of_days; ?></td>     
       </tr>
       
       <tr>
         <td colspan="3" class="background border">Reason:</td>
-        <td colspan="7" class="border">&nbsp;</td>
+        <td colspan="7" class="border"><?php echo $forms->getFormData()->reason; ?></td>
       </tr>
-      
-      <tr>
-        <td colspan="10" class="background border"><span style="margin-left: 400px">Type of Leave</span></td>
+            <tr>
+        <td colspan="3" class="background border">Type of Leave:</td>
+        <td colspan="7" class="border"><?php echo $forms->getTypeofLeave()->leave_type_name; ?></td>
       </tr>
-      
-      <tr>
-        <td colspan="3" class="background border">Vacation Leave:</td>
-        <td colspan="1" class="border">&nbsp;</td>
-        <td colspan="2" class="background border">Sick Leave:</td>
-        <td colspan="1" class="border">&nbsp;</td>
-        <td colspan="2" class="background border">Absent:</td>
-        <td colspan="1" class="border">&nbsp;</td>
-      </tr>
+
       
       <tr>
         <td colspan="10" class="background border"><span style="margin-left: 400px">Remaining Credits <span style="font-style: italic">(to be filled up by HR)</span></span></td>

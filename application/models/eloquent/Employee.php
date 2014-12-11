@@ -675,17 +675,23 @@ class Employee extends BaseModel
         foreach ($days as $day) {
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
+            $absolute_day = DateTime::createFromFormat('Y-m-d', $day);
+            $is_undertime_approved = Form_Application::where('form_type', 'undertime')->where('effective_date', $absolute_day)->count();
 
             $result = Timesheet::where('employee_id', '=', $this->id)
                                                                 ->whereBetween('time_out', [$startDate, $endDate])->first();
             if ($result) {
                 $resultDate = DateTime::createFromFormat('Y-m-d H:i:s', $result->time_out);
 
+
+
                 $departure_time = $resultDate->format('H:i:s');
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
                 $undertime = getInterval($departure_time, $this->getTimeShiftEnd(true), $unit);
                 $undertime = ($undertime >= 480) ? 480 : $undertime;
-                $totalUnderTime += $undertime;
+                if(!is_undertime_approved){
+                    $totalUnderTime += $undertime;                    
+                }
 
             }
         }
@@ -1474,5 +1480,10 @@ class Employee extends BaseModel
         return (boolean) Department::where('department_head_id', $this->id)->count();
     }
 
+
+    public function getRemainingLeaveCredit($leave_type_id)
+    {
+        return EmployeeLeaveCredit::getEmployeeRemainingCredits($this->id, $leave_type_id);
+    }
 
 }
