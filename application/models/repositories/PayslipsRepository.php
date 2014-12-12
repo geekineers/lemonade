@@ -211,7 +211,7 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $item->getEmployee()->getSemiMonthlyRate(true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $item->getEmployee()->getDailyRate());
                         $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $item->getEmployee()->getTaxStatus());
-                        $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $item->getEmployee()->getInAttendance($from, $to, $weekend_include = true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, ($item->getEmployee()->getInAttendance($from, $to, $weekend_include = true));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->get#DAYOFF());
                         $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $item->getEmployee()->getTotalAllowances($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $item->getEmployee()->getOverTimePay($from, $to));
@@ -220,8 +220,9 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getSpecialHolidayPay($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getGross($from, $to));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $item->getEmployee()->get#CASHADVANCE;
-                        $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $item->getEmployee()->getAbsentDeduction($from, $to, true));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $item->getEmployee()->getLateDeduction($from, $to, true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $item->getEmployee()->getAbsentDeduction($from, $to, true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $item->getEmployee()->getLateDeduction($from, $to, true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $item->getEmployee()->getLateDeduction($from, $to, true) + $item->getEmployee()->getAbsentDeduction($from, $to, true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $item->getEmployee()->getGeneratedSSSEmployee($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
