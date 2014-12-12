@@ -383,7 +383,7 @@ class Employee extends BaseModel
         if ($this->getPayrollPeriod()->period == "Semi-monthly") {return $hdmf / 2;
         }
 
-        return $hdmf;
+        return 100;
 
     }
 
@@ -866,7 +866,7 @@ class Employee extends BaseModel
      */
     public function getOvertimePay($from, $to)
     {
-        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to) * $this->getHourlyRate());
+        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to) * $this->getHourlyRate()   );
         // dd($op);
         return $op;
     }
