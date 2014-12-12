@@ -15,15 +15,15 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Branch</label>
-                        {% if is_interbranch %}
+        
                         <select class="form-control" name="branch">
                         {% for branch in branches %}
                             <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
                         {% endfor %}
                         </select>
-                        {% else %}
+                
                         <input name="branch" class="form-control" type="text" value="{{ user.getBranch() }}" readonly="readonly">    
-                        {% endif %}
+                
                     </div>
 
                     <h4 class="box-title">User Permission
