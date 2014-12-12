@@ -745,6 +745,10 @@ class Employee extends BaseModel
 
         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
 
+        if($unit == "hour"){
+            return gmdate("H:i", ($totalLate * 60))
+        }
+
         return $totalLate;
     }
 
