@@ -215,7 +215,7 @@ $to = $payslip->getPayslipsGroup()->to;
         </tr>
 
          <tr>
-          <td>Absent(<?php echo $employee->getAbsent() . ' days'; ?>)</td>
+          <td>Absent</td>
           <td style="text-align:right;"><?php echo $employee->getAbsentDeduction($from, $to, false, true);
 ?></td>
         </tr>
