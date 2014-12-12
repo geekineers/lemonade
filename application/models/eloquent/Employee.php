@@ -745,6 +745,11 @@ class Employee extends BaseModel
 
         $totalLate = $totalLate + $this->getUnderTime($from, $to, 'minute');
 
+        if($unit == "hour"){
+            // return gmdate("H:i", ($totalLate * 60));
+            return $totalLate/60;
+        }
+
         return $totalLate;
     }
 
@@ -768,7 +773,8 @@ class Employee extends BaseModel
 
     public function getUnderTimeAndLateDeduction($from, $to, $unit, $number_format = false)
     {
-        $total = floatval($this->getLateDeduction($from, $to, $unit));
+        $total = floatval($this->getLateDeduction($from, $to, $unit)/60);
+        $total = $total*$this->getHourlyRate();
         if ($number_format) {return number_format($total, 2);
         }
 
