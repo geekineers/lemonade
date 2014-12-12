@@ -1096,10 +1096,14 @@ class Employee extends BaseModel
             // dd($date_range_start, $date_range_end);
             $dt = new Carbon($date);
 
-            if ($dt->isWeekend() && $weekend_include) {
+            if ($dt->isWeekend() && $weekend_include) 
+            {
                 $in_attendance++;
                 
-            } else if ($dt->isWeekday()) {
+            } 
+
+            else if ($dt->isWeekday())
+            {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
