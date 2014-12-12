@@ -220,7 +220,7 @@ $to = $payslip->getPayslipsGroup()->to;
 ?></td>
         </tr>
          <tr>
-          <td>Late Deduction(<?php echo $employee->getLateDeduction($from, $to, 'hour'); ?>)</td>
+          <td>Late Deduction(<?php echo $employee->getLateDeduction($from, $to, 'hour').'hrs'; ?>)</td>
           <td style="text-align:right;" ><?php echo $employee->getUnderTimeAndLateDeduction($from, $to, 'minute', true);
 ?></td>
         </tr>
