@@ -15,15 +15,12 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Branch</label>
-        
                         <select class="form-control" name="branch">
                         {% for branch in branches %}
                             <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
                         {% endfor %}
                         </select>
-                
-                        <input name="branch" class="form-control" type="text" value="{{ user.getBranch() }}" readonly="readonly">    
-                
+                    
                     </div>
 
                     <h4 class="box-title">User Permission
