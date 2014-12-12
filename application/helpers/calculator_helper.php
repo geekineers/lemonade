@@ -81,11 +81,11 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 			
 			if($per_unit == "Monthly")
 			{
-				return $basic_salary * 30;
+				return $basic_salary * 26;
 			}
 
 			if($per_unit == "Semi-monthly"){
-				return $basic_salary * 15;
+				return $basic_salary * 13;
 			}
 
 			if($per_unit == 'daily')
