@@ -825,9 +825,9 @@ class Employee extends BaseModel
             if ($this->overtime_pay_rate && $this->overtime_pay_rate > 0) {
                 $rate = str_replace('%', '', $this->overtime_pay_rate) / 100;
                 // $nrate = 1 + $rate;
-                return ($this->getHourlyRate() * $rate) + 1;
+                return $rate + 1;
             } else {
-                return ($this->getHourlyRate() * 0.1) + 1;
+                return  0.1 + 1;
             }
         }
         return 0;
@@ -866,7 +866,7 @@ class Employee extends BaseModel
      */
     public function getOvertimePay($from, $to)
     {
-        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to));
+        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to) * $this->getHourlyRate());
         // dd($op);
         return $op;
     }
