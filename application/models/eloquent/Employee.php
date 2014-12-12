@@ -689,7 +689,7 @@ class Employee extends BaseModel
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
                 $undertime = getInterval($departure_time, $this->getTimeShiftEnd(true), $unit);
                 $undertime = ($undertime >= 480) ? 480 : $undertime;
-                if(!is_undertime_approved){
+                if(!$is_undertime_approved){
                     $totalUnderTime += $undertime;                    
                 }
 
