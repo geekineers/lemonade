@@ -279,7 +279,7 @@ class Employee extends BaseModel
 
             $first = SSSConfigs::first();
             $last  = SSSConfigs::orderby('created_at', 'desc')->first();
-            if ($first != null && $last != null || $this->fixed_sss_amount != "no") {
+            if ($first != null && $last != null || strtolower($this->fixed_sss_amount) != "no") {
 
                 if ($pay < $first->to_range) {
                     $sss = $first->EE;
