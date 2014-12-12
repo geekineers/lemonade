@@ -827,7 +827,7 @@ class Employee extends BaseModel
                 // $nrate = 1 + $rate;
                 return ($this->getHourlyRate() * $rate) + 1;
             } else {
-                return ($this->getHourlyRate() * 0.1) ;
+                return ($this->getHourlyRate() * 0.1) + 1;
             }
         }
         return 0;
