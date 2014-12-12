@@ -207,7 +207,7 @@ $to = $payslip->getPayslipsGroup()->to;
         </tr>
         <tr>
           <td>HDMF</td>
-          <td style="text-align:right;"><?php echo$employee->getHDMFValue()?></td>
+          <td style="text-align:right;"><?php echo $employee->getHDMFValue()?></td>
         </tr>
         <tr>
           <td>Philhealth</td>
@@ -215,7 +215,7 @@ $to = $payslip->getPayslipsGroup()->to;
         </tr>
 
          <tr>
-          <td>Absent</td>
+          <td>Absent(<?php echo $employee->getAbsent() . ' days'; ?>)</td>
           <td style="text-align:right;"><?php echo $employee->getAbsentDeduction($from, $to, false, true);
 ?></td>
         </tr>
