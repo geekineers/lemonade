@@ -822,12 +822,12 @@ class Employee extends BaseModel
     public function getOverTimePayRate()
     {
         if ($this->entitled_overtime_pay) {
-            if ($this->overtime_pay_rate) {
+            if ($this->overtime_pay_rate && $this->overtime_pay_rate > 0) {
                 $rate = str_replace('%', '', $this->overtime_pay_rate) / 100;
                 // $nrate = 1 + $rate;
-                return $this->getHourlyRate() * $rate;
+                return ($this->getHourlyRate() * $rate) + 1;
             } else {
-                return $this->getHourlyRate() * 0.1;
+                return ($this->getHourlyRate() * 0.1) ;
             }
         }
         return 0;
