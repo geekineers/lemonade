@@ -378,12 +378,12 @@ class Employee extends BaseModel
     {
         $hdmf = ($this->deduct_hdmf == null || $this->deduct_hdmf == 1)? 100 : 0;
 
-        $hdmf = ($this->fixed_hdmf_amount != "no") ? (int) $this->fixed_hdmf_amount : $hdmf;
+        $hdmf = (strtolower($this->fixed_hdmf_amount) != "no") ? (int) $this->fixed_hdmf_amount : $hdmf;
 
         if ($this->getPayrollPeriod()->period == "Semi-monthly") {return $hdmf / 2;
         }
 
-        return 100;
+        return number_format($hdmf, 2);
 
     }
 
