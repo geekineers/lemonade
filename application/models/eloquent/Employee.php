@@ -437,12 +437,15 @@ class Employee extends BaseModel
     {
         $deductions = $this->getDeductions($from, $to);
         $total      = 0;
-        foreach ($deductions as $deduction) {
+        foreach ($deductions as $deduction) 
+        {
             $total += $deduction->amount;
         }
 
-        if ($number_format) {return number_format($total, 2);
-        }
+        if ($number_format) 
+        {
+            return number_format($total, 2);
+        } 
 
         return $total;
     }
