@@ -32,13 +32,12 @@
         <th>Time Out</th>
         <th>Name</th>
         <th>Emp. ID</th>
-     
         <th>Status</th>
         <th>Options</th>
     </tr>
     <tr>
         <td>    
-            <div class="input-group">
+            <div class="input-group" style="width: 200px">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
@@ -46,18 +45,26 @@
             </div>
         </td>
         <td>
-            <div class="input-group">
+            <div class="input-group" style="width: 200px">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
                 <input id="search-timeout" type="text" class="search-input form-control pull-right time">
             </div>
         </td>
-        <td><input type="text"  id="search-name" class="search-input "></td>
-        <td><input type="text" id="search-employee-id" class="search-input "></td>
+        <td>
+            <div class="input-group">
+                <input type="text"  id="search-name" class="search-input">
+            </div>
+        </td>
+        <td>
+            <div class="input-group">
+                <input type="text" id="search-employee-id" class="search-input">
+            </div>
+        </td>
         <td>
             <select id="search-status" name="" class="search-select form-control" id="">
-                <option value="">--SELECT STATUS --</option>
+                <option value="">Select Status:</option>
                 <option value="good">Good</option>
                 <option value="undertime">Under Time</option>
                 <option value="late">Late</option>
@@ -155,7 +162,7 @@
                     </div>
                     <div class="form-group">
                         <label>Time In</label>
-                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible; width:">
                             <input id="timestart" type="text" name="timestart" class="timepicker form-control input-small">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
                             </span>
