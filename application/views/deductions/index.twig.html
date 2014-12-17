@@ -21,8 +21,6 @@
     <i class="fa fa-check"></i>
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
     </button>
-    <br>
-    <br>
     <b>Success!</b> {{ alert_message }}.
   </div>
   {% endif %}
@@ -64,10 +62,18 @@
             <label>Name<span class="req-label">*</span></label>
             <input type="text" required name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
           </div>
-          <div class="form-group">
+         <!--  <div class="form-group">
             <label>Type</label>
             <input type="radio" name="deduction_type" value="fix_amount"> Fix Amount
             <input type="radio" name="deduction_type" value="percentage"> Percentage
+          </div> -->
+
+          <div class="form-group">
+            <label for="">Frequency</label>
+            <select name="deduction_type" id="" class="form-control">
+              <option value="fix_amount">Fix Amount</option>
+              <option value="percentage">Percentage</option>
+            </select>
           </div>
         </div>
         <div class="modal-footer">
@@ -95,6 +101,14 @@
           <div class="form-group">
             <label>Name</label>
             <input id="update-deduction-name" type="text" name="deduction_name" class="form-control" placeholder="eg. Car Loan" />
+          </div>
+
+          <div class="form-group">
+            <label for="">Frequency</label>
+            <select name="deduction_type" id="" class="form-control">
+              <option value="fix_amount">Fix Amount</option>
+              <option value="percentage">Percentage</option>
+            </select>
           </div>
         </div>
 

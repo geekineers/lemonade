@@ -3,9 +3,9 @@
 <div class="row container">
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
-                                        <i class="fa fa-check"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Success!</b> {{ alert_message }}.
+    <i class="fa fa-check"></i>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <b>Success!</b> {{ alert_message }}.
     </div>
     {% endif %}
 </div>
@@ -44,27 +44,38 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+        &times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title" id="myModalLabel">Generate Incomet Tax Report</h4>
       </div>
       <div class="modal-body">
-               <div class="form-group">
-                <label for="exampleInputEmail1">Select Year</label>
-                <select name="year" class="form-control">
-                   {% set minimumYear = 1992 %}
-     {% set currentYear = "now"|date("Y") %}   
-     {% for year_loop in (currentYear)..minimumYear %}
-        <option {% if year == year_loop %} selected {% endif %}value="{{ year_loop }}">{{year_loop}}</option>
-    {% endfor %}
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Select Type</label>
-              <select name="type" class="form-control">
-                <option value="quarterly">Quarterly</option>
-                <option value="monthly">Monthly</option>
-              </select>
-            </div>
+        <label>Branch
+          <span class="req-label">*</span>
+        </label>
+
+        <select required name="branch" class="form-control " id="exampleInputEmail1" placeholder="">
+        {% for branch in branches %}
+          <option value="{{  branch.id }}">{{ branch.branch_name }}</option>
+        {% endfor %}
+        </select>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Select Year</label>
+          <select name="year" class="form-control">
+          {% set minimumYear = 1992 %}
+          {% set currentYear = "now"|date("Y") %}   
+          {% for year_loop in (currentYear)..minimumYear %}
+            <option {% if year == year_loop %} selected {% endif %}value="{{ year_loop }}">{{year_loop}}
+            </option>
+          {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Select Type</label>
+          <select name="type" class="form-control">
+            <option value="quarterly">Quarterly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -88,6 +99,15 @@
         <h4 class="modal-title" id="myModalLabel">Generate SSS Report</h4>
       </div>
       <div class="modal-body">
+      <label>Branch
+          <span class="req-label">*</span>
+        </label>
+
+        <select required name="branch" class="form-control " id="exampleInputEmail1" placeholder="">
+        {% for branch in branches %}
+        <option value="{{  branch.id }}">{{ branch.branch_name }}</option>
+        {% endfor %}
+        </select>
                <div class="form-group">
                 <label for="exampleInputEmail1">Select Year</label>
                 <select name="year" class="form-control">
@@ -97,7 +117,7 @@
         <option {% if year == year_loop %} selected {% endif %}value="{{ year_loop }}">{{year_loop}}</option>
     {% endfor %}
               </select>
-            </div>
+           </div>
                 <div class="form-group">
               <label>Select Type</label>
               <select name="type" class="form-control">
@@ -129,6 +149,15 @@
         <h4 class="modal-title" id="myModalLabel">Generate Philhealth Report</h4>
       </div>
       <div class="modal-body">
+      <label>Branch
+          <span class="req-label">*</span>
+        </label>
+
+        <select required name="branch" class="form-control " id="exampleInputEmail1" placeholder="">
+        {% for branch in branches %}
+        <option value="{{  branch.id }}">{{ branch.branch_name }}</option>
+        {% endfor %}
+        </select>
                <div class="form-group">
                 <label for="exampleInputEmail1">Select Year</label>
                 <select name="year" class="form-control">
@@ -169,6 +198,15 @@
         <h4 class="modal-title" id="myModalLabel">Generate Philhealth Report</h4>
       </div>
       <div class="modal-body">
+      <label>Branch
+          <span class="req-label">*</span>
+        </label>
+
+        <select required name="branch" class="form-control " id="exampleInputEmail1" placeholder="">
+        {% for branch in branches %}
+        <option value="{{  branch.id }}">{{ branch.branch_name }}</option>
+        {% endfor %}
+        </select>
                <div class="form-group">
                 <label for="exampleInputEmail1">Select Year</label>
                 <select name="year" class="form-control">
@@ -179,7 +217,7 @@
     {% endfor %}
               </select>
             </div>
-                <div class="form-group">
+            <div class="form-group">
               <label>Select Type</label>
               <select name="type" class="form-control">
                 <option value="quarterly">Quarterly</option>
@@ -201,136 +239,151 @@
 
  <form role="form" action="/reports/generate-employee-list" method="post">
 
- <div class="modal fade" id="generateEmployeeList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generate Employee Lit</h4>
-      </div>
-      <div class="modal-body">
-              <label>Select Columns</label>
-               <input type="checkbox" class="select_all"><small>Select All</small></h4> 
-               <div class="row">
-                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[full_address]' type="checkbox" class="flat-red">
-                        full_address
-                      </div> 
-                </div>                 
-                <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[birthdate]' type="checkbox" class="flat-red">
+  <div class="modal fade" id="generateEmployeeList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Generate Employee List</h4>
+        </div>
+        <div class="modal-body">
+         
+          <label>Branch
+            <span class="req-label">*</span>
+          </label>
+
+          <select required name="branch" class="form-control " id="exampleInputEmail1" placeholder="">
+          {% for branch in branches %}
+          <option value="{{  branch.id }}">{{ branch.branch_name }}</option>
+          {% endfor %}
+          </select>
+
+          <br>
+          <label>Select Columns</label>
+          <input type="checkbox" class="select_all"><small>Select All</small></h4> 
+          <div class="row">
+            <div class="col-md-5 permission-item form-group">
+              <div class="icheckbox flat-red">
+                <input name='columns[full_address]' type="checkbox" class="flat-red">
+                  full_address
+              </div> 
+            </div>                 
+              <div class="col-md-5 permission-item form-group">
+                <div class="icheckbox flat-red">
+                  <input name='columns[birthdate]' type="checkbox" class="flat-red">
                         birthdate
-                      </div> 
-                </div>                 
-                <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[gender]' type="checkbox" class="flat-red">
+                </div> 
+              </div>                 
+              <div class="col-md-5 permission-item form-group">
+                <div class="icheckbox flat-red">
+                  <input name='columns[gender]' type="checkbox" class="flat-red">
                         gender
-                      </div> 
-                </div>                 
-                <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[marital_status]' type="checkbox" class="flat-red">
+                </div> 
+              </div>                 
+              <div class="col-md-5 permission-item form-group">
+                <div class="icheckbox flat-red">
+                  <input name='columns[marital_status]' type="checkbox" class="flat-red">
                         marital_status
-                      </div> 
-                </div>
-                <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[spouse_name]' type="checkbox" class="flat-red">
+                </div> 
+              </div>
+              <div class="col-md-5 permission-item form-group">
+                <div class="icheckbox flat-red">
+                  <input name='columns[spouse_name]' type="checkbox" class="flat-red">
                         spouse_name
-                      </div> 
-                </div>
+                </div> 
+              </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[payroll_period_name]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[payroll_period_name]' type="checkbox" class="flat-red">
                         payroll_period_name
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[department]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[department]' type="checkbox" class="flat-red">
                         department
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[role_name]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[role_name]' type="checkbox" class="flat-red">
                         role_name
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[branch]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[branch]' type="checkbox" class="flat-red">
                         branch
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[date_hired]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[date_hired]' type="checkbox" class="flat-red">
                         date_hired
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[basic_pay]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[basic_pay]' type="checkbox" class="flat-red">
                         basic_pay
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[tin]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[tin]' type="checkbox" class="flat-red">
                         tin
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[sss]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[sss]' type="checkbox" class="flat-red">
                         sss
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[pagibig]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[pagibig]' type="checkbox" class="flat-red">
                         pagibig
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[dependents]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[dependents]' type="checkbox" class="flat-red">
                         dependents
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[contact_number]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[contact_number]' type="checkbox" class="flat-red">
                         contact_number
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[facebook]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[facebook]' type="checkbox" class="flat-red">
                         facebook
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[email]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[email]' type="checkbox" class="flat-red">
                         email
-                      </div> 
+                  </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[withholding_tax_type]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[withholding_tax_type]' type="checkbox" class="flat-red">
                         withholding_tax_type
-                      </div> 
+                    </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
-                      <div class="icheckbox flat-red">
-                      <input name='columns[expanded_withholding_tax]' type="checkbox" class="flat-red">
+                  <div class="icheckbox flat-red">
+                    <input name='columns[expanded_withholding_tax]' type="checkbox" class="flat-red">
                         expanded_withholding_tax
-                      </div> 
+                    </div> 
                 </div>
                 <div class="col-md-5 permission-item form-group">
                       <div class="icheckbox flat-red">
@@ -418,17 +471,18 @@
                 </div>
               
               </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close
+              </button>
+              <input type="submit" class="btn btn-primary" value="Generate">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Generate">
-      </div>
-    </div>
-  </div>
-</div>
                                
-</div>                               
-</form>
+    </div>                               
+  </form>
 
 {% endblock %}
 {% block scripts %}

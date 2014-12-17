@@ -424,25 +424,30 @@ class Employee extends BaseModel
     public function getDeductions($from = null, $to = null)
     {
 
-        if ($from == null or $to == null) {return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
+        if ($from == null or $to == null) 
+        {
+            return EmployeeDeduction::where('employee_id', '=', $this->id)->get();
         }
 
         return EmployeeDeduction::where('employee_id', '=', $this->id)
-                                                                 ->where('valid_from', '<=', $to)
-                                                                 ->where('valid_to', '>=', $from)
-                                                                 ->get();
+            ->where('valid_from', '<=', $to)
+            ->where('valid_to', '>=', $from)
+            ->get();
     }
 
     public function getTotalDeductions($from = null, $to = null, $number_format = true)
     {
         $deductions = $this->getDeductions($from, $to);
         $total      = 0;
-        foreach ($deductions as $deduction) {
+        foreach ($deductions as $deduction) 
+        {
             $total += $deduction->amount;
         }
 
-        if ($number_format) {return number_format($total, 2);
-        }
+        if ($number_format) 
+        {
+            return number_format($total, 2);
+        } 
 
         return $total;
     }
@@ -913,10 +918,14 @@ class Employee extends BaseModel
     {
         $basic_pay      = $this->getBasicSalary($number_format);
         $payroll_period = $this->getPayrollPeriod()->period;
-        // return $payroll_period;
         return getRate($basic_pay, $payroll_period, 'Monthly', $number_format);
     }
 
+    // public function getTotalMonthlyRate($number_format = true)
+    // {
+    //     $totalMRs = $this->getMonthlyRate(true);
+    //     return $totalMRs;
+    // }
     /**
      * returns the night differential of certian employee from the given date range
      * @param  [type] $from
@@ -1435,6 +1444,19 @@ class Employee extends BaseModel
         return $total;
     }
 
+    public function getGeneratedSSSEC($from, $to)
+    {
+        $total = 0;
+        if(is_array($this->getGeneratedPayslips($from, $to)))
+        {
+            foreach ($this->getGeneratedPayslips($from, $to) as $payslip) {
+                $total += $payslip->ec;
+            }
+        }
+
+        return $total;
+    }
+
     public function getGeneratedPhilhealth($from, $to)
     {
          $total = 0;
@@ -1489,7 +1511,6 @@ class Employee extends BaseModel
     {
         return (boolean) Department::where('department_head_id', $this->id)->count();
     }
-
 
     public function getRemainingLeaveCredit($leave_type_id)
     {

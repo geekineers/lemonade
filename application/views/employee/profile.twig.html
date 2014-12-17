@@ -1,124 +1,142 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
 <div class="profile-page" id="content-wrapper">
-
-	 	<div class="profile-row">
-			<e.twdiv class="left-col">
-				<div class="profile-block">
-					<div class="panel profile-photo">
-						<img class="img img-responsive" src="{{ employee.getProfilePicture() }}" alt="">
-						<span class="change-profile-picture"><i class="fa fa-camera"></i> Upload Picture</span>
-					</div>
-					<div class="profile-full-name">
-						<span class="text-semibold">{{ employee.getName() }}</span>
-					</div>
-					<a href="mailto:{{ employee.email }}" class="btn btn-success"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Send Email</a>&nbsp;&nbsp;
-					<a href="#" class="employee_send_memo btn send-memo" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}"><i class="fa fa-comment"></i></a>
-
-					<!-- -->
-					<br>
-					<a href="#" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}" class="employee_schedule_evaluation btn sched-evaluation-btn btn-info"><i class="fa fa-calendar"></i> Schedule for Evaluation</a>
-				</div>
-
-				<div class="panel panel-transparent">
-					<div class="panel-heading">
-						<span class="panel-title"></span>
-					</div>
-					<div class="panel-body">	
-						<label><i class="fa fa-calendar"></i> Date Hired</label>
-						<span>{{ employee.getDateHired() }}</span>
-						<br>
-						<label><i class="fa fa-gift"></i> Birthdate</label>
-						<span>{{ employee.getBirthdate() }}</span>
-					</div>
-				</div>
-
+	<div class="profile-row">
+		<e.twdiv class="left-col">
+		<div class="profile-block">
+			<div class="panel profile-photo">
+				<img class="img img-responsive" src="{{ employee.getProfilePicture() }}" alt="">
+				<span class="change-profile-picture">
+					<i class="fa fa-camera"></i> Upload Picture
+				</span>
+			</div>
+			<div class="profile-full-name">
+				<span class="text-semibold">{{ employee.getName() }}</span>
+			</div>
+			<a href="mailto:{{ employee.email }}" class="btn btn-success">
+				<i class="fa fa-envelope"></i>&nbsp;&nbsp;Send Email
+			</a>&nbsp;&nbsp;
+			<a href="#" class="employee_send_memo btn send-memo" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}">
+				<i class="fa fa-comment"></i>
+			</a>
+			
+			<br>
+			<a href="#" data-name="{{ employee.getName() }}" data-value="{{ employee.id }}" class="employee_schedule_evaluation btn sched-evaluation-btn btn-info">
+				<i class="fa fa-calendar"></i> Schedule for Evaluation
+			</a>
+		</div>
 		
+		<div class="panel panel-transparent">
+			<div class="panel-heading">
+				<span class="panel-title"></span>
+			</div>
+			<div class="panel-body">	
+				<label><i class="fa fa-calendar"></i> Date Hired</label>
+				<span>{{ employee.getDateHired() }}</span>
+				<br>
+				<label><i class="fa fa-gift"></i> Birthdate</label>
+				<span>{{ employee.getBirthdate() }}</span>
+			</div>
+		</div>
 
-				<div></div>
-				<div class="contact-info panel panel-transparent">
-				<form method="post" action="/employees/{{ employee.id }}/update-contacts" >
+		<div class="contact-info panel panel-transparent">
+		<form method="post" action="/employees/{{ employee.id }}/update-contacts" >
 					
-					<div class="panel-heading">
-						<span class="panel-title">Contact Information</span>
-						<button class=" employee_edit employee_edit edit-profile-btn pull-right btn btn-xs btn-default"><i class="fa fa-edit"></i></button>
-					</div>
-					<div class="list-group">
-						{% if employee.contact_number %}
-						<a href="#" class="profile-value list-group-item"><i class="profile-list-icon fa fa-phone" style="color: #4ab6d5"></i> {{ employee.contact_number }}</a>
-						{% endif %}
-						<div class="form-group">
-							<input name="contact_number" type="" value="{{ employee.contact_number }}" class="form-control edit-input" placeholder="Enter your phone number..">
-						</div>
-
-						{% if employee.fb %}
-						<a href="#" name="fb" class="profile-value list-group-item"><i class="profile-list-icon fa fa-facebook-square" style="color: #1a7ab9"></i>{{ employee.fb }}</a>
-						{% endif %}
-						<div class="form-group">
-							<input type="" value="{{ employee.fb }}" class="form-control edit-input" placeholder="killua39">
-						</div>
-						{% if employee.email %}
-						<a href="#" name="email" class="profile-value list-group-item"><i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}</a>
-						{% endif %}
-						<div class="form-group">
-							<input type="" value="{{ employee.email }}" class="form-control edit-input" placeholder="email@yahoo.com...">
-						</div>
-							<div class="save-cancel-btn pull-right">
-									<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
-									<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
-							</div>
-
-						{% if employee.email is empty and employee.contact_number is empty and employee.facebook is empty %}
-						<div class="alert alert-info" style="margin-left: -2px;">This employee has no contact information yet.</div>
-						{% endif %}
-					</div>
-
-				</form>
+			<div class="panel-heading">
+				<span class="panel-title">Contact Information</span>
+				<button class=" employee_edit employee_edit edit-profile-btn pull-right btn btn-xs btn-default">
+					<i class="fa fa-edit"></i>
+				</button>
+			</div>
+			<div class="list-group">
+				{% if employee.contact_number %}
+				<a href="#" class="profile-value list-group-item">
+					<i class="profile-list-icon fa fa-phone" style="color: #4ab6d5"></i> {{ employee.contact_number }}
+				</a>
+				{% endif %}
+				<div class="form-group">
+					<input name="contact_number" type="" value="{{ employee.contact_number }}" class="form-control edit-input" placeholder="Enter your phone number..">
 				</div>
 
-			</div>
-			<div class="right-col">
-
-				<hr class="profile-content-hr no-grid-gutter-h">
-
-				<div class="profile-content">
-
-					<ul id="profile-tabs" class="nav nav-tabs">
-						<li class="active">
-							<a href="#profile-tabs-201" data-toggle="tab"><i class='fa fa-user'></i>&nbsp;201 File</a>
-						</li>
-						<li>
-							<a href="#profile-tabs-salary" data-toggle="tab"><i class='fa fa-money'></i>&nbsp;Payroll Info</a>
-						</li>
-						<li>
-							<a href="#profile-tabs-training" data-toggle="tab"><i class='fa fa-certificate'></i>&nbsp;Trainings and Seminars</a>
-						</li>
-						<li>
-							<a href="#profile-tabs-benefits" data-toggle="tab"><i class='fa fa-certificate'></i>&nbsp; Benefits and Deductions</a>
-						</li>
-						<li>
-							<a href="#profile-tabs-documents" data-toggle="tab"><i class="fa fa-file"></i> Files and Documents</a>
-						</li>
-						<li>
-							<a href="#profile-tabs-history" data-toggle="tab"><i class="fa fa-file"></i> History</a>
-						</li>
-				<!-- 		<li>
-							<a href="#profile-tabs-following" data-toggle="tab"><i class='fa fa-cog'></i>&nbsp; Settings</a>
-						</li> -->
-					</ul>
-
-					<div class="tab-content tab-content-bordered panel-padding">
-
-						 {% include 'employee/panel/201.twig.html' %}
-						 {% include 'employee/panel/salary.twig.html' %}
-						 {% include 'employee/panel/trainings.twig.html' %}
-						 {% include 'employee/panel/benefits.twig.html' %}
-						 {% include 'employee/panel/documents.twig.html' %}
-						 {% include 'employee/panel/history.twig.html' %}
-					
-					</div> <!-- / .tab-content -->
+				{% if employee.fb %}
+				<a href="#" name="fb" class="profile-value list-group-item">
+					<i class="profile-list-icon fa fa-facebook-square" style="color: #1a7ab9"></i>{{ employee.fb }}
+				</a>
+				{% endif %}
+				<div class="form-group">
+					<input type="" value="{{ employee.fb }}" class="form-control edit-input" placeholder="killua39">
 				</div>
+				{% if employee.email %}
+					<a href="#" name="email" class="profile-value list-group-item">
+						<i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}
+					</a>
+				{% endif %}
+				<div class="form-group">
+					<input type="" value="{{ employee.email }}" class="form-control edit-input" placeholder="email@yahoo.com...">
+				</div>
+				<div class="save-cancel-btn pull-right">
+					<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+					<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+				</div>
+
+				{% if employee.email is empty and employee.contact_number is empty and employee.facebook is empty %}
+				<div class="alert alert-info" style="margin-left: -2px;">This employee has no contact information yet.
+				</div>
+				{% endif %}
 			</div>
+
+		</form>
+	</div>
+
+</div>
+<div class="right-col">
+	<hr class="profile-content-hr no-grid-gutter-h">
+	<div class="profile-content">
+		<ul id="profile-tabs" class="nav nav-tabs">
+			<li class="active">
+				<a href="#profile-tabs-201" data-toggle="tab">
+					<i class='fa fa-user'></i>&nbsp;201 File
+				</a>
+			</li>
+			<li>
+				<a href="#profile-tabs-salary" data-toggle="tab">
+					<i class='fa fa-money'></i>&nbsp;Payroll Info
+				</a>
+			</li>
+			<li>
+				<a href="#profile-tabs-training" data-toggle="tab">
+					<i class='fa fa-certificate'></i>&nbsp;Trainings and Seminars
+				</a>
+			</li>
+			<li>
+				<a href="#profile-tabs-benefits" data-toggle="tab">
+					<i class='fa fa-certificate'></i>&nbsp; Benefits and Deductions
+				</a>
+			</li>
+			<li>
+				<a href="#profile-tabs-documents" data-toggle="tab">
+					<i class="fa fa-file"></i> Files and Documents
+				</a>
+			</li>
+			<li>
+				<a href="#profile-tabs-history" data-toggle="tab">
+					<i class="fa fa-file"></i> History
+				</a>
+			</li>
+		</ul>
+
+		<div class="tab-content tab-content-bordered panel-padding">
+
+			{% include 'employee/panel/201.twig.html' %}
+			{% include 'employee/panel/salary.twig.html' %}
+			{% include 'employee/panel/trainings.twig.html' %}
+			{% include 'employee/panel/benefits.twig.html' %}
+			{% include 'employee/panel/documents.twig.html' %}
+		 	{% include 'employee/panel/history.twig.html' %}
+					
+		</div> <!-- / .tab-content -->
+	</div>
+</div>
 		</div>
 
 

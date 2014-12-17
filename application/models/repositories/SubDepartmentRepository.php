@@ -1,19 +1,19 @@
 <?php
-use Job_Position as Job;
+use Department as Department;
 
-class JobPositionRepository extends BaseRepository {
+class DepartmentRepository extends BaseRepository {
 
 	public function __construct()
 	{
-		$this->class = new Job();
-
+		$this->class = new SubDepartment();
 	}
 
 	public function createNotExist(array $input)
 	{
-		try{
-			$count = $this->where('job_position','=',$input['job_position'])->count();
+		try {
+			$count = $this->where('sub_department_name','=',$input['department_name'])->count();
 			// $this->create($input);
+
 			if($count>0)
 			{
 				return false;
@@ -21,6 +21,7 @@ class JobPositionRepository extends BaseRepository {
 			else
 			{
 				$this->create($input);
+
 				return true;
 			}
 		}
@@ -29,4 +30,5 @@ class JobPositionRepository extends BaseRepository {
     		exit();
     	}
 	}
+
 }

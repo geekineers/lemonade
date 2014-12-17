@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Timesheet extends Eloquent {
-	use SoftDeletingTrait;
+
   	 public $table = "timesheet";
 	 protected $datas = ['deleted_at'];
 

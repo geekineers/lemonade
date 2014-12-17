@@ -36,17 +36,19 @@ class Department extends BaseModel {
   	  $loop_date = date('Y-m-d', strtotime($month->year .'-'. $month->month . '-1'));
   		if($loop_date <= $current_date)
       {
-    		foreach ($employees as $employee) {
+    		foreach ($employees as $employee) 
+        {
           $total_late += $employee->getLate($month->startMonth, $month->endMonth);
     		}
       }
+
     	$data = $month;
     	$data->total_late = $total_late;
     	array_push($lateReport, $data);
     }
 
     return $lateReport;
-    }
+  }
 
   public function getAbsentReport($year = null)
   {

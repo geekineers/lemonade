@@ -30,14 +30,11 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $this->mustBeLoggedIn();
 
-        $path             = realpath(APPPATH . '../uploads/');
-        $this->fileSystem = new FileSystem($path);
-
-        $this->employeeRepository = new EmployeeRepository();
-
-        $this->branchesRepository    = new BranchRepository();
-        $this->jobPositionRepository = new JobPositionRepository();
-
+        $path                               = realpath(APPPATH . '../uploads/');
+        $this->fileSystem                   = new FileSystem($path);
+        $this->employeeRepository           = new EmployeeRepository();
+        $this->branchesRepository           = new BranchRepository();
+        $this->jobPositionRepository        = new JobPositionRepository();
         $this->payrollGroupRepository       = new PayrollGroupRepository();
         $this->departmentRepository         = new DepartmentRepository();
         $this->deductionRepository          = new DeductionRepository();
@@ -52,20 +49,19 @@ use Upload\Storage\FileSystem as FileSystem;
     public function index()
     {
         // dd(createEmployeeID('1'));
-        $data['company']       = $this->company;
-        $data['alert_message'] = ($this->session->flashdata('message') == null)
+        $data['company']              = $this->company;
+        $data['alert_message']        = ($this->session->flashdata('message') == null)
         ? null
         : $this->session->flashdata('message');
-         $data['alert_message_error'] = ($this->session->flashdata('message_error') == null)
+        $data['alert_message_error']  = ($this->session->flashdata('message_error') == null)
         ? null
         : $this->session->flashdata('message_error');
-        $data['user']      = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']     = "Employee";
-        $data['employees'] = $this->employeeRepository->where('id', '!=', 1)->get();
-
-        $data['job_positions']  = $this->jobPositionRepository->all();
-        $data['departments']    = $this->departmentRepository->all();
-        $data['payroll_groups'] = $this->payrollGroupRepository->all();
+        $data['user']                 = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']                = "Employee";
+        $data['employees']            = $this->employeeRepository->where('id', '!=', 1)->get();
+        $data['job_positions']        = $this->jobPositionRepository->all();
+        $data['departments']          = $this->departmentRepository->all();
+        $data['payroll_groups']       = $this->payrollGroupRepository->all();
 
         $this->render('/employee/index.twig.html', $data);
     }
@@ -92,13 +88,13 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "Employees";
-  $data['alert_message'] = ($this->session->flashdata('message') == null)
+        $data['alert_message'] = ($this->session->flashdata('message') == null)
         ? null
         : $this->session->flashdata('message');
         $data['groups']         = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['job_positions']  = $this->jobPositionRepository->all();
         $data['departments']    = $this->departmentRepository->all();
-        $data['employee_types']    = $this->employeeTypeRepository->all();
+        $data['employee_types'] = $this->employeeTypeRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
         $data['branches']       = $this->branchesRepository->all();
         $this->render('employee/add.twig.html', $data);
@@ -111,21 +107,24 @@ use Upload\Storage\FileSystem as FileSystem;
         $saving = $this->employeeRepository->createEmployee($data, $this->sentry);
 
         
-        if($saving == "confirm_password_error"){
+        if($saving == "confirm_password_error")
+        {
             
-        $this->session->set_flashdata('message', 'Kindly confirm the user password.');
-        redirect('/employees/add', 'location');
+            $this->session->set_flashdata('message', 'Kindly confirm the user password.');
+            redirect('/employees/add', 'location');
         
         }
-        else if($saving == "duplicate_error"){
-          $this->session->set_flashdata('alert_message', 'Employee Record is currently existing.');
-        redirect('/employees/add', 'location');    
+
+        else if($saving == "duplicate_error")
+        {
+            $this->session->set_flashdata('alert_message', 'Employee Record is currently existing.');
+            redirect('/employees/add', 'location');    
         }
 
-        else{
+        else
+        {
 
-        $this->session->set_flashdata('message', 'Successfully added!');
-            
+            $this->session->set_flashdata('message', 'Successfully added!');    
         }
         redirect('/employees', 'location');
     }
@@ -143,10 +142,9 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $employee_id = $this->input->post('id');
         $data        = $this->input->post();
-
         $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }
 
@@ -165,7 +163,7 @@ use Upload\Storage\FileSystem as FileSystem;
         );
         $update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }
 
@@ -184,16 +182,17 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $update = $this->employeeRepository->where('id', '=', $employee_id)->update($post);
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
 
     }
+    
     public function updateContacts($id)
     {
         $data = $this->input->post();
         $this->employeeRepository->where('id', '=', $id)->update($data);
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $id . '/profile', 'location');
 
     }
@@ -248,7 +247,7 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $this->documentRepository->delete($this->input->get());
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->get('employee_id') . '/profile', 'location');
 
     }
@@ -257,7 +256,7 @@ use Upload\Storage\FileSystem as FileSystem;
     {
         $this->documentRepository->saveCertificate($this->input->post());
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
     }
 
@@ -266,7 +265,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $input = $this->input->post();
         $this->employeeRepository->updateProfilePicture($input, $id);
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $id . '/profile', 'location');
     }
 
@@ -297,7 +296,7 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $this->basicPayAdjustmentRepository->create($post);
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
     }
@@ -333,14 +332,13 @@ use Upload\Storage\FileSystem as FileSystem;
     {
         $branch = $this->input->get('branch');
         // dd($_GET);
-        if($branch){
-
+        if($branch)
+        {
             $collection = $this->employeeRepository->where('branch_id', $branch)->get();
-
         }
-        else{
+        else
+        {
             $collection = $this->employeeRepository->all();
-
         }
         
         $employees = EmployeeTransformer::transform($collection);
@@ -360,12 +358,13 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $input = $this->input->post();
         $output = $this->employeeRepository->uploadBybatch($input);
-        if($output['status']){
+        if($output['status'])
+        {
             $this->session->set_flashdata('message', $output['message']);
         }
-        else{
+        else
+        {
             $this->session->set_flashdata('message_error', $output['message']);
-
         }
         redirect('/employees');
     }

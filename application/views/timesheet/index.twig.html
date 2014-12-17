@@ -32,13 +32,12 @@
         <th>Time Out</th>
         <th>Name</th>
         <th>Emp. ID</th>
-     
         <th>Status</th>
         <th>Options</th>
     </tr>
     <tr>
         <td>    
-            <div class="input-group">
+            <div class="input-group" style="width: 200px">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
@@ -46,18 +45,26 @@
             </div>
         </td>
         <td>
-            <div class="input-group">
+            <div class="input-group" style="width: 200px">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
                 <input id="search-timeout" type="text" class="search-input form-control pull-right time">
             </div>
         </td>
-        <td><input type="text"  id="search-name" class="search-input "></td>
-        <td><input type="text" id="search-employee-id" class="search-input "></td>
+        <td>
+            <div class="input-group">
+                <input type="text"  id="search-name" class="search-input">
+            </div>
+        </td>
+        <td>
+            <div class="input-group">
+                <input type="text" id="search-employee-id" class="search-input">
+            </div>
+        </td>
         <td>
             <select id="search-status" name="" class="search-select form-control" id="">
-                <option value="">--SELECT STATUS --</option>
+                <option value="">Select Status:</option>
                 <option value="good">Good</option>
                 <option value="undertime">Under Time</option>
                 <option value="late">Late</option>
@@ -108,7 +115,9 @@
 
 
             class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
-              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>
         </td>
     </tr>
 
@@ -155,7 +164,7 @@
                     </div>
                     <div class="form-group">
                         <label>Time In</label>
-                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible; width:">
                             <input id="timestart" type="text" name="timestart" class="timepicker form-control input-small">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
                             </span>
@@ -204,15 +213,14 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Add Timesheet</h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit Timesheet</h4>
                 </div>
                 <div class="modal-body">
                 <input type="hidden" name="timesheet_id" id="updatetimesheet_id" />
                     <div class="form-group">
                         <label>Employee Name</label>
-                        <select name="employee" readonly id="updatetimesheet_employee" class="form-control employee-sched">
+                        <select name="employee" id="updatetimesheet_employee" class="form-control employee-sched">
                             {% for employee in employees %}
-                            <option></option>
                             <option data-timestart="{{ employee.getTimeShiftStart() }}" data-timeend="{{ employee.getTimeShiftEnd() }}" value="{{ employee.id }}">{{ employee.getName() }}</option>
                             {% endfor %}
                         </select>
@@ -275,7 +283,7 @@
                     <p>Get the timesheet template. <a href="/xls_template/timesheet.xlsx">Click Here</a></p>
                     <div class="form-group">
                         <label>Upload Excel File</label>
-                        <input type="file" required name="excel_file" class="form-control" />
+                        <input type="file" accept=".xls,.xlsx" required name="excel_file" class="form-control" />
                     </div>
 
                 </div>

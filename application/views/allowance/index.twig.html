@@ -2,39 +2,42 @@
 {% block content %}
 
 <div class="row container">
-	<a class="allowance_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewAllowance"><i class="fa fa-plus"></i></a>
-     <div class="dropdown inline" >
-     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
+	<a class="allowance_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewAllowance">
+    <i class="fa fa-plus"></i>
+  </a>
+  <div class="dropdown inline" >
+    <a data-toggle="dropdown" href="#" class=" btn btn-default">
+      <i class="fa fa-gear"></i>
     </a>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li>
         <a href="/settings/allowances/trash">View Deleted Allowances</a>
-    </li>
-    <li>
-        <a href="/settings/allowances/">
-            View Current Allowances
-        </a>
-    </li>
-  </ul>   
+      </li>
+      <li>
+        <a href="/settings/allowances/">View Current Allowances</a>
+      </li>
+    </ul>   
   </div>
-	{% if alert_message != null %}
+	{% if message != null %}
 	<div class="col-md-12 alert alert-success alert-dismissable">
-                                        <i class="fa fa-check"></i>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <b>Success!</b> {{ alert_message }}.
-    </div>
-    {% endif %}
+    <i class="fa fa-check"></i>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <b>Success!</b> {{ message }}.
+  </div>
+  {% endif %}
 </div>
+
+
 <table id="allowances-list" class="table table-bordered table-hovered">
 	<thead>
-      <tr>
-    <th>Name</th>
-    <th>Frequency</th>
-    <th>Option</th>
-  </tr>
+    <tr>
+      <th>Name</th>
+      <th>Frequency</th>
+      <th>Option</th>
+    </tr>
   </thead>
 
-	 {% for allowance in allowances %}
+	{% for allowance in allowances %}
 	 	<tr>
 	 		<td>{{ allowance.allowance_name }}</td>
 	 		<td>{{ allowance.getFrequency() }}</td>
@@ -51,17 +54,20 @@
 <form method="post" enctype="multipart/form-data" action="/settings/allowances/save">
 
 	<div class="modal fade" id="addNewAllowance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title" id="myModalLabel">New Allowance Type</h4>
       </div>
+
       <div class="modal-body">
       <div class="form-group">
       	<label>Name<span class="req-label">*</span></label>
       	<input type="text" required name="allowance_name" class="form-control" placeholder="eg. Transportation" />
       </div>
+
       <div class="form-group">
         <label for="">Frequency</label>
         <select name="frequency" id="" class="form-control">

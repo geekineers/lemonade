@@ -24,9 +24,9 @@
         <style type="text/css">
          {% for permission in user.all_permissions %}
             {% if permission in user.permissions|keys %}   
-                
+
             {% else %}
-            .{{permission}} { display : none;}
+                .{{permission}} { display : none; }
             {% endif %}  
 
          {% endfor %}

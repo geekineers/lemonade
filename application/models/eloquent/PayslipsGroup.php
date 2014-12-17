@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class PayslipsGroup extends BaseModel {
 	use SoftDeletingTrait;
-  	 public $table = "payslips_group";
-	 protected $datas = ['deleted_at'];
+  public $table = "payslips_group";
+	protected $datas = ['deleted_at'];
 
 
   protected $fillable = ['payroll_group', 'from','to','status','prepared_by','company_id'];
