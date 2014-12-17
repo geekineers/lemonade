@@ -224,7 +224,7 @@ class PayslipsRepository extends BaseRepository
                     $objPHPExcel->getActiveSheet()->SetCellValue('D2', $date);
                     $objPHPExcel->getActiveSheet()->SetCellValue('D3', $period->getPayrollGroup()->period);
                     $objPHPExcel->getActiveSheet()->SetCellValue('D7', $payslip['name']);
-                    foreach ($payslip['items'] as $item) 
+                    foreach ($payslip['items'] as $item)  
                     {
                         $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $item->getEmployee()->getEmployeeID());
                         $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, toTitleCase($item->getEmployee()->last_name));
