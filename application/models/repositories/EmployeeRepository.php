@@ -11,20 +11,20 @@ class EmployeeRepository extends BaseRepository
     use ValidableTrait;
 
     protected $rules = [
-                        'first_name'        => 'required',
-                        'last_name'         => 'required',
-                        'dependents'        => 'numeric|required',
-                        'marital_status'    => 'required',
-                        'birthdate'         => 'date|required',
-                        'gender'            => 'required',
-                        'employee_type'     => 'numeric|required',
-                        'branch_id'         => 'numeric|required',
-                        'job_position'      => 'numeric|required',
-                        'department'        => 'numeric|required',
-                        'payroll_period'    => 'numeric|required',
-                        'date_hired'        => 'date|required',
-                        'basic_pay'         => 'required'
-                           ];
+        'first_name'        => 'required',
+        'last_name'         => 'required',
+        'dependents'        => 'numeric|required',
+        'marital_status'    => 'required',
+        'birthdate'         => 'date|required',
+        'gender'            => 'required',
+        'employee_type'     => 'numeric|required',
+        'branch_id'         => 'numeric|required',
+        'job_position'      => 'numeric|required',
+        'department'        => 'numeric|required',
+        'payroll_period'    => 'numeric|required',
+        'date_hired'        => 'date|required',
+        'basic_pay'         => 'required'
+   ];
 
     protected $fileSystem;
     public function __construct()
@@ -38,9 +38,9 @@ class EmployeeRepository extends BaseRepository
     {
         if($data['employee_type'] == $input['employee_type']){
             return array(
-                    'status' => true,
-                    'message' => 'Employee Type changed from ' . $data['employee_type'] . ' to ' . $input['employee_type']
-                );
+                'status' => true,
+                'message' => 'Employee Type changed from ' . $data['employee_type'] . ' to ' . $input['employee_type']
+            );
         }
 
         return array('status' => false, 'message' => null);
@@ -111,43 +111,43 @@ class EmployeeRepository extends BaseRepository
         $employee = $this->where('id', '=', $employee_id);
         $first = $employee->first();
         foreach($post as $field => $value) {
-            if ( strcmp($post[$field], $first->{$field}) == 0 || strcmp($field, 'full_name') == 0 ) {
+            if ( strcmp($post[$field], $first->{$field}) == 0 || strcmp($field, 'full_name') == 0 ) 
+            {
                 continue;
             }
 
             $statement = "Updated " . $field . " from " . $first->{$field} . " to " . $post[$field];
 
             History::create(array(
-                'action' => $statement,
+                'action'      => $statement,
                 'employee_id' => $first->id,
-                'company_id' => $first->company_id
+                'company_id'  => $first->company_id
             ));
         }
         $employee_data = $employee->first()->toArray();
         $employee_type_changed = $this->checkEmployeeTypeChanged($employee_data, $post);
 
         $update = $employee->update($post);
-        
-        if($update){
-                        
-        }
+        if($update)
+        {
+                                
+            try {
+                $user = $sentry->findUserById($employee->first()->id);
 
-        
-        try{
-            $user     = $sentry->findUserById($employee->first()->id);
+                foreach ($user->getGroups() as $group) {
 
-            foreach ($user->getGroups() as $group) {
+                    $group = $sentry->findGroupById($group['id']);
+                    $user->removeGroup($group);
+                }
 
-                $group = $sentry->findGroupById($group['id']);
-                $user->removeGroup($group);
+                $group = $sentry->findGroupById($data['role_id']);
+                $user->addGroup($group);
+            } 
+            catch(Exception $e)
+            {
+            
             }
-
-            $group = $sentry->findGroupById($data['role_id']);
-            $user->addGroup($group);
-      }catch(Exception $e)
-      {
-        
-      }
+        }
     }
 
     public function createEmployee($data, $sentry)
@@ -198,8 +198,10 @@ class EmployeeRepository extends BaseRepository
 
         // Creation of New Account
         
-        if ($email != "" && $password !== "" && $confirm_password != "") {
-            if($password != $confirm_password){
+        if ($email != "" && $password !== "" && $confirm_password != "") 
+        {
+            if($password != $confirm_password)
+            {
                 // dd('shit');
                 return 'confirm_password_error';
             }
@@ -214,7 +216,9 @@ class EmployeeRepository extends BaseRepository
             $group = $sentry->findGroupById($role_id);
             $user->addGroup($group);
             $user_id = $user->id;
-        } else {
+        } 
+        else 
+        {
             $user_id = null;
         }
 
@@ -245,7 +249,7 @@ class EmployeeRepository extends BaseRepository
 
                 
             }
-              try {
+            try {
                 // Success!
                 $file->upload();
 
@@ -261,46 +265,45 @@ class EmployeeRepository extends BaseRepository
             }
          $save_data = array(
 
-                'user_id'         => (string) $user_id,
-                'first_name'      => (string) $first_name,
-                'last_name'       => (string) $last_name,
-                'middle_name'     => (string) $middle_name,
-                'full_address'    => (string) $full_address,
-                'birthdate'       => (string) $birthdate,
-                'gender'          => (string) $gender,
-                'marital_status'  => (string) $marital_status,
-                'spouse_name'     => (string) $spouse_name,
-                'employee_type'   => (string) $employee_type,
-                'payroll_period'  => (string) $payroll_period,
-                'job_position'    => (string) $job_position,
-                'department'      => (int) $department,
-                'role_id'         => (int) $role_id,
-                'branch_id'       => (int) $branch_id,
-                'date_hired'      => (string) $date_hired,
-                'date_ended'      => (string) "none",
-                'basic_pay'       => (string) $basic_pay,
-                'tin_number'      => (string) $tin_number,
-                'sss_number'      => (string) $sss_number,
-                'pagibig_number'  => (string) $pagibig_number,
-                'dependents'      => (int) $dependents,
-                'contact_number'  => (string) $contact_number,
-                'profile_picture' => $filename,
-                'email'           => (string) $email_address,
-                'fb'              => (string) $fb,
-                'timeshift_start' => date('H:i:s', strtotime($timeshift_start)),
-                'timeshift_end'   => date('H:i:s', strtotime($timeshift_end))                
-
-            ); 
+            'user_id'         => (string) $user_id,
+            'first_name'      => (string) $first_name,
+            'last_name'       => (string) $last_name,
+            'middle_name'     => (string) $middle_name,
+            'full_address'    => (string) $full_address,
+            'birthdate'       => (string) $birthdate,
+            'gender'          => (string) $gender,
+            'marital_status'  => (string) $marital_status,
+            'spouse_name'     => (string) $spouse_name,
+            'employee_type'   => (string) $employee_type,
+            'payroll_period'  => (string) $payroll_period,
+            'job_position'    => (string) $job_position,
+            'department'      => (int) $department,
+            'role_id'         => (int) $role_id,
+            'branch_id'       => (int) $branch_id,
+            'date_hired'      => (string) $date_hired,
+            'date_ended'      => (string) "none",
+            'basic_pay'       => (string) $basic_pay,
+            'tin_number'      => (string) $tin_number,
+            'sss_number'      => (string) $sss_number,
+            'pagibig_number'  => (string) $pagibig_number,
+            'dependents'      => (int) $dependents,
+            'contact_number'  => (string) $contact_number,
+            'profile_picture' => $filename,
+            'email'           => (string) $email_address,
+            'fb'              => (string) $fb,
+            'timeshift_start' => date('H:i:s', strtotime($timeshift_start)),
+            'timeshift_end'   => date('H:i:s', strtotime($timeshift_end))                
+        ); 
 
         // var_dump($save_data);
         // die();
         
         $existing = $this->where('first_name', $save_data['first_name'])
-                            ->where('last_name', $save_data['last_name'])
-                            ->where('middle_name', $save_data['middle_name'])
-                            ->where('birthdate', $save_data['birthdate'])
-                            ->get()
-                            ->count();
+            ->where('last_name', $save_data['last_name'])
+            ->where('middle_name', $save_data['middle_name'])
+            ->where('birthdate', $save_data['birthdate'])
+            ->get()
+            ->count();
 
         if(!$existing){
             $save = $this->create($save_data);
@@ -315,7 +318,7 @@ class EmployeeRepository extends BaseRepository
                 'action' => 'Hired to the company'
             ));
         }
-        else{
+        else {
             return 'duplicate_error';
         }
 
@@ -431,7 +434,6 @@ class EmployeeRepository extends BaseRepository
         return $this->where(function($q) use ($query){
                     $q->where('first_name', 'like', "%{$query}%")
                             ->orWhere('last_name', 'like', "%{$query}%")
-        // ->orWhere('job_position', 'like', "%{$query}%")
                             ->orWhere('email', 'like', "%{$query}%"); })
                     ->where('company_id', '=', COMPANY_ID)
                     ->get();
@@ -459,7 +461,7 @@ class EmployeeRepository extends BaseRepository
     }
 
     function getAllCompensatedBIR()
-{
+    {
         return Employee::where('withholding_tax_type', '=', 'Compensation')->get();
     }
 

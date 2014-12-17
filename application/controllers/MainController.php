@@ -32,6 +32,7 @@ class MainController extends BaseController
 
         $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
+        // dd($data['user']);
         // dd($data['user']->getSubordinatesApplications());
 
         $data['datetime'] = array(
@@ -50,7 +51,7 @@ class MainController extends BaseController
         $data['holidays']              = $this->holidayRepository->whereBetween('holiday_from', [date('Y-m-d'), date('Y-m-d', strtotime('+1 year'))])->take(3)->get();
         $data['announcements']         = $this->announcementRepository->getLatest();
 
-       // dd( $this->employeeRepository->getAllPermissions() );
+       // dd($this->employeeRepository->getAllRoles());
 
         $this->render('index.twig.html', $data);
     }

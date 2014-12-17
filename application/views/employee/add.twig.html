@@ -124,10 +124,10 @@
                         <span class="req-label">*</span>
                     </label>
                     <select required class="form-control" name="employee_type">
-                                    <option value="null" {% if employee.getEmployeeType() == null %} selected {% endif %} >None</option>
-                                    {% for employee_type in employee_types %}
-                                    <option value="{{ employee_type.id }}" {% if employee_type.id == employee.getEmployeeTypeId() %} selected {% endif %}>{{ employee_type.getName() }}</option>
-                                    {% endfor %}
+                        <option value="null" {% if employee.getEmployeeType() == null %} selected {% endif %} >None</option>
+                        {% for employee_type in employee_types %}
+                        <option value="{{ employee_type.id }}" {% if employee_type.id == employee.getEmployeeTypeId() %} selected {% endif %}>{{ employee_type.getName() }}</option>
+                        {% endfor %}
                     </select>
                 </div>
 

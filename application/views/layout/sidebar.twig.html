@@ -1,4 +1,3 @@
-
 <ul class="sidebar-menu">
     <li>
         <a href="/dashboard">
@@ -6,14 +5,15 @@
             <span>Dashboard</span>
         </a>
     </li>
-    {% if(user.id != 1)   %}
+    {% if(user.id != 1) %}
+    
     <li>
         <a href="/employees/{{ user.id }}/profile">
             <i class="fa fa-user"></i> 
             <span>My Profile</span>
         </a>
     </li>
-    <!-- payslip -->
+
     <li>
         <a href="/my-payslip">
             <i class="fa fa-file"></i> 
@@ -33,14 +33,14 @@
             <span>Form Application</span>
         </a>
     </li>
-    {% if user.isDepartmentHead()  %}
+        {% if user.isDepartmentHead() %}
     <li>
         <a href="/forms/">
             <i class="fa  fa-book"></i>
             <span>Form For Approval</span> 
         </a>
     </li>
-    {% endif %}
+        {% endif %}
     {% endif %}
 
     <hr>
@@ -60,9 +60,6 @@
         </a>
     </li>
 
-
-
-
     <li class="form_approval">
         <a href="/forms/">
             <i class="fa  fa-book"></i>
@@ -81,20 +78,16 @@
         <a href="#">
             <i class="fa fa-bar-chart-o"></i> 
             <span>Reports</span>
-               <i class="fa fa-angle-left pull-right"></i>
+            <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
             <li>
-                <a href="/reports/generate"><i class="fa fa-angle-double-right"></i>Generate Reports</a>
+                <a href="/reports/generate">
+                    <i class="fa fa-angle-double-right"></i>Generate Reports
+                </a>
             </li>
-          <!--   <li><a href="/reports/{{ user.branch_id }}/branch" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Branch Reports</a>
-            </li> -->
-          <!--   <li><a href="/settings/job" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i>Company Reports</a>
-            </li> -->
         </ul>
     </li>
-    <!-- User Roles -->
-
     <li class="settings_view treeview">
         <a href="#">
             <i class="fa fa-wrench"></i> 
@@ -102,9 +95,15 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="/settings/users" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> User Management</a>
+            <li>
+                <a href="/settings/users" style="margin-left: 10px;">
+                    <i class="fa fa-angle-double-right"></i> User Management
+                </a>
             </li>
-            <li><a href="/settings/roles" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> User Roles</a>
+            <li>
+                <a href="/settings/roles" style="margin-left: 10px;">
+                    <i class="fa fa-angle-double-right"></i> User Roles
+                </a>
             </li>
             <li>
                 <a style="margin-left: 10px;" href="/settings/employee-types">
@@ -112,17 +111,37 @@
                     <span>Employee Status</span>
                 </a>
             </li>
-            <li><a href="/settings/job" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i>Job Positions</a>
+            <li>
+                <a href="/settings/job" style="margin-left: 10px;">
+                    <i class="fa fa-angle-double-right"></i>Job Positions
+                </a>
             </li>
-            <li><a href="/settings/department" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Departments</a>
+            <li>
+                <a href="/settings/department" style="margin-left: 10px;">
+                    <i class="fa fa-angle-double-right"></i> Departments
+                </a>
+                <ul>    
+                    <li style="list-style:none">
+                        <a href="#" style="margin-left: 10px;">
+                        <i class="fa fa-angle-double-right"></i> Sub Department</a>
+                    </li>
+                </ul>
             </li>
 
             <li>
-                <a href="/settings/payroll" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Payroll </a>
-                <ul>
-                    <li style="list-style:none"><a href="/settings/payroll-group" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Paysets</a>
+                <a href="/settings/payroll" style="margin-left: 10px;">
+                    <i class="fa fa-angle-double-right"></i> Payroll 
+                </a>
+                <ul>    
+                    <li style="list-style:none">
+                        <a href="/settings/payroll-group" style="margin-left: 10px;">
+                            <i class="fa fa-angle-double-right"></i> Paysets
+                        </a>
                     </li>
-                    <li style="list-style:none"><a href="/settings/sss-config" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Gov Computation</a>
+                    <li style="list-style:none">
+                        <a href="/settings/sss-config" style="margin-left: 10px;">
+                            <i class="fa fa-angle-double-right"></i> Gov Computation
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -154,7 +173,6 @@
                 </a>
             </li>
 
-
             <li>
                 <a style="margin-left: 10px;" href="/settings/leave-types">
                     <i class="fa fa-angle-double-right"></i> 
@@ -162,18 +180,15 @@
                 </a>
             </li>
 
-         <!--    <li><a href="/settings/forms" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Forms</a>
+            <li>
+                <a href="/settings/holidays" style="margin-left: 10px;">
+                    <i class="fa fa-angle-double-right"></i> Events
+                </a>
             </li>
- -->
-            <li><a href="/settings/holidays" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Events</a>
-            </li>
-
-
         </ul>
     </li>
     <div class="sidebar-logo">
-      <i>powered by</i>
-       <img style="width:50%" src="/img/logo.png">  
+        <i>powered by</i>
+        <img style="width:50%" src="/img/logo.png">  
     </div>
-    
 </ul>

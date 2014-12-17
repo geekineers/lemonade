@@ -14,9 +14,12 @@ class JobPositionRepository extends BaseRepository {
 		try{
 			$count = $this->where('job_position','=',$input['job_position'])->count();
 			// $this->create($input);
-			if($count>0){
+			if($count>0)
+			{
 				return false;
-			}else{
+			}
+			else
+			{
 				$this->create($input);
 				return true;
 			}
