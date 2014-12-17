@@ -39,14 +39,15 @@ class ReportsController extends BaseController
         $selected_columns = $this->input->post('columns');
         $columns          = array_keys($selected_columns);
         $employees        = $this->employeeRepository->all();
-        // $departments      = $this->departmentRepository->all();
-
+        $branch_id        = $this->input->post('branch');
+        $branch           = Branch::where('id', '=', $branch_id)->first();
+        $branch_name      = $branch->branch_name;    
+        
         foreach ($employees as $employee) 
         {
             $output[$index]['first_name']  = $employee->first_name;
             $output[$index]['middle_name'] = $employee->middle_name;
             $output[$index]['last_name']   = $employee->last_name;
-        
             foreach ($columns as $column) 
             {
                 $method = 'get' . _snakeToCamel($column);
@@ -65,8 +66,7 @@ class ReportsController extends BaseController
         {
             array_push($output_column, _snakeToTitle($column));
         }
-
-        $xls_file = $this->reportRepository->generateXLS($output, $output_column, 'employee');
+        $xls_file = $this->reportRepository->generateXLS($output, $output_column, 'employee', $branch_name);
 
         if ($xls_file) 
         {

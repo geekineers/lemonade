@@ -1,0 +1,167 @@
+{% extends "layout/main.twig.html" %} {% block content %}
+
+<div class="row container">
+    <a class="job_position_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewSubDepartment">
+        <i class="fa fa-plus"></i>
+    </a>
+
+     <div class="dropdown inline" >
+        <a data-toggle="dropdown" href="#" class=" btn btn-default">
+            <i class="fa fa-gear"></i>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li>
+            <a href="/settings/sub-department/trash">View Deleted Job Positions</a>
+            </li>
+            <li>
+                <a href="/settings/sub-department/">View Current Job Positions</a>
+            </li>
+        </ul>   
+    </div>
+    <br>
+    {% if alert_message != null %}
+    <div class="col-md-7 alert alert-success alert-dismissable">
+        <i class="fa fa-check"></i>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <b>Success!</b> {{ alert_message }}.
+    </div>
+    {% endif %}
+</div>
+<table id="sub-department-list" class="table table-bordered table-hovered">
+    <thead>
+       <tr>
+        <th>Sub-Department Name</th>
+        <th>Sub-Department Description</th>
+        <th>Option</th>
+    </tr>       
+    </thead>
+ 
+    {% for group in groups %}
+    <tr>
+        <td>dummt</td>
+        <td>dummy</td>
+        <td>
+            <a href="#updateSub-Department" data-id="{{ group.id }}" data-name="{{ group.sub_department }}" data-description="{{ group.sub_department_description }}" class="btn-update-job btn btn-primary">
+                <i class="fa fa-edit"></i>
+            </a>
+            <a onclick="return confirm('Are you sure?')" href="/settings/sub-department/delete?token={{ group.id }}" class="sub_department_delete btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<!-- Modal -->
+<form method="post" enctype="multipart/form-data" action="/settings/sub-department/add">
+
+    <div class="modal fade" id="addNewSubDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">New Sub-Department</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Name of Sub-Department
+                        </label>
+                        <input type="text" name="sub_department" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Sub-Department Description
+                        </label>
+                        <input type="text" name="sub_department_description" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Parent Department
+                        </label>
+                        <input type="text" name="parent_department" class="form-control" id="exampleInputEmail1">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<form method="post" enctype="multipart/form-data" action="/settings/sub-department/update">
+
+    <div class="modal fade" id="updateSubDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">New Sub-Department</h4>
+                </div>
+                <div class="modal-body">
+
+                <input type="hidden" name="id" id="update-sub-department-id">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Name of Sub-Department
+                        </label>
+                        <input type="text" name="sub_department_name" class="form-control" id="update-sub-department-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Sub-Department Description
+                        </label>
+                        <input type="text" name="sub_department_description" class="form-control" id="update-sub-department-description">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Parent Department
+                        </label>
+                        <input type="text" name="parent_department" class="form-control" id="update-parent-department">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %} {% block scripts %}
+
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+       $('#sub-department-list').dataTable({
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+    $('.btn-update-job').on('click', function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+
+        $('#update-sub-department-name').val(name);
+        $('#update-sub-department-description').val(description);
+        $('#update-sub-department-id').val(id);
+
+        $('#update').modal('show');
+
+    });
+
+});
+</script>
+
+{% endblock %}

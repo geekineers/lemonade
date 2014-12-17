@@ -192,9 +192,9 @@ class PayslipsRepository extends BaseRepository
 
                     }
                     //echo $row;
-<<<<<<< HEAD
+
                     $totalRow = 21;
-=======
+
                     //
                     //
                     $total_all_deduction = 0;
@@ -216,7 +216,7 @@ class PayslipsRepository extends BaseRepository
                     $total_all_late_deduction = 0;
                     $total_all_absent = 0;
 
->>>>>>> e352e60b2f0938be0c85800fa5fd345cf33b62c8
+
                     $row = 10;
                     $objPHPExcel->setActiveSheetIndex($key);
                     $objPHPExcel->getActiveSheet()->SetTitle($payslip['name']);
@@ -251,13 +251,13 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $item->getEmployee()->getGeneratedSSSEmployee($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
-<<<<<<< HEAD
+
                         $objPHPExcel->getActiveSheet()->SetCellValue('AD' . $row, $item->getEmployee()->getGeneratedSSSEC($from, $to));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, $item->getEmployee()->get#EC
-=======
+
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AD' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, ((float)$item->getEmployee()->getGeneratedSSSEmployee($from, $to) + (float)$item->getEmployee()->getGeneratedSSSEmployer($from, $to)));
->>>>>>> e352e60b2f0938be0c85800fa5fd345cf33b62c8
+
                         $objPHPExcel->getActiveSheet()->SetCellValue('AF' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AG' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AH' . $row, ((float)$item->getEmployee()->getGeneratedPagibig($from, $to)) * 2);

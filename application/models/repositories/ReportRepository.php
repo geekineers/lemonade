@@ -10,12 +10,14 @@ class ReportRepository extends BaseRepository
 
     }
 
-    public function generateXLS($data, $data_columns, $filename)
+    public function generateXLS($data, $data_columns, $filename, $branch)
     {
         get_instance()->load->library('excel');
         $objPHPExcel = PHPExcel_IOFactory::load("xls_template/generator.xlsx");
         $objPHPExcel->setActiveSheetIndex(0);
-        $row = $objPHPExcel->getActiveSheet()->getHighestRow();
+        $row = 5;
+        $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'Branch Name:');
+        $objPHPExcel->getActiveSheet()->SetCellValue('B1', $branch);
 
         $column = "A";
         foreach ($data_columns as $col) {
@@ -26,14 +28,13 @@ class ReportRepository extends BaseRepository
         $row++;
 
         foreach ($data as $item) {
-            $column = "A";
+            $column = "A"; 
             foreach ($item as $key => $value) {
                 $objPHPExcel->getActiveSheet()->SetCellValue($column . $row, $value);
                 $column++;
             }
             $row++;
         }
-
         $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
         $uid       = uniqid();
         $objWriter->save('excel_files/generated-' . $filename . '.xlsx');
