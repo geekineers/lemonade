@@ -1,7 +1,7 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 
 <div class="row container">
-    <a class="job_position_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewSubDepartment">
+    <a class="sub_department_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewSubDepartment">
         <i class="fa fa-plus"></i>
     </a>
 
@@ -32,24 +32,27 @@
        <tr>
         <th>Sub-Department Name</th>
         <th>Sub-Department Description</th>
+        <th>Parent Department</th>
         <th>Option</th>
     </tr>       
     </thead>
  
-    {% for group in groups %}
-    <tr>
-        <td>dummt</td>
-        <td>dummy</td>
-        <td>
-            <a href="#updateSub-Department" data-id="{{ group.id }}" data-name="{{ group.sub_department }}" data-description="{{ group.sub_department_description }}" class="btn-update-job btn btn-primary">
-                <i class="fa fa-edit"></i>
-            </a>
-            <a onclick="return confirm('Are you sure?')" href="/settings/sub-department/delete?token={{ group.id }}" class="sub_department_delete btn btn-danger">
-                <i class="fa fa-trash-o"></i>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
+    <!-- {% for group in groups %} -->
+    <tbody>
+        <tr>
+            <td>dummt</td>
+            <td>dummy</td>
+            <td>Dummy</td>
+        <!--     <td>{{ group.department_name }}</td>        
+              <td><a href="#update-sub-department" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
+              <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
+            </td> -->
+            <td><button class="btn btn-info">edit</button>
+                <button class="btn btn-danger">delete</button>
+            </td>
+        </tr>
+    </tbody>
+    <!-- {% endfor %} -->
 </table>
 
 
@@ -148,7 +151,7 @@
             "bInfo": true,
             "bAutoWidth": true
         });
-    $('.btn-update-job').on('click', function() {
+    $('.btn-update-sub-department').on('click', function() {
         var id = $(this).data('id');
         var name = $(this).data('name');
         var description = $(this).data('description');
