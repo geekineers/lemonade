@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f40baa0388567e1690517eed925263a5",
+    "hash": "ce848a67f3a9a0ee4e6ce0ea48b68d56",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cartalyst/sentry.git",
-                "reference": "57eb4ec33b342d621d8e7e499492f797443c0428"
+                "reference": "660aa9f97f2754e636e1980cb2872f5302e9e4db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/sentry/zipball/57eb4ec33b342d621d8e7e499492f797443c0428",
-                "reference": "57eb4ec33b342d621d8e7e499492f797443c0428",
+                "url": "https://api.github.com/repos/cartalyst/sentry/zipball/660aa9f97f2754e636e1980cb2872f5302e9e4db",
+                "reference": "660aa9f97f2754e636e1980cb2872f5302e9e4db",
                 "shasum": ""
             },
             "require": {
@@ -104,7 +104,7 @@
                 "laravel",
                 "security"
             ],
-            "time": "2014-08-28 12:03:39"
+            "time": "2014-12-11 22:59:45"
         },
         {
             "name": "codeguy/upload",
@@ -969,12 +969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "e5487b9a23adc4be228ac550100d89c50f1ee8d5"
+                "reference": "65856b14c54ee05a89d5b320e149b94c56ef6262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/e5487b9a23adc4be228ac550100d89c50f1ee8d5",
-                "reference": "e5487b9a23adc4be228ac550100d89c50f1ee8d5",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/65856b14c54ee05a89d5b320e149b94c56ef6262",
+                "reference": "65856b14c54ee05a89d5b320e149b94c56ef6262",
                 "shasum": ""
             },
             "require": {
@@ -1007,7 +1007,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-02 20:15:53"
+            "time": "2014-12-11 19:53:06"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -1146,9 +1146,7 @@
             "time": "2012-08-25 12:49:29"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "codeguy/upload": 20,
@@ -1156,10 +1154,9 @@
         "php-curl-class/php-curl-class": 20,
         "php-excel-reader/spreadsheet-reader": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.2.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
