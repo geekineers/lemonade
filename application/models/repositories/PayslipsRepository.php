@@ -170,7 +170,6 @@ class PayslipsRepository extends BaseRepository
         $period = $data['period'];
         $date   = $data['date'];
 
-
         get_instance()->load->library('excel');
         $objPHPExcel = PHPExcel_IOFactory::load("xls_template/masterlist.xlsx");
         $objPHPExcel->setActiveSheetIndex(0);
@@ -193,6 +192,9 @@ class PayslipsRepository extends BaseRepository
 
                     }
                     //echo $row;
+
+                    $totalRow = 21;
+
                     //
                     //
                     $total_all_deduction = 0;
@@ -214,6 +216,7 @@ class PayslipsRepository extends BaseRepository
                     $total_all_late_deduction = 0;
                     $total_all_absent = 0;
 
+
                     $row = 10;
                     $objPHPExcel->setActiveSheetIndex($key);
                     $objPHPExcel->getActiveSheet()->SetTitle($payslip['name']);
@@ -229,6 +232,7 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, toTitleCase($item->getEmployee()->middle_name));
                         $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $item->getEmployee()->getJobPosition());
                         $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $item->getEmployee()->getMonthlyRate(true));
+                        // dd($item->getEmployee()->getTotalMonthlyRate());
                         $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $item->getEmployee()->getSemiMonthlyRate(true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $item->getEmployee()->getDailyRate());
                         $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $item->getEmployee()->getTaxStatus());
@@ -247,8 +251,13 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $item->getEmployee()->getGeneratedSSSEmployee($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
+
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AD' . $row, $item->getEmployee()->getGeneratedSSSEC($from, $to));
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, $item->getEmployee()->get#EC
+
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AD' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, ((float)$item->getEmployee()->getGeneratedSSSEmployee($from, $to) + (float)$item->getEmployee()->getGeneratedSSSEmployer($from, $to)));
+
                         $objPHPExcel->getActiveSheet()->SetCellValue('AF' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AG' . $row, $item->getEmployee()->getGeneratedPagibig($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('AH' . $row, ((float)$item->getEmployee()->getGeneratedPagibig($from, $to)) * 2);
@@ -317,7 +326,7 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $total_all_netpay);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);        
             }
-
+            
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
             $objWriter->save('excel_files/masterlist-' . $date . '.xlsx');
             return true;

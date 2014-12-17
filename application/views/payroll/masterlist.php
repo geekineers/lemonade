@@ -97,7 +97,7 @@
           <td style="float: right"><?php echo $item->getEmployee()->getInAttendance($from, $to, false); ?></td>
           <td style="float: right"><?php echo $item->getEmployee()->getAbsentDeduction($from, $to, false, true); ?></td>
           <td style="float: right"><?php echo $item->getEmployee()->getLateDeduction($from, $to, 'minute', true);?></td>
-          <td style="float: right"><?php echo $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
+          <td style="float:a right"><?php echo $item->getEmployee()->getUnderTimeDeduction($from, $to, 'minute', true);?></td>
           <td style="float: right"><?php echo $item->getEmployee()->getTotalDeductions($from, $to, 'minute'); ?></td>
           <td style="float: right"><?php echo $item->getEmployee()->getWithholdingTax($from,$to,true); ?></td>
           <td><?php echo $f; ?></td>   

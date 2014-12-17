@@ -115,7 +115,9 @@
 
 
             class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
-              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>
         </td>
     </tr>
 
@@ -217,9 +219,8 @@
                 <input type="hidden" name="timesheet_id" id="updatetimesheet_id" />
                     <div class="form-group">
                         <label>Employee Name</label>
-                        <select name="employee" readonly id="updatetimesheet_employee" class="form-control employee-sched">
+                        <select name="employee" id="updatetimesheet_employee" class="form-control employee-sched">
                             {% for employee in employees %}
-                            <option></option>
                             <option data-timestart="{{ employee.getTimeShiftStart() }}" data-timeend="{{ employee.getTimeShiftEnd() }}" value="{{ employee.id }}">{{ employee.getName() }}</option>
                             {% endfor %}
                         </select>

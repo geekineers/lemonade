@@ -25,6 +25,7 @@ class ReportsController extends BaseController
         $data['title']    = "Generate Report";
         $data['branches'] = $this->branchRepository->all();
         $data['user']     = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['departments'] = $this->departmentRepository->all();
 
         $this->render('reports/generate.twig.html', $data);
 
@@ -38,13 +39,17 @@ class ReportsController extends BaseController
         $selected_columns = $this->input->post('columns');
         $columns          = array_keys($selected_columns);
         $employees        = $this->employeeRepository->all();
-
-        foreach ($employees as $employee) {
+        $branch_id        = $this->input->post('branch');
+        $branch           = Branch::where('id', '=', $branch_id)->first();
+        $branch_name      = $branch->branch_name;    
+        
+        foreach ($employees as $employee) 
+        {
             $output[$index]['first_name']  = $employee->first_name;
             $output[$index]['middle_name'] = $employee->middle_name;
             $output[$index]['last_name']   = $employee->last_name;
-
-            foreach ($columns as $column) {
+            foreach ($columns as $column) 
+            {
                 $method = 'get' . _snakeToCamel($column);
                 $value  = call_user_func(array($employee, $method));
 
@@ -57,13 +62,14 @@ class ReportsController extends BaseController
         array_push($output_column, "Middle Name");
         array_push($output_column, "Last Name");
 
-        foreach ($columns as $column) {
+        foreach ($columns as $column) 
+        {
             array_push($output_column, _snakeToTitle($column));
         }
+        $xls_file = $this->reportRepository->generateXLS($output, $output_column, 'employee', $branch_name);
 
-        $xls_file = $this->reportRepository->generateXLS($output, $output_column, 'employee');
-
-        if ($xls_file) {
+        if ($xls_file) 
+        {
             redirect($xls_file);
         }
     }
@@ -82,10 +88,13 @@ class ReportsController extends BaseController
                 'Q3'                                   => array('start' => date('Y-m-d', strtotime($year . '-07-01')), 'end' => date('Y-m-d', strtotime($year . '-09-30'))),
                 'Q4'                                                    => array('start' => date('Y-m-d', strtotime($year . '-010-01')), 'end' => date('Y-m-d', strtotime($year . '-012-31'))),
             );
-        } else {
+        } 
+        else 
+        {
             $months = getMonths($year);
 
-            foreach ($months as $month) {
+            foreach ($months as $month) 
+            {
                 $array_dates[$month->monthName] = array('start' => date('Y-m-d', strtotime($month->startMonth)), 'end' => date('Y-m-d', strtotime($month->endMonth)));
             }
 
