@@ -124,11 +124,28 @@ class AllowanceController extends BaseController
         }
 
         $this->allowanceRepository->where('id', '=', $id)
-                               ->onlyTrashed()
-                               ->first()
-                               ->restore();
+            ->onlyTrashed()
+            ->first()
+            ->restore();
 
         $this->session->set_flashdata('message', 'Succesfully Restored!');
             redirect('settings/allowances/trash','location');
+    }
+
+    public function destroy($id)
+    {
+    
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/allowances/trash','location');
+        }
+
+        $this->allowanceRepository->where('id', '=', $id)
+            ->onlyTrashed()
+            ->first()
+            ->forceDelete();
+
+        $this->session->set_flashdata('message', 'Succesfully Deleted!');
+        redirect('settings/allowances/trash','location');
     }
 }

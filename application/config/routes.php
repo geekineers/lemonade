@@ -147,11 +147,14 @@ Pigeon::map(function ($r) {
     $r->get('settings/deductions/delete', 'DeductionController#delete');
     $r->get('settings/deductions/trash', 'DeductionController#trash');
     $r->get('settings/deductions/restore/(:num)', 'DeductionController#restore');
+    $r->get('settings/deductions/destroy/(:num)', 'DeductionController#destroy');
 
     $r->get('settings/allowances', 'AllowanceController#index');
     $r->get('settings/allowances/delete', 'AllowanceController#delete');
+    $r->get('settings/allowances/destroy', 'AllowanceController#destroy');
     $r->get('settings/allowances/trash', 'AllowanceController#trash');
     $r->get('settings/allowances/restore/(:num)', 'AllowanceController#restore');
+    $r->get('settings/allowances/destroy/(:num)', 'AllowanceController#destroy');
     $r->post('settings/allowances/save', 'AllowanceController#save');
     $r->post('settings/allowances/update', 'AllowanceController#update');
 
