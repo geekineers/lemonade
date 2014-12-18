@@ -12,8 +12,8 @@ class PayrollSettingsController extends BaseController
         $this->mustBeLoggedIn();
         $this->branchRepository       = new BranchRepository();
         $this->payrollGroupRepository = new PayrollGroupRepository();
-         $this->employeeRepository   = new EmployeeRepository();
-                 $this->load->library('session');
+        $this->employeeRepository     = new EmployeeRepository();
+        $this->load->library('session');
 
     }
 

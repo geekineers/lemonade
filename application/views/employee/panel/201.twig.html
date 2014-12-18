@@ -1,6 +1,6 @@
 <div class="tab-pane active" id="profile-tabs-201">
 					<!-- Basic Information -->
-						 <div class="basic-information panel panel-default">
+	<div class="basic-information panel panel-default">
 <form method="post">
 <input type="hidden" name="id" value="{{ employee.id }}" />		
 	<div class="panel-heading">Basic Information
@@ -81,20 +81,26 @@
 		<table class="table">
 			<tr>
 				<td><span class="form-label">Employee Status</span>
-					<span class="profile-value">{{ employee.getEmployeeType() }}</span>
+					<span class="profile-value">{{ employee.getEmployeeType() }}
+					</span>
 					<select name="employee_type" id="" class="form-control edit-input">
 						<option value="null" {% if employee.getEmployeeType() == null %} selected {% endif %} >None</option>
 						{% for employee_type in employee_types %}
-						<option value="{{ employee_type.id }}" {% if employee_type.id == employee.getEmployeeTypeId() %} selected {% endif %}>{{ employee_type.getName() }}</option>
+						<option value="{{ employee_type.id }}" 
+						{% if employee_type.id == employee.getEmployeeTypeId() %} 	selected {% endif %}>{{ employee_type.getName() }}
+						</option>
 						 {% endfor %}
 					</select>
 				</td>
-				<td><span class="form-label">Employee Type</span>
-					<span class="profile-value">{{ employee.getPayrollPeriod().group_name }}
+				<td>
+					<span class="form-label">Employee Type</span>
+					<span class="profile-value">
+						{{ employee.getPayrollPeriod().group_name }}
 					</span>
-					<select name="payroll_period"   id="group_name" class="form-control edit-input">
+					<select name="payroll_period" id="group_name" class="form-control edit-input">
 					{% for payroll_group in payroll_groups %}
-						 <option {% if payroll_group.id == employee.getPayrollPeriod().id %} selected="selected" {% endif %}value="{{ payroll_group.id }}">{{ payroll_group.group_name }}
+						 <option value="{{ payroll_group.id }}">
+						 	{{ payroll_group.group_name }}
 						 </option>
 					{% endfor %}
 					</select>		 	    
@@ -102,10 +108,12 @@
 			</tr>
 			<tr>
 				<td><span class="form-label">Position</span>
-					<span class="profile-value">{{ employee.getJobPosition() }}</span>
+					<span class="profile-value">{{ employee.getJobPosition() }}
+					</span>
 					<select name="job_position" class="form-control edit-input">
 						{% for position in job_positions %}
-						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">{{ position.job_position }}</option>
+						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">
+						{{ position.job_position }}</option>
 						{% endfor %}
 					</select>
 				</td>

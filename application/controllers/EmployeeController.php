@@ -143,7 +143,6 @@ use Upload\Storage\FileSystem as FileSystem;
         $employee_id = $this->input->post('id');
         $data        = $this->input->post();
         $this->employeeRepository->updateEmployee201($employee_id, $data, $this->sentry);
-        
         $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $employee_id . '/profile', 'location');
     }

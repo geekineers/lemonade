@@ -74,7 +74,16 @@ class EmployeeRepository extends BaseRepository
 
     public function updateEmployee201($employee_id, $data, $sentry)
     {
-
+        $id = $data['employee_type'];
+        $user = EmployeeType::where('id', '=', $id)->first();
+        $emptype = $user->employee_type_name;
+        if(strtolower($emptype) == "inactive")
+        {
+            $toBeDeleted = Employee::where('id', '=', $employee_id);
+            $toBeDeleted->delete();
+            return true;
+        }
+        
         $post = array(
             'first_name'     => toTitleCase($data['first_name']),
             'last_name'      => toTitleCase($data['last_name']),
@@ -101,13 +110,11 @@ class EmployeeRepository extends BaseRepository
             // 'basic_pay' => $data['basic_pay'],
 
             // Government Details
-            'tin_number'     => $data['tin_number'],
-            'sss_number'     => $data['sss_number'],
-            'pagibig_number' => $data['pagibig_number'],
+            'tin_number'        => $data['tin_number'],
+            'sss_number'        => $data['sss_number'],
+            'pagibig_number'    => $data['pagibig_number'],
             'philhealth_number' => $data['philhealth_number'],
         );
-        // dd($post);
-
         $employee = $this->where('id', '=', $employee_id);
         $first = $employee->first();
         foreach($post as $field => $value) {
