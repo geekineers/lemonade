@@ -307,7 +307,9 @@
 
 {% endblock %} 
 {% block scripts %}
-<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js">
+    
+</script>
 <script type="text/javascript">
 
 $('#form-add-timesheet').on('submit', function(e){
@@ -320,13 +322,13 @@ $('#form-add-timesheet').on('submit', function(e){
 $('#query').on('keyup', function(e){
     e.preventDefault();
     var query = $('#query').val();
-    var from = $('#dateranger-from').val();
-    var to = $('#dateranger-to').val();
+    var from  = $('#dateranger-from').val();
+    var to    = $('#dateranger-to').val();
 
-    if(from == null && to == null){
+    if(from == null && to == null) {
         alert('Kindly input date range');
     }
-    else{
+    else {
         $.get('/timesheet/range', {query:query, from : from, to : to}, function(resp){
             $('.dataTable').html(resp);
         });
@@ -362,11 +364,11 @@ function getHours(h){
 
 $('.edit-timesheet').on('click', function(e){
     e.preventDefault();
-    var timesheet_id = $(this).data('id');
+    var timesheet_id  = $(this).data('id');
     var employee_name = $(this).data('employee-name'); 
-    var employee_id = $(this).data('employee-id'); 
-    var time_in = $(this).data('time-in'); 
-    var time_out = $(this).data('time-out');
+    var employee_id   = $(this).data('employee-id'); 
+    var time_in       = $(this).data('time-in'); 
+    var time_out      = $(this).data('time-out');
 
     var from = $(this).data('date-from');
     var to = $(this).data('date-to');
@@ -385,8 +387,8 @@ $('.edit-timesheet').on('click', function(e){
 $('.dateranger-btn').on('click', function(e){
     e.preventDefault();
     var query = $('#query').val();
-    var from = $('#dateranger-from').val();
-    var to = $('#dateranger-to').val();
+    var from  = $('#dateranger-from').val();
+    var to    = $('#dateranger-to').val();
 
     if(from == null && to == null){
         alert('Kindly input date range');
@@ -400,8 +402,6 @@ $('.dateranger-btn').on('click', function(e){
 
 });
 
-
-
     (function($){
         $('#timesheet1').dataTable({
             "bPaginate": false,
@@ -410,11 +410,6 @@ $('.dateranger-btn').on('click', function(e){
             "bInfo": false,
             "bAutoWidth": false
         });
-
-
-
-
-
 
         $('.dataTables_paginate > a').addClass('btn btn-default');
     })(jQuery);
@@ -427,11 +422,11 @@ $('.dateranger-btn').on('click', function(e){
     });
 
     $('.search-input').on('keyup', function(){
-        var timein = $('#search-timein').val();
-        var timeout = $('#search-timeout').val();
-        var name = $('#search-name').val();
+        var timein      = $('#search-timein').val();
+        var timeout     = $('#search-timeout').val();
+        var name        = $('#search-name').val();
         var employee_id = $('#search-employee-id').val();
-        var status = $('#search-status').val();
+        var status      = $('#search-status').val();
 
         var data = {
             'name' : name,
@@ -441,26 +436,36 @@ $('.dateranger-btn').on('click', function(e){
             'status' : status
         };
 
-        $.get('/timesheet/search', data, function(response){
-            
+        $.get('/timesheet/search', data, function(response) {    
             var newRow = "";
-            response.forEach(function builRows(element, index, array){
-                var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td></tr>";
+            response.forEach(function buildRows(element, index, array){
+                var temp = "<tr>
+                                <td>timein</td>
+                                <td>timeout</td>
+                                <td>name</td>
+                                <td>employee_id</td>
+                                <td>status</td>
+                            </tr>";
                 var status = "";
-                if(element.status == 'late'){
+                if(element.status == 'late')
+                {
                     status = '<span class="label label-warning">Late</span>';
                 }
-                else if(element.status == 'undertime') {
-                        status = '<span class="label label-danger">Undertime</span>'
+                else if(element.status == 'undertime') 
+                {
+                    status = '<span class="label label-danger">Undertime</span>'
                 }
-                else if(element.status == 'absent') {
-                        status = '<span class="label label-default">Absent</span>'
+                else if(element.status == 'absent') 
+                {
+                    status = '<span class="label label-default">Absent</span>'
                 }
-                else if(element.status == 'good') {
-                        status = '<span class="label label-success">Good</span>'
+                else if(element.status == 'good') 
+                {
+                    status = '<span class="label label-success">Good</span>'
                 }
-                else if(element.status == 'current') {
-                        status = '<span class="label label-primary">Still Logged In</span>'
+                else if(element.status == 'current') 
+                {
+                   status = '<span class="label label-primary">Still Logged In</span>'
                 }
 
                 temp = temp.replace('timein', element.time_in, 'gi');
@@ -468,10 +473,7 @@ $('.dateranger-btn').on('click', function(e){
                 temp = temp.replace('name', element.employee.full_name, 'gi');
                 temp = temp.replace('employee_id', element.employee.employee_number, 'gi');
                 temp = temp.replace('status', status, 'gi');
-
                 newRow += temp;
-
-
             })
 
             $('tbody').html(newRow);
