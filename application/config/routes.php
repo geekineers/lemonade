@@ -208,6 +208,7 @@ Pigeon::map(function ($r) {
     $r->get('employees/reactivate', 'EmployeeController#reactivate');
     $r->get('employees/(:num)/profile', 'EmployeeController#profile');
     $r->post('employees/(:num)/profile', 'EmployeeController#update');
+    $r->get('employees/file/delete', 'EmployeeController#deleteFile');
     $r->post('employees/file/upload', 'EmployeeController#uploadFile');
     $r->post('employees/certificate/upload', 'EmployeeController#uploadCertificate');
     $r->get('employees/file/delete', 'EmployeeController#deleteFile');

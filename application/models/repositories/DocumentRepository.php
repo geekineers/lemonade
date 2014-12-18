@@ -61,10 +61,7 @@ class DocumentRepository extends BaseRepository
         $id   = $data['token'];
         $name = $data['name'];
         $eid  = $data['eid'];
-
-        $path = realpath(APPPATH . '../uploads/');
-        $this->delete($id);
-        unlink($path . '/' . $name);
+        return $this->delete($data);
     }
 
 }
