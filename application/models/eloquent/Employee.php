@@ -662,7 +662,9 @@ class Employee extends BaseModel
 
     public function getTimeShiftStart($military_format = false)
     {
-        if ($military_format) {return $this->timeshift_start;
+        if ($military_format) 
+        {
+            return $this->timeshift_start;
         }
 
         return date('h:i a', strtotime($this->timeshift_start));

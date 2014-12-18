@@ -1,8 +1,12 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 <div class="row">
     <div class="col-md-5">
-        <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet btn-sm"><i class="fa fa-plus"></i></a>
-        <a data-toggle="modal" data-target="#uploadTimesheet" class="btn btn-default btn-sm"><i class="fa fa-file"></i>Upload Sheet</a>
+        <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet btn-sm">
+            <i class="fa fa-plus"></i>
+        </a>
+        <a data-toggle="modal" data-target="#uploadTimesheet" class="btn btn-default btn-sm">
+            <i class="fa fa-file"></i>Upload Sheet
+        </a>
     </div>
     <div class="col-md-7 ">
 
@@ -277,7 +281,8 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Upload XLS Timesheet</h4>
+                    <h4 class="modal-title" id="myModalLabel">Upload XLS Timesheet
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <p>Get the timesheet template. <a href="/xls_template/timesheet.xlsx">Click Here</a></p>
