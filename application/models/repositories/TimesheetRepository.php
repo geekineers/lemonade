@@ -26,13 +26,10 @@ class TimesheetRepository extends BaseRepository
       $employee     = $this->employeeRepository->find($data['employee_id']);
       $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
       $is_late      = ($late > $employee->getCompany()->company_late_grace_period)  ? true : false;
-
-      $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_out']);
+      $time_out     = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_out']);
 
       $departure_time = $time_out->format('H:i:s');
         // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
-      var_dump("Departure Time  : " .  $departure_time);
-      var_dump("Timeshift End Time  : " .  $employee->getTimeShiftEnd(true));
       $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), 'minute');
       // dd($undertime);
       // dd($undertime);
@@ -239,7 +236,7 @@ class TimesheetRepository extends BaseRepository
 
         $file->setName('add_timesheet');
         $file->upload();
-        // }
+      
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         $objReader->setReadDataOnly(false);
 
