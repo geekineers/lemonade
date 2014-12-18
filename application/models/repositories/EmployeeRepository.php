@@ -81,7 +81,7 @@ class EmployeeRepository extends BaseRepository
         {
             $toBeDeleted = Employee::where('id', '=', $employee_id);
             $toBeDeleted->delete();
-            return true;
+            return redirect('employees');
         }
         
         $post = array(
