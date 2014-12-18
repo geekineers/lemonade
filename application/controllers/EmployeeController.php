@@ -58,7 +58,7 @@ use Upload\Storage\FileSystem as FileSystem;
         : $this->session->flashdata('message_error');
         $data['user']                 = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']                = "Employee";
-        $data['employees']            = $this->employeeRepository->where('id', '!=', 1)->get();
+        $data['employees']            = $this->employeeRepository->where('first_name', '!=', 'Super Admin')->get();
         $data['job_positions']        = $this->jobPositionRepository->all();
         $data['departments']          = $this->departmentRepository->all();
         $data['payroll_groups']       = $this->payrollGroupRepository->all();
