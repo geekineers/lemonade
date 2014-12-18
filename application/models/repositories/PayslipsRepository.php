@@ -183,7 +183,7 @@ class PayslipsRepository extends BaseRepository
                     if($key > 0)
                     {
                         // var_dump($key); die();
-                        // $B = clone $A;
+                        $B = clone $A;
                         $B->setTitle($payslip['name']);
                         $sheetIndex = $key;
                         $row = 10;
