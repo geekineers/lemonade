@@ -167,6 +167,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/holidays/delete', 'HolidayController#delete');
     $r->post('settings/holidays/generate', 'HolidayController#generateYear');
     $r->get('settings/holidays/(:num)', 'HolidayController#holidayPerYear');
+    $r->get('settings/holidays/delete/(:num)', 'HolidayController#deleteYear');
     $r->post('settings/holidays/update/(:num)', 'HolidayController#update');
     $r->post('settings/holidays/save/(:num)', 'HolidayController#add');
 

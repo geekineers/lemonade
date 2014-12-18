@@ -3,8 +3,6 @@
 <div class="row container">
     <a class="holiday_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewHoliday"><i class="fa fa-plus"></i></a>
     <a class="holiday_create btn btn-primary edit-btn" href="#" data-toggle="modal" data-target="#addNewDeductions"><i class="fa fa-edit"></i></a>
-<form method="post" action="/settings/holidays/update/{{ year }}">
-    <input type="submit" class="save-cancel-btn btn btn-default" value="Save"/>
     {% if alert_message != null %}
     <div class="col-md-7 alert alert-success alert-dismissable">
         <i class="fa fa-check"></i>
@@ -13,6 +11,8 @@
     </div>
     {% endif %}
 </div>
+<form method="post" action="/settings/holidays/update/{{ year }}">
+    <input type="submit" class="save-cancel-btn btn btn-default" value="Save"/>
 <table class="table table-bordered table-hovered">
     <tr>
         <th>Year</th>
@@ -20,6 +20,7 @@
         <th>Type</th>
         <th>From</th>
         <th>To</th>
+        <th>Action</th>
     </tr>
     {% for holiday in holidays %}
     <tr>
@@ -55,7 +56,16 @@
             </span>
             <input type="text" class="datepicker form-control edit-input" name="holiday[{{ loop.index0 }}][holiday_to]" value="{{ holiday.holiday_to }}" />
         </td>
-
+        <td>
+            <a onclick="return confirm('Are you sure?')" href="/settings/holidays/delete/{{ holiday.year }}?token={{ holiday.id }}" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <!-- <form method="get" action="settings/holidays/delete/{{ holiday.year }}">
+                <button class="btn btn-danger" name="holiday.id">
+                    <i class="fa fa-trash-o"></i>
+                </button>
+            </form> -->
+        </td>
 
     </tr>
     {% endfor %}
