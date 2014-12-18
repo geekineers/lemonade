@@ -42,7 +42,12 @@
 	 		<td>{{ allowance.allowance_name }}</td>
 	 		<td>{{ allowance.getCreator() }}</td>
 	 		<td>
-        <a  onclick="return confirm('Are you sure you want to reactivate this allowance?')"  href="/settings/allowances/restore/{{ allowance.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i></a>
+        <a onclick="return confirm('Are you sure you want to reactivate this allowance?')"  href="/settings/allowances/restore/{{ allowance.id }}" class="btn btn-success">
+          <i class="fa fa-rotate-left"></i>
+        </a>
+        <a onclick="return confirm('Are you sure you want to permanently delete this allowance?')" href="/settings/allowances/destroy/{{ allowance.id }}" class="btn btn-danger">
+          <i class="fa fa-trash-o"></i>
+        </a>
 	 		</td>
 	 	</tr>
   </tbody>
