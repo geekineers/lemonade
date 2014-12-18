@@ -517,7 +517,8 @@ class EmployeeRepository extends BaseRepository
         
 
         foreach ($user_infos as  $user_info ) {
-            if($user_info[0] == ""){
+            if($user_info[0] == "")
+            {
                 continue;
             }
             $required_field = [
@@ -544,7 +545,7 @@ class EmployeeRepository extends BaseRepository
             }
             else{
                 $employee_type = EmployeeType::create(['employee_type_name' => $user_info[9], 'company_id' => COMPANY_ID]);
-               $employee_type_id = $employee_type->id;
+                $employee_type_id = $employee_type->id;
             }
 
             $branch = Branch::where('branch_name','=', $user_info[10])->first();
@@ -567,10 +568,12 @@ class EmployeeRepository extends BaseRepository
             }
 
             $job_position = Job_Position::where('Job_Position','=', $user_info[11])->first();
-            if($job_position){
+            if($job_position)
+            {
                 $job_position_id = $job_position->id;
             }
-            else{
+            else
+            {
                 $job_position = Job_Position::create(array('job_position' => $user_info[11], 'company_id' => COMPANY_ID, 'job_description' => 'null'));
                    $job_position_id = $job_position->id;
             }
@@ -580,8 +583,8 @@ class EmployeeRepository extends BaseRepository
             $payroll_period = PayrollGroup::where('group_name','=',$group_name)
                                             ->where('branch_id', '=', $branch_id) 
                                             ->first();
-            if($payroll_period){
-                
+            if($payroll_period)
+            {    
                 $payroll_period_id = $payroll_period->id;
             }
             else{

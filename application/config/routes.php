@@ -71,6 +71,7 @@ Pigeon::map(function ($r) {
 
     /*Admin Settings */
     $r->get('settings/sss-config', 'SSSConfigController#index');
+    $r->get('settings/sss-config/delete', 'SSSConfigController#delete');
     $r->get('settings/sss-config/seeder', 'SSSConfigController#sssSeeder');
     $r->post('settings/sss-config', 'SSSConfigController#store');
     $r->post('settings/sss-config/update', 'SSSConfigController#update');
@@ -80,6 +81,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/philhealth-config/update', 'PHConfigController#update');
 
     $r->get('settings/withholding-config', 'WithholdingtaxController#index');
+    $r->get('settings/withholding-config/delete', 'WithholdingtaxController#delete');
     $r->get('settings/withholding-config/seed', 'WithholdingtaxController#seeder');
     $r->post('settings/withholding-config', 'WithholdingtaxController#store');
     $r->post('settings/withholding-config/update', 'WithholdingtaxController#update');
@@ -167,6 +169,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/holidays/delete', 'HolidayController#delete');
     $r->post('settings/holidays/generate', 'HolidayController#generateYear');
     $r->get('settings/holidays/(:num)', 'HolidayController#holidayPerYear');
+    $r->get('settings/holidays/delete/(:num)', 'HolidayController#deleteYear');
     $r->post('settings/holidays/update/(:num)', 'HolidayController#update');
     $r->post('settings/holidays/save/(:num)', 'HolidayController#add');
 
@@ -205,6 +208,7 @@ Pigeon::map(function ($r) {
     $r->get('employees/reactivate', 'EmployeeController#reactivate');
     $r->get('employees/(:num)/profile', 'EmployeeController#profile');
     $r->post('employees/(:num)/profile', 'EmployeeController#update');
+    $r->get('employees/file/delete', 'EmployeeController#deleteFile');
     $r->post('employees/file/upload', 'EmployeeController#uploadFile');
     $r->post('employees/certificate/upload', 'EmployeeController#uploadCertificate');
     $r->get('employees/file/delete', 'EmployeeController#deleteFile');

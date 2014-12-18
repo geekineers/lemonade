@@ -25,14 +25,11 @@ class TimesheetRepository extends BaseRepository
       $arrival_time = $time_in->format('H:i:s');
       $employee     = $this->employeeRepository->find($data['employee_id']);
       $late         = getInterval($employee->getTimeShiftStart(true), $arrival_time, 'minute');
-      $is_late      = ($late > $employee->getCompany()->company_late_grace_period)  ? true :false;
-
-      $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_out']);
+      $is_late      = ($late > $employee->getCompany()->company_late_grace_period)  ? true : false;
+      $time_out     = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_out']);
 
       $departure_time = $time_out->format('H:i:s');
         // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
-      var_dump("Departure Time  : " .  $departure_time);
-      var_dump("Timeshift End Time  : " .  $employee->getTimeShiftEnd(true));
       $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), 'minute');
       // dd($undertime);
       // dd($undertime);
@@ -42,7 +39,8 @@ class TimesheetRepository extends BaseRepository
 
       $data['status'] = (isset($data['status'])) ? $data['status'] : 'good';
       
-      if($is_late){
+      if($is_late) 
+      {
         $data['status'] = 'late';
       }
       else if($is_undertime)
@@ -50,32 +48,30 @@ class TimesheetRepository extends BaseRepository
         $data['status'] = 'undertime';
       }
 
-      if(!isset($data['time_out'])){
+      if(!isset($data['time_out']))
+      {
         $data['status'] = 'current';
       }
 
 
       $existing = $this->where('employee_id', $data['employee_id'])
-                        ->where(function($query) use($time_in, $time_out){
-                                 $query->where(function($query) use($time_in, $time_out){
-                                   $query->where('time_in', '<=', $time_in )
-                                         ->where('time_in', '>=', $time_in);
-
-                                })
-                                 ->orWhere(function($query) use($time_in, $time_out){
-
-                                   $query->where('time_out', '<=', $time_out )
-                                         ->where('time_out', '>=', $time_out);
-                              });
-                        })->first();
+        ->where(function($query) use($time_in, $time_out) {
+            $query->where(function($query) use($time_in, $time_out) {
+              $query->where('time_in', '<=', $time_in )->where('time_in', '>=', $time_in);
+        })->orWhere(function($query) use($time_in, $time_out){
+              $query->where('time_out', '<=', $time_out ) ->where('time_out', '>=', $time_out);
+          });
+      })->first();
                   
-      if($existing){
+      if($existing)
+      {
             // $existing->get();
             $existing->fill($data);
             $existing->save();
             return true; 
       }
-      else{
+      else
+      {
            $this->create($data);
            return true;
         
@@ -131,10 +127,12 @@ class TimesheetRepository extends BaseRepository
         $time_out = date('Y-m-d H:i:s', strtotime($to . ' ' . $timeend));
 
 
-        if($time_in == $time_out){
+        if($time_in == $time_out)
+        {
           return false;
         }
-        else{
+        else
+        {
           $source   = "Manual Input";
           $data  = [
               'employee_id'     => $employee_id,
@@ -230,14 +228,15 @@ class TimesheetRepository extends BaseRepository
         $path = realpath(APPPATH . '../uploads/');
         // if ($file->isOk()) {
         $filename = $path . '/add_timesheet.xlsx';
+        // dd($filename);
         if (file_exists($filename)) {
+            
             unlink($filename);
-
         }
 
         $file->setName('add_timesheet');
         $file->upload();
-        // }
+      
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         $objReader->setReadDataOnly(false);
 
@@ -254,9 +253,9 @@ class TimesheetRepository extends BaseRepository
 
         for ($index = 0, $row = 2; $row <= $highestRow; ++$row) {
             // var_dump(''$index);
-            for ($col = 0; $col <= $highestColumnIndex; ++$col) {
-              
-                    $timesheet_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+            for ($col = 0; $col <= $highestColumnIndex; ++$col) 
+            {
+              $timesheet_infos[$index][$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
               
             }
             $index++;
@@ -264,12 +263,16 @@ class TimesheetRepository extends BaseRepository
 
         // dd($timesheet_infos);
         foreach ($timesheet_infos as $timesheet_info) {
-            $employee = $this->employeeRepository->where('employee_number', '=', $timesheet_info[0])                        
-                                                 ->first();
+            
+            $employee = $this->employeeRepository->where('employee_number', '=', $timesheet_info[0])->first();
 
-            if ($employee == null) {
+            if ($employee == null) 
+            {
                 continue;
-            } else {
+            } 
+
+            else 
+            {
 
                 $time_in = date('H:i:s', strtotime($timesheet_info[2]));
                 $date_in = date('Y-m-d', strtotime($timesheet_info[1]));

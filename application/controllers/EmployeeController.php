@@ -236,7 +236,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->documentRepository->saveDocument($this->input->post());
 
         
-          $this->session->set_flashdata('alert', true);
+        $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
     }
@@ -244,11 +244,11 @@ use Upload\Storage\FileSystem as FileSystem;
     public function deleteFile()
     {
 
-        $this->documentRepository->delete($this->input->get());
+        
+        $this->documentRepository->deleteFile($this->input->get('token'));
         
         $this->session->set_flashdata('alert', true);
-        redirect('/employees/' . $this->input->get('employee_id') . '/profile', 'location');
-
+        redirect('/employees/' . $this->input->get('eid') . '/profile', 'location');
     }
 
     public function uploadCertificate()

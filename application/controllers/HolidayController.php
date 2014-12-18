@@ -76,4 +76,13 @@ class HolidayController extends BaseController
 
     }
 
+    public function deleteYear($year)
+    {
+        $id   = $this->input->get('token');
+        $holiday = Holiday::where('id', '=', $id)->first();
+        $holiday->delete();
+
+        $this->session->set_flashdata('alert_message', ' Holiday succesfully has been deleted.');
+        redirect('settings/holidays/' . $year, 'location');
+    }
 }

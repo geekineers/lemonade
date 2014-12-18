@@ -74,6 +74,13 @@ class SSSConfigController extends BaseController
         }
     }
 
+    public function delete()
+    {
+      $id = $this->input->get('id');
+      $sss = SSSConfigs::where('id', '=', $id)->first();
+      $sss->delete();
+      redirect('/settings/sss-config', 'location');
+    }
 
     public function sssSeeder()
     {
@@ -103,9 +110,9 @@ class SSSConfigController extends BaseController
               array('range'=> 12249.99 ,'ER'=> 894.00,'EE'=> 436.00 ,'TC'=> 1330.00, 'TTC'=> 1320.00 ),
               array('range'=> 12749.99, 'ER'=> 930.80,'EE'=> 454.20, 'TC'=> 1385.00, 'TTC'=> 1375.00 ),
               array('range'=> 13249.99 ,'ER'=> 967.70,'EE'=> 472.30 ,'TC'=> 1440.00, 'TTC'=> 1430.00 ),
-             array('range'=> 13749.99 ,'ER'=> 1004.50,'EE'=> 490.50, 'TC'=> 1495.00, 'TTC'=> 1485.00 ),
-             array('range'=> 14249.99 ,'ER'=> 1041.30,'EE'=> 508.70, 'TC'=> 1550.00, 'TTC'=> 1540.00 ),
-             array('range'=> 14749.99 ,'ER'=> 1078.20,'EE'=> 526.80, 'TC'=> 1605.00, 'TTC'=> 1595.00 ),
+              array('range'=> 13749.99 ,'ER'=> 1004.50,'EE'=> 490.50, 'TC'=> 1495.00, 'TTC'=> 1485.00 ),
+              array('range'=> 14249.99 ,'ER'=> 1041.30,'EE'=> 508.70, 'TC'=> 1550.00, 'TTC'=> 1540.00 ),
+              array('range'=> 14749.99 ,'ER'=> 1078.20,'EE'=> 526.80, 'TC'=> 1605.00, 'TTC'=> 1595.00 ),
               array('range'=> 15249.99,'ER'=> 1135.00,'EE'=> 545.00, 'TC'=> 1680.00, 'TTC'=> 1650.00 ),
               array('range'=>15749.99, 'ER'=> 1171.80,'EE'=> 563.20, 'TC'=> 1735.00, 'TTC'=> 1705.00 ),
               array('range'=> 16000.99,'ER'=> 1208.70, 'EE'=> 581.30, 'TC'=> 1790.00,'TTC'=> 1760.00 )

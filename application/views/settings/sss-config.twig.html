@@ -3,83 +3,90 @@
 <div class="row">
 	<section class="col-md-12 connectedSortable ui-sortable">
 		<div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-          		<li class="active" ><a href="/settings/sss-config" >SSS Form table</a></li>
-              <li ><a href="/settings/withholding-config" >Widthholding Tax Tables</a></li>
-          		<li ><a href="/settings/philhealth-config" >PhilHealth Form table</a></li>
-            </ul>
-
-            <div class="tab-content ">
-                <div class="tab-pane active" id="bir" style="position: relative; ">
-             
-                	<table class="table table-bordered center">
-                      <thead>
-                        <tr>
-                          <th>Range</th>
-                          <th>Monthly Salary Credit</th>
-                          <th>EC</th>
-                          <th>Total ER</th>
-                          <th>Total EE</th>
-                          <th>Total</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                	     {% for set in sets %}
-                          <tr data-id="{{ set.id }}">
-                                
-                              <td > 
-                                <span class="col-md-12 range_from">{{ set.from_range }} - {{ set.to_range }}</span>
-                                <input type="text" class="input-sm range_from hide" value="{{ set.from_range }}" placeholder="from">
-                                <input type="text" class="input-sm  range_to hide" value="{{ set.to_range }}" placeholder="to">
-                              </td>
-
-                              <td>
-                                <span class="col-md-12 monthly_salary_credit">{{ set.monthly_salary_credit }}</span>
-                                <input type="text" class="input-sm monthly_salary_credit hide" value="{{ set.monthly_salary_credit }}" placeholder="from">
-                              </td>
-                              <td>
-                                <span class="col-md-12 EC">
-                                  {{ set.EC }}
-                                </span>
-                                  <input type="text" class="input-sm EC hide" placeholder="ec" value="{{ set.EC }}">
-                              </td>
-                              <td>
-                                <span class="col-md-12 ER">
-                                  {{ set.ER }}
-                                </span>
-                                <input type="text" class="input-sm ER hide" placeholder="er" value="{{ set.ER }}">
-                              </td>
-                              <td>
-                                <span class="col-md-12 EE">
-                                  {{ set.EE }}
-                                </span>
-                                <input type="text" class="input-sm EE hide" placeholder="ee" value="{{ set.EE }}">
-                              </td>
-                              <td>
-                                <span class="col-md-12 TTC">
-                                  {{ set.TTC }}
-                                </span>
-                                <input type="text" class="input-sm TTC hide" placeholder="ttc" value="{{ set.TTC }}">
-                              </td>
-                              <td>
-                                <button class="btn btn-info save" style="display:none"><i class="fa fa-save"></i></button>
-                                <button class="btn btn-default edit"><i class="fa fa-edit"></i></button>
-                                <button class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
-                              </td>
-                          </tr>
-                       {% endfor %}
-                	</table>
-               		<div class="col-md-12 center">
-               			<button class="btn add-range">Add Ranges</button>
-               		</div>
-                </div>
-                <!-- sss table -->
-                <div class="tab-pane" id="sss" style="position: relative; height: 300px;">
-                </div>
-
-                <div class="tab-pane" id=""></div>
-            </div>
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="/settings/sss-config" >SSS Form table</a>
+        </li>
+        <li>
+          <a href="/settings/withholding-config">Widthholding Tax Tables</a>
+        </li>
+        <li>
+          <a href="/settings/philhealth-config">PhilHealth Form table</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="bir" style="position: relative; ">
+        	<table class="table table-bordered center">
+            <thead>
+              <tr>
+                <th>Range</th>
+                <th>Monthly Salary Credit</th>
+                <th>EC</th>
+                <th>Total ER</th>
+                <th>Total EE</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            {% for set in sets %}
+            <tbody>
+              <tr data-id="{{ set.id }}"> 
+                <td> 
+                  <span class="col-md-12 range_from">{{ set.from_range }} - {{ set.to_range }}</span>
+                  <input type="text" class="input-sm range_from hide" value="{{ set.from_range }}" placeholder="from">
+                  <input type="text" class="input-sm  range_to hide" value="{{ set.to_range }}" placeholder="to">
+                </td>
+                <td>
+                  <span class="col-md-12 monthly_salary_credit">
+                    {{ set.monthly_salary_credit }}
+                  </span>
+                  <input type="text" class="input-sm monthly_salary_credit hide" value="{{ set.monthly_salary_credit }}" placeholder="from">
+                </td>
+                <td>
+                  <span class="col-md-12 EC">{{ set.EC }}</span>
+                  <input type="text" class="input-sm EC hide" placeholder="ec" value="{{ set.EC }}">
+                </td>
+                <td>
+                  <span class="col-md-12 ER">{{ set.ER }}</span>
+                  <input type="text" class="input-sm ER hide" placeholder="er" value="{{ set.ER }}">
+                </td>
+                <td>
+                  <span class="col-md-12 EE">{{ set.EE }}</span>
+                  <input type="text" class="input-sm EE hide" placeholder="ee" value="{{ set.EE }}">
+                </td>
+                <td>
+                  <span class="col-md-12 TTC">{{ set.TTC }}</span>
+                  <input type="text" class="input-sm TTC hide" placeholder="ttc" value="{{ set.TTC }}">
+                </td>
+                <td>
+                  <button class="btn btn-info save" style="display:none">
+                    <i class="fa fa-save"></i>
+                  </button>
+                  <button class="btn btn-default edit">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <!-- <button class="btn btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </button> -->
+                  <a href="/settings/sss-config/delete?id={{ set.id }}" class="btn btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+          <div class="col-md-12 center">
+            <button class="btn add-range">Add Ranges</button>
+          </div>
         </div>
+                <!-- sss table -->
+        <div class="tab-pane" id="sss" style="position: relative; height: 300px;">
+        </div>
+
+        <div class="tab-pane" id=""></div>
+      </div>
+    </div>
 	</section>
 </div>
 {% include 'modal/add-sss.twig.html' %}
