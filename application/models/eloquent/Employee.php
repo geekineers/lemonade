@@ -341,25 +341,33 @@ class Employee extends BaseModel
 
     public function getPhilhealthValue()
     {
+        $period = $payroll_period =  strtolower(str_replace(" ", "",$this->getPayrollPeriod()->period));
+    
         if ($this->deduct_philhealth == 1 || $this->deduct_philhealth == null) {
-
+            // dd('here');
             $pay = $this->getBasicPay(false);
-
+            // dd($pay);
             $first = PHConfigs::first();
             $last  = PHConfigs::orderby('created_at', 'desc')->first();
-            if($this->fixed_philhealth_amount != "no"){
-                if ($first != null && $last != null){
-                    if ($pay < $first->to_range) {
+            // dd($last);
+          
+                $pay = (float) $pay;
+                if ($first && $last){
+                    // dd($first->to_range);
+                    if ($pay < (float)$first->to_range) {
+                    // dd('here');
                         $ph = $first->employee_share;
-                    } else if ($pay > $last->to_range) {
+                    } else if ($pay > (float)$last->to_range) {
                         $ph = $last->employee_share;
+                    return $ph;
                     } else {
+                        // return 'here';
                         $ph = PHConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->employee_share;
                     }
 
                     $ph = floatval($ph);
-
-                    if ($this->getPayrollPeriod()->period == "Semi-monthly") {
+                    if ( $period == "semi-monthly") {
+                
                         return floatval($ph / 2);
                     } else {
                         return floatval($ph);
@@ -368,7 +376,7 @@ class Employee extends BaseModel
                     return (int) $this->fixed_philhealth_amount;
                 }
                 
-            }
+            
         }
         return (int) 0;
 
@@ -542,22 +550,26 @@ class Employee extends BaseModel
     public function getBasicSalary($number_format = false)
     {
         $basic_salary = 0;
-        switch ($this->getPayrollPeriod()->period) {
-            case 'Monthly':
+        $payset =  strtolower(str_replace(" ", "", $this->getPayrollPeriod()->period));
+        // return $payset;
+        switch ($payset) {
+            case 'monthly':
                 $basic_salary = $this->getBasicPay(false);
                 break;
-            case 'Semi-monthly':
+            case 'semi-monthly':
                 $basic_salary = $this->getBasicPay(false) / 2;
                 break;
-            case 'Daily':
+            case 'daily':
                 $basic_salary = $this->getBasicPay(false);
                 break;
             default:
                 # code...
                 break;
         }
-
-        if ($number_format) {return number_format($basic_salary, 2);
+        // return $this->getBasicPay(false);
+        if ($number_format) {
+            // return $basic_salary;
+            return number_format($basic_salary, 2);
         }
 
         return $basic_salary;
@@ -1116,7 +1128,7 @@ class Employee extends BaseModel
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
-                if($attended || !$this->timesheet_required) 
+                if($attended) 
                 {
                     $in_attendance++;
                 }
@@ -1245,13 +1257,14 @@ class Employee extends BaseModel
         $basic_pay      = $this->getBasicSalary();
 
         $curr_salary = ($basic_pay + $overtime + $regular_holiday + $special_holiday + $night_differential)-($sss_val + $philhealth_val + $pagibig_val + $absents + $late);
-
+        // return $curr_salary;
         if ($this->withholding_tax_type == "Expanded") {
             $wtax = $this->getExpandedWithholdingTax(true) * $curr_salary;
         } else {
+            // return 'here';
             $wtax = $this->getTax($curr_salary, $this->getPayrollPeriod()->period, $this->dependents);
         }
-
+        return $wtax;   
         $wtax = ($wtax > 0) ? $wtax : 0;
 
         if ($number_format) {
@@ -1265,6 +1278,7 @@ class Employee extends BaseModel
     public function getTax($pay, $period, $dependents)
     {
         // dd($period);
+         $period =  strtolower(str_replace(" ", "", $period));
         $WTConfigs = WTConfigs::get();
 
         $first = WTConfigs::first();

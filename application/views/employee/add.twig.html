@@ -163,7 +163,9 @@
 
                     <select required name="department" class="form-control " id="exampleInputEmail1" placeholder="">
                         {% for department in departments %}
-                        <option value="{{  department.id }}">{{ department.department_name }}</option>
+                        <option value="{{  department.id }}">
+                            {{ department.department_name }}
+                        </option>
                         {% endfor %}
                     </select>
 
@@ -174,7 +176,11 @@
                         <span class="req-label">*</span>
                     </label>
                     <select id="group_name" required class="form-control" name="payroll_period">
-
+                        {% for payroll_group in payroll_groups %}
+                        <option value="{{ payroll_group.id }}">
+                            {{ payroll_group.group_name }}
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

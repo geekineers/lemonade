@@ -254,18 +254,14 @@ $to = $payslip->getPayslipsGroup()->to;
 </div>
 
 
-    <table style="width:100%;top:150px;">
+    <table style="width:100%;top:250px;">
       <tr>
         <td style="background-color:black; color:white;">NET</td>
-        <td style="background-color:black; color:white; font-size:18px; text-align:right;" "><?php echo $employee->getNet($from, $to)?></td>
+        <td style="background-color:black; color:white; font-size:18px; text-align:right;" ><?php echo $employee->getNet($from, $to)?></td>
       </tr>
     </table>
 
-       <!--  <tr >
-          <td style="background-color:#E2FF3D !important" colspan="2">Net Pay</td>
-          <td style="background-color:#E2FF3D !important" colspan="2"><?php //echo $payslip->net; ?></td>
-        </tr> -->
-    <table class="bordered" style="margin-top:30px;background-color:#DBDBDB;position:absolute;bottom:200px;">
+    <table class="bordered" style="margin-top:30px;background-color:#DBDBDB;bottom:200px;">
       <thead>
          <tr>
            <td>Prepared By</td>
