@@ -116,12 +116,28 @@ class DeductionController extends BaseController
         }
 
         $this->deductionRepository->where('id', '=', $id)
-                               ->onlyTrashed()
-                               ->first()
-                               ->restore();
+            ->onlyTrashed()
+            ->first()
+            ->restore();
 
         $this->session->set_flashdata('message', 'Succesfully Restored!');
+        redirect('settings/deductions/trash','location');
+    }
+
+    public function destroy($id)
+    {
+        if(is_null($id)){
+            $this->session->set_flashdata('message', 'Error!');
             redirect('settings/deductions/trash','location');
+        }
+
+        $this->deductionRepository->where('id', '=', $id)
+            ->onlyTrashed()
+            ->first()
+            ->forceDelete();
+
+        $this->session->set_flashdata('message', 'Succesfully Deleted!');
+        redirect('settings/deductions/trash','location');
     }
 
 }
