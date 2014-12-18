@@ -71,6 +71,7 @@ Pigeon::map(function ($r) {
 
     /*Admin Settings */
     $r->get('settings/sss-config', 'SSSConfigController#index');
+    $r->get('settings/sss-config/delete', 'SSSConfigController#delete');
     $r->get('settings/sss-config/seeder', 'SSSConfigController#sssSeeder');
     $r->post('settings/sss-config', 'SSSConfigController#store');
     $r->post('settings/sss-config/update', 'SSSConfigController#update');
@@ -80,6 +81,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/philhealth-config/update', 'PHConfigController#update');
 
     $r->get('settings/withholding-config', 'WithholdingtaxController#index');
+    $r->get('settings/withholding-config/delete', 'WithholdingtaxController#delete');
     $r->get('settings/withholding-config/seed', 'WithholdingtaxController#seeder');
     $r->post('settings/withholding-config', 'WithholdingtaxController#store');
     $r->post('settings/withholding-config/update', 'WithholdingtaxController#update');

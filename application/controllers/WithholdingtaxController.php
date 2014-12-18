@@ -49,6 +49,14 @@ class WithholdingtaxController extends BaseController
         }
     }
 
+    public function delete()
+    {
+        $id = $this->input->get('id');
+        $wth = WTConfigs::where('id', '=', $id)->first();
+        $wth->delete();
+        redirect('/settings/withholding-config', 'location');
+    }
+
     public function update()
     {
         $id                 = $this->input->post('id');
