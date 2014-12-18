@@ -133,7 +133,7 @@
     <br>
     <br>
     <br>
-    \?php $overallTotal = $total_it; ?>
+    <?php $overallTotal = $total_it; ?>
     <h1>Overall Total: <?php echo $overallTotal; ?></h1>
 
   </div>

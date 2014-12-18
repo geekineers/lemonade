@@ -224,7 +224,7 @@ class PayslipsRepository extends BaseRepository
                     $objPHPExcel->getActiveSheet()->SetCellValue('D2', $date);
                     $objPHPExcel->getActiveSheet()->SetCellValue('D3', $period->getPayrollGroup()->period);
                     $objPHPExcel->getActiveSheet()->SetCellValue('D7', $payslip['name']);
-                    foreach ($payslip['items'] as $item) 
+                    foreach ($payslip['items'] as $item)  
                     {
                         $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $item->getEmployee()->getEmployeeID());
                         $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, toTitleCase($item->getEmployee()->last_name));
@@ -284,7 +284,7 @@ class PayslipsRepository extends BaseRepository
 
                         $total_all_overtime += (float) $item->getEmployee()->getOverTimePay($from, $to);
                         $total_all_allowance += (float) $item->getEmployee()->getTotalAllowances($from, $to, false);
-                        $total_all_late_deduction += (float) $item->getEmployee()->getUnderTimeAndLateDeduction($from, $to);
+                        $total_all_late_deduction += (float) $item->getEmployee()->getUnderTimeAndLateDeduction($from, $to, $minute);
                         $total_all_absent += (float) $item->getEmployee()->getAbsentDeduction($from, $to, false);
                         $row++;                               
                     }       
