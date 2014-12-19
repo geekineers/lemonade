@@ -55,9 +55,9 @@ class TimesheetController extends BaseController {
 			{
        			$q->Where('employee_number', 'like', '%' . $employee_id . '%');										     
 			})
-       		->where('status', 'like',  '%'.$status.'%')
-       		->where('time_in', 'like',  '%'.$timein.'%')
-       		->where('time_out', 'like',  '%'.$timeout.'%')
+       		->where('status', 'like',  '%' . $status .'%')
+       		->where('time_in', '>', $timein)
+       		->where('time_out', '>', $timeout)
 
        		->get();
 

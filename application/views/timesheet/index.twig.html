@@ -390,14 +390,13 @@ $('.dateranger-btn').on('click', function(e){
     var from  = $('#dateranger-from').val();
     var to    = $('#dateranger-to').val();
 
-    if(from == null && to == null){
+    if(from == null && to == null) {
         alert('Kindly input date range');
     }
-    else{
+    else {
         $.get('/timesheet/range', {query:query, from : from, to : to}, function(resp){
             $('.dataTable').html(resp);
         });
-
     }
 
 });

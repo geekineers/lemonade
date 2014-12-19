@@ -5,8 +5,8 @@
     <div class="box-body">    
             <form action="/settings/forms" method="post" class="ob_form">
                   
-                    <div class="form-group row">
-                        <div class="col-md-2 ">
+                    <div class="form-group row" >
+                        <div class="col-md-2" style="display: none">
                             <label>Effective Date: </label>
                             <div class="input-group">
                                 <div class="input-group-addon">

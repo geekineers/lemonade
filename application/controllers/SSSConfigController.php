@@ -4,10 +4,10 @@ require_once ('BaseController.php');
 class SSSConfigController extends BaseController
 {
 
-    protected   $employeeRepository,
-            $branchRepository, 
-            $payrollGroupRepository,
-    	    $sssConfigRepository;
+    protected $employeeRepository,
+              $branchRepository, 
+              $payrollGroupRepository,
+              $sssConfigRepository;
 
     public function __construct()
     {

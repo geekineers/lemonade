@@ -5,6 +5,7 @@
 	<a class="branch_create btn-add-type btn btn-success" href="/settings/leave-types/add" ><i class="fa fa-plus"></i>
   </a>
   <br>
+  <br> 
 	{% if alert_message != null %}
 	<div class="col-md-7 alert alert-success alert-dismissable">
     <i class="fa fa-check"></i>
@@ -30,6 +31,9 @@
 	 		  <td>
 	 		      <a href="/settings/leave-types/edit?id={{ type.id }}" class="btn btn-primary"><i class="fa fa-edit"></i>
             </a>
+            <a onclick="return confirm('Are you sure?')" href="/settings/leave-types/delete?id={{ type.id }}" class="btn btn-danger">
+              <i class="fa fa-trash-o"></i>
+            </a>
 	 		  </td>
 	 	</tr>
 	 {% endfor %}
@@ -38,7 +42,7 @@
 
 
 	<!-- Modal -->
-<form method="post" enctype="multipart/form-data" action="/settings/deductions/save">
+<!-- <form method="post" enctype="multipart/form-data" action="/settings/deductions/save">
 
 	<div class="modal fade" id="addNewDeductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -77,7 +81,7 @@
 
 </form>
 
-
+ -->
 {% endblock %}
 
 {% block scripts %}
