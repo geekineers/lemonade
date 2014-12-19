@@ -26,7 +26,8 @@
                              <div class="col-md-12">
                                 <label  class="control-label">Type of form</label>
                                 <select required name="department" class="form-control " id="type_of_form" placeholder="">
-                                    <option value="" disabled selected>select form</option>
+                                    <option value="" disabled selected>select form
+                                    </option>
                                     {% for form_type in form_types %}
                                                <option value="{{ form_type.string_key }}"> {{ form_type.name }} </option>
                                     {% endfor %}
