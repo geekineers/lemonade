@@ -1114,7 +1114,7 @@ class Employee extends BaseModel
         return floatval($this->getSpecialHolidayRate() * $this->getDailyRate() * $this->getSpecialHolidayAttendance($from, $to));
     }
 
-    public function getInAttendance($from, $to, $weekend_include = false)
+    public function getInAttendance($from, $to, $weekend_include = true)
     {
        
         $holiday = new \HolidayRepository();
@@ -1128,14 +1128,7 @@ class Employee extends BaseModel
             // dd($date_range_start, $date_range_end);
             $dt = new Carbon($date);
 
-            if ($dt->isWeekend() && $weekend_include) 
-            {
-                $in_attendance++;
-                
-            } 
-
-            else if ($dt->isWeekday())
-            {
+         
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                                                       ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                                       ->count();
@@ -1144,7 +1137,7 @@ class Employee extends BaseModel
                     $in_attendance++;
                 }
 
-            }
+            
         }
         // dd($total_absent);
        return $in_attendance;
@@ -1289,7 +1282,9 @@ class Employee extends BaseModel
     public function getTax($pay, $period, $dependents)
     {
         // dd($period);
+        // dd($pay);
          $period =  strtolower(str_replace(" ", "", $period));
+         // dd($period);
         $WTConfigs = WTConfigs::get();
 
         $first = WTConfigs::first();
@@ -1302,10 +1297,12 @@ class Employee extends BaseModel
         } else {
             $wtax = WTConfigs::where('period', '=', strtolower($period))
                 ->where('dependents', '=', $dependents)
-                ->where('to_range', '>=', $pay)    ->where('from_range', '<=', $pay)    ->first();
+                ->where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first();
+                // dd($wtax);
         }
 
         $wt = (($pay - $wtax['to_range']) * $wtax['status']+$wtax['exemption']);
+        // dd($wt);
         return $wt;
     }
 
