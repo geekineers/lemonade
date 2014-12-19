@@ -32,18 +32,22 @@
   <thead>
   <tr>
     <th>Name</th>
+    <th>Branch</th>
     <th>Options</th>
   </tr>    
   </thead>
 
 	 {% for group in groups %}
 	 	<tr>
-        <td>{{ group.department_name }}</td>		
-	 		  <td><a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
+        <td>{{ group.department_name }}</td>    
+        {% for branch in branches %}
+        <td>{{ branch.branch_name }}</td>
+        {% endfor%}
+        <td><a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
               <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
         </td>
-	 	</tr>
-	 {% endfor %}
+    {% endfor %}
+    </tr>
 </table>
 
 
@@ -129,7 +133,7 @@
               <label>Department Branch</label>
               <select class="form-control" name="branch_id">
                 {% for branch in branches %}
-                  <option value="{{ branch.id }}">{{ branch.name }}</option>  
+                  <option value="{{ branch.id }}">{{ branch.branch_name }}</option>  
                 {% endfor %}
               </select>
             </div>
