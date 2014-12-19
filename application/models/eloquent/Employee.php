@@ -956,7 +956,7 @@ class Employee extends BaseModel
         $attendances = Timesheet::whereBetween('time_in', [$from, $to])
             ->where('employee_id', $this->id)
             ->get();
-
+        // dd($attendances);
         $night_diff_start = date('H:i', strtotime('22:00:00'));
         $night_diff_end   = date('H:i', strtotime('10:00:00'));
 
@@ -966,12 +966,12 @@ class Employee extends BaseModel
             $time_in_day   = date('Y-m-d', strtotime($attendance->time_in));
             $time_out_day  = date('Y-m-d', strtotime($attendance->time_out));
             $time_in_hours = date('H:i', strtotime($attendance->time_in));
-
+            // dd($time_out_day);
             if ($time_in_day == $time_out_day && ($time_in_hours < '22:00')) {
-                $day2 = date('Y-m-d', strtotime($attendance->time_in));
-                $date = new DateTime($day2);
+                $day = date('Y-m-d', strtotime($attendance->time_in));
+                $date = new DateTime($day);
                 $date->sub(new DateInterval('P1D'));
-                $day = $date->format('Y-m-d');
+                $day2 = $date->format('Y-m-d');
             } else {
                 $day  = date('Y-m-d', strtotime($attendance->time_in));
                 $date = new DateTime($day);
@@ -979,16 +979,24 @@ class Employee extends BaseModel
                 $day2 = $date->format('Y-m-d');
             }
 
+            // var_dump($day, $day2);
             $night_diff_start = date('Y-m-d H:i', strtotime($day . ' 22:00:00'));
             $night_diff_end   = date('Y-m-d H:i', strtotime($day2 . ' 06:00:00'));
             $time_in          = date('Y-m-d H:i', strtotime($attendance->time_in));
             $time_out         = date('Y-m-d H:i', strtotime($attendance->time_out));
 
-            if ($time_in >= $night_diff_start || $time_in < $night_diff_end) {
+            // var_dump($time_in, $time_out);
+            // var_dump($night_diff_start, $night_diff_end);
+
+            if ($time_in >= $night_diff_start && $time_out < $night_diff_end) {
+                // var_dump($day);
+                // var_dump("<br>");
                 $interval = getInterval($attendance->time_in, $attendance->time_out, $unit);
                 $total_night_difference += $interval;
 
-            } else if ($time_in >= $night_diff_start || $time_in >= $night_diff_end) {
+            } else if ($time_in >= $night_diff_start && $time_out >= $night_diff_end) {
+                  var_dump($day);
+                var_dump("<br>");
                 $interval = getInterval($attendance->time_in, '06:00', $unit);
                 $total_night_difference += $interval;
             } else if ($time_in < $night_diff_start && ($time_out >= $night_diff_start || $time_out <= $night_diff_end)) {
@@ -1003,7 +1011,7 @@ class Employee extends BaseModel
             }
 
         }
-
+        // die();
         return $total_night_difference;
 
     }
@@ -1034,7 +1042,8 @@ class Employee extends BaseModel
      */
     public function getNightDifferentialPay($from, $to, $unit = 'min')
     {
-        return floatval($this->getNightly($from, $to, $unit) * $this->getNightlyRate());
+        $nightly_hours = $this->getNightly($from, $to, 'minute')/60;
+        return floatval($nightly_hours * $this->getNightlyRate());
     }
 
     public function getRegularHolidayRate()

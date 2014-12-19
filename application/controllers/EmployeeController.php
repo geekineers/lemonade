@@ -211,15 +211,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['leave_types']     = LeaveType::all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
         $data['histories']        = $this->historyRepository->getByEmployee($id)->groupBy(function($value) { return date('Y-m-d', strtotime($value->created_at)); })->reverse();
-        // foreach($data['histories'] as $group) {
-        //     foreach($group as $history => $event) {
-        //         echo $event->created_at;
-        //     }
-        // }
-
-        // die();
-        // dd($data['histories']);
-        // dd($data['employee']->getAllRoles());
+      
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         $data['employee_types'] = $this->employeeTypeRepository->all();
@@ -239,6 +231,18 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->session->set_flashdata('alert', true);
         redirect('/employees/' . $this->input->post('employee_id') . '/profile', 'location');
 
+    }
+
+    public function deleteAllowance()
+    {
+
+        
+        $id = $this->input->get('token');
+        $deleteAllowance = EmployeeAllowance::where('id', '=', $id)->first();
+        $deleteAllowance->delete();
+        
+        $this->session->set_flashdata('alert', true);
+        redirect('/employees/' . $this->input->get('eid') . '/profile', 'location');
     }
 
     public function deleteFile()
@@ -289,9 +293,6 @@ use Upload\Storage\FileSystem as FileSystem;
             'created_by'        => $created_by,
 
         );
-        // $post = $this->input->post();
-
-        // dd($post);
 
         $this->basicPayAdjustmentRepository->create($post);
         
