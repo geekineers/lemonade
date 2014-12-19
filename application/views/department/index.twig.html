@@ -40,7 +40,7 @@
 	 {% for group in groups %}
 	 	<tr>
         <td>{{ group.department_name }}</td>    
-        {% for branch in branches%}
+        {% for branch in branches %}
         <td>{{ branch.branch_name }}</td>
         {% endfor%}
         <td><a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
@@ -133,7 +133,7 @@
               <label>Department Branch</label>
               <select class="form-control" name="branch_id">
                 {% for branch in branches %}
-                  <option value="{{ branch.id }}">{{ branch.name }}</option>  
+                  <option value="{{ branch.id }}">{{ branch.branch_name }}</option>  
                 {% endfor %}
               </select>
             </div>
