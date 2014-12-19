@@ -485,8 +485,8 @@ class Employee extends BaseModel
 
         $total_Allowance = 0;
         $total           = 0;
-
-        $base_salary = ($this->getPayrollPeriod(false) == "Daily") ? $this->getBasicSalary() * (float)$this->getInAttendance($from, $to) : $this->getBasicSalary();
+        $payset =  strtolower(str_replace(" ", "", $this->getPayrollPeriod()->period));
+        $base_salary = ($payset == "daily") ? $this->getBasicSalary() * (float)$this->getInAttendance($from, $to) : $this->getBasicSalary();
 
         $total = $this->getTotalAllowances($from, $to, false) + $base_salary + $this->getOvertimePay($from, $to);
 
