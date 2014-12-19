@@ -20,6 +20,7 @@
     <th>Recurring</th>
     <th>Amount</th>
     <th>Valid from</th>
+    <th>Action</th>
   
   </tr>
   {% for allowance in employee.getAllowances() %}
@@ -28,7 +29,12 @@
       <td>{{ allowance.recurring }}</td>
       <td>{{ allowance.amount }}</td>
       <td>{{ allowance.valid_from }}</td>
-     
+      <td>
+        <a onclick="return confirm('Are you sure?')" href="/employees/{{employee.id}}/profile/delete-allowance?token={{ allowance.id }}&eid={{ employee.id }}" class="btn btn-danger">
+          <i class="fa fa-trash-o"></i>
+          </a>
+      </td>
+      
     </tr>
   {% endfor %}
 </table>
