@@ -49,6 +49,8 @@ class LeaveTypeController extends BaseController {
         $id = $this->input->get('id');
         $leave_type = LeaveType::where('id', '=', $id)->first();
         $leave_type->delete();
+
+        $this->session->set_flashdata('alert_message', ' Successfully deleted.');
         redirect('settings/leave-types', 'location');        
     }
 
