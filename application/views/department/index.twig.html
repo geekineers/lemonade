@@ -32,16 +32,20 @@
   <thead>
   <tr>
     <th>Name</th>
-        <th>Options</th>
+    <th>Options</th>
   </tr>    
   </thead>
 
 	 {% for group in groups %}
 	 	<tr>
-        <td>{{ group.department_name }}</td>    
-      
-        <td><a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
-              <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
+        <td>{{ group.department_name }}</td> 
+        <td>
+          <a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary">
+            <i class="fa fa-edit"></i>
+          </a>
+          <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete">
+            <i class="fa fa-trash-o"></i>
+          </a>
         </td>
     {% endfor %}
     </tr>

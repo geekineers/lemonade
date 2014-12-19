@@ -208,7 +208,6 @@ Pigeon::map(function ($r) {
     $r->get('employees/reactivate', 'EmployeeController#reactivate');
     $r->get('employees/(:num)/profile', 'EmployeeController#profile');
     $r->post('employees/(:num)/profile', 'EmployeeController#update');
-    $r->get('employees/file/delete', 'EmployeeController#deleteFile');
     $r->post('employees/file/upload', 'EmployeeController#uploadFile');
     $r->post('employees/certificate/upload', 'EmployeeController#uploadCertificate');
     $r->get('employees/file/delete', 'EmployeeController#deleteFile');
@@ -219,7 +218,7 @@ Pigeon::map(function ($r) {
     $r->post('employees/(:num)/picture_upload', 'EmployeeController#updateProfilePicture');
     $r->post('employees/trainings', 'TrainingController#save');
     $r->get('employees/trainings/delete', 'TrainingController#delete');
-
+    $r->get('employees/(:num)/profile/delete-allowance', 'EmployeeController#deleteAllowance');
     $r->post('employees/batch-upload', 'EmployeeController#addEmployeeByBatch');
 
     $r->get('hr', 'HumanResourceController#index');
