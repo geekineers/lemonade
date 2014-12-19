@@ -60,6 +60,7 @@
           <th>Misc Deductions</th>
           <th>Tax</th>
           <th>Net</th>
+          <th>    </th>
         </tr>
       </thead>
 
@@ -123,6 +124,7 @@
           <td style="font-weight: bold"><?php echo number_format($d, 2); ?></td>
           <td style="font-weight: bold"><?php echo number_format($e, 2); ?></td>
           <td style="font-weight: bold"><?php echo number_format($total_per_dep, 2); ?></td>
+          <td>   </td>
         </tr>        
      </tbody>
     </table>
