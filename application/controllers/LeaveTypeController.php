@@ -44,6 +44,14 @@ class LeaveTypeController extends BaseController {
 
     }
 
+    public function delete()
+    {
+        $id = $this->input->get('id');
+        $leave_type = LeaveType::where('id', '=', $id)->first();
+        $leave_type->delete();
+        redirect('settings/leave-types', 'location');        
+    }
+
     public function edit()
     {
         $id = $this->input->get('id');
