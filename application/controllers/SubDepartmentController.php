@@ -7,8 +7,10 @@ class SubDepartmentController extends BaseController {
 
     public function __construct()
     {
-
-        // $this->load->library('session');
+        parent::__construct();
+        $this->mustBeLoggedIn();
+        $this->employeeRepository   = new EmployeeRepository();
+        $this->load->library('session');
     }
 
     public function index()
@@ -18,16 +20,27 @@ class SubDepartmentController extends BaseController {
         $data['company'] = $this->company;
         $data['title'] = "Sub-Department";   
         $this->render('sub-department/index.twig.html', $data);
+        $data['user']  = $this->employeeRepository->getLoginUser($this->sentry->getUser());
     }
 
     public function add()
     {
-
+        $data['title'] = "Sub Deparment";
+        $data['user']  = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $this->render('/sub-department/add.twig.html', $data);
     }
 
     public function save()
     {
+        $input['sub_department_name']        = (string) $this->input->post('sub_department_name');
+        $input['department_description']     = (string) $this->input->post('sub_department_description');
+        $input['parent_department_name']     = (string) $this->input->post('parent_department_name');
 
+        $sub_department = new SubDepartment;
+
+        $sub_department->save();
+
+        redirect('settings/sub-department', 'location');
     }
 
     public function edit()
