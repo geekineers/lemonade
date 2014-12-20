@@ -11,7 +11,13 @@ class Department extends BaseModel {
   protected $datas = ['deleted_at'];
 
 
-  protected $fillable = ['department_name', 'department_description','created_at', 'branch_id', 'department_head_id'];
+  protected $fillable = [
+    'department_name', 
+    'department_description', 
+    'created_at', 
+    'branch_id', 
+    'department_head_id'
+  ];
 
 
   public function employee()

@@ -1,7 +1,7 @@
 <?php
-use Department as Department;
+use SubDepartment as SubDepartment;
 
-class DepartmentRepository extends BaseRepository {
+class SubDepartmentRepository extends BaseRepository {
 
 	public function __construct()
 	{
@@ -11,7 +11,7 @@ class DepartmentRepository extends BaseRepository {
 	public function createNotExist(array $input)
 	{
 		try {
-			$count = $this->where('sub_department_name','=',$input['department_name'])->count();
+			$count = $this->where('sub_department_name', '=', $input['sub_department_name'])->count();
 			// $this->create($input);
 
 			if($count>0)
