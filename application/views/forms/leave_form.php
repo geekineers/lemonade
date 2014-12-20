@@ -102,7 +102,8 @@
             }
             else if(response.status==1){
                 $.notify('Form Submitted','success');
-                 window.location.href = "/forms/application";
+                 window.location.href = document.referrer;
+                 
             }
           });
         }
