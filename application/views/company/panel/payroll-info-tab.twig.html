@@ -22,6 +22,12 @@
                 <label>Company Late Grace Period(min)</label>
                 <input required type="number" name="company_late_grace_period" placeholder="number in minutes" class="form-control" value="{{ company.company_late_grace_period }}"/>      
             </div>
+            <div class="form-group">
+                <label>Company Sunday Pay Rate(hour)</label>
+                <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+            </div>
+
+
        </div>  
             <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Save Changes</button>

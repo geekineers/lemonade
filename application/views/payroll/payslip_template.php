@@ -119,6 +119,14 @@ $to = $payslip->getPayslipsGroup()->to;
             <td style="text-align:right;"><?php echo ($employee->getPayrollPeriod(false) != "Daily") ? $employee->getBasicSalary(true) : $employee->getBasicSalary() * $employee->getInAttendance($from, $to);
 ?></td>
           </tr>
+          <?php if($employee->getSundayAttendance($from, $to)): ?>
+            <tr>
+            <td >&nbsp;&nbsp;Sunday(<?php echo $employee->getSundayAttendanceHours($from, $to); ?>hour(s))</td>
+            <td style="text-align:right;">
+              <?php echo $employee->getSundayPay($from, $to); ?>
+            </td>
+          </tr>
+          <?php endif; ?>
           <?php if($employee->getOvertime($from, $to)): ?>
            <tr>
             <td >&nbsp;&nbsp;Overtime(<?php echo $employee->getOvertime($from, $to); ?>hrs)</td>
@@ -127,6 +135,7 @@ $to = $payslip->getPayslipsGroup()->to;
             </td>
           </tr>
           <?php endif; ?>
+
           <?php if($employee->getNightDifferentialPay($from, $to)) { ?> 
              <tr>
             <td >&nbsp;&nbsp;Night Differential Pay</td>

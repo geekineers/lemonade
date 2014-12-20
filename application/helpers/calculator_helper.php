@@ -159,7 +159,9 @@ function getInterval($right_time, $arrive_time, $unit)
 	$arrive_time = new Carbon($arrive_time);
 	// dd($right_time, $arrive_time);
 	if($right_time->lt($arrive_time)) {
-		if($unit = 'minute')return $right_time->diffInMinutes($arrive_time);
+		if($unit == 'minute') {
+			return $right_time->diffInMinutes($arrive_time);
+		}
 		return $right_time->diffInHours($arrive_time);	
 	}
 	return 0;

@@ -188,6 +188,32 @@ $(document).ready(function(){
 	    });
 
 
+	    $('.form-contributions .edit-profile-btn').on('click', function(event) {
+	        event.preventDefault();
+	        $('.form-contributions .profile-value').fadeOut('fast');
+	        $('.form-contributions .edit-input').fadeIn();
+	        $('.form-contributions .save-cancel-btn').fadeIn();
+	    });
+	     $('.form-contributions .btn-cancel').on('click', function(event) {
+	        event.preventDefault();
+	        $('.form-contributions .edit-input').fadeOut('fast');
+	        $('.form-contributions .save-cancel-btn').fadeOut('fast');
+	        $('.form-contributions .profile-value').fadeIn();
+	    });
+
+	    $('.credits .btn-cancel').on('click', function(event) {
+	        event.preventDefault();
+	        $('.credits .edit-input').fadeOut('fast');
+	        $('.credits .save-cancel-btn').fadeOut('fast');
+	        $('.credits .profile-value').fadeIn();
+	    });
+	     $('.credits .btn-cancel').on('click', function(event) {
+	        event.preventDefault();
+	        $('.credits .edit-input').fadeOut('fast');
+	        $('.credits .save-cancel-btn').fadeOut('fast');
+	        $('.credits .profile-value').fadeIn();
+	    });
+
 	    $('.basic-information .edit-profile-btn').on('click', function(event) {
 	        event.preventDefault();
 	        $('.basic-information .profile-value').fadeOut('fast');

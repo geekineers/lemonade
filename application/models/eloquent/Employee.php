@@ -14,6 +14,11 @@ class Employee extends BaseModel
 
     protected $datas = ['deleted_at'];
 
+    protected $sunday = [
+                    'attendance' => 0,
+                    'hours' => 0
+                ];
+
     protected $fillable = [
         'user_id',
         // Basic Info
@@ -54,6 +59,7 @@ class Employee extends BaseModel
         'profile_picture',
         'fb',
         'email',
+        'full_name',
         'employee_number'
 
     ];
@@ -1114,6 +1120,87 @@ class Employee extends BaseModel
         return floatval($this->getSpecialHolidayRate() * $this->getDailyRate() * $this->getSpecialHolidayAttendance($from, $to));
     }
 
+    public function getSundayAttendance($from, $to)
+    {
+
+        $holiday = new \HolidayRepository();
+
+        $date_range = createDateRangeArray($from, $to);
+        // dd($date_range);
+        $in_attendance = 0;
+        foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
+            $dt = new Carbon($date);
+
+            if($dt->dayOfWeek == Carbon::SUNDAY){
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->count();
+                if($attended) 
+                {
+                    $in_attendance++;
+                }
+            }
+
+
+            
+        }
+
+        return $in_attendance;
+    }
+
+    public function getSundayAttendanceHours($from, $to)
+    {
+        $date_range = createDateRangeArray($from, $to);
+        // dd($date_range);
+        $hours_attended = 0;
+        foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
+            $dt = new Carbon($date);
+
+            if($dt->dayOfWeek == Carbon::SUNDAY){
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->first();
+                if($attended) 
+                {
+                    // return $attended;
+                    // dd($attended);
+                    $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
+                    $in = $time_in->format('H:i:s');
+                    $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
+                    $out = $time_out->format('H:i:s');
+                    $h = getInterval($in, $out, 'hours');
+                    // dd($h);
+                    $hours_attended += getInterval($in, $out, 'hours');
+                }
+            }
+
+
+            
+        }
+
+        return $hours_attended;      
+    }
+
+    public function getSundayPayRate()
+    {
+        $sunday_rate = $this->getCompany()->company_sunday_rate/100;
+        if(!$this->timesheet_required){
+            $sunday_rate = 1 + $sunday_rate;
+        }
+     return $sunday_rate * $this->getHourlyRate();
+    }
+
+    public function getSundayPay($from, $to)
+    {
+        return $this->getSundayAttendanceHours($from, $to) * $this->getSundayPayRate();
+    }
+
     public function getInAttendance($from, $to, $weekend_include = true)
     {
        
@@ -1130,8 +1217,10 @@ class Employee extends BaseModel
 
          
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                                                      ->count();
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->count();
+                
+
                 if($attended) 
                 {
                     $in_attendance++;
