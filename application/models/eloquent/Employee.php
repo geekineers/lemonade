@@ -494,7 +494,7 @@ class Employee extends BaseModel
         $payset =  strtolower(str_replace(" ", "", $this->getPayrollPeriod()->period));
         $base_salary = ($payset == "daily") ? $this->getBasicSalary() * (float)$this->getInAttendance($from, $to) : $this->getBasicSalary();
 
-        $total = $this->getTotalAllowances($from, $to, false) + $base_salary + $this->getOvertimePay($from, $to);
+        $total = $this->getTotalAllowances($from, $to, false) + $base_salary + $this->getOvertimePay($from, $to) + (float)$this->getSundayPay($from, $to, false);
 
         $total = $total + $regular_holiday + $special_holiday + $night_differential;
 
@@ -1196,9 +1196,13 @@ class Employee extends BaseModel
      return $sunday_rate * $this->getHourlyRate();
     }
 
-    public function getSundayPay($from, $to)
+    public function getSundayPay($from, $to, $format = false)
     {
-        return $this->getSundayAttendanceHours($from, $to) * $this->getSundayPayRate();
+        $sp = $this->getSundayAttendanceHours($from, $to) * $this->getSundayPayRate();
+        if($format){
+            return number_format($sp, 2);
+        }
+        return $sp;
     }
 
     public function getInAttendance($from, $to, $weekend_include = true)

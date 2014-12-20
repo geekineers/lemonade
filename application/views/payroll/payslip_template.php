@@ -123,7 +123,7 @@ $to = $payslip->getPayslipsGroup()->to;
             <tr>
             <td >&nbsp;&nbsp;Sunday(<?php echo $employee->getSundayAttendanceHours($from, $to); ?>hour(s))</td>
             <td style="text-align:right;">
-              <?php echo $employee->getSundayPay($from, $to); ?>
+              <?php echo $employee->getSundayPay($from, $to, true); ?>
             </td>
           </tr>
           <?php endif; ?>
