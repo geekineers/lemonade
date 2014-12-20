@@ -170,8 +170,8 @@ class TimesheetRepository extends BaseRepository
             'time_out'        => $time_out,
             'cookie_registry' => $cookie
         ];
-
-        $this->update($data, $timesheet_id);
+        // dd($timesheet_id);
+        Timesheet::find($timesheet_id)->update($data);
         return true;
     }
 

@@ -438,13 +438,8 @@ $('.dateranger-btn').on('click', function(e){
         $.get('/timesheet/search', data, function(response) {    
             var newRow = "";
             response.forEach(function buildRows(element, index, array){
-                var temp = "<tr>
-                                <td>timein</td>
-                                <td>timeout</td>
-                                <td>name</td>
-                                <td>employee_id</td>
-                                <td>status</td>
-                            </tr>";
+                // console.log(element);
+                var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td></tr>";
                 var status = "";
                 if(element.status == 'late')
                 {

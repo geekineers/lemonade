@@ -298,6 +298,7 @@ class EmployeeRepository extends BaseRepository
             'profile_picture' => $filename,
             'email'           => (string) $email_address,
             'fb'              => (string) $fb,
+            'full_name'       => (string) $full_name,
             'timeshift_start' => date('H:i:s', strtotime($timeshift_start)),
             'timeshift_end'   => date('H:i:s', strtotime($timeshift_end))                
         ); 

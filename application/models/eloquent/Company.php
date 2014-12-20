@@ -23,7 +23,8 @@ class Company extends Eloquent {
       'company_leave_credits',
       'company_holiday_pay_rate',
       'company_late_grace_period',
-      'company_lunch_break'
+      'company_lunch_break',
+      'company_sunday_rate'
       ];
 
   public function getCreator()

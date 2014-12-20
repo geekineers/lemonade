@@ -45,6 +45,8 @@ class TimesheetController extends BaseController {
        	$timeout     = (is_null($this->input->get('timeout'))) ? '' : $this->input->get('timeout');
        	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
 
+       	// dd($name, $employee_id, $timein, $timeout, $status);
+
        	// dd($empty(var)ployee_id);
        	$data  = $this->timesheetRepository->with('employee')
        		->whereHas('employee', function($q) use ($name, $employee_id)
@@ -60,6 +62,8 @@ class TimesheetController extends BaseController {
        		->where('time_out', '>', $timeout)
 
        		->get();
+
+       	// dd($data);
 
       	$this->output->set_content_type('application/json')->set_output(json_encode($data));
   
@@ -110,6 +114,7 @@ class TimesheetController extends BaseController {
 	public function update() 
     {
 		$data = $this->input->post();
+		// dd('mark');
 		$this->timesheetRepository->updateTime($data['timesheet_id'], $data['employee'], $data['timestart'], $data['timeend'], $data['from'], $data['to']);
 
 		redirect('/timesheet');
