@@ -44,8 +44,7 @@ class SSSConfigController extends BaseController
        
         if($check)
         {
-           
-            redirect('/settings/sss-config');
+          redirect('/settings/sss-config');
         }else{
             dd($check);
         }
