@@ -30,7 +30,7 @@ class FormsController extends BaseController
         $user            = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
         $user = $this->sentry->getUser();
-
+        $permissions = array();
         foreach($user->groups as $group)
         {
              $permissions = $group->permissions;
