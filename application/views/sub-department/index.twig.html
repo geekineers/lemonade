@@ -11,10 +11,10 @@
         </a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
             <li>
-            <a href="/settings/sub-department/trash">View Deleted Job Positions</a>
+            <a href="/settings/sub-department/trash">View Deleted Sub-Departments</a>
             </li>
             <li>
-                <a href="/settings/sub-department/">View Current Job Positions</a>
+                <a href="/settings/sub-department/">View Current Sub-Departments</a>
             </li>
         </ul>   
     </div>
@@ -27,7 +27,7 @@
     </div>
     {% endif %}
 </div>
-<table id="sub-department-list" class="table table-bordered table-hovered">
+<table class="table table-bordered table-hovered" id="sub-deparment-list">
     <thead>
        <tr>
             <th>Sub-Department Name</th>
@@ -36,28 +36,26 @@
             <th>Option</th>
         </tr>       
     </thead>
- 
-    <!-- {% for group in groups %} -->
     <tbody>
         <tr>
-            <td>dummt</td>
-            <td>dummy</td>
-            <td>Dummy</td>
-        <!--     <td>{{ group.department_name }}</td>        
-              <td><a href="#update-sub-department" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary"><i class="fa fa-edit"></i></a>
-              <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
-            </td> -->
-            <td><button class="btn btn-info">edit</button>
-                <button class="btn btn-danger">delete</button>
+            <td>Pogi</td>
+            <td>pogi</td>
+            <td>pogi</td>
+            <td>
+                <a href="#updateSubDepartment" class="btn-update-department btn btn-primary">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a href="/settings/sub-department/delete?token={{ group.id }}" class="btn btn-danger department_delete">
+                    <i class="fa fa-trash-o"></i>
+                </a>
             </td>
         </tr>
     </tbody>
-    <!-- {% endfor %} -->
 </table>
 
 
 <!-- Modal -->
-<form method="post" enctype="multipart/form-data" action="/settings/sub-department/add">
+<form method="post" enctype="multipart/form-data" action="/settings/sub-department/save">
 
     <div class="modal fade" id="addNewSubDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -74,7 +72,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name of Sub-Department
                         </label>
-                        <input required type="text" name="sub_department" class="form-control" id="exampleInputEmail1">
+                        <input required type="text" name="sub_department_name" class="form-control" id="exampleInputEmail1">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Sub-Department Description
@@ -84,7 +82,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Parent Department
                         </label>
-                        <input required type="text" name="parent_department" class="form-control" id="exampleInputEmail1">
+                        <input required type="text" name="parent_department_name" class="form-control" id="exampleInputEmail1">
                     </div>
 
                 </div>
@@ -161,7 +159,7 @@
         $('#update-sub-department-description').val(description);
         $('#update-sub-department-id').val(id);
 
-        $('#update').modal('show');
+        $('#updateSubDepartment').modal('show');
 
     });
 

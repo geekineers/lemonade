@@ -288,7 +288,7 @@ class PayslipsRepository extends BaseRepository
                         $row++;                               
                     }       
                    
-
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $row+5, "Grand Total:");
                     // $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $item->getEmployee()->getEmployeeID());
                         // $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, toTitleCase($item->getEmployee()->last_name));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, toTitleCase($item->getEmployee()->first_name));
@@ -300,30 +300,33 @@ class PayslipsRepository extends BaseRepository
                         // $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $item->getEmployee()->getTaxStatus());
                         // $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $item->getEmployee()->getInAttendance($from, $to, $weekend_include = true));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->get#DAYOFF());
-                        $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $total_all_allowance);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $total_all_overtime);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row+5, $total_all_allowance);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row+5, $total_all_overtime);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $item->getEmployee()->get#SUNDAYOVERTIME;
                         // $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getRegularHolidayPay($from, $to));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getSpecialHolidayPay($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $total_all_gross);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row+5, $total_all_gross);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $item->getEmployee()->get#CASHADVANCE;
-                        $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $total_all_absent);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $total_all_late_deduction);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $total_all_deduction);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row+5, $total_all_absent);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row+5, $total_all_late_deduction);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row+5, $total_all_deduction);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $total_all_employee_sss);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $total_all_employer_sss);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row+5, $total_all_employee_sss);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row+5, $total_all_employer_sss);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AD' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, $total_all_both_sss);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AF' . $row, $total_all_employee_pagibig);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AG' . $row, $total_all_employer_pagibig);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AH' . $row, $total_all_both_pagibig);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AI' . $row, $total_all_employee_philhealth);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AJ' . $row, $total_all_employer_philhealth);
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AK' . $row, $total_all_both_philhealth);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row+5, $total_all_both_sss);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AF' . $row+5, $total_all_employee_pagibig);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AG' . $row+5, $total_all_employer_pagibig);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AH' . $row+5, $total_all_both_pagibig);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AI' . $row+5, $total_all_employee_philhealth);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AJ' . $row+5, $total_all_employer_philhealth);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AK' . $row+5, $total_all_both_philhealth);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $total_all_netpay);
-                        // $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);        
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row+5, $total_all_netpay);
+                        // $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row+11, "PREPARED BY:");
+                        $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row+11, "CHECKED BY:");
+                        $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row+11, "APPROVED BY:");         
             }
             
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);

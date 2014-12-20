@@ -11,7 +11,7 @@ class DepartmentController extends BaseController
         $this->mustBeLoggedIn();
         $this->departmentRepository = new DepartmentRepository();
         $this->employeeRepository   = new EmployeeRepository();
-        $this->branchRepository   = new BranchRepository();
+        $this->branchRepository     = new BranchRepository();
         $this->load->library('session');
 
     }
@@ -25,7 +25,7 @@ class DepartmentController extends BaseController
         $data['groups']    =  $this->departmentRepository->all();
         $data['branches']  =  $this->branchRepository->all();
         $data['user']      =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['employees']  =  $this->employeeRepository->all();
+        $data['employees'] =  $this->employeeRepository->all();
         $data['title']     =  "Department";
         $this->render('department/index.twig.html', $data);
 

@@ -57,7 +57,9 @@ class LeaveTypeController extends BaseController {
     public function edit()
     {
         $id = $this->input->get('id');
+        $leave_type = LeaveType::where('id', '=', $id)->first();
         $data['id'] = $id;
+        $data['name'] = $leave_type->leave_type_name;
         $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['roles'] = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['title']  = "Edit Leave Type";
