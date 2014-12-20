@@ -77,7 +77,7 @@
       $('.ob').loading();
       var data = {
         'employee_id' : $('#employee_name').val(),
-        'date' : moment($('.date').val(),"YYYY-MM-DD").format('YYYY-MM-DD'),
+        'date' : '',
         'from' : from,
         'to'  : to ,
         'form_type' : 'ot',

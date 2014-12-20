@@ -122,7 +122,7 @@ Pigeon::map(function ($r) {
 
     $r->get('settings/sub-department', 'SubDepartmentController#index');
     $r->get('settings/sub-department/add', 'SubDepartmentController#add');
-    $r->post('settings/sub-department/add', 'SubDepartmentController#save');
+    $r->post('settings/sub-department/save', 'SubDepartmentController#save');
     $r->get('settings/sub-department/edit', 'SubDepartmentController#edit');
     $r->post('settings/sub-department/edit', 'SubDepartmentController#update');
     $r->get('settings/sub-department/delete', 'SubDepartmentController#delete');

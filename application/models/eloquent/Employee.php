@@ -280,6 +280,10 @@ class Employee extends BaseModel
     }
     public function getSSSValue()
     {
+        if(strtolower($this->getPayrollPeriod()->period) == "daily"){
+            return (int) $this->fixed_sss_amount;
+        }
+
         if ($this->deduct_sss == 1 || $this->deduct_sss == null) {
             $pay = $this->getBasicPay(false);
 

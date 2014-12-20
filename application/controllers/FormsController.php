@@ -29,7 +29,19 @@ class FormsController extends BaseController
         $data['company'] = $this->company;
         $user            = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
-        $data['forms'] = $data['user']->getSubordinatesApplications();
+        $user = $this->sentry->getUser();
+
+        foreach($user->groups as $group)
+        {
+             $permissions = $group->permissions;
+        }
+        if($permissions['form_approval'] == 1){
+            $data['forms'] = Form_Application::all();
+        }
+        else{
+            
+            $data['forms'] = $data['user']->getSubordinatesApplications();
+        }
         $this->render('forms/index.twig.html', $data);
     }
 
