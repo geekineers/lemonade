@@ -14,7 +14,7 @@ class DepartmentRepository extends BaseRepository {
 			$count = $this->where('department_name','=',$input['department_name'])->count();
 			// $this->create($input);
 
-			if($count>0)
+			if($count > 0)
 			{
 				return false;
 			}

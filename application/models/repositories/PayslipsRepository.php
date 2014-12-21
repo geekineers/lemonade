@@ -369,9 +369,7 @@ class PayslipsRepository extends BaseRepository
                         }
                          
                     }       
-                      
-                        
-   
+
             }
 
 

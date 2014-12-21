@@ -47,10 +47,13 @@ class JobController extends BaseController
 
         // dd($input);
         $job = $this->jobPositionRepository->createNotExist($input);
-        if ($job) {
+        if ($job) 
+        {
             $this->session->set_flashdata('message', $input['job_position'] . ' has been added.');
             redirect('/settings/job');
-        } else {
+        } 
+        else 
+        {
             $this->session->set_flashdata('message', $input['job_position'] . ' is already in here.');
 
             redirect('/settings/job/add');
