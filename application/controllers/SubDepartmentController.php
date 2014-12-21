@@ -10,6 +10,7 @@ class SubDepartmentController extends BaseController {
         parent::__construct();
         $this->mustBeLoggedIn();
         $this->employeeRepository   = new EmployeeRepository();
+        $this->subDepartmentRepository = new SubDepartmentRepository();
         $this->load->library('session');
     }
 
@@ -32,13 +33,18 @@ class SubDepartmentController extends BaseController {
 
     public function save()
     {
-        $input['sub_department_name']        = (string) $this->input->post('sub_department_name');
-        $input['department_description']     = (string) $this->input->post('sub_department_description');
-        $input['parent_department_name']     = (string) $this->input->post('parent_department_name');
-
-        $sub_department = new SubDepartment;
-
-        $sub_department->save();
+        $input['sub_department_name']        =  (string)$this->input->post('sub_department_name');
+        $input['sub_department_description'] =  (string)$this->input->post('sub_department_description');
+        // $input['parent_department_name']     = (int) $this->input->post('parent_department_name');
+        $sub = $this->subDepartmentRepository->createNotExist($input);
+        if ($sub) {
+            $this->session->set_flashdata('alert_message', ' added.');
+            redirect('/settings/sub-department');
+        } else {
+            $this->session->set_flashdata('alert_message', ' is already in here.');
+            // dd($message);
+            redirect('/sub-department/add');
+        }
 
         redirect('settings/sub-department', 'location');
     }
