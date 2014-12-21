@@ -53,29 +53,52 @@ class SubDepartmentController extends BaseController {
         redirect('settings/sub-department', 'location');
     }
 
-    public function edit()
-    {
-
-    }
-
     public function update()
     {
+        $id    = $this->input->post('id');
+        $input = $this->input->post();
+
+        $this->subDepartmentRepository->update($input, $id);
+        redirect('/settings/sub-department');
 
     }
-
+    
     public function delete()
     {
-
+        $id  = $this->input->get('token');
+        
+        $this->subDepartmentRepository->delete($id);
+        $this->session->set_flashdata('message', 'Successfully deleted!');
+        redirect('/settings/sub-department');
+       
     }
 
     public function trash()
     {
+        $data['company']       =  $this->company;
+        $data['alert_message'] =  ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']          =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']         =  "Deleted Sub-Departments";
+        $data['departments']   =  $this->departmentRepository->all();
+        $data['groups']        =  $this->departmentRepository->onlyTrashed()->get();
 
+        $this->render('sub-department/trash.twig.html', $data);
     }
 
-    public function restore()
+    public function restore($id)
     {
+        if(is_null($id)) {
+            $this->session->set_flashdata('message', 'Error!');
+            redirect('settings/sub-department/trash','location');
+        }
 
+        $this->subDepartmentRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first()
+                               ->restore();
+
+        $this->session->set_flashdata('message', 'Succesfully Restored!');
+        redirect('settings/sub-department/trash','location');
     }
 
 }
