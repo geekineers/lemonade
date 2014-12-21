@@ -75,12 +75,12 @@ class SubDepartmentController extends BaseController {
 
     public function trash()
     {
-        $data['company']       =  $this->company;
-        $data['alert_message'] =  ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
-        $data['user']          =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
-        $data['title']         =  "Deleted Sub-Departments";
-        $data['departments']   =  $this->departmentRepository->all();
-        $data['groups']        =  $this->departmentRepository->onlyTrashed()->get();
+        $data['company']           =  $this->company;
+        $data['alert_message']     =  ($this->session->flashdata('message') == null) ? null : $this->session->flashdata('message');
+        $data['user']              =  $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['title']             =  "Deleted Sub-Departments";
+        $data['sub_depts']         =  $this->subDepartmentRepository->all();
+        $data['sub_dept_trashes']  =  $this->subDepartmentRepository->onlyTrashed()->get();
 
         $this->render('sub-department/trash.twig.html', $data);
     }
@@ -93,11 +93,11 @@ class SubDepartmentController extends BaseController {
         }
 
         $this->subDepartmentRepository->where('id', '=', $id)
-                               ->onlyTrashed()
-                               ->first()
-                               ->restore();
+            ->onlyTrashed()
+            ->first()
+            ->restore();
 
-        $this->session->set_flashdata('message', 'Succesfully Restored!');
+        $this->session->set_flashdata('alert_message', 'Succesfully Restored!');
         redirect('settings/sub-department/trash','location');
     }
 
