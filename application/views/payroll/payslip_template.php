@@ -80,7 +80,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <td>EMP #</td>
           <td><?php echo $employee->employee_number;?></td>
           <td>PAYROLL PERIOD</td>
-          <td><?php echo $payslip->getPayslipsGroup()->from; ?>-<?php echo $payslip->getPayslipsGroup()->to;?></td>
+          <td><?php echo date('Y/m/d', strtotime($payslip->getPayslipsGroup()->from)); ?>-<?php echo date('Y/m/d', strtotime($payslip->getPayslipsGroup()->to)); ?></td>
 
         </tr>
         <tr>
