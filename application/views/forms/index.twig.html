@@ -62,7 +62,7 @@
                 
                     <div class="modal-header"><h4>Request Form approval</h4></div>
                     <div class="modal-body">
-                       <ul></ul>
+                       <table class="table-striped table"><tbody></tbody></table>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-warning" id="disapproved" >Disapproved</button>
@@ -93,18 +93,20 @@
             $('#approve-modal').modal('show');
 
             selected = this;
+            console.log($(selected).data('id'));
             $.get('/hr/form-application',{id:$(selected).data('id')} ,function(data){
+                console.log(data);
                     $('#approve-modal .modal-body')
-                        .find('ul li').remove();
+                        .find('table tbody tr').remove();
                     $('#approve-modal .modal-body')
-                        .find('ul')
-                        .append($('<li/>',{ css :{ "text-transform": "capitalize" }, text : data.form_type + ' form '  } ))
-                        .append($('<li/>',{ text : 'Date prepared : '+ moment(data.created_at).format('YYYY-MM-DD') } ) )
-                        .append($('<li/>',{ text : 'from : '+ moment(data.from).format('YYYY-MM-DD HH:mm A') } ) )
-                        .append($('<li/>',{ text : 'to : '+ moment(data.to).format('YYYY-MM-DD HH:mm A') } ) )
+                        .find('table tbody')
+                        .append($('<tr>',{ css :{ "text-transform": "capitalize" }, text : data.form_type + ' form '  } ))
+                        .append($('<tr>',{ text : 'Date prepared : '+ moment(data.created_at).format('YYYY-MM-DD') } ) )
+                        .append($('<tr>',{ text : 'from : '+ moment(data.from).format('YYYY-MM-DD HH:mm A') } ) )
+                        .append($('<tr>',{ text : 'to : '+ moment(data.to).format('YYYY-MM-DD HH:mm A') } ) )
                     $.each(JSON.parse(data.form_data),function(ar,i){
                      $('#approve-modal .modal-body')
-                        .find('ul').append($('<li/>',{ css :{ "text-transform": "capitalize" }, text : ar.split("_").join(" ") + ' : ' + i  } ))
+                        .find('ul').append($('<tr>',{ css :{ "text-transform": "capitalize" }, text : ar.split("_").join(" ") + ' : ' + i  } ))
                     })
                     $('#approved').attr('data-id',data.id);
             });
