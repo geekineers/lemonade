@@ -20,7 +20,7 @@ class SubDepartmentRepository extends BaseRepository {
 			}
 			else
 			{
-				$this->create($input);
+				$x = SubDepartment::create($input);
 
 				return true;
 			}

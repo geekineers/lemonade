@@ -45,7 +45,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input id="search-timein" type="text" class="search-input form-control pull-right time">
+                <input id="search-timein" type="text" class="datepicker form-control pull-right time">
             </div>
         </td>
         <td>
@@ -53,7 +53,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input id="search-timeout" type="text" class="search-input form-control pull-right time">
+                <input id="search-timeout" type="text" class="datepicker form-control pull-right time">
             </div>
         </td>
         <td>
@@ -426,6 +426,11 @@ $('.dateranger-btn').on('click', function(e){
         var name        = $('#search-name').val();
         var employee_id = $('#search-employee-id').val();
         var status      = $('#search-status').val();
+        var action      = " 
+            <a href="timesheet/update?=token={{ time.id }}" class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>" +
+            "<a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>";
 
         var data = {
             'name' : name,
@@ -467,6 +472,7 @@ $('.dateranger-btn').on('click', function(e){
                 temp = temp.replace('name', element.employee.full_name, 'gi');
                 temp = temp.replace('employee_id', element.employee.employee_number, 'gi');
                 temp = temp.replace('status', status, 'gi');
+                temp = temp.replace('action', action, 'gi');
                 newRow += temp;
             })
 
