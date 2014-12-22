@@ -390,13 +390,17 @@ class Employee extends BaseModel
     public function getPhilhealthValue()
     {
         $period = $payroll_period =  strtolower(str_replace(" ", "",$this->getPayrollPeriod()->period));
-    
+       
+        if((int)$this->$this->fixed_philhealth_amount > 0){
+            return (float) $this->$this->fixed_philhealth_amount;
+        }
+
         if ($this->deduct_philhealth == 1 || $this->deduct_philhealth == null) {
             // dd('here');
             $pay = $this->getBasicPay(false);
             // dd($pay);
-            $first = PHConfigs::first();
-            $last  = PHConfigs::orderby('created_at', 'desc')->first();
+            $first = PHConfigs::orderby('salary_base', 'asc')->first();
+            $last  = PHConfigs::orderby('salary_base', 'desc')->first();
             // dd($last);
           
                 $pay = (float) $pay;
@@ -433,10 +437,10 @@ class Employee extends BaseModel
     public function getHDMFValue()
     {
         $hdmf = ($this->deduct_hdmf == null || $this->deduct_hdmf == 1)? 100 : 0;
+        $period = str_replace(" ", "", strtolower($this->getPayrollPeriod()->period));
 
         $hdmf = (strtolower($this->fixed_hdmf_amount) != "no") ? (int) $this->fixed_hdmf_amount : $hdmf;
-
-        if ($this->getPayrollPeriod()->period == "Semi-monthly") {return $hdmf / 2;
+        if ($period == "semi-monthly") {return $hdmf / 2;
         }
 
         return number_format($hdmf, 2);
