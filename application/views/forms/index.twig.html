@@ -93,7 +93,9 @@
             $('#approve-modal').modal('show');
 
             selected = this;
+            // console.log();
             $.get('/hr/form-application',{id:$(selected).data('id')} ,function(data){
+                console.log(data);
                     $('#approve-modal .modal-body')
                         .find('ul li').remove();
                     $('#approve-modal .modal-body')
