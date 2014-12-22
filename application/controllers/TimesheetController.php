@@ -39,15 +39,13 @@ class TimesheetController extends BaseController {
 	public function search()
 	{
 	   	$page  		 = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
-       	$name  		 = (is_null($this->input->get('name'))) ? '' : $this->input->get('name');
+       	$name  		 = (is_null($this->input->get('name'))) ? ' ' : $this->input->get('name');
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
-       	$timein      = (is_null($this->input->get('timein'))) ? '' : $this->input->get('timein');
-       	$timeout     = (is_null($this->input->get('timeout'))) ? '' : $this->input->get('timeout');
+       	$timein      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein')));
+       	$timeout     = (is_null($this->input->get('timeout'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timeout') . "+1 days"));
        	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
-
-       	// dd($name, $employee_id, $timein, $timeout, $status);
-
-       	// dd($empty(var)ployee_id);
+      
+       	// dd($timein, $timeout);
        	$data  = $this->timesheetRepository->with('employee')
        		->whereHas('employee', function($q) use ($name, $employee_id)
 			{
@@ -55,11 +53,11 @@ class TimesheetController extends BaseController {
 			})
        		->whereHas('employee', function($q) use ($name, $employee_id)
 			{
-       			$q->Where('employee_number', 'like', '%' . $employee_id . '%');										     
+       			$q->where('employee_number', 'like', '%' . $employee_id . '%');										     
 			})
        		->where('status', 'like',  '%' . $status .'%')
        		->where('time_in', '>', $timein)
-       		->where('time_out', '>', $timeout)
+       		->where('time_out', '<', $timeout)
 
        		->get();
 

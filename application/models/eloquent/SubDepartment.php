@@ -13,7 +13,8 @@ class SubDepartment extends BaseModel {
 
   protected $fillable = [
   	'sub_department_name',
-  	'sub_department_description', 
+  	'sub_department_description',
+  	'parent_department_id',
   	'created_at', 
   	'deleted_at', 
   	'updated_at'];

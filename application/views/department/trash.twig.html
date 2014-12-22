@@ -41,7 +41,8 @@
         <td>{{ branch.branch_name }}</td>
         {% endfor%}		
 	 		  <td>
-          <a onclick="return confirm('Are you sure you want to reactivate this department?')"  href="/settings/department/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left">  Restore</i></a>
+          <a onclick="return confirm('Are you sure you want to reactivate this department?')"  href="/settings/department/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left">  Restore</i>
+          </a>
         </td>
 	 	 </tr>
 	 {% endfor %}

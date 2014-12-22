@@ -303,7 +303,7 @@ class Employee extends BaseModel
                        $sss =  SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->EE;
                     }
                     else{
-                        
+                        $sss = $last->EE;
                     }
                     // dd($pay);
                 }
@@ -330,32 +330,53 @@ class Employee extends BaseModel
         return (int) 0;
     }
 
-    public function getSSSEmployerValue()
+    public function getSSSEmployerValue($number_format = false)
     {
+        if(strtolower($this->getPayrollPeriod()->period) == "daily"){
+            return (float) $this->fixed_sss_amount;
+        }
+
         if ($this->deduct_sss == 1 || $this->deduct_sss == null) {
-            $pay = $this->getBasicPay(false);
+            $pay = (float) $this->getBasicPay(false);
 
-            $first = SSSConfigs::first();
-            $last  = SSSConfigs::orderby('created_at', 'desc')->first();
-            if ($first != null && $last != null) {
-
+            $first = SSSConfigs::orderby('monthly_salary_credit','asc')->first();
+            $last  = SSSConfigs::orderby('monthly_salary_credit', 'desc')->first();
+            if (strtolower($this->fixed_sss_amount) != "no"){
+                return (float) $this->fixed_sss_amount;
+            }
+            if($first != null && $last != null) {
                 if ($pay < $first->to_range) {
                     $sss = $first->ER;
                 } else if ($pay > $last->to_range) {
                     $sss = $last->ER;
                 } else {
-                    $sss = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->ER;
+                    $sss_count = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->count();
+                    if($sss_count){
+                       $sss =  SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->ER;
+                    }
+                    else{
+                        $sss = $last->ER;
+                    }
+                    // dd($pay);
                 }
 
                 $sss = floatval($sss);
 
-                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                    return floatval($sss / 2);
+                if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
+                    $sss = floatval($sss / 2);
+                    if($number_format == true){
+                      return number_format($sss, 2);  
+                    } 
+                    return $sss;
                 } else {
-                    return floatval($sss);
+                  
+                    if($number_format == true){
+                      return number_format($sss, 2);  
+                    } 
+                    return $sss;
                 }
             } else {
-                return (int) $this->fixed_sss_amount;
+                return (float) $this->fixed_sss_amount;
             }
         }
         return (int) 0;
@@ -1073,6 +1094,10 @@ class Employee extends BaseModel
         return floatval($nightly_hours * $this->getNightlyRate());
     }
 
+    public function getNightDifferentialHours($from, $to){
+       return (int) $this->getNightly($from, $to, 'minute')/60;
+    }
+
     public function getRegularHolidayRate()
     {
         return 1;
@@ -1211,10 +1236,8 @@ class Employee extends BaseModel
     public function getSundayPayRate()
     {
         $sunday_rate = $this->getCompany()->company_sunday_rate/100;
-        if(!$this->timesheet_required){
-            $sunday_rate = 1 + $sunday_rate;
-        }
-     return $sunday_rate * $this->getHourlyRate();
+        $sunday_rate = 1 + $sunday_rate;
+        return $sunday_rate * $this->getHourlyRate();
     }
 
     public function getSundayPay($from, $to, $format = false)
@@ -1401,12 +1424,14 @@ class Employee extends BaseModel
          // dd($period);
         $WTConfigs = WTConfigs::get();
 
-        $first = WTConfigs::first();
-        $last  = WTConfigs::orderby('created_at', 'desc')->first();
+        $first = WTConfigs::where('period', '=', strtolower($period))
+                ->where('dependents', '=', $dependents)->orderby('from_range', 'asc')->first();
+        $last  = WTConfigs::where('period', '=', strtolower($period))
+                ->where('dependents', '=', $dependents)->orderby('from_range', 'desc')->first();
         $wtax  = [];
-        if ($pay < $first->to_range) {
+        if (count($first) > 0 && $pay < $first->to_range) {
             $wtax = $first;
-        } else if ($pay > $last->to_range) {
+        } else if (count($last) > 0 && $pay > $last->to_range) {
             $wtax = $last;
         } else {
             $wtax = WTConfigs::where('period', '=', strtolower($period))
@@ -1417,6 +1442,8 @@ class Employee extends BaseModel
 
         $wt = (($pay - $wtax['to_range']) * $wtax['status']+$wtax['exemption']);
         // dd($wt);
+        // 
+        $wt = ($wt < 0) ? 0 : $wt;
         return $wt;
     }
 
@@ -1430,7 +1457,7 @@ class Employee extends BaseModel
 
         $absents = $this->getAbsentDeduction($from, $to);
 
-        $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
+        $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction + $absents;
         if ($number_format) {
             return number_format($mandatory_wtax, 2);
         }

@@ -136,6 +136,23 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
         $employee_slip['prepared_by']      = $prepared_by;
         $employee_slip['department_id']    = $employee->department;
+        $employee_slip['basic_pay']    = ($employee->getPayrollPeriod(false) != "daily") ? $employee->getBasicSalary(false) : $employee->getBasicSalary(false) * $employee->getInAttendance($from, $to);
+        $employee_slip['in_attendance']    = $employee->getInAttendance($from, $to);
+        $employee_slip['sunday_pay']    = ($employee->getSundayAttendance($from, $to)) ? $employee->getSundayPay($from, $to, true) : 0;
+        $employee_slip['sunday_attended_hours']    = ($employee->getSundayAttendance($from, $to)) ? $employee->getSundayAttendanceHours($from, $to) : 0;
+        $employee_slip['overtime_pay'] = ($employee->getOvertime($from, $to)) ? $employee->getOverTimePay($from, $to) : 0;
+        $employee_slip['overtime_hours'] =  $employee->getOvertime($from, $to); 
+        $employee_slip['night_differential_pay'] = $employee->getNightDifferentialPay($from, $to);
+        $employee_slip['night_differential_hours'] =  $employee->getNightDifferentialHours($from, $to); 
+        $employee_slip['regular_holiday_pay'] = $employee->getRegularHolidayPay($from, $to);
+        $employee_slip['regular_holiday_count'] = $employee->getRegularHolidayAttendance($from, $to);
+        $employee_slip['special_holiday_pay'] = $employee->getSpecialHolidayPay($from, $to);
+        $employee_slip['special_holiday_count'] = $employee->getSpecialHolidayAttendance($from, $to);
+        $employee_slip['total_allowance_pay'] = $employee->getTotalAllowances($from, $to, false);
+        $employee_slip['total_deduction_pay'] = $employee->getAllandTotalDeduction($from, $to);
+        $employee_slip['allowances'] = json_encode($employee->getAllowances($from, $to));
+        $employee_slip['deductions'] = json_encode($employee->getDeductions($from, $to));
+
         $this->create($employee_slip);
         return true;
     }
@@ -233,12 +250,12 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('F' . $row, toTitleCase($item->getEmployee()->middle_name));
                         $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row, $item->getEmployee()->getJobPosition());
                         $objPHPExcel->getActiveSheet()->SetCellValue('H' . $row, $item->getEmployee()->getTaxStatus());
-                        $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $item->getEmployee()->getInAttendance($from, $to, $weekend_include = true));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('I' . $row, $item->in_attendance);
                         // $objPHPExcel->getActiveSheet()->SetCellValue('J' . $row, $item->getEmployee()->get#DAYOFF());
                         $objPHPExcel->getActiveSheet()->SetCellValue('K' . $row, $item->getEmployee()->getMonthlyRate(true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('L' . $row, $item->getEmployee()->getSemiMonthlyRate(true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->getDailyRate());
-                        $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, $item->getEmployee()->getTotalAllowances($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, number_format($item->total_allowance_pay, 2);
                         $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $item->getEmployee()->getOverTimePay($from, $to));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $item->getEmployee()->get#SUNDAYOVERTIME;
                         $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getRegularHolidayPay($from, $to));

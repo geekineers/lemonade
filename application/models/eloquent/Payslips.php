@@ -30,7 +30,24 @@ class Payslips extends Eloquent
         'company_id',
         'withholding_tax',
         'sss_employer',
-        'department_id'
+        'department_id',
+        'basic_pay',
+        'in_attendance',
+        'sunday_pay',
+        'sunday_attended_hours',
+        'overtime_pay',
+        'overtime_hours',
+        'night_differential_pay',
+        'night_differential_hours',
+        'regular_holiday_pay',
+        'regular_holiday_count',
+        'special_holiday_pay',
+        'special_holiday_count',
+        'total_allowance_pay',
+        'total_deduction_pay',
+        'allowances',
+        'deductions'
+
     ];
 
     public function getPayslipsGroup()
@@ -122,5 +139,12 @@ class Payslips extends Eloquent
         return 'none';
     }
 
-
+    public function getAllowances()
+    {
+        return json_decode($this->allowances);
+    }
+    public function getDeductions()
+    {
+        return json_decode($this->deductions);
+    }
 }

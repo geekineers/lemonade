@@ -38,17 +38,19 @@
     </thead>
     <tbody>
         <tr>
-            <td>Pogi</td>
-            <td>pogi</td>
-            <td>pogi</td>
+            {% for sub_dept in sub_depts %}
+            <td>{{ sub_dept.sub_department_name }}</td>
+            <td>{{ sub_dept.sub_department_description }}</td>
+            <td>{{ sub_dept.parent_department_id }}</td>
             <td>
                 <a href="#updateSubDepartment" class="btn-update-department btn btn-primary">
                     <i class="fa fa-edit"></i>
                 </a>
-                <a href="/settings/sub-department/delete?token={{ group.id }}" class="btn btn-danger department_delete">
+                <a href="/settings/sub-department/delete?token={{ sub_dept.id }}" class="btn btn-danger department_delete">
                     <i class="fa fa-trash-o"></i>
                 </a>
             </td>
+            {% endfor %}
         </tr>
     </tbody>
 </table>
@@ -79,12 +81,17 @@
                         </label>
                         <input required type="text" name="sub_department_description" class="form-control" id="exampleInputEmail1">
                     </div>
-                    <!-- div class="form-group">
-                        <label for="exampleInputEmail1">Parent Department
-                        </label>
-                        <input required type="text" name="parent_department_name" class="form-control" id="exampleInputEmail1">
+                    <div class="form-group">
+                        <label for="">Department Head</label>
+                        <select required name="department_head_id" class="form-control">
+                        {% for department in departments %}
+                            <option value="{{ department.id }}">
+                                {{ department.department_name }}
+                            </option>
+                        {% endfor %}
+                        </select>
                     </div>
- -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -122,9 +129,14 @@
                         <input required type="text" name="sub_department_description" class="form-control" id="update-sub-department-description">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Parent Department
-                        </label>
-                        <input required type="text" name="parent_department" class="form-control" id="update-parent-department">
+                        <label for="">Department Head</label>
+                        <select required name="department_head_id" class="form-control">
+                        {% for department in departments %}
+                            <option value="{{ department.id }}">
+                                {{ department.department_name }}
+                            </option>
+                        {% endfor %}
+                        </select>
                     </div>
 
                 </div>
