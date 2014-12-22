@@ -278,7 +278,7 @@ class Employee extends BaseModel
 
         return $this->sss_number;
     }
-    public function getSSSValue()
+    public function getSSSValue($number_format = false)
     {
         if(strtolower($this->getPayrollPeriod()->period) == "daily"){
             return (float) $this->fixed_sss_amount;
@@ -287,8 +287,8 @@ class Employee extends BaseModel
         if ($this->deduct_sss == 1 || $this->deduct_sss == null) {
             $pay = (float) $this->getBasicPay(false);
 
-            $first = SSSConfigs::first();
-            $last  = SSSConfigs::orderby('created_at', 'desc')->first();
+            $first = SSSConfigs::orderby('monthly_salary_credit','asc')->first();
+            $last  = SSSConfigs::orderby('monthly_salary_credit', 'desc')->first();
             if ($first != null && $last != null || strtolower($this->fixed_sss_amount) != "no") {
 
                 if ($pay < $first->to_range) {
@@ -300,18 +300,29 @@ class Employee extends BaseModel
                     if($sss_count){
                        $sss =  SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->EE;
                     }
-                    dd($pay);
+                    else{
+                        dd($pay);
+                    }
+                    // dd($pay);
                 }
 
                 $sss = floatval($sss);
 
-                if ($this->getPayrollPeriod()->period == "Semi-monthly") {
-                    return floatval($sss / 2);
+                if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
+                    $sss = floatval($sss / 2);
+                    if($number_format == true){
+                      return number_format($sss, 2);  
+                    } 
+                    return $sss;
                 } else {
-                    return floatval($sss);
+                  
+                    if($number_format == true){
+                      return number_format($sss, 2);  
+                    } 
+                    return $sss;
                 }
             } else {
-                return (int) $this->fixed_sss_amount;
+                return (float) $this->fixed_sss_amount;
             }
         }
         return (int) 0;
