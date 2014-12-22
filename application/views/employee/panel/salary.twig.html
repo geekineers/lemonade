@@ -115,14 +115,14 @@
 											<span class="form-label">Deduct SSS Contribution</span>
 											<span class="profile-value">{{ employee.getDeductSSS() }}</span>
 											<select name="deduct_sss" class="edit-input">
-												<option value="1">Yes</option>
-												<option value="0">No</option>
+												<option {% if(employee.deduct_sss == 1) %} selected {% endif %} value="1">Yes</option>
+												<option {% if(employee.deduct_sss == 0) %} selected {% endif %}  value="0">No</option>
 											</select>
 										</td>
 										<td>
 											<span class="form-label">SSS Fixed Amount</span>
 											<span class="profile-value">{{ employee.fixed_sss_amount }}</span>
-											<input class="edit-input" placeholder="Type 'no' if not fixed" name="fixed_sss_amount">
+											<input class="edit-input" value="{{ employee.fixed_sss_amount }}" placeholder="Type 'no' if not fixed" name="fixed_sss_amount">
 
 										</td>
 									</tr>	
@@ -131,14 +131,14 @@
 											<span class="form-label">Deduct HDMF Contribution</span>
 											<span class="profile-value">{{ employee.getDeductHDMF() }}</span>
 											<select name="deduct_hdmf" class="edit-input">
-												<option value="1">Yes</option>
-												<option value="0">No</option>
+												<option {% if(employee.deduct_hdmf == 1) %} selected {% endif %}  value="1">Yes</option>
+												<option {% if(employee.deduct_hdmf == 0) %} selected {% endif %}  value="0">No</option>
 											</select>
 										</td>
 										<td>
 											<span class="form-label">HDMF Fixed Amount</span>
 											<span class="profile-value">{{ employee.fixed_hdmf_amount }}</span>
-											<input class="edit-input" placeholder="Type 'no' if not fixed" name="fixed_hdmf_amount">
+											<input class="edit-input" value="{{ employee.fixed_hdmf_amount }}" placeholder="Type 'no' if not fixed" name="fixed_hdmf_amount">
 										</td>
 									</tr>	
 									<tr>
@@ -146,14 +146,14 @@
 											<span class="form-label">Deduct Philhealth Contribution</span>
 											<span class="profile-value">{{ employee.getDeductPhilhealth() }}</span>
 											<select name="deduct_philhealth" class="edit-input">
-												<option value="1">Yes</option>
-												<option value="0">No</option>
+												<option {% if(employee.deduct_philhealth == 1) %} selected {% endif %}  value="1">Yes</option>
+												<option {% if(employee.deduct_philhealth == 0) %} selected {% endif %}  value="0">No</option>
 											</select>
 										</td>
 										<td>
 											<span class="form-label">Philhealth Fixed Amount</span>
 											<span class="profile-value">{{ employee.fixed_philhealth_amount }}</span>
-											<input class="edit-input" placeholder="Type 'no' if not fixed" name="fixed_philhealth_amount">
+											<input class="edit-input" value="{{ employee.fixed_philhealth_amount }}" placeholder="Type 'no' if not fixed" name="fixed_philhealth_amount">
 										</td>
 									</tr>	
 								
