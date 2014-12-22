@@ -289,8 +289,10 @@ class Employee extends BaseModel
 
             $first = SSSConfigs::orderby('monthly_salary_credit','asc')->first();
             $last  = SSSConfigs::orderby('monthly_salary_credit', 'desc')->first();
-            if ($first != null && $last != null || strtolower($this->fixed_sss_amount) != "no") {
-
+            if (strtolower($this->fixed_sss_amount) != "no"){
+                return (float) $this->fixed_sss_amount;
+            }
+            if($first != null && $last != null) {
                 if ($pay < $first->to_range) {
                     $sss = $first->EE;
                 } else if ($pay > $last->to_range) {
@@ -301,7 +303,7 @@ class Employee extends BaseModel
                        $sss =  SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->EE;
                     }
                     else{
-                        dd($pay);
+                        
                     }
                     // dd($pay);
                 }
