@@ -391,8 +391,8 @@ class Employee extends BaseModel
     {
         $period = $payroll_period =  strtolower(str_replace(" ", "",$this->getPayrollPeriod()->period));
        
-        if((int)$this->$this->fixed_philhealth_amount > 0){
-            return (float) $this->$this->fixed_philhealth_amount;
+        if((int)$this->fixed_philhealth_amount > 0){
+            return (float) $this->fixed_philhealth_amount;
         }
 
         if ($this->deduct_philhealth == 1 || $this->deduct_philhealth == null) {
