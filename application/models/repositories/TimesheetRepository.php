@@ -18,7 +18,9 @@ class TimesheetRepository extends BaseRepository
     {
 
      $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $data['time_in']);
-
+     $date_time_in = date('Y-m-d H:i:s', strtotime($data['time_in']));
+     $date_time_out = date('Y-m-d H:i:s', strtotime($data['time_out']));
+     // dd($date_time_in, $date_time_out);
       // var_dump($this->employeeRepository->find($data['employee_id']));
       // die();
 
@@ -54,15 +56,13 @@ class TimesheetRepository extends BaseRepository
       }
 
 
-      $existing = $this->where('employee_id', $data['employee_id'])
-        ->where(function($query) use($time_in, $time_out) {
-            $query->where(function($query) use($time_in, $time_out) {
-              $query->where('time_in', '<=', $time_in )->where('time_in', '>=', $time_in);
-        })->orWhere(function($query) use($time_in, $time_out){
-              $query->where('time_out', '<=', $time_out ) ->where('time_out', '>=', $time_out);
-          });
-      })->first();
-                  
+      $existing = Timesheet::where('employee_id', $data['employee_id'])
+                      ->where(function($query) use($date_time_in, $date_time_out) {
+                            $query->whereBetween('time_in', [$date_time_in, $date_time_out])
+                            ->orWhereBetween('time_out', [$date_time_in, $date_time_out]);
+                    })
+                      ->first();
+      // dd($existing);
       if($existing)
       {
             // $existing->get();
