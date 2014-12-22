@@ -177,7 +177,9 @@ $to = $payslip->getPayslipsGroup()->to;
         <td style="text-align: right;">
         <?php 
             $in_attendance = $payslip->in_attendance;
-            echo (float) $allowance->amount * (int) $in_attendance; ?>
+            $amount = (float) $item->amount * (int) $in_attendance; 
+            number_format($amount, 2);
+          ?>
         </td>
         <?php }
         else{
@@ -186,7 +188,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php echo $allowance->allowance_name; ?>
          </td>
          <td style="text-align: right;">
-          <?php echo number_format($allowance->amount, 2); ?>
+          <?php echo number_format($item->amount, 2); ?>
          </td>
         <?php } ?>
       </tr>
