@@ -167,6 +167,7 @@ $to = $payslip->getPayslipsGroup()->to;
 																								                      </tr>
 	<?php }?>
 <?php foreach ($payslip->getAllowances() as $item) {
+  // dd($item->amount);
       $allowance = Allowance::find($item->allowance_id);
       // if(count($allowance)) {continue;}
   ?>
@@ -178,7 +179,7 @@ $to = $payslip->getPayslipsGroup()->to;
         <?php 
             $in_attendance = $payslip->in_attendance;
             $amount = (float) $item->amount * (int) $in_attendance; 
-            number_format($amount, 2);
+            echo number_format($amount, 2);
           ?>
         </td>
         <?php }
