@@ -115,62 +115,76 @@ $to = $payslip->getPayslipsGroup()->to;
 
         <!-- foreach -->
           <tr>
-            <td>&nbsp;&nbsp;Basic Salary <br><?php if($employee->getPayrollPeriod(false) == "Daily") { echo "PHP" . $employee->getBasicSalary() . " x " . $employee->getInAttendance($from, $to) . " days";  } ?></td>
-            <td style="text-align:right;"><?php echo ($employee->getPayrollPeriod(false) != "Daily") ? $employee->getBasicSalary(true) : $employee->getBasicSalary() * $employee->getInAttendance($from, $to);
-?></td>
+            <td>&nbsp;&nbsp;Basic Salary <br><?php if($employee->getPayrollPeriod(false) == "Daily") { echo "PHP" . number_format($payslip->basicp_pay, 2) . " x " . $payslip->in_attendance . " days";  } ?></td>
+            <td style="text-align:right;"><?php echo number_format($payslip->basic_pay, 2); ?></td>
           </tr>
-          <?php if($employee->getSundayAttendance($from, $to)): ?>
+          <?php if($payslip->sunday_attended_hours): ?>
             <tr>
-            <td >&nbsp;&nbsp;Sunday(<?php echo $employee->getSundayAttendanceHours($from, $to); ?>hour(s))</td>
+            <td >&nbsp;&nbsp;Sunday(<?php echo $payslip->sunday_attended_hours; ?>hour(s))</td>
             <td style="text-align:right;">
-              <?php echo $employee->getSundayPay($from, $to, true); ?>
+              <?php echo number_format($payslip->sunday_pay, 2); ?>
             </td>
           </tr>
           <?php endif; ?>
-          <?php if($employee->getOvertime($from, $to)): ?>
+          <?php if($payslip->overtime_hours): ?>
            <tr>
-            <td >&nbsp;&nbsp;Overtime(<?php echo $employee->getOvertime($from, $to); ?>hrs)</td>
+            <td >&nbsp;&nbsp;Overtime(<?php echo $payslip->overtime_hours; ?>hrs)</td>
             <td style="text-align:right;">
-              <?php echo $employee->getOverTimePay($from, $to); ?>
+              <?php echo number_format($payslip->overtime_pay, 2); ?>
             </td>
           </tr>
           <?php endif; ?>
 
-          <?php if($employee->getNightDifferentialPay($from, $to)) { ?> 
+          <?php if($payslip->night_differential_hours){ ?> 
              <tr>
-            <td >&nbsp;&nbsp;Night Differential Pay</td>
+            <td >&nbsp;&nbsp;Night Differential Pay(<?php echo $payslip->night_differential_hours; ?> hrs)</td>
             <td style="text-align:right;">
-              <?php echo $employee->getNightDifferentialPay($from, $to)?>
+              <?php echo number_format($payslip->night_differential_pay, 2); ?>
             </td>
           </tr>
           <?php } ?>
-          <?php if($employee->getRegularHolidayPay($from, $to)) { ?> 
+          <?php if($payslip->regular_holiday_count) { ?> 
              <tr>
-            <td >&nbsp;&nbsp;Regular Holiday Pay(<?php echo $employee->getRegularHolidayRate() * 100; ?>%)</td>
+            <td >&nbsp;&nbsp;Regular Holiday Pay(<?php echo $payslip->regular_holiday_count; ?> day(s))</td>
             <td style="text-align:right;">
-              <?php echo $employee->getRegularHolidayPay($from, $to)?>
+              <?php echo number_format($payslip->regular_holiday_pay, 2); ?>
             </td>
           </tr>
           <?php } ?>
-          <?php if($employee->getSpecialHolidayPay($from, $to)) { ?> 
-          
-           <tr>
-            <td >&nbsp;&nbsp;Special Holiday Pay(<?php echo $employee->getSpecialHolidayRate()*100; ?>%)</td>
+          <?php if($payslip->special_holiday_count) { ?> 
+             <tr>
+            <td >&nbsp;&nbsp;Special Holiday Pay(<?php echo $payslip->special_holiday_count; ?> day(s))</td>
             <td style="text-align:right;">
-              <?php echo $employee->getSpecialHolidayPay($from, $to)?>
+              <?php echo number_format($payslip->special_holiday_pay, 2); ?>
             </td>
           </tr>
           <?php } ?>
-       <?php if (count($employee->getAllowances())) {?>
+       <?php if (count($payslip->getAllowances())) {?>
 	<tr>
 																								                        <td>Allowances</td>
 																								                        <td></td>
 																								                      </tr>
 	<?php }?>
-<?php foreach ($employee->getAllowances() as $allowance) {?>
+<?php foreach ($payslip->getAllowances() as $allowance) {?>
       <tr>
-        <td style="text-align: right;"><?php echo $allowance->getName($from, $to); ?></td>
-        <td style="text-align: right;"><?php echo $allowance->getAmount(true, $from, $to); ?></td>
+        <?php if($this->frequency == "daily" && $from != null){ ?>
+        <td style="text-align: right;">
+              <?php echo $allowance->allowance_name . "X" . $payslip->in_attendance; ?></td>
+        <td style="text-align: right;">
+        <?php 
+            $in_attendance = $payslip->in_attendance;
+            echo (float) $allowance->amount * (int) $in_attendance; ?>
+        </td>
+        <?php }
+        else{
+         ?>
+         <td style="text-align: right;">
+          <?php echo $allowance->allowance_name; ?>
+         </td>
+         <td style="text-align: right;">
+          <?php echo number_format($allowance->amount, 2); ?>
+         </td>
+        <?php } ?>
       </tr>
 
 
@@ -189,7 +203,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <tr>
             <td ><b style="padding:15px ;">Gross Pay</b></td>
             <td style="text-align:right;">
-<?php echo $payslip->getEmployee()->getGross($from, $to, true)?>
+              <?php echo number_format($payslip->gross, 2); ?>
             </td>
           </tr>
         <!-- endforeach -->
@@ -205,18 +219,18 @@ $to = $payslip->getPayslipsGroup()->to;
       </thead>
          <tr>
           <td>Withholding Tax</td>
-          <td style="text-align:right;"><?php echo $employee->getWithholdingTax($from, $to)?></td>
+          <td style="text-align:right;"><?php echo number_format($payslip->withholding_tax, 2); ?></td>
         </tr>
 
 
 
         <tr>
           <td>SSS</td>
-          <td style="text-align:right;"><?php echo $employee->getSSSValue()?></td>
+          <td style="text-align:right;"><?php echo number_format($payslip->sss, 2); ?></td>
         </tr>
         <tr>
           <td>HDMF</td>
-          <td style="text-align:right;"><?php echo $employee->getHDMFValue()?></td>
+          <td style="text-align:right;"><?php echo number_format($payslip->pagibig, 2); ?></td>
         </tr>
         <tr>
           <td>Philhealth</td>
@@ -254,7 +268,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <tr>
           <td><b style="padding:15px ;">Total Deduction</b></td>
 
-          <td style="text-align:right;"><?php echo $employee->getAllandTotalDeduction($from, $to)?></td>
+          <td style="text-align:right;"><?php echo $payslip->total_deduction_pay; ?></td>
         </tr>
 
       <!-- end -->
@@ -266,7 +280,7 @@ $to = $payslip->getPayslipsGroup()->to;
     <table style="width:100%;top:250px;">
       <tr>
         <td style="background-color:black; color:white;">NET</td>
-        <td style="background-color:black; color:white; font-size:18px; text-align:right;" ><?php echo $employee->getNet($from, $to)?></td>
+        <td style="background-color:black; color:white; font-size:18px; text-align:right;" ><?php echo $payslip->net; ?></td>
       </tr>
     </table>
 
