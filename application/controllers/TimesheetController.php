@@ -44,10 +44,6 @@ class TimesheetController extends BaseController {
        	$timein      = (is_null($this->input->get('timein'))) ? '' : $this->input->get('timein');
        	$timeout     = (is_null($this->input->get('timeout'))) ? '' : $this->input->get('timeout');
        	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
-
-       	// dd($name, $employee_id, $timein, $timeout, $status);
-
-       	// dd($empty(var)ployee_id);
        	$data  = $this->timesheetRepository->with('employee')
        		->whereHas('employee', function($q) use ($name, $employee_id)
 			{
@@ -55,11 +51,11 @@ class TimesheetController extends BaseController {
 			})
        		->whereHas('employee', function($q) use ($name, $employee_id)
 			{
-       			$q->Where('employee_number', 'like', '%' . $employee_id . '%');										     
+       			$q->where('employee_number', 'like', '%' . $employee_id . '%');										     
 			})
        		->where('status', 'like',  '%' . $status .'%')
-       		->where('time_in', '>', $timein)
-       		->where('time_out', '>', $timeout)
+       		->where('time_in', '>', $timein )
+       		->where('time_out', '>', $timeout )
 
        		->get();
 
