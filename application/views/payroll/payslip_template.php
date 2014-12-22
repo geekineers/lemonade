@@ -160,16 +160,20 @@ $to = $payslip->getPayslipsGroup()->to;
           </tr>
           <?php } ?>
        <?php if (count($payslip->getAllowances())) {?>
+
 	<tr>
 																								                        <td>Allowances</td>
 																								                        <td></td>
 																								                      </tr>
 	<?php }?>
-<?php foreach ($payslip->getAllowances() as $allowance) {?>
+<?php foreach ($payslip->getAllowances() as $item) {
+      $allowance = Allowance::find($item->allowance_id);
+      // if(count($allowance)) {continue;}
+  ?>
       <tr>
-        <?php if($this->frequency == "daily" && $from != null){ ?>
+        <?php if($allowance->frequency == "daily" && $from != null){ ?>
         <td style="text-align: right;">
-              <?php echo $allowance->allowance_name . "X" . $payslip->in_attendance; ?></td>
+              <?php echo $allowance->allowance_name . " X " . $payslip->in_attendance; ?></td>
         <td style="text-align: right;">
         <?php 
             $in_attendance = $payslip->in_attendance;
