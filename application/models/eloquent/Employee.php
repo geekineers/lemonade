@@ -296,7 +296,11 @@ class Employee extends BaseModel
                 } else if ($pay > $last->to_range) {
                     $sss = $last->EE;
                 } else {
-                    $sss = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->EE;
+                    $sss_count = SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->count();
+                    if($sss_count){
+                       $sss =  SSSConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->EE;
+                    }
+                    dd($pay);
                 }
 
                 $sss = floatval($sss);
