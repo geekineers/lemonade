@@ -78,7 +78,7 @@
 			<td>{{ deduction.recurring }}</td>
 			<td>{{ deduction.amount }}</td>
 			<td>{{ deduction.valid_from }}</td>
-			<td>{{ deduction.valid_to }}</td>
+      <td><a href="/deductions/employee?id={{ deduction.id }}&eid={{ employee.id }}" class="btn btn-danger"><span class="trash fa-trash-o fa"></span></a></td>
 		</tr>
 	{% endfor %}
 </table>
