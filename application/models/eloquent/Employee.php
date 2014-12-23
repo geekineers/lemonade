@@ -321,7 +321,7 @@ class Employee extends BaseModel
                 $sss = floatval($sss);
 
                 if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
-                    if($term == 1){
+                    if($term != 1){
                         if($number_format == true){
                           return number_format($sss, 2);  
                         } 
