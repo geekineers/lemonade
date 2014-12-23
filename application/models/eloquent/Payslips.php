@@ -32,6 +32,7 @@ class Payslips extends Eloquent
         'sss_employer',
         'department_id',
         'basic_pay',
+        'base_pay',
         'in_attendance',
         'sunday_pay',
         'sunday_attended_hours',

@@ -115,7 +115,7 @@ $to = $payslip->getPayslipsGroup()->to;
 
         <!-- foreach -->
           <tr>
-            <td>&nbsp;&nbsp;Basic Salary <br><?php if($employee->getPayrollPeriod(false) == "Daily") { echo "PHP" . number_format($payslip->basicp_pay, 2) . " x " . $payslip->in_attendance . " days";  } ?></td>
+            <td>&nbsp;&nbsp;Basic Salary <br><?php if($employee->getPayrollPeriod(false) == "Daily") { echo "PHP" . number_format($payslip->base_pay, 2) . " x " . $payslip->in_attendance . " days";  } ?></td>
             <td style="text-align:right;"><?php echo number_format($payslip->basic_pay, 2); ?></td>
           </tr>
           <?php if($payslip->sunday_attended_hours): ?>

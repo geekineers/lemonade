@@ -136,7 +136,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
         $employee_slip['prepared_by']      = $prepared_by;
         $employee_slip['department_id']    = $employee->department;
-        $employee_slip['basic_pay']    = ($employee->getPayrollPeriod(false) != "daily") ? $employee->getBasicSalary(false) : $employee->getBasicSalary(false) * $employee->getInAttendance($from, $to);
+        $employee_slip['basic_pay']    = (strtolower($employee->getPayrollPeriod(false)) != "daily") ? $employee->getBasicSalary(false) : $employee->getBasicSalary(false) * $employee->getInAttendance($from, $to);
         $employee_slip['in_attendance']    = $employee->getInAttendance($from, $to);
         $employee_slip['sunday_pay']    = ($employee->getSundayAttendance($from, $to)) ? $employee->getSundayPay($from, $to, true) : 0;
         $employee_slip['sunday_attended_hours']    = ($employee->getSundayAttendance($from, $to)) ? $employee->getSundayAttendanceHours($from, $to) : 0;
@@ -152,7 +152,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['total_deduction_pay'] = $employee->getAllandTotalDeduction($from, $to);
         $employee_slip['allowances'] = json_encode($employee->getAllowances($from, $to));
         $employee_slip['deductions'] = json_encode($employee->getDeductions($from, $to));
-
+        $employee_slip['base_pay'] = $employee->getBasicSalary(false);
         $this->create($employee_slip);
         return true;
     }
