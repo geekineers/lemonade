@@ -1165,7 +1165,7 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        return floatval($this->getRegularHolidayRate() * $this->getDailyRate() * $this->getRegularHolidayAttendance($from, $to));
+        return floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to));
 
     }
     /**
@@ -1185,12 +1185,39 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayAttendance($from, $to)
     {
-        $from = date('Y-m-d', strtotime($from));
-        $to   = date('Y-m-d', strtotime($to));
+        $holiday = new \HolidayRepository();
 
-        return Holiday::whereBetween('holiday_from', [$from, $to])
-            ->where('holiday_type', 'regular')
-            ->count();
+        $date_range = createDateRangeArray($from, $to);
+             // dd($date_range);
+        $hours_attended = 0;
+        foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
+            $dt = new Carbon($date);
+
+            $current_date = date('Y-m-d', strtotime($date_range_start));
+            if ($holiday->isRegularHoliday($current_date)){
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->first();
+
+                if($attended) 
+                {
+                    // return $attended;
+                    // dd($attended);
+                    $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
+                    $in = $time_in->format('H:i:s');
+                    $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
+                    $out = $time_out->format('H:i:s');
+                    $h = getInterval($in, $out, 'hours');
+                    // dd($h);
+                    $hours_attended += getInterval($in, $out, 'hours');
+                }
+            }
+        }
+
+        return (int) $hours_attended;
     }
 
     /**
@@ -1201,12 +1228,39 @@ class Employee extends BaseModel
      */
     public function getSpecialHolidayAttendance($from, $to)
     {
-        $from = date('Y-m-d', strtotime($from));
-        $to   = date('Y-m-d', strtotime($to));
-        return Holiday::whereBetween('holiday_from', [$from, $to])
-            ->where('holiday_type', 'special non-working')
-            ->count();
+          $holiday = new \HolidayRepository();
 
+        $date_range = createDateRangeArray($from, $to);
+             // dd($date_range);
+        $hours_attended = 0;
+        foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
+            $dt = new Carbon($date);
+
+            $current_date = date('Y-m-d', strtotime($date_range_start));
+            if ($holiday->isSpecialHoliday($current_date)){
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->first();
+
+                if($attended) 
+                {
+                    // return $attended;
+                    // dd($attended);
+                    $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
+                    $in = $time_in->format('H:i:s');
+                    $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
+                    $out = $time_out->format('H:i:s');
+                    $h = getInterval($in, $out, 'hours');
+                    // dd($h);
+                    $hours_attended += getInterval($in, $out, 'hours');
+                }
+            }
+        }
+
+        return (int) $hours_attended;
     }
 
     /**
@@ -1218,7 +1272,7 @@ class Employee extends BaseModel
 
     public function getSpecialHolidayPay($from, $to)
     {
-        return floatval($this->getSpecialHolidayRate() * $this->getDailyRate() * $this->getSpecialHolidayAttendance($from, $to));
+        return floatval($this->getSpecialHolidayRate() * $this->getHourlyRate() * $this->getSpecialHolidayAttendance($from, $to));
     }
 
     public function getSundayAttendance($from, $to)

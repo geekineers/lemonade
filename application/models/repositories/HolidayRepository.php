@@ -60,6 +60,19 @@ class HolidayRepository extends BaseRepository {
 		return $this->where('holiday_from', '=', $date)->count();
 	}
 
+	public function isRegularHoliday($date)
+	{
+		return $this->where('holiday_from', '=', $date)
+				    ->where('holiday_type', 'regular')
+				    ->count();
+	}
+	public function isSpecialHoliday($date)
+	{
+		return $this->where('holiday_from', '=', $date)
+				    ->where('holiday_type', 'special non-working')
+				    ->count();
+	}
+
 	public function getAllEvents()
 	{
 		$output = [];

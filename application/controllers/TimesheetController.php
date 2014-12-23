@@ -41,6 +41,10 @@ class TimesheetController extends BaseController {
 	public function search()
 	{
 	   	$page  		 = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
+	   	  $page  = (isset($_GET['page'])) ? $_GET['page'] : 0;
+     	// dd($page);
+        $take = 15;
+        $skip = $page * 15;
 	   	$branch  		 = ($this->input->get('branch') > 0) ? $this->input->get('branch') : 0;
        	$name  		 = (is_null($this->input->get('name'))) ? ' ' : $this->input->get('name');
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
@@ -72,7 +76,7 @@ class TimesheetController extends BaseController {
        		->where('status', 'like',  '%' . $status .'%')
        		->where('time_in', '>', $timein)
        		->where('time_out', '<', $timeout)
-
+       		->take($take)->skip($skip)
        		->get();
 
        	// dd($data);
