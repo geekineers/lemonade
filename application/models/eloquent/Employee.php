@@ -1471,10 +1471,7 @@ class Employee extends BaseModel
         $absents = $this->getAbsentDeduction($from, $to);
 
         $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction + $absents;
-        if ($number_format) {
-            return number_format($mandatory_wtax, 2);
-        }
-
+     
         return $mandatory_wtax;
     }
     public function getNet($from, $to, $number_format = true)

@@ -275,7 +275,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <tr>
           <td><b style="padding:15px ;">Total Deduction</b></td>
 
-          <td style="text-align:right;"><?php echo $payslip->total_deduction_pay; ?></td>
+          <td style="text-align:right;"><?php echo number_format($payslip->total_deduction_pay,2); ?></td>
         </tr>
 
       <!-- end -->
@@ -287,7 +287,7 @@ $to = $payslip->getPayslipsGroup()->to;
     <table style="width:100%;top:250px;">
       <tr>
         <td style="background-color:black; color:white;">NET</td>
-        <td style="background-color:black; color:white; font-size:18px; text-align:right;" ><?php echo $payslip->net; ?></td>
+        <td style="background-color:black; color:white; font-size:18px; text-align:right;" ><?php echo number_format($payslip->net, 2); ?></td>
       </tr>
     </table>
 
