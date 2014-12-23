@@ -287,7 +287,7 @@ class Employee extends BaseModel
 
         return $this->sss_number;
     }
-    public function getSSSValue($number_format = false)
+    public function getSSSValue($number_format = false, $term=1)
     {
         
 
@@ -321,11 +321,20 @@ class Employee extends BaseModel
                 $sss = floatval($sss);
 
                 if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
-                    $sss = floatval($sss / 2);
-                    if($number_format == true){
-                      return number_format($sss, 2);  
-                    } 
-                    return $sss;
+                    if($term == 1){
+                        if($number_format == true){
+                          return number_format($sss, 2);  
+                        } 
+                        return $sss;
+                        
+                    }
+                    else{
+                        $sss = 0;
+                        if($number_format == true){
+                          return number_format($sss, 2);  
+                        } 
+                        return $sss;
+                    }
                 } else {
                   
                     if($number_format == true){
@@ -397,9 +406,9 @@ class Employee extends BaseModel
         return $this->philhealth_number;
     }
 
-    public function getPhilhealthValue()
+    public function getPhilhealthValue($term = 1)
     {
-        $period = $payroll_period =  strtolower(str_replace(" ", "",$this->getPayrollPeriod()->period));
+        $period =  strtolower(str_replace(" ", "",$this->getPayrollPeriod()->period));
        
         if($this->fixed_philhealth_amount != "no"){
             return (float) $this->fixed_philhealth_amount;
@@ -430,7 +439,20 @@ class Employee extends BaseModel
                     $ph = floatval($ph);
                     if ( $period == "semi-monthly") {
                 
-                        return floatval($ph / 2);
+                         if($term == 1){
+                        if($number_format == true){
+                          return number_format($ph, 2);  
+                        } 
+                        return $ph;
+                        
+                    }
+                    else{
+                        $ph = 0;
+                        if($number_format == true){
+                          return number_format($ph, 2);  
+                        } 
+                        return $sss;
+                    }
                     } else {
                         return floatval($ph);
                     }
@@ -444,13 +466,27 @@ class Employee extends BaseModel
 
     }
 
-    public function getHDMFValue()
+    public function getHDMFValue($term=1, $number_format = false)
     {
         $hdmf = ($this->deduct_hdmf == null || $this->deduct_hdmf == 1)? 100 : 0;
         $period = str_replace(" ", "", strtolower($this->getPayrollPeriod()->period));
 
         $hdmf = (strtolower($this->fixed_hdmf_amount) != "no") ? (int) $this->fixed_hdmf_amount : $hdmf;
-        if ($period == "semi-monthly") {return $hdmf / 2;
+        if ($period == "semi-monthly") {
+             if($term == 1){
+                        if($number_format == true){
+                          return number_format($hdmf, 2);  
+                        } 
+                        return $hdmf;
+                        
+                    }
+                    else{
+                        $hdmf = 0;
+                        if($number_format == true){
+                          return number_format($hdmf, 2);  
+                        } 
+                        return $hdmf;
+                    }
         }
 
         return $hdmf;

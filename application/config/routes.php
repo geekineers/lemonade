@@ -150,7 +150,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/deductions/trash', 'DeductionController#trash');
     $r->get('settings/deductions/restore/(:num)', 'DeductionController#restore');
     $r->get('settings/deductions/destroy/(:num)', 'DeductionController#destroy');
-
+    $r->get('deductions/employee', 'DeductionController#deleteEmployeeDeduction');
     $r->get('settings/allowances', 'AllowanceController#index');
     $r->get('settings/allowances/delete', 'AllowanceController#delete');
     $r->get('settings/allowances/destroy', 'AllowanceController#destroy');

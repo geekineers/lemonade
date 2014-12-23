@@ -126,7 +126,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['employee_id']      = $employee->id;
         $employee_slip['payroll_group']    = $payrollGroup->id;
         $employee_slip['branch_id']        = $payrollGroup->branch_id;
-        $employee_slip['sss']              = $employee->getSSSValue();
+        $employee_slip['sss']              = $employee->getSSSValue(false, $term);
         $employee_slip['sss_employer']     = $employee->getSSSEmployerValue();
         $employee_slip['philhealth']       = $employee->getPhilhealthValue();
         $employee_slip['pagibig']          = $employee->getHDMFValue();

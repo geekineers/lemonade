@@ -140,4 +140,12 @@ class DeductionController extends BaseController
         redirect('settings/deductions/trash','location');
     }
 
+    public function deleteEmployeeDeduction()
+    {
+        $id = $this->input->get('id');
+        $eid = $this->input->get('eid');
+        EmployeeDeduction::find($id)->delete();
+
+        redirect('employees/' . $eid . '/profile');
+    }
 }
