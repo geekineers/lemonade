@@ -452,7 +452,7 @@ class Employee extends BaseModel
         if ($period == "semi-monthly") {return $hdmf / 2;
         }
 
-        return hdmf;
+        return $hdmf;
 
     }
 
