@@ -5,12 +5,14 @@ require_once ('BaseController.php');
 class TimesheetController extends BaseController {
 
 	protected $employeeRepository,
+		$branchRepository,
 		$timesheetRepository;
 	public function __construct()
 	{
 		parent::__construct();
 		$this->mustBeLoggedIn();
 		$this->employeeRepository  = new EmployeeRepository();
+		$this->branchRepository  = new BranchRepository();
 		$this->timesheetRepository = new TimesheetRepository();
 		$this->load->library('session');
 	}
@@ -29,7 +31,7 @@ class TimesheetController extends BaseController {
 		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title']      = "All Timesheets";
 		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->take($take)->skip($skip)->get();
-
+		$data['branches'] = $this->branchRepository->all();
 		$data['max_count'] = count($data['timesheets']);
 		$data['max_page']  = ceil($data['max_count'] / $take);
 		$data['employees']  = $this->employeeRepository->all();
@@ -39,6 +41,7 @@ class TimesheetController extends BaseController {
 	public function search()
 	{
 	   	$page  		 = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
+	   	$branch  		 = ($this->input->get('branch') > 0) ? $this->input->get('branch') : 0;
        	$name  		 = (is_null($this->input->get('name'))) ? ' ' : $this->input->get('name');
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
        	$timein      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein')));
@@ -52,6 +55,13 @@ class TimesheetController extends BaseController {
        		$data = $data->whereHas('employee', function($q) use ($name, $employee_id)
 			{
 			    $q->where('full_name', 'like', '%'. $name .'%');								     
+			});
+       	}
+
+       	if($branch > 0) {
+       		$data = $data->whereHas('employee', function($q) use ($branch)
+			{
+			    $q->where('branch_id', $branch);								     
 			});
        	}
        	
