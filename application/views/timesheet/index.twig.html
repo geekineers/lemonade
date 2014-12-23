@@ -1,15 +1,21 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-2">
         <a data-toggle="modal" data-target="#addTimesheet" class=" btn btn-success" href="#addTimesheet btn-sm">
             <i class="fa fa-plus"></i>
         </a>
         <a data-toggle="modal" data-target="#uploadTimesheet" class="btn btn-default btn-sm">
             <i class="fa fa-file"></i>Upload Sheet
         </a>
+        
     </div>
-    <div class="col-md-7 ">
-
+    <div class="col-md-3">
+<select name="" class="form-control"id="branch-select">
+            <option value="">--Select Branch--</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+            {% endfor %}
+        </select>
     </div>
 
 </div>
@@ -46,7 +52,8 @@
             <div class="input-group">
                 <input type="text"  id="search-name" class="search-input">
             </div>
-        </td>
+        </td> 
+ 
         <td>
             <div class="input-group">
                 <input type="text" id="search-employee-id" class="search-input">
@@ -424,6 +431,9 @@ $('.dateranger-btn').on('click', function(e){
     $('.search-select').on('change', function(){
         $('.search-input').trigger('keyup');
     });
+    $('#branch-select').on('change', function(){
+        $('.search-input').trigger('keyup');
+    });
 
     $('.search-input').on('keyup', function(){
         var timein      = $('#search-timein').val();
@@ -431,13 +441,15 @@ $('.dateranger-btn').on('click', function(e){
         var name        = $('#search-name').val();
         var employee_id = $('#search-employee-id').val();
         var status      = $('#search-status').val();
+        var branch      = $('#branch-select').val();
         var action      = $('#action-buttons').html();
         var data = {
             'name' : name,
             'employee_id' : employee_id,
             'timein' : timein,
             'timeout' : timeout,
-            'status' : status
+            'status' : status,
+            'branch' : branch
         };
 
 
