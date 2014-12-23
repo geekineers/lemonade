@@ -439,7 +439,7 @@ class Employee extends BaseModel
                         $ph = $first->employee_share;
                     } else if ($pay > (float)$last->to_range) {
                         $ph = $last->employee_share;
-                    return $ph;
+              
                     } else {
                         // return 'here';
                         $ph = PHConfigs::where('to_range', '>=', $pay)->where('from_range', '<=', $pay)->first()->employee_share;
