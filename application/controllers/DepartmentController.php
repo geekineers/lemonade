@@ -135,4 +135,13 @@ class DepartmentController extends BaseController
              ->set_content_type('application/json')
              ->set_output(json_encode($employees));
     }
+
+    public function getSubDepartments(){
+        $dep = $this->input->get('department');
+        $sub =  json_encode(SubDepartment::where('parent_department_id', $dep)->get());
+     $this->output
+             ->set_content_type('application/json')
+             ->set_output($sub);
+
+    }
 }

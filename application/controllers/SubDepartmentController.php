@@ -38,9 +38,9 @@ class SubDepartmentController extends BaseController {
     {
         $input['sub_department_name']        = (string) $this->input->post('sub_department_name');
         $input['sub_department_description'] = (string) $this->input->post('sub_department_description');
-        $input['parent_department_name']     = (int) $this->input->post('parent_department_id');
+        $input['parent_department_id']     = (int) $this->input->post('parent_department_id');
         $sub = $this->subDepartmentRepository->createNotExist($input);
-        
+        // dd($input);
         if ($sub) {
             $this->session->set_flashdata('alert_message', ' added.');
             redirect('/settings/sub-department');

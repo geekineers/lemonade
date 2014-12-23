@@ -3,7 +3,6 @@
 require_once('connection.php');
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class SubDepartment extends BaseModel {
   
@@ -17,6 +16,14 @@ class SubDepartment extends BaseModel {
   	'parent_department_id',
   	'created_at', 
   	'deleted_at', 
-  	'updated_at'];
+  	'updated_at',
+    'company_id'
+    ];
+
+
+  public function getParent()
+  {
+    return Department::find($this->parent_department_id);
+  }
 }
 
