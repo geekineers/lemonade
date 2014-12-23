@@ -122,14 +122,19 @@ class PayslipsRepository extends BaseRepository
         $from = date('Y-m-d', strtotime($from));
         $to   = date('Y-m-d', strtotime($to));
 
+        $from_month = date('Y-m', strtotime($from));
+        $from_start_month = date('Y-m-d', strtotime($from_month));
+        $from_end_month = date('Y-m-d', strtotime($from_month . "+ 30 days"));
+        $term = PayslipsGroup::whereBetween('from', [$from_start_month, $from_end_month])->where('payroll_group', $payrollGroup->id)->count();
+        // dd($term);
         $employee_slip['payslip_group_id'] = $payslip_group->id;
         $employee_slip['employee_id']      = $employee->id;
         $employee_slip['payroll_group']    = $payrollGroup->id;
         $employee_slip['branch_id']        = $payrollGroup->branch_id;
         $employee_slip['sss']              = $employee->getSSSValue(false, $term);
         $employee_slip['sss_employer']     = $employee->getSSSEmployerValue();
-        $employee_slip['philhealth']       = $employee->getPhilhealthValue();
-        $employee_slip['pagibig']          = $employee->getHDMFValue();
+        $employee_slip['philhealth']       = $employee->getPhilhealthValue($term);
+        $employee_slip['pagibig']          = $employee->getHDMFValue($term);
         $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
         $employee_slip['net']              = $employee->getNet($from, $to, false);
         $employee_slip['gross']            = $employee->getGross($from, $to, false);
@@ -149,7 +154,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['special_holiday_pay'] = $employee->getSpecialHolidayPay($from, $to);
         $employee_slip['special_holiday_count'] = $employee->getSpecialHolidayAttendance($from, $to);
         $employee_slip['total_allowance_pay'] = $employee->getTotalAllowances($from, $to, false);
-        $employee_slip['total_deduction_pay'] = $employee->getAllandTotalDeduction($from, $to);
+        $employee_slip['total_deduction_pay'] = $employee->getAllandTotalDeduction($from, $to, false, $term);
         $employee_slip['allowances'] = json_encode($employee->getAllowances($from, $to));
         $employee_slip['deductions'] = json_encode($employee->getDeductions($from, $to));
         $employee_slip['base_pay'] = $employee->getBasicSalary(false);
