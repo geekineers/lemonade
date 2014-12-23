@@ -263,7 +263,7 @@ $to = $payslip->getPayslipsGroup()->to;
 																																	          <td></td>
 																																	        </tr>
 	<?php }?>
-<?php foreach ($employee->getDeductions() as $deduction) {?>
+<?php foreach ($employee->getDeductions($from, $to) as $deduction) {?>
 																																										          <tr>
 																																										            <td style="text-align:right;" ><?php echo $deduction->getName();
 	?></td>
