@@ -37,10 +37,12 @@ class HumanResourceController extends BaseController
     {
 
         $data = $this->formApplicationRepository->getFormAppId($this->input->get('id'));
-        
+
         // $data->type_of_leave = LeaveType::find($data->type_of_leave)->leave_type_name;
         $form_data = json_decode($data['form_data']);
-        // $form_data->type_of_leave  =  LeaveType::find($form_data->type_of_leave)->leave_type_name;
+        if(isset($form_data->type_of_leave)){
+            $form_data->type_of_leave  =  LeaveType::find($form_data->type_of_leave)->leave_type_name;            
+        }
         $data['form_data'] = json_encode($form_data);
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }

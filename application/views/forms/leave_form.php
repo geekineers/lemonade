@@ -3,14 +3,9 @@
         <h3 class="box-title">Leave Form</h3>
     </div><!-- /.box-header -->
     <div class="box-body">    
-        <?php if($remaining<=0) { ?>
-            
-            no credits remaining
 
-        <?php } else { ?>
        
             <form action="/settings/forms" method="post" class="ob_form">
-                     Remaining Credits: <?php echo $remaining;?>
                     <div class="form-group row">
                         <div class="col-md-10 ">
                             <label>Start / End Date: </label>
@@ -38,12 +33,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label>Remaning credits: </label>
-                            <input type="number" class="form-control remaining" placeholder="example: 7">
-                          
-                        </div>
-
+                        
                     </div>
 
                     <div class="form-group row">
@@ -52,7 +42,7 @@
                           </div>
                     </div>
             </form>
-         <?php } ?>
+    
         </div>
     </div>
 
