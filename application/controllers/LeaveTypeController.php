@@ -60,6 +60,7 @@ class LeaveTypeController extends BaseController {
         $leave_type = LeaveType::where('id', '=', $id)->first();
         $data['id'] = $id;
         $data['name'] = $leave_type->leave_type_name;
+        $data['base_points'] = $leave_type->leave_type_base_points;
         $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['roles'] = Group::where('company_id', '=', COMPANY_ID)->get();
         $data['title']  = "Edit Leave Type";
@@ -100,5 +101,16 @@ class LeaveTypeController extends BaseController {
             $this->sendJSON(['status'=>'error']);
         }
         redirect('/settings/leave-types');
+    }
+
+    public function resetPoints()
+    {
+        $leave_type_id = $this->input->post('leave_type_id');
+
+        EmployeeLeaveCredit::where('leave_type_id', $leave_type_id)->delete();
+
+        $this->sendJSON(['status'=>'success']);
+
+
     }
 }

@@ -19,7 +19,7 @@
 
                 <div class="form-group">
                     <label for="exampleInputFile">Default Base Points</label>
-                        <input type="text" name="leave_type_base_points" class="form-control" id="leave_type_base_points" placeholder="default base point">
+                        <input type="text" name="leave_type_base_points" value="{{ base_points }}" class="form-control" id="leave_type_base_points" placeholder="default base point">
                 </div>
 
                 <div class="form-group">
@@ -38,9 +38,32 @@
             </form>
         </div>
     </div>
-
+    <div class="col-md-6">
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Reset Points</h3>
+            </div><!-- /.box-header -->
+<!-- form start -->
+            <div class="box-body">
+                <p>This will reset all the remaining {{ name }} points of all the employee. </p>
+                <div class="center">
+                    <button id="reset-points" data-id="{{ id }}" class="btn btn-large btn-warning"><span class="fa fa-refresh"></span> RESET POINTS</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- roles script here -->
 <script type="text/javascript" src="/js/roles.js"></script>
-<sc
+<script>
+    $(document).ready(function(){
+        $('#reset-points').on('click',function(){
+              $.notify('loading...','info');
+            var id = $(this).data(id);
+            $.post('reset', {leave_type_id : id }, function(res){
+                    $.notify('Success...','success');
+            });
+        });
+    });
+</script>
 {% endblock %}
