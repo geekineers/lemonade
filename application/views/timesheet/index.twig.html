@@ -288,8 +288,27 @@
 </form>
 
 
+<!-- Template -->
+
+<div style="display:none">
+        <div id="action-buttons">
+                <a href="#" 
+            data-id = "TIME_ID"
+            data-employee-name="EMPLOYEE_NAME" 
+            data-employee-id="EMPLOYEE_ID" 
+            data-time-in="TIME_IN" 
+            data-time-out="TIME_OUT" 
+            data-date-from="TIME_IN_DATE" 
+            data-date-to="TIME_OUT_DATE" 
 
 
+            class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
+              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token=TIME_ID" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+            </a>
+        </div>
+
+</div>
 
 {% endblock %} 
 {% block scripts %}
@@ -412,8 +431,7 @@ $('.dateranger-btn').on('click', function(e){
         var name        = $('#search-name').val();
         var employee_id = $('#search-employee-id').val();
         var status      = $('#search-status').val();
-        var action      = "";
-
+        var action      = $('#action-buttons').html();
         var data = {
             'name' : name,
             'employee_id' : employee_id,
@@ -422,13 +440,31 @@ $('.dateranger-btn').on('click', function(e){
             'status' : status
         };
 
-        console.log(data);
 
         $.get('/timesheet/search', data, function(response) {    
             var newRow = "";
             response.forEach(function buildRows(element, index, array){
                 // console.log(element);
-                var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td></tr>";
+                // 
+                var time_in_d = new Date(element.time_in);
+                var time_out_d = new Date(element.time_out);
+                var time_in_date = time_in_d.getFullYear + '-' + (time_in_d.getMonth() + 1) + '-' + time_in_d.getDate();
+                var time_out_date = time_out_d.getFullYear + '-' + (time_out_d.getMonth() + 1) + '-' + time_out_d.getDate();
+                var time_in_hour = time_in_d.getHours + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ":" +(time_in_d.getSeconds()<10?'0':'') + time_in_d.getSeconds(); 
+                var time_out_hour = time_out_d.getHours + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ":" +(time_out_d.getSeconds()<10?'0':'') + time_out_d.getSeconds(); 
+                var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td><td>action</td></tr>";
+                var action_button = action;
+
+                action_button = action_button.replace('TIME_IN', time_in_hour, 'gi');
+                action_button = action_button.replace('TIME_OUT', time_out_hour, 'gi');
+                action_button = action_button.replace('TIME_IN_DATE', time_in_date, 'gi');
+                action_button = action_button.replace('TIME_OUT_DATE', time_out_date, 'gi');
+                action_button = action_button.replace('EMPLOYEE_NAME', element.employee.full_name, 'gi');
+                action_button = action_button.replace('EMPLOYEE_ID', element.employee.id, 'gi');
+                action_button = action_button.replace('TIME_ID', element.id, 'gi');
+                
+
+
                 var status = "";
                 if(element.status == 'late')
                 {
@@ -456,7 +492,7 @@ $('.dateranger-btn').on('click', function(e){
                 temp = temp.replace('name', element.employee.full_name, 'gi');
                 temp = temp.replace('employee_id', element.employee.employee_number, 'gi');
                 temp = temp.replace('status', status, 'gi');
-                temp = temp.replace('action', action, 'gi');
+                temp = temp.replace('action', action_button, 'gi');
                 newRow += temp;
             })
 
