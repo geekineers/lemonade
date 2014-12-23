@@ -132,7 +132,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['payroll_group']    = $payrollGroup->id;
         $employee_slip['branch_id']        = $payrollGroup->branch_id;
         $employee_slip['sss']              = $employee->getSSSValue(false, $term);
-        $employee_slip['sss_employer']     = $employee->getSSSEmployerValue();
+        $employee_slip['sss_employer']     = $employee->getSSSEmployerValue(false, $term);
         $employee_slip['philhealth']       = $employee->getPhilhealthValue($term);
         $employee_slip['pagibig']          = $employee->getHDMFValue($term);
         $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
@@ -271,8 +271,8 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $item->getEmployee()->getUnderTimeAndLateDeduction($from, $to, 'minute', true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $item->getEmployee()->getUnderTimeAndLateDeduction($from, $to, 'minute', true) + $item->getEmployee()->getAbsentDeduction($from, $to, true));
                         $objPHPExcel->getActiveSheet()->SetCellValue('W' . $row, $item->getEmployee()->getTotalDeductions($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, $item->getEmployee()->getGeneratedSSSEmployee($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, $item->getEmployee()->getGeneratedSSSEmployer($from, $to));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AB' . $row, number_format($item->sss, 2));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('AC' . $row, number_format($item->sss_employer,2));
 
                         $objPHPExcel->getActiveSheet()->SetCellValue('AD' . $row, $item->getEmployee()->getGeneratedSSSEC($from, $to));
                         // $objPHPExcel->getActiveSheet()->SetCellValue('AE' . $row, $item->getEmployee()->get#EC

@@ -349,7 +349,7 @@ class Employee extends BaseModel
         return (int) 0;
     }
 
-    public function getSSSEmployerValue($number_format = false)
+    public function getSSSEmployerValue($number_format = false, $term=1)
     {
         if(strtolower($this->getPayrollPeriod()->period) == "daily"){
             return (float) $this->fixed_sss_amount;
@@ -382,11 +382,20 @@ class Employee extends BaseModel
                 $sss = floatval($sss);
 
                 if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
-                    $sss = floatval($sss / 2);
-                    if($number_format == true){
-                      return number_format($sss, 2);  
-                    } 
-                    return $sss;
+                   if($term != 1){
+                        if($number_format == true){
+                          return number_format($sss, 2);  
+                        } 
+                        return $sss;
+                        
+                    }
+                    else{
+                        $sss = 0;
+                        if($number_format == true){
+                          return number_format($sss, 2);  
+                        } 
+                        return $sss;
+                    }
                 } else {
                   
                     if($number_format == true){
