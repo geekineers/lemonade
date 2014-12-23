@@ -37,6 +37,7 @@ class Employee extends BaseModel
         'payroll_period',
         'job_position',
         'department',
+        'sub_department_id',
         'role_id',
         'branch_id',
         'date_hired',
@@ -257,6 +258,14 @@ class Employee extends BaseModel
         return 'none';
     }
 
+    public function getSubDepartment()
+    {
+        $sub_department = SubDepartment::find($this->sub_department_id);
+        if($sub_department){
+            return $sub_department->sub_department_name;
+        }
+        return 'none';
+    }
 
     public function getDependents()
     {

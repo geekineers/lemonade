@@ -107,26 +107,27 @@
 				</td>
 			</tr>
 			<tr>
-				<td><span class="form-label">Position</span>
-					<span class="profile-value">{{ employee.getJobPosition() }}
-					</span>
-					<select name="job_position" class="form-control edit-input">
-						{% for position in job_positions %}
-						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">
-						{{ position.job_position }}</option>
-						{% endfor %}
-					</select>
-				</td>
 				<td><span class="form-label">Department</span>
 					<span class="profile-value">{{ employee.getDepartment() }}</span>
-				 	<select name="department" class="form-control edit-input">
+				 	<select id="department" name="department" class="form-control edit-input">
 						{% for department in departments %}
 						<option {% if department.id == employee.department %} selected="selected" {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
 						{% endfor %}
 					</select>
 				</td>
+				<td><span class="form-label">Sub Department</span>
+					<span class="profile-value">{{ employee.getSubDepartment() }}</span>
+				 	<select id="sub_department" name="sub_department" class="form-control edit-input">
+						{% for sub_department in sub_departments %}
+						<option {% if sub_department.id == employee.sub_department_id %} selected="selected" {% endif %}value="{{ sub_department.id }}">{{ sub_department.sub_department_name }}</option>
+						{% endfor %}
+					</select>
+				</td>
+
 			</tr>
 			<tr>
+				
+
 		 		<td><span class="form-label">Date Hired</span>
 					<span class="profile-value">{{ employee.getDateHired() }}</span>
 					<input name="date_hired" type="text" class="edit-input" value="{{ employee.getDateHired() }}" >
@@ -175,6 +176,19 @@
 						{% endfor %}
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<td><span class="form-label">Position</span>
+					<span class="profile-value">{{ employee.getJobPosition() }}
+					</span>
+					<select name="job_position" class="form-control edit-input">
+						{% for position in job_positions %}
+						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">
+						{{ position.job_position }}</option>
+						{% endfor %}
+					</select>
+				</td>
+				<td></td>
 			</tr>
 		</table>
 		<div class="save-cancel-btn pull-right">
@@ -248,4 +262,20 @@
             $('#group_name').html(group_string);
         }); 
     });
+$(document).ready(function(){
+    $('#department').on('change', function(){
+    	 	var el = this;
+    		var d_id = $(el).val();
+    		var group_string = "";
+    		console.log(d_id);
+    	$.get('/api/department/sub-department', {department : d_id }, function(res){
+    			console.log(res);
+    			$.each(res, function(i, s, a){
+    				group_string+= '<option value='+s.id+'>'+s.sub_department_name+'</option>';
+    			});
+    			 $('#sub_department').html(group_string);
+    	});
+    });	
+});
+
 </script>

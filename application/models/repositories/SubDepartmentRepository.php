@@ -11,7 +11,9 @@ class SubDepartmentRepository extends BaseRepository {
 	public function createNotExist(array $input)
 	{
 		try {
-			$count = $this->where('sub_department_name', '=', $input['sub_department_name'])->count();
+			$count = $this->where('sub_department_name', '=', $input['sub_department_name'])
+						  ->where('parent_department_id', $input['parent_department_id'])
+						  ->count();
 			// $this->create($input);
 
 			if($count>0)

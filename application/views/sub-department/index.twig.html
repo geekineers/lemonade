@@ -37,11 +37,11 @@
         </tr>       
     </thead>
     <tbody>
-        <tr>
             {% for sub_dept in sub_depts %}
+        <tr>
             <td>{{ sub_dept.sub_department_name }}</td>
             <td>{{ sub_dept.sub_department_description }}</td>
-            <td>{{ sub_dept.parent_department_id }}</td>
+            <td>{{ sub_dept.getParent().department_name }}</td>
             <td>
                 <a href="#updateSubDepartment" class="btn-update-department btn btn-primary">
                     <i class="fa fa-edit"></i>
@@ -50,8 +50,8 @@
                     <i class="fa fa-trash-o"></i>
                 </a>
             </td>
-            {% endfor %}
         </tr>
+            {% endfor %}
     </tbody>
 </table>
 
@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Department Head</label>
-                        <select required name="department_head_id" class="form-control">
+                        <select required name="parent_department_id" class="form-control">
                         {% for department in departments %}
                             <option value="{{ department.id }}">
                                 {{ department.department_name }}

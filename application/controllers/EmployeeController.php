@@ -15,6 +15,7 @@ use Upload\Storage\FileSystem as FileSystem;
     $branchesRepository,
     $jobPositionRepository,
     $departmentRepository,
+    $subDepartmentRepository,
     $documentRepository,
     $deductionRepository,
     $allowanceRepository,
@@ -37,6 +38,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $this->jobPositionRepository        = new JobPositionRepository();
         $this->payrollGroupRepository       = new PayrollGroupRepository();
         $this->departmentRepository         = new DepartmentRepository();
+        $this->subDepartmentRepository         = new SubDepartmentRepository();
         $this->deductionRepository          = new DeductionRepository();
         $this->allowanceRepository          = new AllowanceRepository();
         $this->employeeTypeRepository       = new EmployeeTypeRepository();
@@ -207,11 +209,12 @@ use Upload\Storage\FileSystem as FileSystem;
 
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
         // dd($data['payroll_groups']);
-        $data['departments']     = $this->departmentRepository->all();
         $data['leave_types']     = LeaveType::all();
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
         $data['histories']        = $this->historyRepository->getByEmployee($id)->groupBy(function($value) { return date('Y-m-d', strtotime($value->created_at)); })->reverse();
       
+        $data['departments']     = $this->departmentRepository->all();
+        $data['sub_departments']     = $this->subDepartmentRepository->where('parent_department_id', $data['employee']->department)->get();
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
         $data['employee_types'] = $this->employeeTypeRepository->all();
