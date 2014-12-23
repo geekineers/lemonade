@@ -440,18 +440,14 @@ class Employee extends BaseModel
                     if ( $period == "semi-monthly") {
                 
                          if($term == 1){
-                        if($number_format == true){
-                          return number_format($ph, 2);  
-                        } 
+                      
                         return $ph;
                         
                     }
                     else{
                         $ph = 0;
-                        if($number_format == true){
-                          return number_format($ph, 2);  
-                        } 
-                        return $sss;
+                       
+                        return $ph;
                     }
                     } else {
                         return floatval($ph);
@@ -1403,11 +1399,11 @@ class Employee extends BaseModel
 
     }
 
-    public function getTotalMandatoryDeductions($from, $to)
+    public function getTotalMandatoryDeductions($from, $to, $term=1)
     {
-        $sss              = $this->getSSSValue();
-        $ph               = $this->getPhilhealthValue();
-        $hdmf             = $this->getHDMFValue();
+        $sss              = $this->getSSSValue(false,$term);
+        $ph               = $this->getPhilhealthValue($term);
+        $hdmf             = $this->getHDMFValue($term);
         $absents          = $this->getAbsentDeduction($from, $to);
         $late             = $this->getLateDeduction($from, $to, 'minute');
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
@@ -1497,17 +1493,18 @@ class Employee extends BaseModel
         return $wt;
     }
 
-    public function getAllandTotalDeduction($from, $to, $number_format = true)
+    public function getAllandTotalDeduction($from, $to, $number_format = true, $term = 1)
     {
+
         $basic_pay = $this->getBasicPay(false);
 
         $total_loan_deduction = $this->getTotalDeductions($from, $to, false);
 
-        $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to);
+        $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to, $term);
 
         $absents = $this->getAbsentDeduction($from, $to);
 
-        $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction + $absents;
+        $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
      
         return $mandatory_wtax;
     }
