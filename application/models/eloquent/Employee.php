@@ -289,11 +289,12 @@ class Employee extends BaseModel
     }
     public function getSSSValue($number_format = false)
     {
-        if(strtolower($this->getPayrollPeriod()->period) == "daily"){
-            return (float) $this->fixed_sss_amount;
-        }
+        
 
         if ($this->deduct_sss == 1 || $this->deduct_sss == null) {
+            if(strtolower($this->getPayrollPeriod()->period) == "daily"){
+                return (float) $this->fixed_sss_amount;
+            }
             $pay = (float) $this->getBasicPay(false);
 
             $first = SSSConfigs::orderby('monthly_salary_credit','asc')->first();
