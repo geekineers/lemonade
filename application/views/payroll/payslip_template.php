@@ -145,7 +145,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php } ?>
           <?php if($payslip->regular_holiday_count) { ?> 
              <tr>
-            <td >&nbsp;&nbsp;Regular Holiday Pay(<?php echo $payslip->regular_holiday_count; ?> day(s))</td>
+            <td >&nbsp;&nbsp;Regular Holiday Pay(<?php echo $payslip->regular_holiday_count; ?> hour(s))</td>
             <td style="text-align:right;">
               <?php echo number_format($payslip->regular_holiday_pay, 2); ?>
             </td>
@@ -153,7 +153,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php } ?>
           <?php if($payslip->special_holiday_count) { ?> 
              <tr>
-            <td >&nbsp;&nbsp;Special Holiday Pay(<?php echo $payslip->special_holiday_count; ?> day(s))</td>
+            <td >&nbsp;&nbsp;Special Holiday Pay(<?php echo $payslip->special_holiday_count; ?> hour(s))</td>
             <td style="text-align:right;">
               <?php echo number_format($payslip->special_holiday_pay, 2); ?>
             </td>
