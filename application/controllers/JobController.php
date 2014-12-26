@@ -1,4 +1,4 @@
-]<?php
+<?php
 require_once ('BaseController.php');
 
 class JobController extends BaseController
@@ -6,6 +6,7 @@ class JobController extends BaseController
 
     protected $jobPositionRepository;
     protected $employeeRepository;
+    protected $branchRepository;
 
     public function __construct()
     {
@@ -13,6 +14,7 @@ class JobController extends BaseController
         $this->mustBeLoggedIn();
         $this->jobPositionRepository = new JobPositionRepository();
         $this->employeeRepository    = new EmployeeRepository();
+        $this->branchRepository    = new BranchRepository();
         $this->load->library('session');
 
     }
@@ -21,6 +23,7 @@ class JobController extends BaseController
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['title']   = "Job Positions";
+        $data['branches']   = $this->branchRepository->all();
         $data['groups']  = $this->jobPositionRepository->all();
 
         // dd($data);
@@ -99,5 +102,20 @@ class JobController extends BaseController
 
         $this->session->set_flashdata('message', 'Succesfully Restored!');
             redirect('settings/job/trash','location');
+    }
+
+    public function search()
+    {
+        $branch = $this->input->get('branch');
+        
+        if($branch != null){
+        $data = $this->jobPositionRepository->where('branch_id', $branch)->get()->toArray();
+        }
+        else{
+        $data = $this->jobPositionRepository->all();
+
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  
     }
 }

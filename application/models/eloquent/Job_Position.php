@@ -12,11 +12,21 @@ class Job_Position extends BaseModel {
 
 
     protected $fillable = ['job_position', 'job_description',  'created_at',
-               'updated_at'];
+               'updated_at', 'branch_id'];
 
   public function setPasswordAttribute($password)
   {
   		$this->attributes['password'] = md5($password);
   }
 
+
+  public function getBranchName()
+  {
+  	$branch = Branch::find($this->branch_id);
+  	if($branch){
+  		return $branch->branch_name;
+  	}
+  	return 'None';
+
+  }
 }
