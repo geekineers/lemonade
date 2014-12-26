@@ -101,6 +101,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/job/edit', 'JobController#update');
     $r->get('settings/job/delete', 'JobController#delete');
     $r->get('settings/job/trash', 'JobController#trash');
+    $r->get('settings/job/search', 'JobController#search');
     $r->get('settings/job/restore/(:num)', 'JobController#restore');
 
     $r->get('settings/employee-types', 'EmployeeTypeController#index');
@@ -264,6 +265,7 @@ Pigeon::map(function ($r) {
     $r->post('reports/generate-income-tax-report', 'ReportsController#generateIncomeTaxReport');
     $r->post('reports/generate-sss-report', 'ReportsController#generateSssReport');
     $r->post('reports/generate-philhealth-report', 'ReportsController#generatePhilhealthReport');
+    $r->post('reports/generate-number-of-employee-report', 'ReportsController#generateNumberOfEmployeeReport');
     $r->post('reports/generate-pagibig-report', 'ReportsController#generatePagibigReport');
 
 

@@ -12,6 +12,7 @@ class ReportsController extends BaseController
         $this->mustBeLoggedIn();
         $this->branchRepository     = new BranchRepository();
         $this->departmentRepository = new DepartmentRepository();
+        $this->jobPositionRepository = new JobPositionRepository();
         $this->employeeRepository   = new EmployeeRepository();
 
         $this->reportRepository = new ReportRepository();
@@ -38,8 +39,8 @@ class ReportsController extends BaseController
         $index            = 0;
         $selected_columns = $this->input->post('columns');
         $columns          = array_keys($selected_columns);
-        $employees        = $this->employeeRepository->all();
         $branch_id        = $this->input->post('branch');
+        $employees        = $this->employeeRepository->where('branch_id', $branch_id)->get();
         $branch           = Branch::where('id', '=', $branch_id)->first();
         $branch_name      = $branch->branch_name;    
         
@@ -294,6 +295,54 @@ class ReportsController extends BaseController
         $columns = ['Name', 'Pagibig Number', 'Total'];
 
         $xls_file = $this->reportRepository->generateXLS($output, $columns, 'pagibig-report');
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
+
+    }
+
+    public function generateNumberOfEmployeeReport()
+    {
+        $output = array();
+        $branch = $this->input->post('branch');
+        $year = $this->input->post('year');
+
+        $branch = Branch::find($branch);
+        $jobs = $this->jobPositionRepository->where('branch_id', $branch->id)->get();
+        $departments = $this->departmentRepository->where('branch_id', $branch->id)->get();
+
+        foreach ($departments as $department) {
+            $sub_departments = SubDepartment::where('parent_department_id', $department->id)->get();
+            foreach ($sub_departments as $sub_department) {
+                $row = array();
+                $row[1] = $department->department_name;
+                $row[2] = $sub_department->sub_department_name;
+                $col = 3;
+                foreach ($jobs as $job) {
+                    $row[$col] = $this->employeeRepository->where('department', $department->id)
+                                                             ->where('sub_department_id', $sub_department->id)
+                                                             ->where('job_position', $job->id)
+                                                             ->count();
+                    $col++;
+                }
+            
+            array_push($output, $row);
+            }
+        }
+        
+        // var_dump($output);
+        // exit();
+
+        $columns = ['Department', 'Sub Department'];
+        $header_col = 2;
+        foreach ($jobs as $job) {
+            $columns[$header_col] = $job->job_position;
+            $header_col++;
+        }
+        // dd($jobs);
+        // dd($columns);
+        $xls_file = $this->reportRepository->generateXLS($output, $columns, 'plantilla-' . $branch->branch_name, $branch->branch_name);
 
         if ($xls_file) {
             redirect($xls_file);

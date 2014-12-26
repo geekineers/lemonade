@@ -1,22 +1,54 @@
 {% extends "layout/main.twig.html" %} {% block content %}
 
-<div class="row container">
-    <a class="job_position_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewJob"><i class="fa fa-plus"></i></a>
+    <div class="template-head" style="display:none">
+    <thead>
+       <tr>
+        <th>Job</th>
+        <th>Description</th>
+      
+        <th>Option</th>
+    </tr>       
+    </thead>        
+    </div>
 
-     <div class="dropdown inline" >
-     <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
-    </a>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li>
-        <a href="/settings/job/trash">View Deleted Job Positions</a>
-    </li>
-    <li>
-        <a href="/settings/job/">
-            View Current Job Positions
+ <div class="template-body" style="display:none">
+      <div id="action_button">
+      
+                <a href="#updateJob" data-id="IDVALUE" data-name="NAMEVALUE" data-branch = "BRANCHVALUE" data-description="DESCRIPTIONVALUE" class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
+                <a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token=IDVALUE" class="job_position_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
+        
+        </div>   
+ </div>
+
+
+<div class="row container">
+   <div class="col-md-2">
+        <a style="margin-top:0px; margin-bottom:0px;" class="job_position_create btn-add-branch btn btn-success" href="#" data-toggle="modal" data-target="#addNewJob"><i class="fa fa-plus"></i></a>
+
+         <div class="dropdown inline" >
+         <a data-toggle="dropdown" href="#" class=" btn btn-default"><i class="fa fa-gear"></i>
         </a>
-    </li>
-  </ul>   
-  </div>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li>
+            <a href="/settings/job/trash">View Deleted Job Positions</a>
+        </li>
+        <li>
+            <a href="/settings/job/">
+                View Current Job Positions
+            </a>
+        </li>
+      </ul>   
+      </div>
+       
+   </div>
+   <div class="col-md-3">
+<select name="" class="form-control"id="branch-select">
+            <option value="">--Select Branch--</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <br>
     {% if alert_message != null %}
     <div class="col-md-7 alert alert-success alert-dismissable">
@@ -31,6 +63,7 @@
        <tr>
         <th>Job</th>
         <th>Description</th>
+        <th>Branch</th>
         <th>Option</th>
     </tr>       
     </thead>
@@ -39,8 +72,9 @@
     <tr>
         <td>{{ group.job_position }}</td>
         <td>{{ group.job_description }}</td>
+        <td>{{ group.getBranchName() }}</td>
         <td>
-            <a href="#updateJob" data-id="{{ group.id }}" data-name="{{ group.job_position }}" data-description="{{ group.job_description }}" class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
+            <a href="#updateJob" data-id="{{ group.id }}" data-name="{{ group.job_position }}" data-description="{{ group.job_description }}" data-branch = "{{ group.branch_id }}"class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
             <a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token={{ group.id }}" class="job_position_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
         </td>
     </tr>
@@ -72,7 +106,14 @@
                         <input type="text" name="job_description" class="form-control" id="exampleInputEmail1" placeholder="Enter Job Description">
                     </div>
 
-
+                    <div class="form-group">
+                        <label for="">Branch</label>
+                        <select name="branch_id" id="update-branch-id" class="form-control">
+                                 {% for branch in branches %}
+                                    <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -107,6 +148,14 @@
                         <label for="exampleInputEmail1">Job Description</label>
                         <input type="text" name="job_description" class="form-control" id="update-job-description" placeholder="Enter Job Description">
                     </div>
+                    <div class="form-group">
+                        <label for="">Branch</label>
+                        <select name="branch_id" id="update-branch-id" class="form-control">
+                                 {% for branch in branches %}
+                                    <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
 
 
                 </div>
@@ -118,6 +167,8 @@
         </div>
     </div>
 </form>
+
+
 
 {% endblock %} {% block scripts %}
 
@@ -135,13 +186,51 @@
         var id = $(this).data('id');
         var name = $(this).data('name');
         var description = $(this).data('description');
+        var branch = $(this).data('branch');
 
         $('#update-job-name').val(name);
         $('#update-job-description').val(description);
         $('#update-job-id').val(id);
+        $('#update-branch-id').val(branch);
 
         $('#updateJob').modal('show');
 
+    });
+
+    $('#branch-select').on('change', function(){
+        var branch_id = $(this).val();
+        var html = "";
+        $.get('/settings/job/search', { branch : branch_id }, function(res){
+            
+            var temp_header = "<thead><tr><th>Job</th><th>Description</th><th>Options</th></tr></thead>";
+            var temp_row = "<tr><td>NAME</td><td>DESCRIPTION</td><td>ACTION</td></tr>";
+            var action = $('#action_button').html();
+            
+            var newRow ="";
+            var action_button ="";
+            html += temp_header;
+
+          res.forEach(function buildRows(element, index, array){
+             action_button = action;
+             action_button = action_button.replace('NAMEVALUE', element.job_position, 'gi');
+             action_button = action_button.replace('IDVALUE', element.id, 'gi');
+             action_button = action_button.replace('DESCRIPTIONVALUE', element.job_description, 'gi');
+             action_button = action_button.replace('BRANCHVALUE', element.branch_id, 'gi');
+
+             newRow = temp_row;
+             newRow = newRow.replace('NAME', element.job_position, 'gi');
+             newRow = newRow.replace('DESCRIPTION', element.job_description, 'gi');
+             newRow = newRow.replace('ACTION', action_button, 'gi');
+
+
+             html += newRow;
+
+          });
+
+          $('#job-list').html(html);
+
+
+        });
     });
 
 });

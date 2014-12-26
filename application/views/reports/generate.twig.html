@@ -16,19 +16,25 @@
 	</tr>
   <tr>
      <td>Employee List</td>
-     <td><a href="#" data-toggle="modal" data-target="#generateEmployeeList" class="btn btn-primary">Genarate</a></td>    
+     <td><a href="#" data-toggle="modal" data-target="#generateEmployeeList" class="btn btn-primary">Generate</a></td>    
   </tr>
+  <tr>
+     <td>Generate Number of Employees Report</td>
+     <td><a href="#" data-toggle="modal" data-target="#generateNumberOfEmployeeReport" class="btn btn-primary">Generate</a></td>    
+  </tr>
+
  <tr>
+
      <td>Income Tax Report</td>
-     <td><a href="#" data-toggle="modal" data-target="#generateIncomeTaxReport" class="btn btn-primary">Genarate</a></td>    
+     <td><a href="#" data-toggle="modal" data-target="#generateIncomeTaxReport" class="btn btn-primary">Generate</a></td>    
   </tr>
    <tr>
      <td>SSS Contributions Report</td>
-     <td><a href="#" data-toggle="modal" data-target="#generateSssReport" class="btn btn-primary">Genarate</a></td>    
+     <td><a href="#" data-toggle="modal" data-target="#generateSssReport" class="btn btn-primary">Generate</a></td>    
   </tr>
      <tr>
      <td>Philhealth Contributions Report</td>
-     <td><a href="#" data-toggle="modal" data-target="#generatePhilhealthReport" class="btn btn-primary">Genarate</a></td>    
+     <td><a href="#" data-toggle="modal" data-target="#generatePhilhealthReport" class="btn btn-primary">Generate</a></td>    
   </tr>
   <tr>
      <td>Pagibig Contributions Report</td>
@@ -225,6 +231,48 @@
               </select>
             </div>
            
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Generate">
+      </div>
+    </div>
+  </div>
+</div>
+      
+</div>                         
+                               
+</form>
+
+<form role="form" action="/reports/generate-number-of-employee-report" method="post">
+
+ <div class="modal fade" id="generateNumberOfEmployeeReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Generate Plantilla Report</h4>
+      </div>
+      <div class="modal-body">
+      <label>Branch
+          <span class="req-label">*</span>
+        </label>
+
+        <select required name="branch" class="form-control " id="exampleInputEmail1" placeholder="">
+        {% for branch in branches %}
+        <option value="{{  branch.id }}">{{ branch.branch_name }}</option>
+        {% endfor %}
+        </select>
+               <div class="form-group">
+                <label for="exampleInputEmail1">Select Year</label>
+                <select name="year" class="form-control">
+                   {% set minimumYear = 1992 %}
+     {% set currentYear = "now"|date("Y") %}   
+     {% for year_loop in (currentYear)..minimumYear %}
+        <option {% if year == year_loop %} selected {% endif %}value="{{ year_loop }}">{{year_loop}}</option>
+    {% endfor %}
+              </select>
+            </div>
+ 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-primary" value="Generate">
