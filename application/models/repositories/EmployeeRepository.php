@@ -569,14 +569,14 @@ class EmployeeRepository extends BaseRepository
                 $department_id = $department->id;
             }
 
-            $job_position = Job_Position::where('Job_Position','=', $user_info[11])->first();
+            $job_position = Job_Position::where('Job_Position','=', $user_info[11])->where('branch_id', $branch_id)->first();
             if($job_position)
             {
                 $job_position_id = $job_position->id;
             }
             else
             {
-                $job_position = Job_Position::create(array('job_position' => $user_info[11], 'company_id' => COMPANY_ID, 'job_description' => 'null'));
+                $job_position = Job_Position::create(array('job_position' => $user_info[11], 'company_id' => COMPANY_ID, 'job_description' => 'null', 'branch_id' => $branch_id));
                    $job_position_id = $job_position->id;
             }
 
