@@ -40,7 +40,7 @@
 	 	<tr>
         <td>{{ group.department_name }}</td> 
         <td>
-          <a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary">
+          <a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-department-head="{{ group.department_head_id }}" data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary">
             <i class="fa fa-edit"></i>
           </a>
           <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete">
@@ -72,7 +72,7 @@
             </div>
             <div class="form-group">
               <label for="">Department Head</label>
-             <select required name="department_head_id" class="form-control combobox employee-sched">
+             <select name="department_head_id" class="form-control combobox employee-sched">
                   {% for employee in employees %}
                   <option></option>
                   <option value="{{ employee.id }}">{{ employee.getName() }}</option>
@@ -123,10 +123,10 @@
             </div>
             <div class="form-group">
               <label for="">Department Head</label>
-             <select required name="employee" class="form-control combobox employee-sched">
+             <select id="update-department-head" name="department_head_id" class="form-control employee-sched">
                   {% for employee in employees %}
                   <option></option>
-                  <option data-timestart="{{ employee.getTimeShiftStart() }}" data-timeend="{{ employee.getTimeShiftEnd() }}" value="{{ employee.id }}">{{ employee.getName() }}</option>
+                  <option value="{{ employee.id }}">{{ employee.getName() }}</option>
                   {% endfor %}
               </select>
             </div>
@@ -166,10 +166,12 @@
         var id = $(this).data('id');
         var name = $(this).data('name');
         var description = $(this).data('description');
-
+        var department_head = $(this).data('department-head');
+        console.log(department_head);
         $('#update-department-name').val(name);
         $('#update-department-description').val(description);
         $('#update-department-id').val(id);
+        $('#update-department-head').val(department_head);
 
         $('#updateDepartment').modal('show');
 
