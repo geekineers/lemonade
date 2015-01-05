@@ -101,7 +101,7 @@
         </td>
     
         <td>
-            <a href="#" 
+            <a href="updateTimesheet" 
             data-id = "{{ time.id }}"
             data-employee-name="{{ time.getEmployee.getName() }}" 
             data-employee-id="{{ time.getEmployee.id }}" 
@@ -460,10 +460,10 @@ $('.dateranger-btn').on('click', function(e){
                 // 
                 var time_in_d = new Date(element.time_in);
                 var time_out_d = new Date(element.time_out);
-                var time_in_date = time_in_d.getFullYear + '-' + (time_in_d.getMonth() + 1) + '-' + time_in_d.getDate();
-                var time_out_date = time_out_d.getFullYear + '-' + (time_out_d.getMonth() + 1) + '-' + time_out_d.getDate();
-                var time_in_hour = time_in_d.getHours + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ":" +(time_in_d.getSeconds()<10?'0':'') + time_in_d.getSeconds(); 
-                var time_out_hour = time_out_d.getHours + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ":" +(time_out_d.getSeconds()<10?'0':'') + time_out_d.getSeconds(); 
+                var time_in_date = time_in_d.getFullYear() + '-' + (time_in_d.getMonth() + 1) + '-' + time_in_d.getDate();
+                var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth() + 1) + '-' + time_out_d.getDate();
+                var time_in_hour = time_in_d.getHours() + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ":" +(time_in_d.getSeconds()<10?'0':'') + time_in_d.getSeconds(); 
+                var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ":" +(time_out_d.getSeconds()<10?'0':'') + time_out_d.getSeconds(); 
                 var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td><td>action</td></tr>";
                 var action_button = action;
 
