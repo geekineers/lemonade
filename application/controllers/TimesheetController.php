@@ -46,6 +46,7 @@ class TimesheetController extends BaseController {
 
         $take        = 15;
         $skip 		 = $page * 15;
+        $current_skip = ($page + 1) * 15;
 	   	$branch      = ($this->input->get('branch') > 0) ? $this->input->get('branch') : 0;
        	$name  		 = (is_null($this->input->get('name'))) ? ' ' : $this->input->get('name');
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
@@ -85,7 +86,7 @@ class TimesheetController extends BaseController {
 
        	$output['data'] = $data;
        	$output['pagination'] = array(
-       							'next_page' => ($total_count > $skip) ? true : false, 
+       							'next_page' => ($total_count > $current_skip) ? true : false, 
        							'prev_page' => ($take < $skip) ? true : false, 
        						);
       	$this->output->set_content_type('application/json')->set_output(json_encode($output));
