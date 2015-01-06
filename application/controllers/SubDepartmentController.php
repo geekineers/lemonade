@@ -83,7 +83,6 @@ class SubDepartmentController extends BaseController {
         $data['title']             =  "Deleted Sub-Departments";
         $data['sub_depts']         =  $this->subDepartmentRepository->all();
         $data['sub_dept_trashes']  =  $this->subDepartmentRepository->onlyTrashed()->get();
-
         $this->render('sub-department/trash.twig.html', $data);
     }
 

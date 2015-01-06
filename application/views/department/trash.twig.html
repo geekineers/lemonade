@@ -36,14 +36,21 @@
 
 	 {% for group in groups %}
 	 	 <tr>
-			 <td>{{ group.department_name }}</td>
-       {% for branch in branches %}
-        <td>{{ branch.branch_name }}</td>
-        {% endfor%}		
-	 		  <td>
-          <a onclick="return confirm('Are you sure you want to reactivate this department?')"  href="/settings/department/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left">  Restore</i>
-          </a>
-        </td>
+
+			<td>{{ group.department_name }}</td>
+      <td>{% for branch in branches %}
+            {% if branch.id == group.branch_id %}
+              {{ branch.branch_name }}
+            {% endif%}
+          {% endfor %}
+      </td>
+	 		<td>
+        <a onclick="return confirm('Are you sure you want to reactivate this department?')"  href="/settings/department/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i>
+        </a>
+        <a href="/settings/department/destroy?token={{ group.id }}" class="btn btn-danger">
+          <i class="fa fa-trash-o"></i>
+        </a>
+      </td>
 	 	 </tr>
 	 {% endfor %}
   </table>

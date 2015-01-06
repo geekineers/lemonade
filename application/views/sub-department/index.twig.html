@@ -195,7 +195,7 @@
 
         var el = this;
         var group_string = "";
-        $.get('/payroll/rest-payroll-group', {
+        $.get('/settings/rest-department', {
             id: $(el).val()
         }, function(res) {
             $.each(res, function(i, s, a) {

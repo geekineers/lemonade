@@ -112,12 +112,14 @@ Pigeon::map(function ($r) {
     $r->get('settings/employee-types/restore/(:num)', 'EmployeeTypeController#restore');
 
     $r->get('settings/department', 'DepartmentController#index');
+    $r->get('settings/rest-department', 'DepartmentController#restDepartment');
     $r->get('settings/department/add', 'DepartmentController#add');
     $r->post('settings/department/add', 'DepartmentController#save');
     $r->post('settings/department/update', 'DepartmentController#update');
     $r->get('settings/department/edit', 'DepartmentController#edit');
     $r->post('settings/department/edit', 'DepartmentController#update');
     $r->get('settings/department/delete', 'DepartmentController#delete');
+    $r->get('settings/department/destroy', 'DepartmentController#destroy');
     $r->get('settings/department/trash', 'DepartmentController#trash');
     $r->get('settings/department/restore/(:num)', 'DepartmentController#restore');
 
