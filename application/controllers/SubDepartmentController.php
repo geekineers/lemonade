@@ -101,5 +101,15 @@ class SubDepartmentController extends BaseController {
         $this->session->set_flashdata('alert_message', 'Succesfully Restored!');
         redirect('settings/sub-department/trash','location');
     }
+    public function destroy()
+    {
+        $id = $this->input->get('token');
+        $this->subDepartmentRepository->where('id', '=', $id)
+            ->onlyTrashed()
+            ->first()
+            ->forceDelete();
 
+        $this->session->set_flashdata('alert_message', 'Succesfully Deleted!');
+        redirect('settings/sub-department/trash','location');
+    }
 }

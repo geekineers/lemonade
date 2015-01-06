@@ -129,6 +129,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/sub-department/edit', 'SubDepartmentController#edit');
     $r->post('settings/sub-department/edit', 'SubDepartmentController#update');
     $r->get('settings/sub-department/delete', 'SubDepartmentController#delete');
+    $r->get('settings/sub-department/destroy', 'SubDepartmentController#destroy');
     $r->get('settings/sub-department/trash', 'SubDepartmentController#trash');
     $r->get('settings/sub-department/restore/(:num)', 'DSubepartmentController#restore');    
 

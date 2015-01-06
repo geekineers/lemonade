@@ -38,12 +38,13 @@
 	 	 <tr>
 
 			<td>{{ group.department_name }}</td>
-      <td>{% for branch in branches %}
-            {% if branch.id == group.branch_id %}
-              {{ branch.branch_name }}
-            {% endif%}
-          {% endfor %}
-      </td>
+      <!-- <td>{% for branch in branches %} -->
+            <!-- {% if branch.id == group.branch_id %} -->
+              <!-- {{ branch.branch_name }} -->
+            <!-- {% endif%} -->
+          <!-- {% endfor %} -->
+      <!-- </td> -->
+      <td>{{ group.getBranchName().branch_name }}</td>
 	 		<td>
         <a onclick="return confirm('Are you sure you want to reactivate this department?')"  href="/settings/department/restore/{{ group.id }}" class="btn btn-success"><i class="fa fa-rotate-left"></i>
         </a>
