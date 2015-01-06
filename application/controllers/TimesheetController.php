@@ -33,6 +33,7 @@ class TimesheetController extends BaseController {
 		$data['timesheets'] 	= $timesheets['data'];
 		$data['branches'] 		= $this->branchRepository->all();
 		$data['max_count'] 		= $timesheets['max_count'];
+		$data['current_skip'] 		= ($page + 1) * $take;
 		$data['max_page']  		= ceil($data['max_count'] / $take);
 		$data['employees']  	= $this->employeeRepository->all();
 		$data['get'] = $_GET;
