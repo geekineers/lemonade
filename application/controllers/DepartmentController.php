@@ -160,7 +160,7 @@ class DepartmentController extends BaseController
                                ->onlyTrashed()
                                ->first();
         $dept->forceDelete();
-        $this->session->set_flashdata('message', 'Succesfully Deleted the department');
+        $this->session->set_flashdata('message', 'Succesfully Deleted the Department');
         redirect('/settings/department/trash', 'location');   
     }
 }
