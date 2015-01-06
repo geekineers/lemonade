@@ -12,6 +12,7 @@ class SubDepartmentController extends BaseController {
         $this->employeeRepository       = new EmployeeRepository();
         $this->subDepartmentRepository  = new SubDepartmentRepository();
         $this->departmentRepository     = new DepartmentRepository();
+        $this->branchRepository         = new BranchRepository();
         $this->load->library('session');
     }
 
@@ -23,6 +24,7 @@ class SubDepartmentController extends BaseController {
         $data['title']       = "Sub-Department";
         $data['departments'] = $this->departmentRepository->all();
         $data['sub_depts']   = $this->subDepartmentRepository->all();
+        $data['branches']    = $this->branchRepository->all();
         $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $this->render('sub-department/index.twig.html', $data);
     }
