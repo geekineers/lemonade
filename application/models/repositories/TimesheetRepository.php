@@ -14,6 +14,57 @@ class TimesheetRepository extends BaseRepository
         $this->fileSystem         = new FileSystem($path);
     }
 
+    public function getSheets($input)
+    {
+        // dd($input->get('branch'));
+
+        $page      = (is_null($input->get('page'))) ? $input->get('page') : 0;
+        $page      = (isset($_GET['page'])) ? $_GET['page'] : 0;
+        $take      = 15;
+        $skip      = $page * 15;
+        $branch    = ($input->get('branch') > 0 || $input->get('branch') != "") ? $input->get('branch') : 0;
+        $name      = (is_null($input->get('name')) || $input->get('name') == '') ? '' : $input->get('name');
+        $employee_id = (is_null($input->get('employee_id')) || $input->get('employee_id') == '') ? '' : $input->get('employee_id');
+        $timein      = (is_null($input->get('timein')) || $input->get('timein') == '') ? '' : date('Y-m-d H:i:s', strtotime($input->get('timein')));
+        $timeout     = (is_null($input->get('timeout')) || $input->get('timeout') == '') ? '' : date('Y-m-d H:i:s', strtotime($input->get('timeout') . "+1 days"));
+        $status    = (is_null($input->get('status')) || $input->get('status') == '') ? '' : $input->get('status');
+
+        $data  = $this->with('employee');
+
+        // if()
+        if($name != ""){
+              $data = $data->whereHas('employee', function($q) use ($name, $employee_id)
+              {
+                  $q->where('full_name', 'like', '%'. $name .'%');                     
+              });
+        }
+
+        if($branch > 0) {
+          $data = $data->whereHas('employee', function($q) use ($branch)
+            {
+                $q->where('branch_id', $branch);                     
+            });
+        }
+        
+
+         
+        $data = $data->where('status', 'like',  '%' .  $status  . '%');
+        
+        if($timein != ''){
+           $data = $data->where('time_in', '>', $timein);
+          
+        }
+        if($timeout != ''){
+           $data = $data->where('time_out', '>', $timeout);
+          
+        }
+        $data = $data->take($take)->skip($skip)
+          ->orderBy('time_in', 'desc')->get();
+      // dd($data);
+        return $data;
+      
+    }
+
     public function record($data)
     {
 
