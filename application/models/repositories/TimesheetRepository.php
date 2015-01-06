@@ -58,10 +58,13 @@ class TimesheetRepository extends BaseRepository
            $data = $data->where('time_out', '>', $timeout);
           
         }
+        $total_count = count($data->get()->toArray());
         $data = $data->take($take)->skip($skip)
           ->orderBy('time_in', 'desc')->get();
       // dd($data);
-        return $data;
+        return array('data' => $data,
+                     'max_count' =>  $total_count
+                     );
       
     }
 
