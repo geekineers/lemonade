@@ -23,18 +23,19 @@ class TimesheetController extends BaseController {
         $page  = (isset($_GET['page'])) ? $_GET['page'] : 0;
         $take = 15;
         $skip = $page * 15;
-
+        $timesheets = $this->timesheetRepository->getSheets($this->input);
         $data['current_page'] 	= $page;
         $data['next_page'] 		= $page + 1;
         $data['prev_page'] 		= $page - 1;
 		$data['company']    	= $this->company;
 		$data['user']       	= $this->employeeRepository->getLoginUser($this->sentry->getUser());
 		$data['title']      	= "All Timesheets";
-		$data['timesheets'] 	= $this->timesheetRepository->getSheets($this->input);
+		$data['timesheets'] 	= $timesheets['data'];
 		$data['branches'] 		= $this->branchRepository->all();
-		$data['max_count'] 		= count($data['timesheets']);
+		$data['max_count'] 		= $timesheets['max_count'];
 		$data['max_page']  		= ceil($data['max_count'] / $take);
 		$data['employees']  	= $this->employeeRepository->all();
+		$data['get'] = $_GET;
 		$this->render('/timesheet/index.twig.html', $data);
 	}
 
@@ -74,13 +75,17 @@ class TimesheetController extends BaseController {
 			})
        		->where('status', 'like',  '%' . $status .'%')
        		->where('time_in', '>', $timein)
-       		->where('time_out', '<', $timeout)
-       		->take($take)->skip($skip)
+       		->where('time_out', '<', $timeout);
+       	
+       	// $total_count = count($data->get()->toArray());
+       	// dd($total);
+       	$data = $data->take($take)->skip($skip)
+       		->orderBy('time_in', 'desc')
        		->get();
 
        	$output['data'] = $data;
        	$output['pagination'] = array(
-       							'next_page' => (count($data->toArray()) > $skip) ? true : false, 
+       							'next_page' => ($total_count > $skip) ? true : false, 
        							'prev_page' => ($take < $skip) ? true : false, 
        						);
       	$this->output->set_content_type('application/json')->set_output(json_encode($output));

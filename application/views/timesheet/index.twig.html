@@ -10,7 +10,7 @@
         
     </div>
     <div class="col-md-3">
-<select name="" class="form-control"id="branch-select">
+<select name="" value="{{ get.branch }}" class="form-control"id="branch-select">
             <option value="">--Select Branch--</option>
             {% for branch in branches %}
                 <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
@@ -37,7 +37,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input id="search-timein" type="text" class="search-select search-input datepicker form-control pull-right time">
+                <input value="{{ get.timein }}" id="search-timein" type="text" class="search-select search-input datepicker form-control pull-right time">
             </div>
         </td>
         <td>
@@ -45,22 +45,22 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input id="search-timeout" type="text" class="search-select search-input datepicker form-control pull-right time">
+                <input id="search-timeout" value="{{ get.timeout }}" type="text" class="search-select search-input datepicker form-control pull-right time">
             </div>
         </td>
         <td>
             <div class="input-group">
-                <input type="text"  id="search-name" class="search-input">
+                <input type="text"  value="{{ get.name }}" id="search-name" class="search-input">
             </div>
         </td> 
  
         <td>
             <div class="input-group">
-                <input type="text" id="search-employee-id" class="search-input">
+                <input type="text"  value="{{ get.employee_id }}" id="search-employee-id" class="search-input">
             </div>
         </td>
         <td>
-            <select id="search-status" name="" class="search-select form-control" id="">
+            <select value="{{ get.status }}" id="search-status" name="" class="search-select form-control" id="">
                 <option value="">Select Status:</option>
                 <option value="good">Good</option>
                 <option value="undertime">Under Time</option>
@@ -371,8 +371,12 @@ function getHours(h){
         h = 12;
     }
 
+    if(h < 10){
+        h = "0" + h;
+    }
     return h;
 }
+
 
 $('.edit-timesheet').on('click', function(e){
     e.preventDefault();
@@ -476,10 +480,10 @@ $('.dateranger-btn').on('click', function(e){
                 var time_out_match = element.time_out.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/)
                 var time_out_d = new Date(time_in_match[1], time_in_match[2] - 1, time_in_match[3], time_in_match[4], time_in_match[5], time_in_match[6]);
                 console.log(time_in_d);
-                var time_in_date = time_in_d.getFullYear() + '-' + (time_in_d.getMonth() + 1) + '-' + time_in_d.getDate();
-                var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth() + 1) + '-' + time_out_d.getDate();
-                var time_in_hour = getHours(time_in_d.getHours()) + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ":" +(time_in_d.getSeconds()<10?'0':'') + time_in_d.getSeconds(); 
-                var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ":" +(time_out_d.getSeconds()<10?'0':'') + time_out_d.getSeconds(); 
+                var time_in_date = time_in_d.getFullYear() + '-' + (time_in_d.getMonth()<10?'0':'')  +(time_in_d.getMonth() + 1) + '-' + (time_in_d.getDate()<10?'0':'')  + time_in_d.getDate();
+                var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth()<10?'0':'') + (time_out_d.getMonth() + 1) + '-' + (time_out_d.getDate()<10?'0':'') +  time_out_d.getDate();
+                var time_in_hour = getHours(time_in_d.getHours()) + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ' ' + getDD(time_in_d.getHours());
+                var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ' ' + getDD(time_in_d.getHours()); 
                 var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td><td>action</td></tr>";
                 var action_button = action;
 
