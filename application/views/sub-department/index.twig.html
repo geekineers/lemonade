@@ -43,7 +43,7 @@
             <td>{{ sub_dept.sub_department_description }}</td>
             <td>{{ sub_dept.getParent().department_name }}</td>
             <td>
-                <a href="#updateSubDepartment" class="btn-update-department btn btn-primary">
+                <a href="#updateSubDepartment" data-id="{{ sub_dept.id }}" data-name="{{ sub_dept.sub_department_name }}" data-description="{{ sub_dept.sub_department_description }}" class="btn-update-sub-department btn btn-primary">
                     <i class="fa fa-edit"></i>
                 </a>
                 <a href="/settings/sub-department/delete?token={{ sub_dept.id }}" class="btn btn-danger department_delete">

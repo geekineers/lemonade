@@ -19,11 +19,11 @@ class SubDepartmentController extends BaseController {
     {
         // $data['alert_message'] = ($this->session->flashdata('message') == null)
         // ? null : $this->session->flashdata('message');
-        $data['company']    = $this->company;
-        $data['title']      = "Sub-Department";
+        $data['company']     = $this->company;
+        $data['title']       = "Sub-Department";
         $data['departments'] = $this->departmentRepository->all();
-        $data['sub_depts'] = $this->subDepartmentRepository->all();
-        $data['user']  = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['sub_depts']   = $this->subDepartmentRepository->all();
+        $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $this->render('sub-department/index.twig.html', $data);
     }
 
