@@ -128,7 +128,7 @@
     {% if (current_page > 0) %}
     <li><a data-page="{{ prev_page}}" href="#" class="paginate-btn prev_page" ><span class="">Previous</span></a></li>
     {% endif %}
-    {%  if(max_page > current_page) %}
+    {%  if(max_count > current_skip) %}
     <li><a href="#" data-page={{ next_page }}  class="paginate-btn next_page" ><span class="">Next</span></a></li>
     {% endif %}
   </ul>
