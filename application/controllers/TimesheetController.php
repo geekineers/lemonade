@@ -77,7 +77,7 @@ class TimesheetController extends BaseController {
        		->where('time_in', '>', $timein)
        		->where('time_out', '<', $timeout);
        	
-       	// $total_count = count($data->get()->toArray());
+       	$total_count = count($data->get()->toArray());
        	// dd($total);
        	$data = $data->take($take)->skip($skip)
        		->orderBy('time_in', 'desc')
