@@ -1402,7 +1402,7 @@ class Employee extends BaseModel
         $holiday = new \HolidayRepository();
 
         $total_absent = 0;
-        if (!$this->timesheet_required) {
+        if (!$this->timesheet_required || strtolower($this->getPayrollPeriod()->period) == "daily") {
             // dd('here');
             return 0;
         }
