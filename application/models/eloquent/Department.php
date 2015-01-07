@@ -25,6 +25,12 @@ class Department extends BaseModel {
     return $this->hasMany('Employee', 'department', 'id');
   }
 
+  public function getBranchName()
+  {
+     
+    return Branch::find($this->branch_id);
+  }
+
   public function getDepartmentHead()
   {
     return Employee::find($this->department_head_id);

@@ -43,7 +43,12 @@
             <td>{{ sub_dept.sub_department_description }}</td>
             <td>{{ sub_dept.getParent().department_name }}</td>
             <td>
-                <a href="#updateSubDepartment" class="btn-update-department btn btn-primary">
+                <a 
+                    href="#updateSubDepartment" 
+                    data-id="{{ sub_dept.id }}" 
+                    data-name="{{ sub_dept.sub_department_name }}" 
+                    data-description="{{ sub_dept.sub_department_description }}" 
+                    class="btn-update-sub-department btn btn-primary">
                     <i class="fa fa-edit"></i>
                 </a>
                 <a href="/settings/sub-department/delete?token={{ sub_dept.id }}" class="btn btn-danger department_delete">
@@ -81,8 +86,20 @@
                         </label>
                         <input required type="text" name="sub_department_description" class="form-control" id="exampleInputEmail1">
                     </div>
+
                     <div class="form-group">
-                        <label for="">Department Head</label>
+                        <label for="">Branch</label>
+                        <select required name="branch_id" class="form-control" id="branch">
+                        {% for branch in branches %}
+                            <option value="{{ branch.id }}">
+                                {{ branch.branch_name }}
+                            </option>
+                        {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Parent Department</label>
                         <select required name="parent_department_id" class="form-control">
                         {% for department in departments %}
                             <option value="{{ department.id }}">
@@ -129,7 +146,7 @@
                         <input required type="text" name="sub_department_description" class="form-control" id="update-sub-department-description">
                     </div>
                     <div class="form-group">
-                        <label for="">Department Head</label>
+                        <label for="">Parent Department</label>
                         <select required name="department_head_id" class="form-control">
                         {% for department in departments %}
                             <option value="{{ department.id }}">
@@ -173,6 +190,19 @@
 
         $('#updateSubDepartment').modal('show');
 
+    });
+    $('#branch').change(function(elem) {
+
+        var el = this;
+        var group_string = "";
+        $.get('/settings/rest-department', {
+            id: $(el).val()
+        }, function(res) {
+            $.each(res, function(i, s, a) {
+                group_string += '<option value=' + s.id + ' data-period=' + s.period + '>' + s.group_name + '</option>';
+            });
+            $('#group_name').html(group_string);
+        });
     });
 
 });
