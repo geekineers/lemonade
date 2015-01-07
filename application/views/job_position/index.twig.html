@@ -74,7 +74,7 @@
         <td>{{ group.job_description }}</td>
         <td>{{ group.getBranchName() }}</td>
         <td>
-            <a href="#updateJob" data-id="{{ group.id }}" data-name="{{ group.job_position }}" data-description="{{ group.job_description }}" data-branch = "{{ group.branch_id }}"class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
+            <a href="#updateJob" data-id="{{ group.id }}" data-name="{{ group.job_position }}" data-description="{{ group.job_description }}" data-branch = "{{ group.branch_id }}" class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
             <a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token={{ group.id }}" class="job_position_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
         </td>
     </tr>

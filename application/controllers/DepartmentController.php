@@ -1,6 +1,7 @@
 <?php
 require_once ('BaseController.php');
 
+
 class DepartmentController extends BaseController
 {
 
@@ -29,6 +30,13 @@ class DepartmentController extends BaseController
         $data['title']     =  "Department";
         $this->render('department/index.twig.html', $data);
 
+    }
+
+    public function restDepartment()
+    {
+        $id   = $this->input->get('id');
+        $data = $this->departmentRepository->getDepartmentByBranch($id);
+        return $this->sendJSON($data);
     }
 
     public function add()
@@ -96,7 +104,6 @@ class DepartmentController extends BaseController
         $data['title']         =  "Deleted Departments";
         $data['branches']      =  $this->branchRepository->all();
         $data['groups']        =  $this->departmentRepository->onlyTrashed()->get();
-
         $this->render('department/trash.twig.html', $data);
     }
 
@@ -136,12 +143,23 @@ class DepartmentController extends BaseController
              ->set_output(json_encode($employees));
     }
 
-    public function getSubDepartments(){
+    public function getSubDepartments() 
+    {
         $dep = $this->input->get('department');
         $sub =  json_encode(SubDepartment::where('parent_department_id', $dep)->get());
      $this->output
              ->set_content_type('application/json')
              ->set_output($sub);
 
+    }
+    public function destroy()
+    {
+        $id   = $this->input->get('token');
+        $dept = $this->departmentRepository->where('id', '=', $id)
+                               ->onlyTrashed()
+                               ->first();
+        $dept->forceDelete();
+        $this->session->set_flashdata('message', 'Succesfully Deleted the Department');
+        redirect('/settings/department/trash', 'location');   
     }
 }

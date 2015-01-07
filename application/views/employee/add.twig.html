@@ -360,32 +360,32 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#confirm_password').on('keyup', function(){
-    var password = $('#password').val();
-    var confirm_password = $(this).val();
-    // console.log($(this).parent());
-    if(password != confirm_password){
-        $(this).parent().addClass('has-error');
-    }
-    else{
-        $(this).parent().removeClass('has-error');
-        $(this).parent().addClass('has-success');
+        var password = $('#password').val();
+        var confirm_password = $(this).val();
+        // console.log($(this).parent());
+        if(password != confirm_password) {
+            $(this).parent().addClass('has-error');
+        }
+        else {
+            $(this).parent().removeClass('has-error');
+            $(this).parent().addClass('has-success');
 
-    }
-});
-
-$('#branch').change(function(elem) {
-
-    var el = this;
-    var group_string = "";
-    $.get('/payroll/rest-payroll-group', {
-        id: $(el).val()
-    }, function(res) {
-        $.each(res, function(i, s, a) {
-            group_string += '<option value=' + s.id + ' data-period=' + s.period + '>' + s.group_name + '</option>';
-        });
-        $('#group_name').html(group_string);
+        }
     });
-});
+
+    $('#branch').change(function(elem) {
+
+        var el = this;
+        var group_string = "";
+        $.get('/payroll/rest-payroll-group', {
+            id: $(el).val()
+        }, function(res) {
+            $.each(res, function(i, s, a) {
+                group_string += '<option value=' + s.id + ' data-period=' + s.period + '>' + s.group_name + '</option>';
+            });
+            $('#group_name').html(group_string);
+        });
+    });
 });
 
 </script>

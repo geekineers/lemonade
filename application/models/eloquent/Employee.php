@@ -61,7 +61,8 @@ class Employee extends BaseModel
         'fb',
         'email',
         'full_name',
-        'employee_number'
+        'employee_number',
+        'rest_day'
 
     ];
 
@@ -102,6 +103,37 @@ class Employee extends BaseModel
     public function getProfileLink()
     {
         return "/employees/" . $this->id . "/profile";
+    }
+
+    public function getRestDay()
+    {
+        switch ($this->rest_day) {
+            case 0:
+                return 'Sunday';
+                break;
+            case 1:
+                return 'Monday';
+                break;
+            case 2:
+                return 'Tuesday';
+                break;
+            case 3:
+                return 'Wednesday';
+                break;
+            case 4:
+                return 'Thursday';
+                break;
+            case 5:
+                return 'Friday';
+                break;
+            case 6:
+                return 'Staturday';
+                break;
+
+            default:
+                return 'None';
+                break;
+        }
     }
 
     public function getFullAddress()
@@ -303,6 +335,7 @@ class Employee extends BaseModel
                 return (float) $this->fixed_sss_amount;
             }
             if($first != null && $last != null) {
+
                 if ($pay < $first->to_range) {
                     $sss = $first->EE;
                 } else if ($pay > $last->to_range) {
@@ -321,7 +354,8 @@ class Employee extends BaseModel
                 $sss = floatval($sss);
 
                 if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
-                    if($term != 1){
+                    if($term > 1){
+                        // dd('curent term : ' . $term);
                         if($number_format == true){
                           return number_format($sss, 2);  
                         } 
@@ -955,7 +989,7 @@ class Employee extends BaseModel
                 // $nrate = 1 + $rate;
                 return $rate + 1;
             } else {
-                return  0.1 + 1;
+                return  0.3 + 1;
             }
         }
         return 0;
@@ -1155,8 +1189,11 @@ class Employee extends BaseModel
 
     public function getRegularHolidayRate()
     {
-        return 1;
+        return $this->getCompany()->company_regular_holiday_pay/100;
     }
+
+
+
     /**
      * Regular Holiday Rate
      * @param  [date/string] $from
@@ -1165,7 +1202,7 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        return floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to));
+        return floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to)) + floatval($this->getRestDayPay($from, $to)['regular_holiday']);
 
     }
     /**
@@ -1175,7 +1212,8 @@ class Employee extends BaseModel
     public function getSpecialHolidayRate($number_format = true)
     {
         // $daily_rate = floatval($this->getDailyRate());
-        return 0.3;
+        return $this->getCompany()->company_special_holiday_pay/100;
+
     }
     /**
      * total regular attendance from date range given
@@ -1220,6 +1258,8 @@ class Employee extends BaseModel
         return (int) $hours_attended;
     }
 
+
+
     /**
      * total special holiday attendance from date range given
      * @param  [string/date] $from
@@ -1247,8 +1287,6 @@ class Employee extends BaseModel
 
                 if($attended) 
                 {
-                    // return $attended;
-                    // dd($attended);
                     $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
                     $in = $time_in->format('H:i:s');
                     $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
@@ -1272,7 +1310,49 @@ class Employee extends BaseModel
 
     public function getSpecialHolidayPay($from, $to)
     {
-        return floatval($this->getSpecialHolidayRate() * $this->getHourlyRate() * $this->getSpecialHolidayAttendance($from, $to));
+        return floatval($this->getSpecialHolidayRate() * $this->getHourlyRate() * $this->getSpecialHolidayAttendance($from, $to))  + floatval($this->getRestDayPay($from, $to)['special_holiday']);
+    }
+
+    public function getRestDayPay($from, $to)
+    {
+        $holiday = new \HolidayRepository();
+
+        $date_range = createDateRangeArray($from, $to);
+        // dd($date_range);
+        $in_attendance = 0;
+        $special_holiday_attendance = 0;
+        $regular_holiday_attendance = 0;
+        foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            // dd($date_range_start, $date_range_end);
+            $dt = new Carbon($date);
+            $current_date = date('Y-m-d', strtotime($date_range_start));
+
+            if($dt->dayOfWeek == $this->rest_day){
+                $attended = Timesheet::where('employee_id', '=', $this->id)
+                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->count();
+                if($holiday->isSpecialHoliday($current_date)){
+                    $special_holiday_attendance++;
+                }
+                if($holiday->isRegularHoliday($current_date)){
+                    $regular_holiday_attendance++;
+                }
+                
+            }
+            
+        }
+
+        // Regular Holiday +60%
+        $regular_holiday_pay = $regular_holiday_attendance * (0.6 * $this->getHourlyRate());
+        // Special Holiday Attendance = +20%
+        $special_holiday_pay = $special_holiday_attendance * (0.2 * $this->getHourlyRate());
+        
+        return array(
+                'regular_holiday' => $regular_holiday_pay,
+                'special_holiday' => $special_holiday_pay,
+            );
     }
 
     public function getSundayAttendance($from, $to)

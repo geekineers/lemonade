@@ -188,7 +188,18 @@
 						{% endfor %}
 					</select>
 				</td>
-				<td></td>
+				<td>
+					<span class="form-label">Rest Day</span>
+					<span class="profile-value">{{ employee.getRestDay() }}
+					</span>
+					<select name="rest_day" class="form-control edit-input">
+						<option value="None">None</option>
+						{% for key,day in weekdays %}
+						<option {% if day== employee.rest_day %} selected="selected" {% endif %}value="{{ key }}">{{ day }}</option>
+						{% endfor %}
+					</select>
+
+				</td>
 			</tr>
 		</table>
 		<div class="save-cancel-btn pull-right">

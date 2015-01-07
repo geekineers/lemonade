@@ -31,4 +31,9 @@ class DepartmentRepository extends BaseRepository {
     	}
 	}
 
+	public function getDepartmentByBranch($id)
+	{
+		return $this->where('branch_id','=',$id)->get();
+	}
+
 }

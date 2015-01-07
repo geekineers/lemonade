@@ -219,7 +219,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['allowance_types'] = $this->allowanceRepository->all();
         $data['employee_types'] = $this->employeeTypeRepository->all();
         // $data['documents'] = $this->employeeRepository->find($id);
-
+        $data['weekdays'] = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
         $data['employee']->getRole();
         $data['employee']->getInAttendance('2014-01-01', '2014-02-01');
 

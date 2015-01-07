@@ -12,6 +12,7 @@ class SubDepartmentController extends BaseController {
         $this->employeeRepository       = new EmployeeRepository();
         $this->subDepartmentRepository  = new SubDepartmentRepository();
         $this->departmentRepository     = new DepartmentRepository();
+        $this->branchRepository         = new BranchRepository();
         $this->load->library('session');
     }
 
@@ -19,11 +20,12 @@ class SubDepartmentController extends BaseController {
     {
         // $data['alert_message'] = ($this->session->flashdata('message') == null)
         // ? null : $this->session->flashdata('message');
-        $data['company']    = $this->company;
-        $data['title']      = "Sub-Department";
+        $data['company']     = $this->company;
+        $data['title']       = "Sub-Department";
         $data['departments'] = $this->departmentRepository->all();
-        $data['sub_depts'] = $this->subDepartmentRepository->all();
-        $data['user']  = $this->employeeRepository->getLoginUser($this->sentry->getUser());
+        $data['sub_depts']   = $this->subDepartmentRepository->all();
+        $data['branches']    = $this->branchRepository->all();
+        $data['user']        = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $this->render('sub-department/index.twig.html', $data);
     }
 
@@ -81,7 +83,6 @@ class SubDepartmentController extends BaseController {
         $data['title']             =  "Deleted Sub-Departments";
         $data['sub_depts']         =  $this->subDepartmentRepository->all();
         $data['sub_dept_trashes']  =  $this->subDepartmentRepository->onlyTrashed()->get();
-
         $this->render('sub-department/trash.twig.html', $data);
     }
 
@@ -100,5 +101,15 @@ class SubDepartmentController extends BaseController {
         $this->session->set_flashdata('alert_message', 'Succesfully Restored!');
         redirect('settings/sub-department/trash','location');
     }
+    public function destroy()
+    {
+        $id = $this->input->get('token');
+        $this->subDepartmentRepository->where('id', '=', $id)
+            ->onlyTrashed()
+            ->first()
+            ->forceDelete();
 
+        $this->session->set_flashdata('alert_message', 'Succesfully Deleted the Sub-Department!');
+        redirect('settings/sub-department/trash','location');
+    }
 }
