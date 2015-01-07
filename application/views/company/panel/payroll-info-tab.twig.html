@@ -31,8 +31,68 @@
                 <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
             </div>
 
-
+            <h4>Overtime Pay</h4>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Regular Working Day Overtime Pay</label>
+                        <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Regular Holiday Overtime Pay</label>
+                        <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Special Holiday Overtime Pay</label>
+                        <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+                    </div>
+                </div>
+            </div>
+            <h4>Rest Day Pay</h4>
+            <hr>
+            <div class="row">
+                                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Regular Working Day Rest Day Pay</label>
+                        <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Regular Holiday Rest Day Pay</label>
+                        <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Special Holiday Rest Day Pay</label>
+                        <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
+                    </div>
+                </div>
+            </div>
        </div>  
+       <h4>Mandated Allowance</h4>
+       <div class="row">
+           <div class="col-md-6">
+            <div class="form-group">
+               <label>COLA</label>
+               <input type="number" class="form-control" name="cola" value="{{ company.company_cola }}">                
+            </div>
+
+           </div> 
+          <div class="col-md-6">
+          <div class="form-group">
+                <label>SEA</label>
+               <input type="number" class="form-control" name="sea" value="{{ company.company_sea }}">             
+          </div>
+
+           </div>
+       </div>
             <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>         
