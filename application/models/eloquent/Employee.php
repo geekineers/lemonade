@@ -335,6 +335,7 @@ class Employee extends BaseModel
                 return (float) $this->fixed_sss_amount;
             }
             if($first != null && $last != null) {
+
                 if ($pay < $first->to_range) {
                     $sss = $first->EE;
                 } else if ($pay > $last->to_range) {
@@ -353,7 +354,8 @@ class Employee extends BaseModel
                 $sss = floatval($sss);
 
                 if (str_replace(" ", "", strtolower($this->getPayrollPeriod()->period)) == "semi-monthly") {
-                    if($term != 1){
+                    if($term > 1){
+                        // dd('curent term : ' . $term);
                         if($number_format == true){
                           return number_format($sss, 2);  
                         } 
