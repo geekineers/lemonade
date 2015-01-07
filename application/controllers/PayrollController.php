@@ -1,5 +1,3 @@
-
-
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once ('BaseController.php');
@@ -19,7 +17,7 @@ class PayrollController extends BaseController
         $this->employeeRepository      = new EmployeeRepository();
         $this->payslipsGroupRepository = new PayslipsGroupRepository();
     }
-// GET
+    // GET
 
     public function test()
     {
@@ -31,7 +29,7 @@ class PayrollController extends BaseController
         $data['user']          = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         $data['company']       = $this->company;
         $data['title']         = 'Payroll Generation';
-        $data['payslipGroups'] = $this->payslipsGroupRepository->all();
+        $data['payslipGroups'] = $this->payslipsGroupRepository->orderBy('from', 'desc')->get();
         $data['payrollgroups'] = $this->payrollGroupRepository->all();
         $data['branches']      = $this->branchesRepository->all();
 

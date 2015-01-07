@@ -10,7 +10,7 @@
         
     </div>
     <div class="col-md-3">
-<select name="" class="form-control"id="branch-select">
+<select name="" value="{{ get.branch }}" class="form-control"id="branch-select">
             <option value="">--Select Branch--</option>
             {% for branch in branches %}
                 <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
@@ -37,7 +37,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input id="search-timein" type="text" class="search-select search-input datepicker form-control pull-right time">
+                <input value="{{ get.timein }}" id="search-timein" type="text" class="search-select search-input datepicker form-control pull-right time">
             </div>
         </td>
         <td>
@@ -45,22 +45,22 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input id="search-timeout" type="text" class="search-select search-input datepicker form-control pull-right time">
+                <input id="search-timeout" value="{{ get.timeout }}" type="text" class="search-select search-input datepicker form-control pull-right time">
             </div>
         </td>
         <td>
             <div class="input-group">
-                <input type="text"  id="search-name" class="search-input">
+                <input type="text"  value="{{ get.name }}" id="search-name" class="search-input">
             </div>
         </td> 
  
         <td>
             <div class="input-group">
-                <input type="text" id="search-employee-id" class="search-input">
+                <input type="text"  value="{{ get.employee_id }}" id="search-employee-id" class="search-input">
             </div>
         </td>
         <td>
-            <select id="search-status" name="" class="search-select form-control" id="">
+            <select value="{{ get.status }}" id="search-status" name="" class="search-select form-control" id="">
                 <option value="">Select Status:</option>
                 <option value="good">Good</option>
                 <option value="undertime">Under Time</option>
@@ -126,10 +126,10 @@
 <nav class="pull-right">
   <ul class="pagination">
     {% if (current_page > 0) %}
-    <li><a href="?page={{  prev_page }}"><span class="">Previous</span></a></li>
+    <li><a data-page="{{ prev_page}}" href="#" class="paginate-btn prev_page" ><span class="">Previous</span></a></li>
     {% endif %}
-    {%  if(max_page > current_page) %}
-    <li><a href="#" data={{ next_page }}><span class="">Next</span></a></li>
+    {%  if(max_count > current_skip) %}
+    <li><a href="#" data-page={{ next_page }}  class="paginate-btn next_page" ><span class="">Next</span></a></li>
     {% endif %}
   </ul>
 </nav>
@@ -373,13 +373,19 @@ function getHours(h){
         h = 12;
     }
 
+    if(h < 10){
+        h = "0" + h;
+    }
     return h;
 }
 
+<<<<<<< HEAD
 function editTimesheet()
 {
     $('.edit-timesheet').trigger('click');
 }
+=======
+>>>>>>> ac54aba9af15f42fac560ce825a9a89d9bbd7f0f
 
 $('.edit-timesheet').on('click', function(e){
     e.preventDefault();
@@ -436,6 +442,19 @@ $('.dateranger-btn').on('click', function(e){
 
 
 <script type="text/javascript">
+    $('.paginate-btn').on('click', function(){
+        var timein      = $('#search-timein').val();
+        var timeout     = $('#search-timeout').val();
+        var name        = $('#search-name').val();
+        var employee_id = $('#search-employee-id').val();
+        var status      = $('#search-status').val();
+        var branch      = $('#branch-select').val();
+        var page        = $(this).data('page');
+
+        window.location = "?name=" + name + "&employee_id=" + employee_id + "&timein=" + timein + "&timeout=" + timeout + "&status=" + status + "&branch=" + branch + "&page=" + page;
+
+    });
+
     $('.search-select').on('changeDate', function(){
         $('.search-input').trigger('keyup');
     });
@@ -461,15 +480,29 @@ $('.dateranger-btn').on('click', function(e){
         };
 
 
-        $.get('/timesheet/search', data, function(response) {    
+        $.get('/timesheet/search', data, function(data) {    
             var newRow = "";
+            var response = data['data'];
             response.forEach(function buildRows(element, index, array){
+<<<<<<< HEAD
                 var time_in_d = new Date(element.time_in);
                 var time_out_d = new Date(element.time_out);
                 var time_in_date = time_in_d.getFullYear() + '-' + (time_in_d.getMonth() + 1) + '-' + time_in_d.getDate();
                 var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth() + 1) + '-' + time_out_d.getDate();
                 var time_in_hour = time_in_d.getHours() + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ":" +(time_in_d.getSeconds()<10?'0':'') + time_in_d.getSeconds(); 
                 var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ":" +(time_out_d.getSeconds()<10?'0':'') + time_out_d.getSeconds(); 
+=======
+                // console.log(element.time_in);
+                var time_in_match = element.time_in.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/)
+                var time_in_d = new Date(time_in_match[1], time_in_match[2] - 1, time_in_match[3], time_in_match[4], time_in_match[5], time_in_match[6]);
+                var time_out_match = element.time_out.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/)
+                var time_out_d = new Date(time_in_match[1], time_in_match[2] - 1, time_in_match[3], time_in_match[4], time_in_match[5], time_in_match[6]);
+                console.log(time_in_d);
+                var time_in_date = time_in_d.getFullYear() + '-' + (time_in_d.getMonth()<10?'0':'')  +(time_in_d.getMonth() + 1) + '-' + (time_in_d.getDate()<10?'0':'')  + time_in_d.getDate();
+                var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth()<10?'0':'') + (time_out_d.getMonth() + 1) + '-' + (time_out_d.getDate()<10?'0':'') +  time_out_d.getDate();
+                var time_in_hour = getHours(time_in_d.getHours()) + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ' ' + getDD(time_in_d.getHours());
+                var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ' ' + getDD(time_in_d.getHours()); 
+>>>>>>> ac54aba9af15f42fac560ce825a9a89d9bbd7f0f
                 var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td><td>action</td></tr>";
                 var action_button = action;
 
@@ -513,7 +546,19 @@ $('.dateranger-btn').on('click', function(e){
                 temp = temp.replace('action', action_button, 'gi');
                 newRow += temp;
             })
+            if(data['pagination'].next_page){
+                $('.paginate-btn.next_page').fadeIn();
+            }
+            else{
+                $('.paginate-btn.next_page').fadeOut();
+            }
+            if(data['pagination'].prev_page){
+                $('.paginate-btn.prev_page').fadeIn();
+            }
+            else{
+                $('.paginate-btn.prev_page').fadeOut();
 
+            }
             $('table>tbody.main-table-body').html(newRow);
         });
 

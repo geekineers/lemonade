@@ -19,40 +19,42 @@ class TimesheetController extends BaseController {
 
 	public function index() 
     {
+
         $page  = (isset($_GET['page'])) ? $_GET['page'] : 0;
-     	// dd($page);
         $take = 15;
         $skip = $page * 15;
-
-        $data['current_page'] = $page;
-        $data['next_page'] = $page + 1;
-        $data['prev_page'] = $page - 1;
-		$data['company']    = $this->company;
-		$data['user']       = $this->employeeRepository->getLoginUser($this->sentry->getUser());
-		$data['title']      = "All Timesheets";
-		$data['timesheets'] = $this->timesheetRepository->where('employee_id', '!=', 1)->orderBy('time_in', 'desc')->take($take)->skip($skip)->get();
-		$data['branches'] = $this->branchRepository->all();
-		$data['max_count'] = count($data['timesheets']);
-		$data['max_page']  = ceil($data['max_count'] / $take);
-		$data['employees']  = $this->employeeRepository->all();
+        $timesheets = $this->timesheetRepository->getSheets($this->input);
+        $data['current_page'] 	= $page;
+        $data['next_page'] 		= $page + 1;
+        $data['prev_page'] 		= $page - 1;
+		$data['company']    	= $this->company;
+		$data['user']       	= $this->employeeRepository->getLoginUser($this->sentry->getUser());
+		$data['title']      	= "All Timesheets";
+		$data['timesheets'] 	= $timesheets['data'];
+		$data['branches'] 		= $this->branchRepository->all();
+		$data['max_count'] 		= $timesheets['max_count'];
+		$data['current_skip'] 		= ($page + 1) * $take;
+		$data['max_page']  		= ceil($data['max_count'] / $take);
+		$data['employees']  	= $this->employeeRepository->all();
+		$data['get'] = $_GET;
 		$this->render('/timesheet/index.twig.html', $data);
 	}
 
 	public function search()
 	{
 	   	$page  		 = (is_null($this->input->get('page'))) ? $this->input->get('page') : 0;
-	   	  $page  = (isset($_GET['page'])) ? $_GET['page'] : 0;
-     	// dd($page);
-        $take = 15;
-        $skip = $page * 15;
-	   	$branch  		 = ($this->input->get('branch') > 0) ? $this->input->get('branch') : 0;
+	   	$page  = (isset($_GET['page'])) ? $_GET['page'] : 0;
+
+        $take        = 15;
+        $skip 		 = $page * 15;
+        $current_skip = ($page + 1) * 15;
+	   	$branch      = ($this->input->get('branch') > 0) ? $this->input->get('branch') : 0;
        	$name  		 = (is_null($this->input->get('name'))) ? ' ' : $this->input->get('name');
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
        	$timein      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein')));
        	$timeout     = (is_null($this->input->get('timeout'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timeout') . "+1 days"));
        	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
-      
-       	// dd($timein, $timeout);
+
        	$data  = $this->timesheetRepository->with('employee');
 
        	if($name != " "){
@@ -75,13 +77,20 @@ class TimesheetController extends BaseController {
 			})
        		->where('status', 'like',  '%' . $status .'%')
        		->where('time_in', '>', $timein)
-       		->where('time_out', '<', $timeout)
-       		->take($take)->skip($skip)
+       		->where('time_out', '<', $timeout);
+       	
+       	$total_count = count($data->get()->toArray());
+       	// dd($total);
+       	$data = $data->take($take)->skip($skip)
+       		->orderBy('time_in', 'desc')
        		->get();
 
-       	// dd($data);
-
-      	$this->output->set_content_type('application/json')->set_output(json_encode($data));
+       	$output['data'] = $data;
+       	$output['pagination'] = array(
+       							'next_page' => ($total_count > $current_skip) ? true : false, 
+       							'prev_page' => ($take < $skip) ? true : false, 
+       						);
+      	$this->output->set_content_type('application/json')->set_output(json_encode($output));
   
 
 	}
@@ -120,7 +129,7 @@ class TimesheetController extends BaseController {
 	public function range() 
     {
 		$input              = $this->input->get();
-		$input['query'] = (isset($input['query'])) ? $input['query'] : '';
+		$input['query'] 	= (isset($input['query'])) ? $input['query'] : '';
 		$data['timesheets'] = $this->timesheetRepository->search($input['query'], $input['from'], $input['to']);
 
 		$this->render('/timesheet/search.twig.html', $data);
@@ -130,7 +139,6 @@ class TimesheetController extends BaseController {
 	public function update() 
     {
 		$data = $this->input->post();
-		// dd('mark');
 		$this->timesheetRepository->updateTime($data['timesheet_id'], $data['employee'], $data['timestart'], $data['timeend'], $data['from'], $data['to']);
 
 		redirect('/timesheet');

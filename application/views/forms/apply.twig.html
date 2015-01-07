@@ -16,7 +16,7 @@
                             <div class="col-md-6 ">
                             
                                 <label  class="control-label">Select Employee: </label>
-                                 <select required name="job_position" class="form-control " id="employee_name" placeholder="">
+                                 <select required name="job_position" class="form-control combobox " id="employee_name" placeholder="">
                                      <option value="" disabled selected>select employee</option>
                                     {% for employee in employees %}
                                       <option value="{{  employee.id }}">{{ employee.getName() }}</option>

@@ -174,7 +174,19 @@
 
 	$( '#branch' ).change( payrollGenerationEvents.onBranchChange );
 	// $('#group_name').change( payrollGenerationEvents.onGroupNameChange );
-	$('#generate-payroll').on('click',payrollGenerationEvents.generatePayroll );
+	$('#generate-payroll').on('click',function(){
+		var branch = $('#branch').val();
+		var group_name = $('#group_name').val();
+		var payrolltime = $('#payrolltime').val();
+		
+		if(branch=="Select Branch" || branch == "" || group_name == "Select Group" || group_name == "" || payrolltime== ""){
+			alert('Fill up all fields');
+			return null;
+		}
+
+		payrollGenerationEvents.generatePayroll(); 
+	});
+	
 	$('.delete').on('click',payrollGenerationEvents.delete );
 	
 

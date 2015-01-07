@@ -13,9 +13,13 @@
                 <label>Company Maximum Leave Credits</label>
                 <input required type="number" name="company_leave_credits"  class="form-control" value="{{ company.company_leave_credits }}" />      
             </div>
+             <div class="form-group">
+                <label>Company Regular Holiday Pay Rate(%)</label>
+                <input required type="number" name="company_regular_holiday_pay" class="form-control" value="{{ company.company_regular_holiday_pay }}"/>      
+            </div>            
             <div class="form-group">
-                <label>Company Holiday Pay Rate(%)</label>
-                <input required type="number" name="company_holiday_pay_rate" class="form-control" value="{{ company.company_holiday_pay_rate }}"/>      
+                <label>Company Special Holiday Pay Rate(%)</label>
+                <input required type="number" name="company_special_holiday_pay" class="form-control" value="{{ company.company_special_holiday_pay}}"/>      
             </div>
 
             <div class="form-group">

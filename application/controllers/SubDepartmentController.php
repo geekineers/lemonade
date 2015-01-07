@@ -109,7 +109,7 @@ class SubDepartmentController extends BaseController {
             ->first()
             ->forceDelete();
 
-        $this->session->set_flashdata('alert_message', 'Succesfully Deleted!');
+        $this->session->set_flashdata('alert_message', 'Succesfully Deleted the Sub-Department!');
         redirect('settings/sub-department/trash','location');
     }
 }

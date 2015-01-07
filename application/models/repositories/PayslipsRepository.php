@@ -136,7 +136,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['philhealth']       = $employee->getPhilhealthValue($term);
         $employee_slip['pagibig']          = $employee->getHDMFValue($term);
         $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
-        $employee_slip['net']              = $employee->getNet($from, $to, false);
+        $employee_slip['net']              = ($employee->getNet($from, $to, false) > 0 ) ? $employee->getNet($from, $to, false) : 0;
         $employee_slip['gross']            = $employee->getGross($from, $to, false);
         $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
         $employee_slip['prepared_by']      = $prepared_by;
