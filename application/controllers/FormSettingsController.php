@@ -12,8 +12,9 @@ class FormSettingsController extends BaseController {
 		$this->mustBeLoggedIn();
 		$this->load->library('session');
 
-		$this->formRepository = new FormRepository();
-		$this->employeeRepository = new EmployeeRepository();
+		$this->formRepository            = new FormRepository();
+		$this->employeeRepository        = new EmployeeRepository();
+		$this->formApplicationRepository = new FormApplicationRepository();
 
 	}
 
@@ -79,16 +80,14 @@ class FormSettingsController extends BaseController {
 		//TODO UPDATE HERE
 	}
 
-	public function delete($id)
+	public function delete()
 	{
-		if($this->formRepository->delete($id)) {
-			$this->session->set_flashdata('message', 'Form has been deleted.');
-		} else {
-			$this->session->set_flashdata('message', 'There was an error.');
-
-		}
-
-		redirect('/settings/forms');
+		$id   = $this->input->get('token');
+		$form = $this->formApplicationRepository->find($id);
+		$form->delete();
+		
+		$this->session->set_flashdata('alert_message', 'Form has been deleted.');
+		redirect('forms', 'location');
 	}
 
 }

@@ -36,7 +36,6 @@ class DepartmentController extends BaseController
     {
         $id   = $this->input->get('id');
         $data = $this->departmentRepository->getDepartmentByBranch($id);
-        dd($data);
         return $this->sendJSON($data);
     }
 

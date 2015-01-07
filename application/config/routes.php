@@ -145,7 +145,7 @@ Pigeon::map(function ($r) {
     $r->get('settings/forms/(:num)', 'FormSettingsController#show');
     $r->post('settings/forms', 'FormSettingsController#store');
     $r->put('settings/forms/(:num)', 'FormSettingsController#update');
-    $r->delete('settings/forms/(:num)', 'FormSettingsController#delete');
+    $r->get('settings/forms/delete', 'FormSettingsController#delete');
 
     $r->get('settings/deductions', 'DeductionController#index');
     $r->post('settings/deductions/save', 'DeductionController#save');
