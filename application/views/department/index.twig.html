@@ -127,7 +127,6 @@
               <label for="">Department Head</label>
              <select id="update-department-head" name="department_head_id" class="form-control employee-sched">
                   {% for employee in employees %}
-                  <option></option>
                   <option value="{{ employee.id }}">{{ employee.getName() }}</option>
                   {% endfor %}
               </select>
