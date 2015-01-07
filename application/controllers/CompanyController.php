@@ -188,7 +188,9 @@ class CompanyController extends BaseController
                 'company_holiday_pay_rate' => (int) $this->input->post('company_holiday_pay_rate'),
                 'company_late_grace_period' => (int) $this->input->post('company_late_grace_period'),
                 'company_lunch_break' => (int) $this->input->post('company_lunch_break'),
-                'company_sunday_rate' => (float) $this->input->post('company_sunday_rate')
+                'company_sunday_rate' => (float) $this->input->post('company_sunday_rate'),
+                'company_regular_holiday_pay' => (float) $this->input->post('company_regular_holiday_pay'),
+                'company_special_holiday_pay' => (float) $this->input->post('company_special_holiday_pay')
             );
         // dd($data);
         $this->company->update($data);

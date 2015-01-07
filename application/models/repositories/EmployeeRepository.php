@@ -100,6 +100,7 @@ class EmployeeRepository extends BaseRepository
             // Employee Details
             'employee_type'   => $data['employee_type'],
             'payroll_period'  => $data['payroll_period'],
+            'rest_day'        => $data['rest_day'],
             'job_position'    => (int) $data['job_position'],
             'department'      => (int) $data['department'],
             'sub_department_id'      => (int) $data['sub_department'],

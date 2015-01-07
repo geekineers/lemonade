@@ -16,8 +16,6 @@ class TimesheetRepository extends BaseRepository
 
     public function getSheets($input)
     {
-        // dd($input->get('branch'));
-
         $page      = (is_null($input->get('page'))) ? $input->get('page') : 0;
         $page      = (isset($_GET['page'])) ? $_GET['page'] : 0;
         $take      = 15;
