@@ -101,7 +101,7 @@
         </td>
     
         <td>
-            <a href="#" 
+            <a href="updateTimesheet" 
             data-id = "{{ time.id }}"
             data-employee-name="{{ time.getEmployee.getName() }}" 
             data-employee-id="{{ time.getEmployee.id }}" 
@@ -299,7 +299,7 @@
 
 <div style="display:none">
         <div id="action-buttons">
-                <a href="#" 
+            <a href="#" 
             data-id = "TIME_ID"
             data-employee-name="EMPLOYEE_NAME" 
             data-employee-id="EMPLOYEE_ID" 
@@ -309,8 +309,10 @@
             data-date-to="TIME_OUT_DATE" 
 
 
-            class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
-              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token=TIME_ID" class="btn btn-danger">
+            class="btn btn-primary edit-timesheet" onclick="editTimesheet()">
+                <i class="fa fa-edit"></i>
+            </a>
+            <a onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token=TIME_ID" class="btn btn-danger">
                 <i class="fa fa-trash-o"></i>
             </a>
         </div>
@@ -377,9 +379,9 @@ function getHours(h){
     return h;
 }
 
-
 $('.edit-timesheet').on('click', function(e){
     e.preventDefault();
+    console.log('this is me');
     var timesheet_id  = $(this).data('id');
     var employee_name = $(this).data('employee-name'); 
     var employee_id   = $(this).data('employee-id'); 
@@ -474,6 +476,14 @@ $('.dateranger-btn').on('click', function(e){
             var newRow = "";
             var response = data['data'];
             response.forEach(function buildRows(element, index, array){
+<<<<<<< HEAD
+                var time_in_d = new Date(element.time_in);
+                var time_out_d = new Date(element.time_out);
+                var time_in_date = time_in_d.getFullYear() + '-' + (time_in_d.getMonth() + 1) + '-' + time_in_d.getDate();
+                var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth() + 1) + '-' + time_out_d.getDate();
+                var time_in_hour = time_in_d.getHours() + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ":" +(time_in_d.getSeconds()<10?'0':'') + time_in_d.getSeconds(); 
+                var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ":" +(time_out_d.getSeconds()<10?'0':'') + time_out_d.getSeconds(); 
+=======
                 // console.log(element.time_in);
                 var time_in_match = element.time_in.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/)
                 var time_in_d = new Date(time_in_match[1], time_in_match[2] - 1, time_in_match[3], time_in_match[4], time_in_match[5], time_in_match[6]);
@@ -484,6 +494,7 @@ $('.dateranger-btn').on('click', function(e){
                 var time_out_date = time_out_d.getFullYear() + '-' + (time_out_d.getMonth()<10?'0':'') + (time_out_d.getMonth() + 1) + '-' + (time_out_d.getDate()<10?'0':'') +  time_out_d.getDate();
                 var time_in_hour = getHours(time_in_d.getHours()) + ":" + (time_in_d.getMinutes()<10?'0':'') + time_in_d.getMinutes() + ' ' + getDD(time_in_d.getHours());
                 var time_out_hour = time_out_d.getHours() + ":" + (time_out_d.getMinutes()<10?'0':'') + time_out_d.getMinutes() + ' ' + getDD(time_in_d.getHours()); 
+>>>>>>> ac54aba9af15f42fac560ce825a9a89d9bbd7f0f
                 var temp = "<tr><td>timein</td><td>timeout</td><td>name</td><td>employee_id</td><td>status</td><td>action</td></tr>";
                 var action_button = action;
 

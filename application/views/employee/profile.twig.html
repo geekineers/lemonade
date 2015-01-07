@@ -40,7 +40,7 @@
 		</div>
 
 		<div class="contact-info panel panel-transparent">
-		<form method="post" action="/employees/{{ employee.id }}/update-contacts" >
+		<form method="post" action="/employees/{{ employee.id }}/update-contacts">
 					
 			<div class="panel-heading">
 				<span class="panel-title">Contact Information</span>
@@ -64,24 +64,23 @@
 					<i class="profile-list-icon fa fa-facebook-square" style="color: #1a7ab9"></i>{{ employee.fb }}
 				</a>
 				{% endif %}
-				<form method="post">
-				<div class="form-group">
-					<input type="" value="{{ employee.fb }}" class="form-control edit-input" placeholder="facebook">
-				</div>
-				{% if employee.email %}
-					<a href="#" name="email" class="profile-value list-group-item">
-						<i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}
-					</a>
-				{% endif %}				
-				<div class="form-group">
-					<input type="" value="{{ employee.email }}" class="form-control edit-input" placeholder="email@yahoo.com...">
-				</div>
-				<div class="save-cancel-btn pull-right">
-					<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
-					<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
-				</div>
-				</form>
 				
+					<div class="form-group">
+						<input type="" value="{{ employee.fb }}" class="form-control edit-input" placeholder="facebook">
+					</div>
+				{% if employee.email %}
+						<a href="#" class="profile-value list-group-item">
+							<i class="profile-list-icon fa fa-envelope" style="color: #888"></i> {{ employee.email }}
+						</a>
+				{% endif %}				
+					<div class="form-group">
+						<input type="" name="email" value="{{ employee.email }}" class="form-control edit-input" placeholder="email@yahoo.com...">
+					</div>
+					<div class="save-cancel-btn pull-right">
+						<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />
+						<a href="#basic-information" class="btn btn-sm btn-cancel btn-default">Cancel</a>
+					</div>
+								
 				{% if employee.email is empty and employee.contact_number is empty and employee.facebook is empty %}
 				<div class="alert alert-info" style="margin-left: -2px;">This employee has no contact information yet.
 				</div>
