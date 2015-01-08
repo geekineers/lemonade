@@ -987,13 +987,13 @@ class Employee extends BaseModel
         switch ($type) {
             case 'regular_holiday':
                 $ot_pay = $this->getCompany()->company_regular_holiday_overtime_pay/100;
-                $ot_pay = ot_pay + 1;
+                $ot_pay = $ot_pay + 1;
                 $regular_holiday_pay = $this->getRegularHolidayRate() + 1;
                 $overtime_pay = $ot_pay * $regular_holiday_pay;
                 break;
             case 'special_holiday':
                 $ot_pay = $this->getCompany()->company_special_holiday_overtime_pay/100;
-                $ot_pay = ot_pay + 1;
+                $ot_pay = $ot_pay + 1;
                 $regular_holiday_pay = $this->getSpecialHolidayRate() + 1;
                 $overtime_pay = $ot_pay * $regular_holiday_pay;
                 break;
