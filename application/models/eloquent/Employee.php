@@ -1258,7 +1258,7 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-
+        return $this->getRegularHolidayRate();
         // $pay =  floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to)) + floatval($this->getRestDayPay($from, $to)['regular_holiday']);
         $pay =  floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to));
 
