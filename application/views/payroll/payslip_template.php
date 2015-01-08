@@ -1,4 +1,4 @@
-
+  
 <html >
     <head>
         <meta charset="UTF-8">
@@ -145,7 +145,9 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php } ?>
           <?php if($payslip->regular_holiday_count) { ?> 
              <tr>
-            <td >&nbsp;&nbsp;Regular Holiday Pay(<?php echo $payslip->regular_holiday_count; ?> hour(s))</td>
+            <td >&nbsp;&nbsp;Regular Holiday Pay(<?php echo $payslip->regular_holiday_count; ?> hour(s)) 
+            <?php if($employee->getPayrollPeriod(false) == "Daily") { ?> + PHP<?php echo $employee->getCompany()->company_cola; ?> COLA(<?php echo $employee->getColaCount($from, $to); ?>) <?php } ?>
+            </td>
             <td style="text-align:right;">
               <?php echo number_format($payslip->regular_holiday_pay, 2); ?>
             </td>

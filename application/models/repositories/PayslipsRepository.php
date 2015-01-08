@@ -136,7 +136,6 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['philhealth']       = $employee->getPhilhealthValue($term);
         $employee_slip['pagibig']          = $employee->getHDMFValue($term);
         $employee_slip['other_deductions'] = $employee->getTotalDeductions($from, $to, false);
-        $employee_slip['net']              = ($employee->getNet($from, $to, false) > 0 ) ? $employee->getNet($from, $to, false) : 0;
         $employee_slip['gross']            = $employee->getGross($from, $to, false);
         $employee_slip['withholding_tax']  = $employee->getWithholdingTax($from, $to, false);
         $employee_slip['prepared_by']      = $prepared_by;
@@ -158,6 +157,7 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['allowances'] = json_encode($employee->getAllowances($from, $to));
         $employee_slip['deductions'] = json_encode($employee->getDeductions($from, $to));
         $employee_slip['base_pay'] = $employee->getBasicSalary(false);
+        $employee_slip['net']              = (($employee_slip['gross'] - $employee_slip['total_deduction_pay']) > 0 ) ? $employee_slip['gross'] - $employee_slip['total_deduction_pay'] : 0;
         $this->create($employee_slip);
         return true;
     }

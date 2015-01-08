@@ -65,7 +65,7 @@
 							 			<option value="0" {% if employee.entitled_night_differential == 0 %} selected {% endif %} >No</option>
 							 		</select>
 							 		</td>
-							 		<td><span class="form-label">Night Differential Rate %</span>
+							 		<td><span class="form-label">Night Differential Rate % <span data-toggle="tooltip" data-placement="right" title="Set to 0 or No if you want to base it to the standard rate"><i class="fa fa-question-circle"></i></span</span>
 							 		<span class="profile-view">{{ employee.night_differential_rate }}%</span>
 							 		<input class="edit-input"  value="{{ employee.night_differential_rate }}"  name="night_differential_rate" />
 							 		</td>
@@ -78,7 +78,7 @@
 							 			<option value="0" {% if employee.entitled_overtime_pay == 0 %} selected {% endif %} >No</option>
 							 		</select>
 							 		</td>
-							 		<td><span class="form-label">Overtime Pay Rate %</span>
+							 		<td><span class="form-label">Overtime Pay Rate % <span data-toggle="tooltip" data-placement="right" title="Set to 0 or No if you want to base it to the standard rate"><i class="fa fa-question-circle"></i></span></span>
 							 		<span class="profile-view">{{ employee.overtime_pay_rate }}%</span>
 							 		<input class="edit-input"  value="{{ employee.overtime_pay_rate }}"  name="overtime_pay_rate" />
 							 		</td>
@@ -120,7 +120,7 @@
 											</select>
 										</td>
 										<td>
-											<span class="form-label">SSS Fixed Amount</span>
+											<span class="form-label">SSS Fixed Amount <span data-toggle="tooltip" data-placement="right" title="Set to No if you want to base it to the standard rate"><i class="fa fa-question-circle"></i></span</span>
 											<span class="profile-value">{{ employee.fixed_sss_amount }}</span>
 											<input class="edit-input" value="{{ employee.fixed_sss_amount }}" placeholder="Type 'no' if not fixed" name="fixed_sss_amount">
 
@@ -136,14 +136,14 @@
 											</select>
 										</td>
 										<td>
-											<span class="form-label">HDMF Fixed Amount</span>
+											<span class="form-label">HDMF Fixed Amount <span data-toggle="tooltip" data-placement="right" title="Set to No if you want to base it to the standard rate"><i class="fa fa-question-circle"></i></span</span>
 											<span class="profile-value">{{ employee.fixed_hdmf_amount }}</span>
 											<input class="edit-input" value="{{ employee.fixed_hdmf_amount }}" placeholder="Type 'no' if not fixed" name="fixed_hdmf_amount">
 										</td>
 									</tr>	
 									<tr>
 										<td>
-											<span class="form-label">Deduct Philhealth Contribution</span>
+											<span class="form-label">Deduct Philhealth Contribution </span>
 											<span class="profile-value">{{ employee.getDeductPhilhealth() }}</span>
 											<select name="deduct_philhealth" class="edit-input">
 												<option {% if(employee.deduct_philhealth == 1) %} selected {% endif %}  value="1">Yes</option>
@@ -151,7 +151,7 @@
 											</select>
 										</td>
 										<td>
-											<span class="form-label">Philhealth Fixed Amount</span>
+											<span class="form-label">Philhealth Fixed Amount <span data-toggle="tooltip" data-placement="right" title="Set to No if you want to base it to the standard rate"><i class="fa fa-question-circle"></i></span</span>
 											<span class="profile-value">{{ employee.fixed_philhealth_amount }}</span>
 											<input class="edit-input" value="{{ employee.fixed_philhealth_amount }}" placeholder="Type 'no' if not fixed" name="fixed_philhealth_amount">
 										</td>

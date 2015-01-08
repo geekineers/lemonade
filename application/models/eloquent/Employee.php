@@ -977,19 +977,38 @@ class Employee extends BaseModel
         );
 
     }
+
     /**
      * return overtime pay rate
      * @return [float]
      */
-    public function getOverTimePayRate()
+    public function getOverTimePayRate($type="normal")
     {
+        switch ($type) {
+            case 'regular_holiday':
+                $ot_pay = $this->getCompany()->company_regular_holiday_overtime_pay/100;
+                $ot_pay = ot_pay + 1;
+                $regular_holiday_pay = $this->getRegularHolidayRate() + 1;
+                $overtime_pay = $ot_pay * $regular_holiday_pay;
+                break;
+            case 'special_holiday':
+                $ot_pay = $this->getCompany()->company_special_holiday_overtime_pay/100;
+                $ot_pay = ot_pay + 1;
+                $regular_holiday_pay = $this->getSpecialHolidayRate() + 1;
+                $overtime_pay = $ot_pay * $regular_holiday_pay;
+                break;
+            default:
+                $overtime_pay = $this->getCompany()->company_overtime_pay/100;
+                $overtime_pay = $overtime_pay + 1;
+                break;
+        }
         if ($this->entitled_overtime_pay) {
             if ($this->overtime_pay_rate && $this->overtime_pay_rate > 0) {
                 $rate = str_replace('%', '', $this->overtime_pay_rate) / 100;
                 // $nrate = 1 + $rate;
                 return $rate + 1;
             } else {
-                return  0.3 + 1;
+                return  $overtime_pay;
             }
         }
         return 0;
@@ -1000,23 +1019,57 @@ class Employee extends BaseModel
      * @param  [date/string] $to
      * @return [int]
      */
-    public function getOvertime($from, $to)
+    public function getOvertime($from, $to, $type = 'all')
     {
+        $holiday = new \HolidayRepository();
         $total_overtime = 0;
         $from           = date('Y-m-d H:i:s', strtotime($from));
         $to             = date('Y-m-d H:i:s', strtotime($to));
 
+
         $overtimes = Form_Application::where('employee_id', '=', $this->id)
-                                                                      ->where('form_type', '=', 'ot')
-                                                                      ->where('status', '=', 'approved')
-                                                                      ->whereBetween('from', [$from, $to])
-                                                                      ->get();
+                                      ->where('form_type', '=', 'ot')
+                                      ->where('status', '=', 'approved')
+                                      ->whereBetween('from', [$from, $to])
+                                      ->get();
 
         foreach ($overtimes as $ot) {
-            $ot_to   = new Carbon($ot->to);
-            $ot_from = new Carbon($ot->from);
-            $diff    = $ot_to->diffInHours($ot_from);
-            $total_overtime += $ot->getFormData()->total_hrs;
+            $date_from = date('Y-m-d', strtotime($ot->from));
+  
+            switch ($type) {
+                case 'special_holiday':
+                    if($holiday->isSpecialHoliday($date_from)):
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;  
+                    endif;                 
+                    break;
+                case 'regular_holiday':
+                    if($holiday->isRegularHoliday($date_from)):
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;
+                    endif;
+                    break;
+                case 'normal':
+                    if(!$holiday->isRegularHoliday($date_from) && !$holiday->isSpecialHoliday($date_from)):
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;
+                    endif;
+                    break;
+                default:
+
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;
+                    break;
+            }
+
         }
 
         return $total_overtime;
@@ -1028,9 +1081,12 @@ class Employee extends BaseModel
      */
     public function getOvertimePay($from, $to)
     {
-        $op =  floatval($this->getOverTimePayRate() * $this->getOvertime($from, $to) * $this->getHourlyRate()   );
-        // dd($op);
-        return $op;
+        // dd($this->getOvertime($from, $to, 'regular_holiday'));
+        $normal = floatval($this->getOverTimePayRate('normal') * $this->getOvertime($from, $to, 'normal') * $this->getHourlyRate());
+        $regular_holiday = floatval($this->getOverTimePayRate('regular_holiday') * $this->getOvertime($from, $to, 'regular_holiday') * $this->getHourlyRate());
+        $special_holiday = floatval($this->getOverTimePayRate('special_holiday') * $this->getOvertime($from, $to, 'special_holiday') * $this->getHourlyRate());
+        return $normal + $regular_holiday + $special_holiday;
+    
     }
 
     public function getHourlyRate()
@@ -1202,8 +1258,26 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        return floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to)) + floatval($this->getRestDayPay($from, $to)['regular_holiday']);
 
+        $pay =  floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to)) + floatval($this->getRestDayPay($from, $to)['regular_holiday']);
+
+        if(strtolower($this->getPayrollPeriod()->period) == "daily"){
+            $pay += $this->getColaPay($from, $to);
+        }
+
+        return $pay;
+
+    }
+
+    public function getColaPay($from, $to)
+    {
+        $holiday_rate = $this->getRegularHolidayRate() + 1;
+        return floatval($holiday_rate * $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance") * $this->getCompany()->company_cola);
+    }
+
+    public function getColaCount($from, $to)
+    {
+        return $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance");
     }
     /**
      * special holiday rate
@@ -1221,17 +1295,18 @@ class Employee extends BaseModel
      * @param  [date/string] $to
      * @return [int]
      */
-    public function getRegularHolidayAttendance($from, $to)
+    public function getRegularHolidayAttendance($from, $to, $extra_feature = "all")
     {
         $holiday = new \HolidayRepository();
 
         $date_range = createDateRangeArray($from, $to);
-             // dd($date_range);
+        $rest_day_attendance = 0;
+        $not_rest_day_attendance = 0;
         $hours_attended = 0;
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
-            // dd($date_range_start, $date_range_end);
+    
             $dt = new Carbon($date);
 
             $current_date = date('Y-m-d', strtotime($date_range_start));
@@ -1242,6 +1317,12 @@ class Employee extends BaseModel
 
                 if($attended) 
                 {
+                  if($dt->dayOfWeek == $this->rest_day){
+                    $rest_day_attendance++;
+                     }
+                    else{ 
+                    $not_rest_day_attendance++;
+                     }
                     // return $attended;
                     // dd($attended);
                     $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
@@ -1249,12 +1330,13 @@ class Employee extends BaseModel
                     $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
                     $out = $time_out->format('H:i:s');
                     $h = getInterval($in, $out, 'hours');
-                    // dd($h);
                     $hours_attended += getInterval($in, $out, 'hours');
                 }
             }
         }
 
+        if($extra_feature == "rest_day_attendance") { return $rest_day_attendance; }
+        if($extra_feature == "not_rest_day_attendance") { return $not_rest_day_attendance; }
         return (int) $hours_attended;
     }
 
@@ -1292,7 +1374,7 @@ class Employee extends BaseModel
                     $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
                     $out = $time_out->format('H:i:s');
                     $h = getInterval($in, $out, 'hours');
-                    // dd($h);
+   
                     $hours_attended += getInterval($in, $out, 'hours');
                 }
             }
@@ -1318,14 +1400,14 @@ class Employee extends BaseModel
         $holiday = new \HolidayRepository();
 
         $date_range = createDateRangeArray($from, $to);
-        // dd($date_range);
+        
         $in_attendance = 0;
         $special_holiday_attendance = 0;
         $regular_holiday_attendance = 0;
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
-            // dd($date_range_start, $date_range_end);
+            
             $dt = new Carbon($date);
             $current_date = date('Y-m-d', strtotime($date_range_start));
 
@@ -1361,12 +1443,12 @@ class Employee extends BaseModel
         $holiday = new \HolidayRepository();
 
         $date_range = createDateRangeArray($from, $to);
-        // dd($date_range);
+        
         $in_attendance = 0;
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
-            // dd($date_range_start, $date_range_end);
+            
             $dt = new Carbon($date);
 
             if($dt->dayOfWeek == Carbon::SUNDAY){
@@ -1389,12 +1471,12 @@ class Employee extends BaseModel
     public function getSundayAttendanceHours($from, $to)
     {
         $date_range = createDateRangeArray($from, $to);
-        // dd($date_range);
+       
         $hours_attended = 0;
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
-            // dd($date_range_start, $date_range_end);
+            
             $dt = new Carbon($date);
 
             if($dt->dayOfWeek == Carbon::SUNDAY){

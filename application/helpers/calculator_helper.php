@@ -69,7 +69,7 @@ function getRate($basic_salary, $payroll_period, $per_unit, $number_format = tru
 
 			if($per_unit == 'hour')
 			{
-				if($number_format) return number_format($amount, 2);
+				// if($number_format) return number_format($amount, 2);
 				return $amount;
 			} 
 
