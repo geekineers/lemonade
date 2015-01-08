@@ -103,8 +103,8 @@
         <td>
             <a href="updateTimesheet" 
             data-id = "{{ time.id }}"
-            data-employee-name="{{ time.getEmployee.getName() }}" 
-            data-employee-id="{{ time.getEmployee.id }}" 
+            data-employee-name="{{ time.getEmployee().getName() }}" 
+            data-employee-id="{{ time.getEmployee().id }}" 
             data-time-in="{{ time.getTimeInHours() }}" 
             data-time-out="{{ time.getTimeOutHours() }}" 
             data-date-from="{{ time.getTimeInDate() }}" 
@@ -397,6 +397,7 @@ $('.edit-timesheet').on('click', function(e){
     $('#updatetimesheet_timeend').val(time_out);
     $('#updatetimesheet_from').val(from);
     $('#updatetimesheet_to').val(to);
+    $('#updatetimesheet_employee').val(employee_id);
 
     $('#updateTimesheet').modal('show');
 });
