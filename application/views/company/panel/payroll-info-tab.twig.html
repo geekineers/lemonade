@@ -27,7 +27,7 @@
                 <input required type="number" name="company_late_grace_period" placeholder="number in minutes" class="form-control" value="{{ company.company_late_grace_period }}"/>      
             </div>
             <div class="form-group">
-                <label>Company Sunday Pay Rate(hour)</label>
+                <label>Company Sunday Pay Rate(%) <span data-toggle="tooltip" data-placement="right" title="Percent Rate base on Hourly Rate"><i class="fa fa-question-circle"></i></span></label>
                 <input required type="number" name="company_sunday_rate" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_sunday_rate }}"/>      
             </div>
 
@@ -36,20 +36,20 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Regular Working Day Overtime Pay</label>
+                        <label>Regular Working Day Overtime Pay <span data-toggle="tooltip" data-placement="right" title="Percent (%) base on hourly rate"><i class="fa fa-question-circle"></i></span></label>
                         <input required type="number" name="company_overtime_pay" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_overtime_pay }}"/>      
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Regular Holiday Overtime Pay</label>
-                        <input required type="number" name="company_regular_holiday_overtime_pay" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_regular_holiday_overtime_pay }}"/>      
+                        <label>Regular Holiday Overtime Pay <span data-toggle="tooltip" data-placement="right" title="Percent (%) base on hourly rate"><i class="fa fa-question-circle"></i></span></label>
+                        <input required type="number" name="company_regular_holiday_overtime_pay" placeholder="percent added per regular holiday hourly rate" class="form-control" value="{{ company.company_regular_holiday_overtime_pay }}"/>      
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Special Holiday Overtime Pay</label>
-                        <input required type="number" name="company_special_holiday_overtime_pay" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_special_holiday_overtime_pay  }}"/>      
+                        <label>Special Holiday Overtime Pay <span data-toggle="tooltip" data-placement="right" title="Percent (%) base on hourly rate"><i class="fa fa-question-circle"></i></span></label>
+                        <input required type="number" name="company_special_holiday_overtime_pay" placeholder="percent added per special holiday hourly rate" class="form-control" value="{{ company.company_special_holiday_overtime_pay  }}"/>      
                     </div>
                 </div>
             </div>
@@ -58,19 +58,19 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Regular Working Day Rest Day Pay</label>
+                        <label>Regular Working Day Rest Day Pay <span data-toggle="tooltip" data-placement="right" title="Percent (%) base on daily rate"><i class="fa fa-question-circle"></i></span></label>
                         <input required type="number" name="company_rest_pay" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_rest_pay }}"/>      
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Regular Holiday Rest Day Pay</label>
+                        <label>Regular Holiday Rest Day Pay <span data-toggle="tooltip" data-placement="right" title="Percent (%) base on regular holiday rate"><i class="fa fa-question-circle"></i></span></label>
                         <input required type="number" name="company_regular_holiday_rest_pay" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_regular_holiday_rest_pay }}"/>      
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Special Holiday Rest Day Pay</label>
+                        <label>Special Holiday Rest Day Pay <span data-toggle="tooltip" data-placement="right" title="Percent (%) base on special holiday rate"><i class="fa fa-question-circle"></i></span></label>
                         <input required type="number" name="company_special_holiday_rest_pay" placeholder="percent added per hourly rate" class="form-control" value="{{ company.company_special_holiday_rest_pay }}"/>      
                     </div>
                 </div>
