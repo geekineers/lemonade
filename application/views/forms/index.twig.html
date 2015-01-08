@@ -98,7 +98,13 @@
             selected = this;
             // console.log();
             $.get('/hr/form-application',{id:$(selected).data('id')} ,function(data){
-                console.log(data);
+ 
+                    if(data.status == "not-yet-approved"){
+                        $('#approve-modal .modal-footer').fadeIn();
+                    }
+                    else{
+                        $('#approve-modal .modal-footer').fadeOut();
+                    }
                     $('#approve-modal .modal-body')
                         .find('ul li').remove();
                     $('#approve-modal .modal-body')
