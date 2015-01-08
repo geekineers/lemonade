@@ -190,7 +190,15 @@ class CompanyController extends BaseController
                 'company_lunch_break' => (int) $this->input->post('company_lunch_break'),
                 'company_sunday_rate' => (float) $this->input->post('company_sunday_rate'),
                 'company_regular_holiday_pay' => (float) $this->input->post('company_regular_holiday_pay'),
-                'company_special_holiday_pay' => (float) $this->input->post('company_special_holiday_pay')
+                'company_special_holiday_pay' => (float) $this->input->post('company_special_holiday_pay'),
+                'company_regular_holiday_overtime_pay' => (float) $this->input->post('company_regular_holiday_overtime_pay'),
+                'company_special_holiday_overtime_pay' => (float) $this->input->post('company_special_holiday_overtime_pay'),
+                'company_overtime_pay' => (float) $this->input->post('company_overtime_pay'),
+                'company_regular_holiday_rest_pay' => (float) $this->input->post('company_regular_holiday_rest_pay'),
+                'company_special_holiday_rest_pay' => (float) $this->input->post('company_special_holiday_rest_pay'),
+                'company_rest_pay' => (float) $this->input->post('company_rest_pay') ,                 
+                'company_cola' => (float) $this->input->post('company_cola'),                  
+                'company_sea' => (float) $this->input->post('company_sea')                  
             );
         // dd($data);
         $this->company->update($data);

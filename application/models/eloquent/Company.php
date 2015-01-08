@@ -26,7 +26,15 @@ class Company extends Eloquent {
       'company_lunch_break',
       'company_sunday_rate',
       'company_regular_holiday_pay',
-      'company_special_holiday_pay'
+      'company_special_holiday_pay',
+      'company_regular_holiday_overtime_pay',
+      'company_special_holiday_overtime_pay',
+      'company_overtime_pay',
+      'company_regular_holiday_rest_pay',
+      'company_special_holiday_rest_pay',
+      'company_rest_pay',
+      'company_cola',
+      'company_sea'
       ];
 
   public function getCreator()
