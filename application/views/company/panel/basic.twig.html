@@ -1,13 +1,21 @@
  <div class="tab-pane active" id="basic-info-tab">
-             <div class="company-logo  form-group">
-                    <img src="{{ company.getCompanyLogo() }}" class="img image">
-                </div>              
+                          
             <form role="form" method="post" action="/settings/company/edit" enctype="multipart/form-data">
                 <div class="box-body">
-                    <div class="form-group">
-                        <label>Company Logo</label>
-                        <input type="file" name="logo" class="form-control" accept="image/gif, image/jpeg, image/png">
+                    <div class="row">
+                        <div class="col-md-5">
+                             <div class="company-logo  form-group">
+                                <img src="{{ company.getCompanyLogo() }}" class="img image">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                             <div class="form-group">
+                                <label>Company Logo</label>
+                                <input type="file" name="logo" class="form-control" accept="image/gif, image/jpeg, image/png">
+                            </div>                           
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="exampleInputEmail1">Company Name<span class="req-label">*</span></label>
                         <input type="text" required value="{{ company.company_name }}" name="company_name" class="form-control" id="exampleInputEmail1" placeholder="Enter Company Name">
@@ -21,26 +29,39 @@
                         <label for="exampleInputPassword1">Company Description</label>
                         <textarea class="form-control" id="exampleInputPassword1" name="company_description" placeholder="Type Full Address here...">{{ company.company_description }}</textarea>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Contact Informations</h4>
+                            <hr></hr>
                     <div class="form-group">
                         <label for="exampleInputFile">Company Contact Number</label>
                         <input type="text" name="company_contact_number" class="form-control" id="exampleInputEmail1" value="{{ company.company_contact_number }}" placeholder="Enter email">
-                    </div>
+                    </div>  
+                    
+                    <div class="form-group">
+                        <label>Company Tel. No.</label>
+                        <input class="form-control" value="{{ company.company_tel }}" name="company_tel" />
+                    </div>   
 
+                    <div class="form-group">
+                        <label>Company ZIP</label>
+                        <input class="form-control" value="{{ company.company_zip }}" name="company_zip" />
+                    </div>                       
+                </div>
+                <div class="col-md-6">
+                    <h4>Government Details</h4>
+                    <hr></hr>
+                     <div class="form-group">
+                        <label>Line of Business</label>
+                        <input class="form-control" value="{{ company.line_of_business }}" name="line_of_business" />
+                    </div>
 
                     <div class="form-group">
                         <label>Company SSS</label>
                         <input class="form-control" value="{{ company.company_sss }}" name="company_sss" />
                     </div>
 
-                    <div class="form-group">
-                        <label>Line of Business</label>
-                        <input class="form-control" value="{{ company.line_of_business }}" name="line_of_business" />
-                    </div>
 
-                    <div class="form-group">
-                        <label>Company ZIP</label>
-                        <input class="form-control" value="{{ company.company_zip }}" name="company_zip" />
-                    </div>
 
                     <div class="form-group">
                         <label>Company RDO</label>
@@ -51,11 +72,13 @@
                         <label>Company Philhealth</label>
                         <input class="form-control" value="{{ company.company_sss }}" name="company_sss" />
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label>Company Tel. No.</label>
-                        <input class="form-control" value="{{ company.company_tel }}" name="company_tel" />
-                    </div>
+            </div>
+
+
+
+
 
 
 
