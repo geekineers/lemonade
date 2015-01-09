@@ -6,6 +6,7 @@ class FormsController extends BaseController
 
     protected $formRepository;
     protected $employeeRepository;
+    protected $branchRepository;
     protected $formApplicationRepository;
     protected  $leaveCreditsRepository;
 
@@ -17,6 +18,7 @@ class FormsController extends BaseController
 
         $this->formRepository            = new FormRepository();
         $this->employeeRepository        = new EmployeeRepository();
+        $this->branchRepository        = new BranchRepository();
         $this->leaveTypeRepository       = new LeaveTypeRepository();
         $this->formApplicationRepository = new FormApplicationRepository();
     }
@@ -62,6 +64,7 @@ class FormsController extends BaseController
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
        
         $data['company']   = $this->company;
+        $data['branches']   = $this->branchRepository->all();
         $data['title']     = $title;
         $data['employees'] = $this->employeeRepository->all();
         $this->render('forms/apply.twig.html', $data);
