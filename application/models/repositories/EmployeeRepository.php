@@ -185,6 +185,7 @@ class EmployeeRepository extends BaseRepository
         $basic_pay       = $data['basic_pay'];
         $timeshift_start = $data['timeshift_start'];
         $timeshift_end   = $data['timeshift_end'];
+        $rest_day        = $data['rest_day'];
 
         // Government Details
         $tin_number        = $data['tin_number'];
@@ -301,6 +302,7 @@ class EmployeeRepository extends BaseRepository
             'email'           => (string) $email_address,
             'fb'              => (string) $fb,
             'full_name'       => (string) $full_name,
+            'rest_day'       => (string) $rest_day,
             'timeshift_start' => date('H:i:s', strtotime($timeshift_start)),
             'timeshift_end'   => date('H:i:s', strtotime($timeshift_end))                
         ); 

@@ -99,6 +99,7 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['employee_types'] = $this->employeeTypeRepository->all();
         $data['payroll_groups'] = $this->payrollGroupRepository->all();
         $data['branches']       = $this->branchesRepository->all();
+        $data['weekdays'] = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
         $this->render('employee/add.twig.html', $data);
 
     }
