@@ -99,7 +99,7 @@
 					</span>
 					<select name="payroll_period" id="group_name" class="form-control edit-input">
 					{% for payroll_group in payroll_groups %}
-						 <option value="{{ payroll_group.id }}">
+						 <option {% if employee.getPayrollPeriod().id == payroll_group.id  %} selected {% endif %}value="{{ payroll_group.id }}">
 						 	{{ payroll_group.group_name }}
 						 </option>
 					{% endfor %}
