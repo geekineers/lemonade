@@ -143,19 +143,18 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Job Position
-                    <span class="req-label">*</span>
-                </label>
-
-                <select required name="job_position" class="form-control " id="exampleInputEmail1" placeholder="">
-                    {% for job_position in job_positions %}
-                    <option value="{{  job_position.id }}">{{ job_position.job_position }}</option>
-                    {% endfor %}
-                </select>
-
-            </div>
             <div class="form-group row">
+                <div class="col-md-6">
+                    <label>Job Position
+                        <span class="req-label">*</span>
+                    </label>
+
+                    <select required name="job_position" class="form-control " id="exampleInputEmail1" placeholder="">
+                        {% for job_position in job_positions %}
+                        <option value="{{  job_position.id }}">{{ job_position.job_position }}</option>
+                        {% endfor %}
+                    </select>   
+                </div>
                 <div class="col-md-6">
                     <label>Department
                         <span class="req-label">*</span>
@@ -165,6 +164,23 @@
                         {% for department in departments %}
                         <option value="{{  department.id }}">
                             {{ department.department_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label>Rest Day
+                        <span class="req-label">*</span>
+                    </label>
+
+                    <select required name="rest_day" class="form-control " id="exampleInputEmail1" placeholder="">
+                        {% for key, days in weekdays %}
+                        <option value="{{  key }}">
+                            {{ days }}
                         </option>
                         {% endfor %}
                     </select>
