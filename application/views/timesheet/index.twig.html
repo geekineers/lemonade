@@ -308,8 +308,9 @@
             data-date-from="TIME_IN_DATE" 
             data-date-to="TIME_OUT_DATE" 
 
+            onclick = "editTimesheet(this);"
 
-            class="btn btn-primary edit-timesheet" onclick="editTimesheet()">
+            class="btn btn-primary edit-timesheet">
                 <i class="fa fa-edit"></i>
             </a>
             <a onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token=TIME_ID" class="btn btn-danger">
@@ -378,6 +379,29 @@ function getHours(h){
     }
     return h;
 }
+
+function editTimesheet(event)
+{
+    var timesheet_id  = $(event).data('id');
+    var employee_name = $(event).data('employee-name'); 
+    var employee_id   = $(event).data('employee-id'); 
+    var time_in       = $(event).data('time-in'); 
+    var time_out      = $(event).data('time-out');
+
+    var from = $(event).data('date-from');
+    var to = $(event).data('date-to');
+
+
+    $('#updatetimesheet_id').val(timesheet_id);
+    $('#updatetimesheet_timestart').val(time_in);
+    $('#updatetimesheet_timeend').val(time_out);
+    $('#updatetimesheet_from').val(from);
+    $('#updatetimesheet_to').val(to);
+    $('#updatetimesheet_employee').val(employee_id);
+
+    $('#updateTimesheet').modal('show');
+}
+
 
 $('.edit-timesheet').on('click', function(e){
     e.preventDefault();

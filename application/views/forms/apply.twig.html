@@ -13,14 +13,23 @@
                 <form action="/settings/forms " method="post">
                     
                         <div class="form-group row">
-                            <div class="col-md-6 ">
+                            <div class="col-md-3">
+                              <label>Branch</label>
+                              <select class="form-control" id="branch_id">
+                                <option>--SELECT BRANCH--</option>
+                                {% for branch in branches %}
+                                  <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <div class="col-md-9 ">
                             
                                 <label  class="control-label">Select Employee: </label>
-                                 <select required name="job_position" class="form-control combobox " id="employee_name" placeholder="">
-                                     <option value="" disabled selected>select employee</option>
+                                 <select required name="job_position" class="form-control" id="employee_name" placeholder="">
+                                 <!--     <option value="" disabled selected>select employee</option>
                                     {% for employee in employees %}
                                       <option value="{{  employee.id }}">{{ employee.getName() }}</option>
-                                    {% endfor %}
+                                    {% endfor %} -->
                                  </select>
                             </div>
                              <div class="col-md-12">
@@ -58,6 +67,19 @@
      
 <script type="text/javascript">
     (function($){
+        $('#branch_id').change(function(){
+            var branch_id = $(this).val();
+            var emp_string = "";
+            $('#employee_name').html('');
+            $.get('/api/employees', { branch : branch_id }, function(data){
+              console.log(data);
+                $.each(data, function(i, s, a){
+                    emp_string += '<option value='+s.id+' data-period='+s.period+'>'+s.full_name+'</option>';
+                });
+                $('#employee_name').html(emp_string);
+            });
+        });
+
         $('#employee_name').change(function(){
             var elem = $(this);
             $('.box').loading();
