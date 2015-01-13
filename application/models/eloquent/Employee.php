@@ -546,6 +546,8 @@ class Employee extends BaseModel
 
         }
     }
+
+    
     public function getBranch()
     {
         $branch = Branch::find($this->branch_id);
@@ -606,6 +608,11 @@ class Employee extends BaseModel
             $total += $allowance->getAmount(false, $from, $to);
         }
 
+        if(strtolower($this->getPayrollPeriod()->period) == "daily"){
+            $total += $this->getColaPay($from, $to, "normal_day");
+            $total += $this->getSEAPay($from, $to);
+        }
+
         if ($number_format) {
             return number_format($total, 2);
         }
@@ -648,6 +655,7 @@ class Employee extends BaseModel
                                                                        ->where('valid_from', '<=', $to)
                                                                        ->where('valid_to', '>=', $from)
                                                                        ->get();
+
         return $allowance;
     }
 
@@ -1270,16 +1278,40 @@ class Employee extends BaseModel
 
     }
 
-    public function getColaPay($from, $to)
+    public function getColaPay($from, $to, $type="regular_holiday")
     {
-        $holiday_rate = $this->getRegularHolidayRate() + 1;
-        return floatval($holiday_rate * $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance") * $this->getCompany()->company_cola);
+        $holiday_rate = $this->getRegularHolidayRate();
+        
+        if($type == "normal_day")
+        {
+            return floatval($this->getColaCount($from, $to, "normal_day") * $this->getCompany()->company_cola); 
+        }    
+
+        return floatval($holiday_rate * $this->getColaCount($from, $to, "regular_holiday") * $this->getCompany()->company_cola);
     }
 
-    public function getColaCount($from, $to)
+    public function getSEAPay($from, $to)
     {
-        return $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance");
+         $val =floatval($this->getSEACount($from, $to) * $this->getCompany()->company_sea); 
+        // dd($val);
+        return $val;
     }
+
+    public function getColaCount($from, $to, $type="regular_holiday")
+    {
+        $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance");
+        if($type == "normal_day"){
+            return $this->getInAttendance($from, $to) - $regular_holiday_attendance; 
+        }
+        return $regular_holiday_attendance;
+    }
+
+    public function getSEACount($from, $to)
+    {
+        return $this->getInAttendance($from, $to);
+    }
+
+
     /**
      * special holiday rate
      * @return [float]
@@ -1394,6 +1426,50 @@ class Employee extends BaseModel
     public function getSpecialHolidayPay($from, $to)
     {
         return floatval($this->getSpecialHolidayRate() * $this->getHourlyRate() * $this->getSpecialHolidayAttendance($from, $to))  + floatval($this->getRestDayPay($from, $to)['special_holiday']);
+    }
+
+    public function getRestDayAttendance($from, $to, $type="all")
+    {
+       $date_range = createDateRangeArray($from, $to);
+       
+       $in_attendance = 0;
+       $special_holiday_attendance = 0;
+       $regular_holiday_attendance = 0;
+       $normal_day_attendance = 0;
+
+       foreach ($date_range as $date) {
+            $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            
+            $dt = new Carbon($date);
+            $current_date = date('Y-m-d', strtotime($date_range_start));
+
+            if($dt->dayOfWeek == $this->rest_day) {
+                
+                $current_date = date('Y-m-d', strtotime($date_range_start));
+
+                if($dt->dayOfWeek == $this->rest_day){
+                    $attended = Timesheet::where('employee_id', '=', $this->id)
+                                        ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                        ->count();
+                    if($attended){
+                        if($holiday->isSpecialHoliday($current_date)){
+                            $special_holiday_attendance++;
+                        }
+                        if($holiday->isRegularHoliday($current_date)){
+                            $regular_holiday_attendance++;
+                        }
+                        if(!$holiday->isRegularHoliday($date_from) && !$holiday->isSpecialHoliday($date_from)){
+                            $normal_day_attendance++;
+                        }                        
+                    }
+
+
+                    
+                }                
+            }
+       }
+
     }
 
     public function getRestDayPay($from, $to)
