@@ -14,9 +14,7 @@ class EmployeeAllowance extends Eloquent {
 	protected $fillable = ['employee_id',
 		'allowance_id',
 		'recurring',
-
 		'amount',
-
 		'valid_from',
 		'valid_to'
 	];

@@ -161,6 +161,16 @@ $to = $payslip->getPayslipsGroup()->to;
             </td>
           </tr>
           <?php } ?>
+          <?php if($employee->getPayrollPeriod(false) == "Daily") { ?>
+            <tr>
+              <td style="text-align: right;">COLA x <?php echo $employee->getColaCount($from, $to, "normal_day"); ?></td>
+              <td><?php echo $employee->getColaPay($from, $to, "normal_day"); ?></td>
+            </tr>
+            <tr>
+              <td style="text-align: right;">SEA x <?php echo $employee->getSEACount($from, $to); ?></td>
+              <td><?php echo $employee->getSEAPay($from, $to); ?></td>
+            </tr>
+          <?php } ?>
        <?php if (count($payslip->getAllowances())) {?>
 
 	<tr>

@@ -26,6 +26,8 @@ class MainController extends BaseController
         redirect('/auth');
     }
 
+
+
     public function dashboard()
     {
 
