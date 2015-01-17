@@ -1189,20 +1189,38 @@ class Employee extends BaseModel
             // var_dump($time_in, $time_out);
             // var_dump($night_diff_start, $night_diff_end);
 
+            /*
+            Night Differential 
+
+            time_in > 10pm and timeout is less than 6am
+            eg : 11pm - 4pm
+             */
+
             if ($time_in >= $night_diff_start && $time_out < $night_diff_end) {
                 // var_dump($day);
                 // var_dump("<br>");
                 $interval = getInterval($attendance->time_in, $attendance->time_out, $unit);
                 $total_night_difference += $interval;
 
-            } else if ($time_in >= $night_diff_start && $time_out >= $night_diff_end) {
-                  var_dump($day);
-                var_dump("<br>");
+            } 
+            /*
+                time_in > 10pm but timeout is greater than or equal to 6am
+                eg : 11pm - 7am
+
+             */
+            
+            else if ($time_in >= $night_diff_start && $time_out >= $night_diff_end) {
+
                 $interval = getInterval($attendance->time_in, '06:00', $unit);
                 $total_night_difference += $interval;
-            } else if ($time_in < $night_diff_start && ($time_out >= $night_diff_start || $time_out <= $night_diff_end)) {
-                $night_diff_start = date('Y-m-d H:i', strtotime('2014-01-01 22:00'));
-                $time_out         = date('Y-m-d H:i', strtotime('2014-01-01: 22:00'));
+            } 
+            /*
+                time_in < 10pm but timeout is less than 6am.
+
+             */
+
+            else if ($time_in < $night_diff_start &&  $time_out < $night_diff_end) {
+            
                 $interval         = getInterval($night_diff_start, $time_out, $unit);
                 $total_night_difference += $interval;
 
