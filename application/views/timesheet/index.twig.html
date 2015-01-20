@@ -159,35 +159,31 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Time In</label>
-                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible; width:">
+                    <label>Time In</label>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                        <input required type="" name="from" class="form-control datepicker" placeholder="From" id="evaluation-from">
+                            
+                        </div>
+                        <div class="col-md-8 input-group edit-time bootstrap-timepicker" style="visibility: visible; width:">
+                            
                             <input id="timestart" type="text" name="timestart" class="timepicker form-control input-small">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
                             </span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Time Out</label>
-                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                    <label>Time Out</label>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <input required type="" name="to" class="form-control datepicker" placeholder="To" id="evaluation-from">
+                        </div>
+                        <div class="col-md-8 input-group edit-time bootstrap-timepicker" style="visibility: visible;">
                             <input id="timeend" type="text" name="timeend" class="timepicker form-control input-small">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
                             </span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Schedule</label>
-                        <div class="form-inline">
-                            <div class="form-group">
-
-                                <input required type="" name="from" class="form-control datepicker" placeholder="From" id="evaluation-from">
-                            </div>
-                            <div class="form-group">
-
-                                <input required type="" name="to" class="form-control datepicker" placeholder="To" id="evaluation-from">
-                            </div>
-                        </div>
-                    </div>
+                
 
                 </div>
                 <div class="modal-footer">
@@ -222,35 +218,29 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Time In</label>
-                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                    <label>Time In</label>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <input required type="" name="from" class="form-control datepicker" placeholder="From" id="updatetimesheet_from">
+                        </div>
+                        <div class="col-md-8 input-group edit-time bootstrap-timepicker" style="visibility: visible;">
                             <input required id="updatetimesheet_timestart" type="text" name="timestart" class="timepicker form-control input-small">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
                             </span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Time Out</label>
-                        <div class="input-group edit-time bootstrap-timepicker" style="visibility: visible;">
+                    <label>Time Out</label>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <input required type="" name="to" class="form-control datepicker" placeholder="To" id="updatetimesheet_to">
+                        </div>
+                        <div class="col-md-8 input-group edit-time bootstrap-timepicker" style="visibility: visible;">
                             <input required id="updatetimesheet_timeend" type="text" name="timeend" class="timepicker form-control input-small">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i>
                             </span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Schedule</label>
-                        <div class="form-inline">
-                            <div class="form-group">
-
-                                <input required type="" name="from" class="form-control datepicker" placeholder="From" id="updatetimesheet_from">
-                            </div>
-                            <div class="form-group">
-
-                                <input required type="" name="to" class="form-control datepicker" placeholder="To" id="updatetimesheet_to">
-                            </div>
-                        </div>
-                    </div>
+      
 
                 </div>
                 <div class="modal-footer">

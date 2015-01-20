@@ -1197,8 +1197,7 @@ class Employee extends BaseModel
              */
 
             if ($time_in >= $night_diff_start && $time_out < $night_diff_end) {
-                // var_dump($day);
-                // var_dump("<br>");
+
                 $interval = getInterval($attendance->time_in, $attendance->time_out, $unit);
                 $total_night_difference += $interval;
 
@@ -1230,7 +1229,7 @@ class Employee extends BaseModel
             }
 
         }
-        // die();
+    
         return $total_night_difference;
 
     }
@@ -1624,8 +1623,15 @@ class Employee extends BaseModel
         // dd($date_range);
         $in_attendance = 0;
         foreach ($date_range as $date) {
+            $date_2 = $date;
+            if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
+                $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2 = $day->format('Y-m-d');
+            }
+            // dd($date, $date_2);
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
-            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
             // dd($date_range_start, $date_range_end);
             $dt = new Carbon($date);
 
