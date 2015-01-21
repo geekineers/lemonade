@@ -1197,8 +1197,7 @@ class Employee extends BaseModel
              */
 
             if ($time_in >= $night_diff_start && $time_out < $night_diff_end) {
-                // var_dump($day);
-                // var_dump("<br>");
+
                 $interval = getInterval($attendance->time_in, $attendance->time_out, $unit);
                 $total_night_difference += $interval;
 
@@ -1230,7 +1229,7 @@ class Employee extends BaseModel
             }
 
         }
-        // die();
+    
         return $total_night_difference;
 
     }
@@ -1355,8 +1354,14 @@ class Employee extends BaseModel
         $not_rest_day_attendance = 0;
         $hours_attended = 0;
         foreach ($date_range as $date) {
+            $date_2 = $date;
+            if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
+                $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2 = $day->format('Y-m-d');
+            }
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
-            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
     
             $dt = new Carbon($date);
 
@@ -1368,20 +1373,21 @@ class Employee extends BaseModel
 
                 if($attended) 
                 {
+                  // dd($attended);
                   if($dt->dayOfWeek == $this->rest_day){
                     $rest_day_attendance++;
                      }
                     else{ 
                     $not_rest_day_attendance++;
                      }
-                    // return $attended;
-                    // dd($attended);
-                    $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
-                    $in = $time_in->format('H:i:s');
-                    $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
-                    $out = $time_out->format('H:i:s');
-                    $h = getInterval($in, $out, 'hours');
-                    $hours_attended += getInterval($in, $out, 'hours');
+                    // return $attended(;
+                   // dd($attended);
+                    $time_in = date('Y-m-d H:i:s', strtotime($attended->time_in));
+                    // $in = $time_in->format('H:i:s');
+                    $time_out = date('Y-m-d H:i:s', strtotime($attended->time_out));
+                    // $out = $time_out->format('H:i:s');
+                    $h = getInterval($time_in, $time_out, 'hours');
+                    $hours_attended += $h;
                 }
             }
         }
@@ -1407,8 +1413,14 @@ class Employee extends BaseModel
              // dd($date_range);
         $hours_attended = 0;
         foreach ($date_range as $date) {
+            $date_2 = $date;
+            if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
+                $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2 = $day->format('Y-m-d');
+            }
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
-            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
             // dd($date_range_start, $date_range_end);
             $dt = new Carbon($date);
 
@@ -1420,13 +1432,12 @@ class Employee extends BaseModel
 
                 if($attended) 
                 {
-                    $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
-                    $in = $time_in->format('H:i:s');
-                    $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
-                    $out = $time_out->format('H:i:s');
-                    $h = getInterval($in, $out, 'hours');
-   
-                    $hours_attended += getInterval($in, $out, 'hours');
+                    $time_in = date('Y-m-d H:i:s', strtotime($attended->time_in));
+                    // $in = $time_in->format('H:i:s');
+                    $time_out = date('Y-m-d H:i:s', strtotime($attended->time_out));
+                    // $out = $time_out->format('H:i:s');
+                    $h = getInterval($time_in, $time_out, 'hours');
+                    $hours_attended += $h;
                 }
             }
         }
@@ -1624,8 +1635,15 @@ class Employee extends BaseModel
         // dd($date_range);
         $in_attendance = 0;
         foreach ($date_range as $date) {
+            $date_2 = $date;
+            if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
+                $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2 = $day->format('Y-m-d');
+            }
+            // dd($date, $date_2);
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
-            $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
+            $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
             // dd($date_range_start, $date_range_end);
             $dt = new Carbon($date);
 
