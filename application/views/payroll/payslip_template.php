@@ -171,6 +171,14 @@ $to = $payslip->getPayslipsGroup()->to;
               <td><?php echo $employee->getSEAPay($from, $to); ?></td>
             </tr>
           <?php } ?>
+          <?php if($employee->getRestDayAttendance($from, $to, 'not_holiday') > 0) : ?>
+          <tr>
+            <td >&nbsp;&nbsp;Rest Day Pay(<?php echo $employee->getRestDayAttendance($from, $to, 'not_holiday'); ?> day(s))</td>
+            <td style="text-align:right;">
+              <?php echo number_format($employee->getRestDayPay($from, $to)['not_holiday'], 2); ?>
+            </td>
+          </tr>           
+          <?php endif; ?>
        <?php if (count($payslip->getAllowances())) {?>
 
 	<tr>

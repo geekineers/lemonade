@@ -626,7 +626,7 @@ class Employee extends BaseModel
         $regular_holiday    = $this->getRegularHolidayPay($from, $to);
         $special_holiday    = $this->getSpecialHolidayPay($from, $to);
         $night_differential = $this->getNightDifferentialPay($from, $to);
-
+        $rest_day_pay       = $this->getRestDayPay($from, $to)['not_holiday']; 
         $total_Allowance = 0;
         $total           = 0;
         $payset =  strtolower(str_replace(" ", "", $this->getPayrollPeriod()->period));
@@ -634,7 +634,7 @@ class Employee extends BaseModel
 
         $total = $this->getTotalAllowances($from, $to, false) + $base_salary + $this->getOvertimePay($from, $to) + (float)$this->getSundayPay($from, $to, false);
 
-        $total = $total + $regular_holiday + $special_holiday + $night_differential;
+        $total = $total + $regular_holiday + $special_holiday + $night_differential + $rest_day_pay;
 
         if ($format) {
             return number_format($total, 2);
@@ -1485,10 +1485,10 @@ class Employee extends BaseModel
                         if($holiday->isSpecialHoliday($current_date)){
                             $special_holiday_attendance++;
                         }
-                        if($holiday->isRegularHoliday($current_date)){
+                        else if($holiday->isRegularHoliday($current_date)){
                             $regular_holiday_attendance++;
                         }
-                        if(!$holiday->isRegularHoliday($date_from) && !$holiday->isSpecialHoliday($date_from)){
+                        else {
                             $normal_day_attendance++;
                         }                        
                     }
@@ -1497,6 +1497,25 @@ class Employee extends BaseModel
                     
                 }                
             }
+       }
+
+
+       switch ($type) {
+           case 'all':
+               # code...
+               break;
+           case 'not_holiday':
+               return $normal_day_attendance;
+               break;
+            case 'regular_holiday':
+                return $regular_holiday_attendance;
+                break;
+            case 'special_holiday':
+                return $special_holiday_attendance;
+                break;
+           default:
+               # code...
+               break;
        }
 
     }
@@ -1510,6 +1529,7 @@ class Employee extends BaseModel
         $in_attendance = 0;
         $special_holiday_attendance = 0;
         $regular_holiday_attendance = 0;
+        $not_holiday_attendance = 0;
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
@@ -1521,25 +1541,34 @@ class Employee extends BaseModel
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                     ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                     ->count();
+                if($attended){
                 if($holiday->isSpecialHoliday($current_date)){
                     $special_holiday_attendance++;
                 }
-                if($holiday->isRegularHoliday($current_date)){
+                else if($holiday->isRegularHoliday($current_date)){
                     $regular_holiday_attendance++;
                 }
+                else{
+                    $not_holiday_attendance++;
+                }                    
+                }
+
                 
             }
             
         }
 
+
         // Regular Holiday +60%
         $regular_holiday_pay = $regular_holiday_attendance * (0.6 * $this->getHourlyRate());
         // Special Holiday Attendance = +20%
         $special_holiday_pay = $special_holiday_attendance * (0.2 * $this->getHourlyRate());
+        $not_holiday = $not_holiday_attendance * ($this->getCompany()->company_rest_pay * $this->getHourlyRate());
         
         return array(
                 'regular_holiday' => $regular_holiday_pay,
                 'special_holiday' => $special_holiday_pay,
+                'not_holiday'     => $not_holiday
             );
     }
 
