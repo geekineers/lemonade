@@ -1559,12 +1559,15 @@ class Employee extends BaseModel
             
         }
 
+        $regular_holiday_rate = $this->getCompany()->company_regular_holiday_rest_pay/100;
+        $special_holiday_rate = $this->getCompany()->company_special_holiday_rest_pay/100;
+        $rest_rate            = $this->getCompany()->company_rest_pay/100;
 
         // Regular Holiday +60%
-        $regular_holiday_pay = $regular_holiday_attendance * (0.6 * $this->getHourlyRate());
+        $regular_holiday_pay = $regular_holiday_attendance * ($regular_holiday_rate * $this->getDailyRate(false));
         // Special Holiday Attendance = +20%
-        $special_holiday_pay = $special_holiday_attendance * (0.2 * $this->getHourlyRate());
-        $not_holiday = $not_holiday_attendance * ($this->getCompany()->company_rest_pay * $this->getHourlyRate());
+        $special_holiday_pay = $special_holiday_attendance * ($special_holiday_rate * $this->getDailyRate(false));
+        $not_holiday         = $not_holiday_attendance * ($rest_rate * $this->getDailyRate(false));
         
         return array(
                 'regular_holiday' => $regular_holiday_pay,
