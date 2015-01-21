@@ -1789,7 +1789,7 @@ class Employee extends BaseModel
         $late             = $this->getLateDeduction($from, $to, 'minute');
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from, $to, false);
-        dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
+        // dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
@@ -1884,7 +1884,6 @@ class Employee extends BaseModel
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to, $term);
 
         $absents = $this->getAbsentDeduction($from, $to);
-        dd($total_mandatory_deduction, $total_loan_deduction);
         $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
      
         return $mandatory_wtax;
