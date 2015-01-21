@@ -1459,6 +1459,7 @@ class Employee extends BaseModel
 
     public function getRestDayAttendance($from, $to, $type="all")
     {
+         $holiday = new \HolidayRepository();
        $date_range = createDateRangeArray($from, $to);
        
        $in_attendance = 0;
