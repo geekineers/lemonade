@@ -181,7 +181,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php endif; ?>
           <?php if($employee->getRestDayAttendance($from, $to, 'regular_holiday') > 0) : ?>
           <tr>
-            <td >&nbsp;&nbsp;Rest Day Pay(<?php echo $employee->getRestDayAttendance($from, $to, 'regular_holiday'); ?> day(s))</td>
+            <td >&nbsp;&nbsp;Regular Holiday Rest Day Pay(<?php echo $employee->getRestDayAttendance($from, $to, 'regular_holiday'); ?> day(s))</td>
             <td style="text-align:right;">
               <?php echo number_format($employee->getRestDayPay($from, $to)['regular_holiday'], 2); ?>
             </td>
@@ -189,7 +189,7 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php endif; ?> 
           <?php if($employee->getRestDayAttendance($from, $to, 'special_holiday') > 0) : ?>
           <tr>
-            <td >&nbsp;&nbsp;Rest Day Pay(<?php echo $employee->getRestDayAttendance($from, $to, 'special_holiday'); ?> day(s))</td>
+            <td >&nbsp;&nbsp;Special Holiday Rest Day Pay(<?php echo $employee->getRestDayAttendance($from, $to, 'special_holiday'); ?> day(s))</td>
             <td style="text-align:right;">
               <?php echo number_format($employee->getRestDayPay($from, $to)['special_holiday'], 2); ?>
             </td>

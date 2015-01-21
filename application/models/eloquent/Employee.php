@@ -882,6 +882,10 @@ class Employee extends BaseModel
      */
     public function getLateDeduction($from, $to, $unit = 'minute')
     {
+        if($this->getTimesheetRequired() == 'No'){
+            return 0;
+        }    
+
         $days           = createDateRangeArray($from, $to);
         $timeShiftStart = $this->getTimeShiftStart(true);
         // dd($timeShiftStart);
