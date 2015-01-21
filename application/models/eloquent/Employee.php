@@ -865,6 +865,9 @@ class Employee extends BaseModel
 
     public function getUnderTimeDeduction($from, $to, $unit, $number_format = false)
     {
+        if($this->getTimesheetRequired() == 'No'){
+            return 0;
+        }
         // dd($this->getUnderTime($from, $to, $unit));
         $undetime_deduction = floatval($this->getUnderTime($from, $to, $unit) * $this->getUnderTimeDeductionRate($unit));
         // dd($undetime_deduction);
@@ -1786,7 +1789,7 @@ class Employee extends BaseModel
         $late             = $this->getLateDeduction($from, $to, 'minute');
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from, $to, false);
-
+        dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
