@@ -195,7 +195,7 @@
 					<select name="rest_day" class="form-control edit-input">
 						<option value="None">None</option>
 						{% for key,day in weekdays %}
-						<option {% if day== employee.rest_day %} selected="selected" {% endif %}value="{{ key }}">{{ day }}</option>
+						<option {% if key == employee.rest_day %} selected="selected" {% endif %}value="{{ key }}">{{ day }}</option>
 						{% endfor %}
 					</select>
 
