@@ -1187,7 +1187,6 @@ class Employee extends BaseModel
                 $day2 = $date->format('Y-m-d');
             }
 
-            // var_dump($day, $day2);
             $night_diff_start = date('Y-m-d H:i', strtotime($day . ' 22:00:00'));
             $night_diff_end   = date('Y-m-d H:i', strtotime($day2 . ' 06:00:00'));
             $time_in          = date('Y-m-d H:i', strtotime($attendance->time_in));
@@ -1217,7 +1216,7 @@ class Employee extends BaseModel
             
             else if ($time_in >= $night_diff_start && $time_out >= $night_diff_end) {
 
-                $interval = getInterval($attendance->time_in, '06:00', $unit);
+                $interval = getInterval($attendance->time_in, $night_diff_end, $unit);
                 $total_night_difference += $interval;
             } 
             /*
