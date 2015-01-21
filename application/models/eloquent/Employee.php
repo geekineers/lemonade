@@ -1770,6 +1770,9 @@ class Employee extends BaseModel
         if ($number_format) {
             return number_format($total, 2);
         }
+        if($this->getTimesheetRequired() == 'No'){
+            return 0;
+        }
         return floatval($total);
 
     }
@@ -1872,7 +1875,7 @@ class Employee extends BaseModel
     {
 
         $basic_pay = $this->getBasicPay(false);
-
+        
         $total_loan_deduction = $this->getTotalDeductions($from, $to, false);
 
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to, $term);
