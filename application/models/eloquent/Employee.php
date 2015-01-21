@@ -1875,13 +1875,13 @@ class Employee extends BaseModel
     {
 
         $basic_pay = $this->getBasicPay(false);
-        
+
         $total_loan_deduction = $this->getTotalDeductions($from, $to, false);
 
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to, $term);
 
         $absents = $this->getAbsentDeduction($from, $to);
-
+        dd($total_mandatory_deduction, $total_loan_deduction);
         $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
      
         return $mandatory_wtax;
