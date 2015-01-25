@@ -854,7 +854,7 @@ class Employee extends BaseModel
                 $undertime = getInterval($departure_time, $this->getTimeShiftEnd(true), $unit);
                 $lunch_break = $this->getCompany()->company_lunch_break;
                 $min_hours_of_work = 480 - $lunch_break;
-                $undertime = $undertime - $lunch_break;
+                // $undertime = $undertime - $lunch_break;
                 $undertime = ($undertime >= 480) ? 480 : $undertime;
                 if(!$is_undertime_approved){
                     $totalUnderTime += $undertime;                    
@@ -1633,14 +1633,11 @@ class Employee extends BaseModel
                                     ->first();
                 if($attended) 
                 {
-                    // return $attended;
-                    // dd($attended);
                     $time_in = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_in);
                     $in = $time_in->format('H:i:s');
                     $time_out = DateTime::createFromFormat('Y-m-d H:i:s', $attended->time_out);
                     $out = $time_out->format('H:i:s');
-                    $h = getInterval($in, $out, 'hours');
-                    // dd($h);
+                  
                     $hours_attended += getInterval($in, $out, 'hours');
                 }
             }
