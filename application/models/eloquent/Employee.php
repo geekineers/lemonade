@@ -852,7 +852,10 @@ class Employee extends BaseModel
                 $departure_time = $resultDate->format('H:i:s');
                 // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
                 $undertime = getInterval($departure_time, $this->getTimeShiftEnd(true), $unit);
-                $undertime = ($undertime >= 480) ? 480 : $undertime;
+                $lunch_break = $this->getCompany()->company_lunch_break;
+                $min_hours_of_work = 480 - $lunch_break;
+                $undertime = $undertime - $lunch_break;
+                $undertime = ($undertime >= min_hours_of_work) ? min_hours_of_work : $undertime;
                 if(!$is_undertime_approved){
                     $totalUnderTime += $undertime;                    
                 }
@@ -1684,6 +1687,8 @@ class Employee extends BaseModel
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
             // dd($date_range_start, $date_range_end);
+              $dt = new Carbon($date);
+
             $dt = new Carbon($date);
 
          
@@ -1692,7 +1697,7 @@ class Employee extends BaseModel
                                     ->count();
                 
 
-                if($attended) 
+                if($dt->dayOfWeek != Carbon::SUNDAY && $attended) 
                 {
                     $in_attendance++;
                 }
