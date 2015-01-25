@@ -855,7 +855,7 @@ class Employee extends BaseModel
                 $lunch_break = $this->getCompany()->company_lunch_break;
                 $min_hours_of_work = 480 - $lunch_break;
                 $undertime = $undertime - $lunch_break;
-                $undertime = ($undertime >= $min_hours_of_work) ? $min_hours_of_work : $undertime;
+                $undertime = ($undertime >= 480) ? 480 : $undertime;
                 if(!$is_undertime_approved){
                     $totalUnderTime += $undertime;                    
                 }
