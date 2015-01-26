@@ -1167,6 +1167,7 @@ class Employee extends BaseModel
         var_dump($regular_holiday_rest_day);
         var_dump($special_holiday);
         var_dump($normal);
+        var_dump("rest_day_count:" . $this->getOvertime($from, $to, 'rest_day'));
         var_dump($rest_day);
 
 
