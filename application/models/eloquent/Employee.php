@@ -1164,12 +1164,12 @@ class Employee extends BaseModel
         $rest_day = floatval($this->getOverTimePayRate('rest_day') * $this->getOvertime($from, $to, 'rest_day') * $this->getHourlyRate());
         $special_holiday = floatval($this->getOverTimePayRate('special_holiday') * $this->getOvertime($from, $to, 'special_holiday') * $this->getHourlyRate());
         
-        var_dump($this->getName());
-        var_dump($regular_holiday_rest_day);
-        var_dump($special_holiday);
-        var_dump($normal);
-        var_dump("rest_day_count:" . $this->getOvertime($from, $to, 'rest_day'));
-        var_dump($rest_day);
+        // var_dump($this->getName());
+        // var_dump($regular_holiday_rest_day);
+        // var_dump($special_holiday);
+        // var_dump($normal);
+        // var_dump("rest_day_count:" . $this->getOvertime($from, $to, 'rest_day'));
+        // var_dump($rest_day);
 
 
         return $normal + $regular_holiday + $special_holiday + $regular_holiday_rest_day + $special_holiday_rest_day + $rest_day;
@@ -1878,6 +1878,13 @@ class Employee extends BaseModel
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from, $to, false);
         // dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
+        var_dump("sss " : $sss);
+        var_dump("ph " : $ph);
+        var_dump("hdmf " : $hdmf);
+        var_dump("absents " : $absents);
+        var_dump("late " : $late);
+        var_dump("undertime " : $late);
+        var_dump("withholding_tax " : $late);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
@@ -1972,6 +1979,10 @@ class Employee extends BaseModel
         $total_mandatory_deduction = $this->getTotalMandatoryDeductions($from, $to, $term);
 
         $absents = $this->getAbsentDeduction($from, $to);
+        
+        var_dump($this->getName());
+        var_dump("loan:" . $total_loan_deduction);
+
         $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
      
         return $mandatory_wtax;
