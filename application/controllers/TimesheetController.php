@@ -52,7 +52,7 @@ class TimesheetController extends BaseController {
        	$name  		 = (is_null($this->input->get('name'))) ? ' ' : $this->input->get('name');
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
        	$timein_start      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein')));
-       	$timein_end      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein') . " 23:59:59"));
+       	$timein_end      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein') . "+1 days"));
        	$timeout     = (is_null($this->input->get('timeout'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timeout') . "+1 days"));
        	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
 
@@ -78,7 +78,7 @@ class TimesheetController extends BaseController {
 			})
        		->where('status', 'like',  '%' . $status .'%')
        		->where('time_in', '>', $timein_start)
-       		->where('time_in', '>', $timein_end)
+       		->where('time_in', '<', $timein_end)
        		->where('time_out', '<', $timeout);
        	
        	$total_count = count($data->get()->toArray());
