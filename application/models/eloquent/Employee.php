@@ -1162,6 +1162,14 @@ class Employee extends BaseModel
         $special_holiday_rest_day = floatval($this->getOverTimePayRate('special_holiday_rest_day') * $this->getOvertime($from, $to, 'special_holiday_rest_day') * $this->getHourlyRate());
         $rest_day = floatval($this->getOverTimePayRate('rest_day') * $this->getOvertime($from, $to, 'rest_day') * $this->getHourlyRate());
         $special_holiday = floatval($this->getOverTimePayRate('special_holiday') * $this->getOvertime($from, $to, 'special_holiday') * $this->getHourlyRate());
+        
+        var_dump($this->getName());
+        var_dump($regular_holiday_rest_day);
+        var_dump($special_holiday);
+        var_dump($normal);
+        var_dump($rest_day);
+
+
         return $normal + $regular_holiday + $special_holiday + $regular_holiday_rest_day + $special_holiday_rest_day + $rest_day;
     
     }
