@@ -1883,8 +1883,8 @@ class Employee extends BaseModel
         var_dump("hdmf  :" .  $hdmf);
         var_dump("absents  :" .  $absents);
         var_dump("late  :" .  $late);
-        var_dump("undertime  :" .  $late);
-        var_dump("withholding_tax  :" .  $late);
+        var_dump("undertime  :" .  $undertime);
+        var_dump("withholding_tax  :" .  $withholding_tax);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
