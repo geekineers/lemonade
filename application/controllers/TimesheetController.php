@@ -53,7 +53,8 @@ class TimesheetController extends BaseController {
        	$employee_id = (is_null($this->input->get('employee_id'))) ? '' : $this->input->get('employee_id');
        	$timein_start      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein')));
        	$timein_end      = (is_null($this->input->get('timein'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timein') . "+1 days"));
-       	$timeout     = (is_null($this->input->get('timeout'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timeout') . "+1 days"));
+       	$timeout_start     = (is_null($this->input->get('timeout'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timeout')));
+       	$timeout_end     = (is_null($this->input->get('timeout'))) ? '' : date('Y-m-d H:i:s', strtotime($this->input->get('timeout') . "+1 days"));
        	$status  	 = (is_null($this->input->get('status'))) ? '' : $this->input->get('status');
 
        	$data  = $this->timesheetRepository->with('employee');
@@ -79,7 +80,8 @@ class TimesheetController extends BaseController {
        		->where('status', 'like',  '%' . $status .'%')
        		->where('time_in', '>', $timein_start)
        		->where('time_in', '<', $timein_end)
-       		->where('time_out', '<', $timeout);
+       		->where('time_out', '>', $timeout_start);
+       		->where('time_out', '<', $timeout_end);
        	
        	$total_count = count($data->get()->toArray());
        	// dd($total);
