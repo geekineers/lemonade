@@ -1878,13 +1878,13 @@ class Employee extends BaseModel
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from, $to, false);
         // dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
-        var_dump("sss  :" .  $sss);
-        var_dump("ph  :" .  $ph);
-        var_dump("hdmf  :" .  $hdmf);
-        var_dump("absents  :" .  $absents);
-        var_dump("late  :" .  $late);
-        var_dump("undertime  :" .  $undertime);
-        var_dump("withholding_tax  :" .  $widthholding_tax);
+        // var_dump("sss  :" .  $sss);
+        // var_dump("ph  :" .  $ph);
+        // var_dump("hdmf  :" .  $hdmf);
+        // var_dump("absents  :" .  $absents);
+        // var_dump("late  :" .  $late);
+        // var_dump("undertime  :" .  $undertime);
+        // var_dump("withholding_tax  :" .  $widthholding_tax);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents;
     }
 
@@ -1980,8 +1980,8 @@ class Employee extends BaseModel
 
         $absents = $this->getAbsentDeduction($from, $to);
         
-        var_dump($this->getName());
-        var_dump("loan:" . $total_loan_deduction);
+        // var_dump($this->getName());
+        // var_dump("loan:" . $total_loan_deduction);
 
         $mandatory_wtax = $total_mandatory_deduction + $total_loan_deduction;
      
