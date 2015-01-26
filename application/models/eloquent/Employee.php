@@ -1709,7 +1709,7 @@ class Employee extends BaseModel
                     if($with_holiday && ($holiday->isRegularHoliday($date) || $holiday->isSpecialHoliday($date))){
                         $in_attendance++;
                     }
-                    else{
+                    else if(!($holiday->isRegularHoliday($date) || $holiday->isSpecialHoliday($date)){
                         $in_attendance++;
                         
                     }
