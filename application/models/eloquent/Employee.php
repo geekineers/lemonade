@@ -1878,13 +1878,13 @@ class Employee extends BaseModel
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from, $to, false);
         // dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
-        var_dump("sss " : $sss);
-        var_dump("ph " : $ph);
-        var_dump("hdmf " : $hdmf);
-        var_dump("absents " : $absents);
-        var_dump("late " : $late);
-        var_dump("undertime " : $late);
-        var_dump("withholding_tax " : $late);
+        var_dump("sss  :" .  $sss);
+        var_dump("ph  :" .  $ph);
+        var_dump("hdmf  :" .  $hdmf);
+        var_dump("absents  :" .  $absents);
+        var_dump("late  :" .  $late);
+        var_dump("undertime  :" .  $late);
+        var_dump("withholding_tax  :" .  $late);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
