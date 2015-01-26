@@ -1874,7 +1874,7 @@ class Employee extends BaseModel
         $ph               = $this->getPhilhealthValue($term);
         $hdmf             = $this->getHDMFValue($term);
         $absents          = $this->getAbsentDeduction($from, $to);
-        $late             = $this->getLateDeduction($from, $to, 'minute');
+        $late             = $this->getUnderTimeAndLateDeduction($from, $to, 'minute', true);
         $undertime        = $this->getUnderTimeDeduction($from, $to, 'minute');
         $widthholding_tax = $this->getWithholdingTax($from, $to, false);
         // dd($sss, $ph, $hdmf, $absents, $late, $undertime, $widthholding_tax);
@@ -1884,7 +1884,7 @@ class Employee extends BaseModel
         var_dump("absents  :" .  $absents);
         var_dump("late  :" .  $late);
         var_dump("undertime  :" .  $undertime);
-        var_dump("withholding_tax  :" .  $withholding_tax);
+        var_dump("withholding_tax  :" .  $widthholding_tax);
         return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
     }
 
