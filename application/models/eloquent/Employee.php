@@ -1335,14 +1335,14 @@ class Employee extends BaseModel
     {
         $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance");
         if($type == "normal_day"){
-            return $this->getInAttendance($from, $to) - $regular_holiday_attendance; 
+            return $this->getInAttendance($from, $to) - $regular_holiday_attendance  - $this->getRestDayAttendance($from, $to, 'not_holiday'); 
         }
         return $regular_holiday_attendance;
     }
 
     public function getSEACount($from, $to)
     {
-        return $this->getInAttendance($from, $to, true, false);
+        return $this->getInAttendance($from, $to, true, false) - $this->getRestDayAttendance($from, $to, 'not_holiday');
     }
 
 
