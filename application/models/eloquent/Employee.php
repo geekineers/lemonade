@@ -1885,7 +1885,7 @@ class Employee extends BaseModel
         var_dump("late  :" .  $late);
         var_dump("undertime  :" .  $undertime);
         var_dump("withholding_tax  :" .  $widthholding_tax);
-        return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents + $undertime;
+        return $sss + $ph + $hdmf + $widthholding_tax + $late + $absents;
     }
 
     public function getWithholdingTaxType()
