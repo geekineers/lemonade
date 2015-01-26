@@ -837,6 +837,10 @@ class Employee extends BaseModel
         $timeshift_ends = $date->format('H:i:s');
         $totalUnderTime = 0;
         foreach ($days as $day) {
+            $dt = new Carbon($day);
+             if($dt->dayOfWeek == $this->rest_day){
+                continue;
+             }
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
             $absolute_day = DateTime::createFromFormat('Y-m-d', $day);
@@ -898,6 +902,10 @@ class Employee extends BaseModel
         $totalLate = 0;
 
         foreach ($days as $day) {
+             $dt = new Carbon($day);
+             if($dt->dayOfWeek == $this->rest_day){
+                continue;
+             }
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
             $endDate   = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 23:59:59');
 
@@ -1334,7 +1342,7 @@ class Employee extends BaseModel
 
     public function getSEACount($from, $to)
     {
-        return $this->getInAttendance($from, $to);
+        return $this->getInAttendance($from, $to, true, false);
     }
 
 
@@ -1587,7 +1595,7 @@ class Employee extends BaseModel
 
     public function getSundayAttendance($from, $to)
     {
-
+        return 0;
         $holiday = new \HolidayRepository();
 
         $date_range = createDateRangeArray($from, $to);
@@ -1618,6 +1626,7 @@ class Employee extends BaseModel
 
     public function getSundayAttendanceHours($from, $to)
     {
+        return 0;
         $date_range = createDateRangeArray($from, $to);
        
         $hours_attended = 0;
@@ -1665,7 +1674,7 @@ class Employee extends BaseModel
         return $sp;
     }
 
-    public function getInAttendance($from, $to, $weekend_include = true)
+    public function getInAttendance($from, $to, $weekend_include = true, $with_holiday = true)
     {
        
         $holiday = new \HolidayRepository();
@@ -1673,7 +1682,8 @@ class Employee extends BaseModel
         $date_range = createDateRangeArray($from, $to);
         // dd($date_range);
         $in_attendance = 0;
-        foreach ($date_range as $date) {
+        foreach ($date_range as $date) 
+        {
             $date_2 = $date;
             if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
                 $day = new DateTime($date);
@@ -1694,9 +1704,16 @@ class Employee extends BaseModel
                                     ->count();
                 
 
-                if($dt->dayOfWeek != Carbon::SUNDAY && $attended) 
+                if($attended) 
                 {
-                    $in_attendance++;
+                    if($with_holiday && ($holiday->isRegularHoliday($date) || $holiday->isSpecialHoliday($date))){
+                        $in_attendance++;
+                    }
+                    else{
+                        $in_attendance++;
+                        
+                    }
+
                 }
 
             
