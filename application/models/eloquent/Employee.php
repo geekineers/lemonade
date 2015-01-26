@@ -1527,8 +1527,6 @@ class Employee extends BaseModel
     public function isRestDay($date)
     {
         $dt = new Carbon($date);
-        $current_date = date('Y-m-d', strtotime($date_range_start));
-
         if($dt->dayOfWeek == $this->rest_day) {
             return true;
         }
