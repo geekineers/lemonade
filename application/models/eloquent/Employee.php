@@ -1010,6 +1010,10 @@ class Employee extends BaseModel
      */
     public function getOverTimePayRate($type="normal")
     {
+        $regular_holiday_rest_rate = $this->getCompany()->company_regular_holiday_rest_pay/100;
+        $special_holiday_rest_rate = $this->getCompany()->company_special_holiday_rest_pay/100;
+        $rest_rate            = $this->getCompany()->company_rest_pay/100;
+        $rest_rate            = $rest_rate + 1;
         switch ($type) {
             case 'regular_holiday':
                 $ot_pay = $this->getCompany()->company_regular_holiday_overtime_pay/100;
@@ -1023,6 +1027,25 @@ class Employee extends BaseModel
                 $regular_holiday_pay = $this->getSpecialHolidayRate() + 1;
                 $overtime_pay = $ot_pay * $regular_holiday_pay;
                 break;
+            case 'rest_day':
+            
+                $ot_pay = $ot_pay + 1;
+                $rest_day_pay = $rest_rate + 1;
+                $overtime_pay = $ot_pay * $rest_day_pay;
+                break;
+            case 'special_holiday_rest_day':
+                $ot_pay = $this->getCompany()->company_special_holiday_overtime_pay/100;
+                $ot_pay = $ot_pay + 1;
+                $special_holiday_rest_rate = $special_holiday_rest_rate + 1;
+                $overtime_pay = $ot_pay * $special_holiday_rest_rate * rest_rate;
+                break;
+            case 'regular_holiday_rest_day':
+                $ot_pay = $this->getCompany()->company_special_holiday_overtime_pay/100;
+                $ot_pay = $ot_pay + 1;
+                $regular_holiday_pay = $regular_holiday_rest_rate + 2;
+                $overtime_pay = $ot_pay * $regular_holiday_pay * rest_rate;
+                break;
+            
             default:
                 $overtime_pay = $this->getCompany()->company_overtime_pay/100;
                 $overtime_pay = $overtime_pay + 1;
@@ -1064,7 +1087,7 @@ class Employee extends BaseModel
   
             switch ($type) {
                 case 'special_holiday':
-                    if($holiday->isSpecialHoliday($date_from)):
+                    if($holiday->isSpecialHoliday($date_from) && !($this->isRestDay($date_from))):
                         $ot_to   = new Carbon($ot->to);
                         $ot_from = new Carbon($ot->from);
                         $diff    = $ot_to->diffInHours($ot_from);
@@ -1072,7 +1095,7 @@ class Employee extends BaseModel
                     endif;                 
                     break;
                 case 'regular_holiday':
-                    if($holiday->isRegularHoliday($date_from)):
+                    if($holiday->isRegularHoliday($date_from) && !($this->isRestDay($date_from))):
                         $ot_to   = new Carbon($ot->to);
                         $ot_from = new Carbon($ot->from);
                         $diff    = $ot_to->diffInHours($ot_from);
@@ -1080,13 +1103,38 @@ class Employee extends BaseModel
                     endif;
                     break;
                 case 'normal':
-                    if(!$holiday->isRegularHoliday($date_from) && !$holiday->isSpecialHoliday($date_from)):
+                    if(!$this->isRestDay($date_from) && !$holiday->isRegularHoliday($date_from) && !$holiday->isSpecialHoliday($date_from)):
                         $ot_to   = new Carbon($ot->to);
                         $ot_from = new Carbon($ot->from);
                         $diff    = $ot_to->diffInHours($ot_from);
                         $total_overtime += $ot->getFormData()->total_hrs;
                     endif;
                     break;
+                case 'rest_day':
+                    if($this->isRestDay($date_from) && !$holiday->isRegularHoliday($date_from) && !$holiday->isSpecialHoliday($date_from)){
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;               
+                    }
+                    break;
+                case 'regular_holiday_rest_day':
+                    if($holiday->isRegularHoliday($date_from) && $this->isRestDay($date_from)){
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;   
+                    }
+                    break;
+                case 'special_holiday_rest_day':
+                    if ($holiday->isSpecialHoliday($date_from) && $this->isRestDay($date_from)) {
+                        $ot_to   = new Carbon($ot->to);
+                        $ot_from = new Carbon($ot->from);
+                        $diff    = $ot_to->diffInHours($ot_from);
+                        $total_overtime += $ot->getFormData()->total_hrs;   
+                    }
+                    break;
+
                 default:
 
                         $ot_to   = new Carbon($ot->to);
@@ -1110,8 +1158,11 @@ class Employee extends BaseModel
         // dd($this->getOvertime($from, $to, 'regular_holiday'));
         $normal = floatval($this->getOverTimePayRate('normal') * $this->getOvertime($from, $to, 'normal') * $this->getHourlyRate());
         $regular_holiday = floatval($this->getOverTimePayRate('regular_holiday') * $this->getOvertime($from, $to, 'regular_holiday') * $this->getHourlyRate());
+        $regular_holiday_rest_day = floatval($this->getOverTimePayRate('regular_holiday_rest_day') * $this->getOvertime($from, $to, 'regular_holiday_rest_day') * $this->getHourlyRate());
+        $special_holiday_rest_day = floatval($this->getOverTimePayRate('special_holiday_rest_day') * $this->getOvertime($from, $to, 'special_holiday_rest_day') * $this->getHourlyRate());
+        $rest_day = floatval($this->getOverTimePayRate('rest_day') * $this->getOvertime($from, $to, 'rest_day') * $this->getHourlyRate());
         $special_holiday = floatval($this->getOverTimePayRate('special_holiday') * $this->getOvertime($from, $to, 'special_holiday') * $this->getHourlyRate());
-        return $normal + $regular_holiday + $special_holiday;
+        return $normal + $regular_holiday + $special_holiday + $regular_holiday_rest_day + $special_holiday_rest_day + $rest_day;
     
     }
 
@@ -1300,8 +1351,6 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
-        // return $this->getRegularHolidayRate();
-        // $pay =  floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to)) + floatval($this->getRestDayPay($from, $to)['regular_holiday']);
         $pay =  floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to));
 
         if(strtolower($this->getPayrollPeriod()->period) == "daily"){
@@ -1473,6 +1522,18 @@ class Employee extends BaseModel
     public function getSpecialHolidayPay($from, $to)
     {
         return floatval($this->getSpecialHolidayRate() * $this->getHourlyRate() * $this->getSpecialHolidayAttendance($from, $to))  + floatval($this->getRestDayPay($from, $to)['special_holiday']);
+    }
+
+    public function isRestDay($date)
+    {
+        $dt = new Carbon($date);
+        $current_date = date('Y-m-d', strtotime($date_range_start));
+
+        if($dt->dayOfWeek == $this->rest_day) {
+            return true;
+        }
+        return false;
+
     }
 
     public function getRestDayAttendance($from, $to, $type="all")
