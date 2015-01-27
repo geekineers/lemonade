@@ -78,7 +78,7 @@ class Employee extends BaseModel
 
     public function getEmployeeID()
     {
-        return createEmployeeID($this->id);
+        return $this->employee_number;
     }
 
     public function getEmployeeNumber()
