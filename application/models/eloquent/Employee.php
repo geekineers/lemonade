@@ -838,7 +838,7 @@ class Employee extends BaseModel
         $totalUnderTime = 0;
         foreach ($days as $day) {
             $dt = new Carbon($day);
-             if($dt->dayOfWeek == $this->rest_day){
+             if($dt->dayOfWeek == $this->rest_day || $holiday->isRegularHoliday($day) || $holiday->isSpecialHoliday($day)){
                 continue;
              }
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
@@ -895,7 +895,7 @@ class Employee extends BaseModel
         if($this->getTimesheetRequired() == 'No'){
             return 0;
         }    
-
+        $holiday = new \HolidayRepository();
         $days           = createDateRangeArray($from, $to);
         $timeShiftStart = $this->getTimeShiftStart(true);
         // dd($timeShiftStart);
@@ -903,7 +903,7 @@ class Employee extends BaseModel
 
         foreach ($days as $day) {
              $dt = new Carbon($day);
-             if($dt->dayOfWeek == $this->rest_day){
+             if($dt->dayOfWeek == $this->rest_day || $holiday->isRegularHoliday($day) || $holiday->isSpecialHoliday($day)){
                 continue;
              }
             $startDate = DateTime::createFromFormat('Y-m-d H:i:s', $day . ' 00:00:00');
@@ -1392,17 +1392,17 @@ class Employee extends BaseModel
 
     public function getColaCount($from, $to, $type="regular_holiday")
     {
-        $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "not_rest_day_attendance");
-        $special_holiday_attendance = $this->getSpecialHolidayAttendance($from, $to);
-        if($type == "normal_day"){
-            return $this->getInAttendance($from, $to) - ( $this->getRegularHolidayAttendance($from, $to, "rest_day_attendance") + $this->getRestDayAttendance($from, $to, 'not_holiday')); 
+        $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
+        if($type == "normal_day")
+        {
+            return $this->getInAttendance($from, $to) -  $this->getRegularHolidayAttendance($from, $to, "all_attendance"); 
         }
         return $regular_holiday_attendance;
     }
 
     public function getSEACount($from, $to)
     {
-        return $this->getInAttendance($from, $to, true, false) - $this->getRestDayAttendance($from, $to, 'not_holiday');
+        return $this->getInAttendance($from, $to, true, true);
     }
 
 
@@ -1428,6 +1428,7 @@ class Employee extends BaseModel
 
         $date_range = createDateRangeArray($from, $to);
         $rest_day_attendance = 0;
+        $all_attendance = 0;
         $not_rest_day_attendance = 0;
         $hours_attended = 0;
         foreach ($date_range as $date) {
@@ -1457,6 +1458,7 @@ class Employee extends BaseModel
                     else{ 
                     $not_rest_day_attendance++;
                      }
+                    $all_attendance++;
                     // return $attended(;
                    // dd($attended);
                     $time_in = date('Y-m-d H:i:s', strtotime($attended->time_in));
@@ -1471,6 +1473,7 @@ class Employee extends BaseModel
 
         if($extra_feature == "rest_day_attendance") { return $rest_day_attendance; }
         if($extra_feature == "not_rest_day_attendance") { return $not_rest_day_attendance; }
+        if($extra_feature == "all_attendance") { return $all_attendance; }
         return (int) $hours_attended;
     }
 

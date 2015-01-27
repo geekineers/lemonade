@@ -319,8 +319,12 @@ class EmployeeRepository extends BaseRepository
 
         if(!$existing){
             $save = $this->create($save_data);
-
-            $save->employee_number = createEmployeeID($save->id);
+            if($data['employee_number'] == "" || $data['employee_number'] == null){
+                $save->employee_number = createEmployeeID($save->id);
+            }
+            else{
+                $save->employee_number = $data['employee_number'];
+            }
 
             $save->save();
 
@@ -522,17 +526,17 @@ class EmployeeRepository extends BaseRepository
         
 
         foreach ($user_infos as  $user_info ) {
-            if($user_info[0] == "")
+            if($user_info[1] == "")
             {
                 continue;
             }
             $required_field = [
-                            'employee_type' => $user_info[9],
-                            'branch' =>  $user_info[10],
-                            'department' => $user_info[12],
-                            'job_position' => $user_info[11],
-                            'payroll_group_name' => $user_info[13],
-                            'payroll_group_period' => $user_info[14],
+                            'employee_type' => $user_info[11],
+                            'branch' =>  $user_info[12],
+                            'department' => $user_info[14],
+                            'job_position' => $user_info[13],
+                            'payroll_group_name' => $user_info[15],
+                            'payroll_group_period' => $user_info[16],
                             ];
             // dd($required_field);
             // 
@@ -544,46 +548,46 @@ class EmployeeRepository extends BaseRepository
                 }
             }
 
-            $employee_type = EmployeeType::where('employee_type_name', '=', $user_info[9])->first();
+            $employee_type = EmployeeType::where('employee_type_name', '=', $user_info[10])->first();
             if($employee_type){
                 $employee_type_id = $employee_type->id;
             }
             else{
-                $employee_type = EmployeeType::create(['employee_type_name' => $user_info[9], 'company_id' => COMPANY_ID]);
+                $employee_type = EmployeeType::create(['employee_type_name' => $user_info[10], 'company_id' => COMPANY_ID]);
                 $employee_type_id = $employee_type->id;
             }
 
-            $branch = Branch::where('branch_name','=', $user_info[10])->first();
+            $branch = Branch::where('branch_name','=', $user_info[11])->first();
             if($branch){
                 $branch_id =$branch->id;
             }
             else{
-                $branch= Branch::create(array('branch_name' => $user_info[10], 'branch_description' => 'null', 'branch_address' => 'null', 'branch_contact_number' => 'null', 'company_id' => COMPANY_ID));
+                $branch= Branch::create(array('branch_name' => $user_info[11], 'branch_description' => 'null', 'branch_address' => 'null', 'branch_contact_number' => 'null', 'company_id' => COMPANY_ID));
                 
                 $branch_id = $branch->id;
             }
             // dd($branch_id);
-            $department = Department::where('department_name', '=',  $user_info[12])->first();
+            $department = Department::where('department_name', '=',  $user_info[13])->first();
             if($department){
                 $department_id =$department->id;
             }
             else{
-                $department = Department::create(array('department_name' => $user_info[12],'branch_id' => $branch_id, 'company_id' => COMPANY_ID, 'department_description' => 'null'));
+                $department = Department::create(array('department_name' => $user_info[13],'branch_id' => $branch_id, 'company_id' => COMPANY_ID, 'department_description' => 'null'));
                 $department_id = $department->id;
             }
 
-            $job_position = Job_Position::where('Job_Position','=', $user_info[11])->where('branch_id', $branch_id)->first();
+            $job_position = Job_Position::where('Job_Position','=', $user_info[12])->where('branch_id', $branch_id)->first();
             if($job_position)
             {
                 $job_position_id = $job_position->id;
             }
             else
             {
-                $job_position = Job_Position::create(array('job_position' => $user_info[11], 'company_id' => COMPANY_ID, 'job_description' => 'null', 'branch_id' => $branch_id));
+                $job_position = Job_Position::create(array('job_position' => $user_info[12], 'company_id' => COMPANY_ID, 'job_description' => 'null', 'branch_id' => $branch_id));
                    $job_position_id = $job_position->id;
             }
 
-            $group_name = trim(ucwords(strtolower($user_info[13])));
+            $group_name = trim(ucwords(strtolower($user_info[14])));
 
             $payroll_period = PayrollGroup::where('group_name','=',$group_name)
                                             ->where('branch_id', '=', $branch_id) 
@@ -594,41 +598,42 @@ class EmployeeRepository extends BaseRepository
             }
             else{
      
-                $period  = trim(ucwords(strtolower($user_info[14])));
+                $period  = trim(ucwords(strtolower($user_info[15])));
                 $payroll_period = PayrollGroup::create(array('group_name' => $group_name, 'period' => $period, 'branch_id' => $branch_id,'company_id' => COMPANY_ID));
                  $payroll_period_id = $payroll_period->id;
             }
             // dd(date('H:i:s', strtotime($user_info[25])));
 
             $data = array(
-                'first_name'        => toTitleCase($user_info[0]),
-                'last_name'         => toTitleCase($user_info[2]),
-                'middle_name'       => toTitleCase($user_info[1]),
-                'full_address'      => toTitleCase($user_info[3]),
-                'birthdate'         => toTitleCase($user_info[7]),
-                'gender'            => toTitleCase($user_info[8]),
-                'marital_status'    => toTitleCase($user_info[6]),
-                'spouse_name'       => toTitleCase($user_info[4]),
+                'employee_number'   => $user_info[0],
+                'first_name'        => toTitleCase($user_info[1]),
+                'last_name'         => toTitleCase($user_info[3]),
+                'middle_name'       => toTitleCase($user_info[2]),
+                'full_address'      => toTitleCase($user_info[4]),
+                'birthdate'         => toTitleCase($user_info[8]),
+                'gender'            => toTitleCase($user_info[9]),
+                'marital_status'    => toTitleCase($user_info[7]),
+                'spouse_name'       => toTitleCase($user_info[5]),
                 'employee_type'     => $employee_type_id,
                 'payroll_period'    =>  $payroll_period_id,
                 'job_position'      =>  $job_position_id,
                 'department'        =>  $department_id,
-                'role_id'           => $user_info[15],
+                'role_id'           => $user_info[16],
                 'branch_id'         => $branch_id,
-                'date_hire'         =>  $user_info[16],
+                'date_hire'         =>  $user_info[17],
                 'date_ended'        => 'none',
-                'basic_pay'         => $user_info[17],
-                'tin_number'        => $user_info[18],
-                'sss_number'        => $user_info[19],
-                'pagibig_number'    => $user_info[21],
-                'philhealth_number' => $user_info[20],
-                'dependents'        => (int) $user_info[5],
-                'contact_number'    => $user_info[24],
-                'email_address'     => $user_info[22],
-                'fb'                => $user_info[23],
+                'basic_pay'         => $user_info[18],
+                'tin_number'        => $user_info[19],
+                'sss_number'        => $user_info[20],
+                'pagibig_number'    => $user_info[22],
+                'philhealth_number' => $user_info[21],
+                'dependents'        => (int) $user_info[6],
+                'contact_number'    => $user_info[25],
+                'email_address'     => $user_info[23],
+                'fb'                => $user_info[22],
                 'display_picture'   => null,
-                'timeshift_start'   => date('H:i:s', strtotime($user_info[25])),
-                'timeshift_end'     => date('H:i:s', strtotime($user_info[26]))
+                'timeshift_start'   => date('H:i:s', strtotime($user_info[26])),
+                'timeshift_end'     => date('H:i:s', strtotime($user_info[27]))
 
 
             );
