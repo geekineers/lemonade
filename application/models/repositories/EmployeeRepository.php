@@ -531,12 +531,12 @@ class EmployeeRepository extends BaseRepository
                 continue;
             }
             $required_field = [
-                            'employee_type' => $user_info[11],
-                            'branch' =>  $user_info[12],
-                            'department' => $user_info[14],
-                            'job_position' => $user_info[13],
-                            'payroll_group_name' => $user_info[15],
-                            'payroll_group_period' => $user_info[16],
+                            'employee_type' => $user_info[10],
+                            'branch' =>  $user_info[11],
+                            'department' => $user_info[13],
+                            'job_position' => $user_info[12],
+                            'payroll_group_name' => $user_info[14],
+                            'payroll_group_period' => $user_info[15],
                             ];
             // dd($required_field);
             // 
