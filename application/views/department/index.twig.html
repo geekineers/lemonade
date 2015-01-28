@@ -45,7 +45,7 @@
           <a href="#updateDepartment" data-id="{{ group.id }}" data-name="{{ group.department_name }}" data-department-head="{{ group.department_head_id }}" data-branch = {{ group.branch_id }} data-description="{{ group.department_description }}" class="btn-update-department btn btn-primary">
             <i class="fa fa-edit"></i>
           </a>
-          <a href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete">
+          <a onclick="return confirm('Are you sure?')" href="/settings/department/delete?token={{ group.id }}" class="btn btn-danger department_delete">
             <i class="fa fa-trash-o"></i>
           </a>
         </td>

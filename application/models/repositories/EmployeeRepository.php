@@ -93,7 +93,6 @@ class EmployeeRepository extends BaseRepository
             'birthdate'      => $data['birthdate'],
             'gender'         => $data['gender'],
             'marital_status' => $data['marital_status'],
-            'employee_number' => createEmployeeID($employee_id),
             // 'spouse_name' => $data['spouse_name'],
             'dependents' => (int) $data['dependents'],
 

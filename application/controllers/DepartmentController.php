@@ -59,14 +59,23 @@ class DepartmentController extends BaseController
         $input['department_head_id'] = (int) $this->input->post('department_head_id');
 
         // dd($input);
-        $job = $this->departmentRepository->createNotExist($input);
-        if ($job) {
+        $already = $this->departmentRepository->where('department_name', $input['department_name'])
+                        ->where('branch_id', $input['branch_id'])
+                        ->count();
+        if($already == 0){
+            $save = $this->departmentRepository->create($input);
+        }
+        else{
+            $save = false;
+        }
+        if ($save) {
             $this->session->set_flashdata('message', $input['department_name'] . ' has been added.');
             redirect('/settings/department');
         } else {
             $this->session->set_flashdata('message', $input['department_name'] . ' is already in here.');
             // dd($message);
-            redirect('/department/add');
+            redirect('/settings/department');
+            
         }
     }
 

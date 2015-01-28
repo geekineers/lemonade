@@ -83,7 +83,7 @@
 
 
 <!-- Modal -->
-<form method="post" enctype="multipart/form-data" action="/settings/job/add">
+<form method="post" action="/settings/job/add">
 
     <div class="modal fade" id="addNewJob" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -108,7 +108,7 @@
 
                     <div class="form-group">
                         <label for="">Branch</label>
-                        <select name="branch_id" id="update-branch-id" class="form-control">
+                        <select name="branch_id" class="form-control">
                                  {% for branch in branches %}
                                     <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
                                 {% endfor %}
