@@ -47,9 +47,19 @@ class JobController extends BaseController
     {
         $input['job_position']    = (string) $this->input->post('job_position');
         $input['job_description'] = (string) $this->input->post('job_description');
+        $input['branch_id'] = (string) $this->input->post('branch_id');
+       
 
-        // dd($input);
-        $job = $this->jobPositionRepository->createNotExist($input);
+        $already = $this->jobPositionRepository->where('job_position', $input['job_position'])
+                        ->where('branch_id', $input['branch_id'])
+                        ->count();
+        if($already == 0){
+            $job = $this->jobPositionRepository->create($input);
+        }
+        else{
+            $job = false;
+        }
+    
         if ($job) 
         {
             $this->session->set_flashdata('message', $input['job_position'] . ' has been added.');
@@ -59,7 +69,7 @@ class JobController extends BaseController
         {
             $this->session->set_flashdata('message', $input['job_position'] . ' is already in here.');
 
-            redirect('/settings/job/add');
+            redirect('/settings/job');
         }
     }
 

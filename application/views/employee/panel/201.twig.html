@@ -80,6 +80,44 @@
 	<div class="panel-body">
 		<table class="table">
 			<tr>
+				<td><span class="form-label">Branch</span>
+					<span class="profile-value">{{ employee.getBranch() }}</span>
+					<select name="branch_id" id="branch" class="form-control  edit-input">
+					{% for branch in branches %}
+						<option {% if branch.id == employee.branch_id %} selected="selected"  {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
+					{% endfor %}
+					</select>
+				</td>
+				<td><span class="form-label">Department</span>
+					<span class="profile-value">{{ employee.getDepartment() }}</span>
+				 	<select id="department" name="department" class="form-control edit-input">
+						{% for department in departments %}
+						<option {% if department.id == employee.department %} selected="selected" {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><span class="form-label">Sub Department</span>
+					<span class="profile-value">{{ employee.getSubDepartment() }}</span>
+				 	<select id="sub_department" name="sub_department" class="form-control edit-input">
+						{% for sub_department in sub_departments %}
+						<option {% if sub_department.id == employee.sub_department_id %} selected="selected" {% endif %}value="{{ sub_department.id }}">{{ sub_department.sub_department_name }}</option>
+						{% endfor %}
+					</select>
+				</td>
+				<td><span class="form-label">Position</span>
+					<span class="profile-value">{{ employee.getJobPosition() }}
+					</span>
+					<select name="job_position" class="form-control edit-input">
+						{% for position in job_positions %}
+						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">
+						{{ position.job_position }}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td><span class="form-label">Employee Status</span>
 					<span class="profile-value">{{ employee.getEmployeeType() }}
 					</span>
@@ -105,25 +143,6 @@
 					{% endfor %}
 					</select>		 	    
 				</td>
-			</tr>
-			<tr>
-				<td><span class="form-label">Department</span>
-					<span class="profile-value">{{ employee.getDepartment() }}</span>
-				 	<select id="department" name="department" class="form-control edit-input">
-						{% for department in departments %}
-						<option {% if department.id == employee.department %} selected="selected" {% endif %}value="{{ department.id }}">{{ department.department_name }}</option>
-						{% endfor %}
-					</select>
-				</td>
-				<td><span class="form-label">Sub Department</span>
-					<span class="profile-value">{{ employee.getSubDepartment() }}</span>
-				 	<select id="sub_department" name="sub_department" class="form-control edit-input">
-						{% for sub_department in sub_departments %}
-						<option {% if sub_department.id == employee.sub_department_id %} selected="selected" {% endif %}value="{{ sub_department.id }}">{{ sub_department.sub_department_name }}</option>
-						{% endfor %}
-					</select>
-				</td>
-
 			</tr>
 			<tr>
 				
@@ -159,32 +178,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td><span class="form-label">Branch</span>
-					<span class="profile-value">{{ employee.getBranch() }}</span>
-					<select name="branch_id" id="branch" class="form-control  edit-input">
-					{% for branch in branches %}
-						<option {% if branch.id == employee.branch_id %} selected="selected"  {% endif %}value="{{ branch.id }}">{{ branch.branch_name }}</option>
-					{% endfor %}
-					</select>
-				</td>
+
 				<td>
 					<span class="form-label">Employee Role</span>
 					<span class="profile-value">{{ employee.getRole().name }}</span>
 					<select name="role_id" class="form-control  edit-input">
 						{% for role in employee.getAllRoles() %}
 						 <option {% if role.id == employee.getRole().id %} selected="selected"  {% endif %}value="{{ role.id }}">{{ role.name }}</option>
-						{% endfor %}
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td><span class="form-label">Position</span>
-					<span class="profile-value">{{ employee.getJobPosition() }}
-					</span>
-					<select name="job_position" class="form-control edit-input">
-						{% for position in job_positions %}
-						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">
-						{{ position.job_position }}</option>
 						{% endfor %}
 					</select>
 				</td>
@@ -201,6 +201,7 @@
 
 				</td>
 			</tr>
+	
 		</table>
 		<div class="save-cancel-btn pull-right">
 			<input type="submit" value="Save" class="btn btn-sm btn-save btn-success" />

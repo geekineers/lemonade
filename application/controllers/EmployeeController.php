@@ -205,7 +205,6 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['company'] = $this->company;
         $data['user']    = $this->employeeRepository->getLoginUser($this->sentry->getUser());
 
-        $data['job_positions'] = $this->jobPositionRepository->all();
         $data['branches']      = $this->branchesRepository->all();
 
         $data['payroll_groups']  = $this->payrollGroupRepository->getPayrollGroupbyEmployeeBranch($id);
@@ -214,7 +213,8 @@ use Upload\Storage\FileSystem as FileSystem;
         $data['employee']        = $this->employeeRepository->where('id', '=', $id)->withTrashed()->first();
         $data['histories']        = $this->historyRepository->getByEmployee($id)->groupBy(function($value) { return date('Y-m-d', strtotime($value->created_at)); })->reverse();
       
-        $data['departments']     = $this->departmentRepository->all();
+        $data['job_positions'] = $this->jobPositionRepository->where('branch_id', $data['employee']->branch_id)->get();;
+        $data['departments']     = $this->departmentRepository->where('branch_id', $data['employee']->branch_id)->get();
         $data['sub_departments']     = $this->subDepartmentRepository->where('parent_department_id', $data['employee']->department)->get();
         $data['deduction_types'] = $this->deductionRepository->all();
         $data['allowance_types'] = $this->allowanceRepository->all();
