@@ -3,7 +3,7 @@
 	"name" : "ellislab/codeigniter",
 	"require": {
 		"jamierumbelow/pigeon": "*",
-		"codeguy/upload": "dev-master",
+		"codeguy/upload": "*",
 		"twig/twig": "1.*",
 		"cartalyst/sentry": "2.1.*",
 		"illuminate/database": "4.2.7",

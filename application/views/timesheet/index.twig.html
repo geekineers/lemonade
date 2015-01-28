@@ -74,7 +74,7 @@
    </thead>
    <tbody class="main-table-body">
     {% for time in timesheets %}
-    <tr >
+    <tr>
         <td>{{ time.time_in }}</td>
         <td>{{ time.getTimeOut() }}</td>
         <td>{{ time.getEmployee.getName() }}</td>
@@ -112,7 +112,7 @@
 
 
             class="btn btn-primary edit-timesheet"><i class="fa fa-edit"></i></a>
-              <a  onclick="return confirm('Are you sure?')"  href="/timesheet/delete?token={{ time.id }}" class="btn btn-danger">
+              <a href="/timesheet/delete?token={{ time.id }}" data-id="{{ time.id }}" data-index="{{ loop.index0 }}" class="btn btn-danger js-btn-delete-item">
                 <i class="fa fa-trash-o"></i>
             </a>
         </td>
@@ -445,6 +445,37 @@ $('.dateranger-btn').on('click', function(e){
 
         $('.dataTables_paginate > a').addClass('btn btn-default');
     })(jQuery);
+</script>
+
+<script>
+    $(document).ready(function() {
+      var $btn = $('.js-btn-delete-item');
+
+      $btn.on('click', function(evt) {
+        evt.preventDefault();
+
+
+        if ( !confirm('Are you sure to delete this timesheet?') ) return;
+
+        var $this = $(this);
+
+        var id = $this.data('id');
+
+        $.ajax({
+          url: '/timesheet/delete?token=' + id,
+          type: 'get',
+          dataType: 'json',
+          success: function(r) {
+            alert('Successfully removed the timesheet!');
+            $this.parents('tr').slideUp(1500);
+          },
+          error: function(r) {
+            console.log(r);
+            alert('An error has occurred while deleting the timesheet. Please try to refresh the page.');
+          }
+        });
+      });
+    });
 </script>
 
 
