@@ -270,6 +270,7 @@ Pigeon::map(function ($r) {
     $r->post('reports/generate-philhealth-report', 'ReportsController#generatePhilhealthReport');
     $r->post('reports/generate-number-of-employee-report', 'ReportsController#generateNumberOfEmployeeReport');
     $r->post('reports/generate-pagibig-report', 'ReportsController#generatePagibigReport');
+    $r->post('reports/generate-leave-report', 'ReportsController#generateLeaveReport');
 
 
     $r->post('history/save', 'HistoryController#save');

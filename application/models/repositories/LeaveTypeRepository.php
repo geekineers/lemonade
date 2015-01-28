@@ -43,7 +43,7 @@ class LeaveTypeRepository extends BaseRepository {
 
 	public function getAvailableLeaves($employee_id)
 	{
-		$leave_ids_zero = array();
+		$leave_ids_zero = [0];
 		$credits = EmployeeLeaveCredit::where('employee_id', $employee_id)
 							->where('counter', 0)
 							->get();
@@ -52,6 +52,7 @@ class LeaveTypeRepository extends BaseRepository {
 
 		}
 
+		// $leave_ids_zero = [0];	
 		return LeaveType::whereNotIn('id', $leave_ids_zero)->get();
 	}
 

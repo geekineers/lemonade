@@ -4,7 +4,7 @@ require_once ('BaseController.php');
 
 class ReportsController extends BaseController
 {
-    protected $branchRepository, $employeeRepository, $departmentRepository, $reportRepository;
+    protected $formApplicationRepository, $branchRepository, $employeeRepository, $departmentRepository, $reportRepository;
 
     public function __construct()
     {
@@ -14,6 +14,7 @@ class ReportsController extends BaseController
         $this->departmentRepository = new DepartmentRepository();
         $this->jobPositionRepository = new JobPositionRepository();
         $this->employeeRepository   = new EmployeeRepository();
+        $this->formApplicationRepository   = new FormApplicationRepository();
 
         $this->reportRepository = new ReportRepository();
 
@@ -22,6 +23,13 @@ class ReportsController extends BaseController
     public function generate()
     {
         // $year = ($this->input->get('year') == null) ? date('Y') : $this->input->get('year');
+        $data['form_types'] = [
+            ['name' => 'OB Form', 'string_key' => 'ob'],
+            ['name' => 'OT Form', 'string_key' => 'ot'],
+            ['name' => 'Undertime Form', 'string_key' => 'undertime'],
+            ['name' => 'Leave Form', 'string_key' => 'leave']
+
+        ];
         $data['company']  = $this->company;
         $data['title']    = "Generate Report";
         $data['branches'] = $this->branchRepository->all();
@@ -350,6 +358,57 @@ class ReportsController extends BaseController
 
     }
 
+    public function generateLeaveReport()
+    {
+       $output = [];
+       $output_column = [];
+        $form_types_ref = [
+            'ob' => ['name' => 'OB Form', 'string_key' => 'ob'],
+            'ot' => ['name' => 'OT Form', 'string_key' => 'ot'],
+            'undertime' => ['name' => 'Undertime Form', 'string_key' => 'undertime'],
+            'leave' => ['name' => 'Leave Form', 'string_key' => 'leave']
+
+        ];
+
+       $branch_id = $this->input->post('branch');
+       $from = $this->input->post('from'); 
+       $to = $this->input->post('to'); 
+       $form_type = $this->input->post('form_type'); 
+       // dd(date('Y-m-d H:i:s', strtotime($from)),date('Y-m-d H:i:s',strtotime($to . " +1 days")));
+       $employees = $this->employeeRepository->where('branch_id', $branch_id)->get();
+       $branch = Branch::find($branch_id);
+       
+       foreach ($employees as $employee) {
+           $row[0] = $employee->full_name;
+           $row[1] = $this->formApplicationRepository->where('form_type', $form_type)
+                                                ->where('employee_id', $employee->id)
+                                                ->where('status', 'approved')
+                                                ->where('from', '>=', date('Y-m-d H:i:s',strtotime($from))) 
+                                                ->where('to', '<=', date('Y-m-d H:i:s',strtotime($to . " +1 days"))) 
+                                                ->count();
+           $row[2] = $this->formApplicationRepository->where('form_type', $form_type)
+                                                ->where('employee_id', $employee->id)
+                                                ->where('status', 'not-yet-approved')
+                                                ->where('from', '>=', date('Y-m-d H:i:s',strtotime($from))) 
+                                                ->where('to', '<=', date('Y-m-d H:i:s',strtotime($to . " +1 days"))) 
+                                                ->count();
+           $row[3] = $this->formApplicationRepository->where('form_type', $form_type)
+                                                ->where('employee_id', $employee->id)
+                                                ->where('status', 'disapproved')
+                                                ->where('from', '>=', date('Y-m-d H:i:s',strtotime($from))) 
+                                                ->where('to', '<=', date('Y-m-d H:i:s',strtotime($to . " +1 days"))) 
+                                                ->count();
+         array_push($output, $row);
+        }
+
+        $output_column = ['Name', 'Approved', 'Pending', 'Disapproved'];
+        $xls_file = $this->reportRepository->generateXLS($output, $output_column, $form_type. '-report-' . $branch->branch_name, $branch->branch_name . " " . $form_types_ref[$form_type]['name']);
+
+        if ($xls_file) {
+            redirect($xls_file);
+        }
+
+    }
 
     public function company()
     {
