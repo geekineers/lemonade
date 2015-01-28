@@ -84,7 +84,6 @@ class TimesheetController extends BaseController {
        		->where('time_out', '<', $timeout_end);
        	
        	$total_count = count($data->get()->toArray());
-       	// dd($total);
        	$data = $data->take($take)->skip($skip)
        		->orderBy('time_in', 'desc')
        		->get();
@@ -156,7 +155,8 @@ class TimesheetController extends BaseController {
 		$this->timesheetRepository->delete($id);
 
 		$this->session->set_flashdata('message', 'Successfully deleted!');
-		redirect('/timesheet');
+		// redirect('/timesheet', 'location');
+		echo json_encode('success');
 	}
 
 	public function testCase() {
