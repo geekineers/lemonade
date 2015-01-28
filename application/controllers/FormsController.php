@@ -196,6 +196,7 @@ class FormsController extends BaseController
         $employee          = $this->employeeRepository->getUserById($employee_id);
       
         $data['leaves'] = $this->leaveTypeRepository->getAvailableLeaves($employee_id);
+        // dd($data);
         if ($template == 'ob') {
             return $this->load->view('forms/ob_form', $data);
         } else if ($template == 'ot') {
