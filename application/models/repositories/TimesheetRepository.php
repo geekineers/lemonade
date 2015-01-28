@@ -206,7 +206,7 @@ class TimesheetRepository extends BaseRepository
     }
     public function updateTime($timesheet_id, $employee_id, $timestart, $timeend, $from, $to)
     {
-
+        $employee = Employee::find($employee_id);
         $cookie    = $_COOKIE['cartalyst_sentry'];
         $timestart = date('H:i:s', strtotime($timestart));
         $timeend   = date('H:i:s', strtotime($timeend));
@@ -222,6 +222,35 @@ class TimesheetRepository extends BaseRepository
             'time_out'        => $time_out,
             'cookie_registry' => $cookie
         ];
+
+      $late         = getInterval($employee->getTimeShiftStart(true), $timestart, 'minute');
+      $is_late      = ($late > $employee->getCompany()->company_late_grace_period)  ? true : false;
+      $time_out     = DateTime::createFromFormat('Y-m-d H:i:s', $time_out);
+
+      $departure_time = $time_out->format('H:i:s');
+        // if($this->getTimeShiftEnd(true) > $departure_time) dd($resultDate);
+      $undertime = getInterval($departure_time, $employee->getTimeShiftEnd(true), 'minute');
+      // dd($undertime);
+      // dd($undertime);
+      $undertime = ($undertime >= 480) ? 480 : $undertime;
+      $is_undertime = ($undertime > 0) ? true : false;
+
+
+      $data['status'] = (isset($data['status'])) ? $data['status'] : 'good';
+      
+      if($is_late) 
+      {
+        $data['status'] = 'late';
+      }
+      else if($is_undertime)
+      {
+        $data['status'] = 'undertime';
+      }
+
+      if(!isset($data['time_out']))
+      {
+        $data['status'] = 'current';
+      }
         // dd($timesheet_id);
         Timesheet::find($timesheet_id)->update($data);
         return true;
