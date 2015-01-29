@@ -632,7 +632,8 @@ class EmployeeRepository extends BaseRepository
                 'fb'                => $user_info[22],
                 'display_picture'   => null,
                 'timeshift_start'   => date('H:i:s', strtotime($user_info[26])),
-                'timeshift_end'     => date('H:i:s', strtotime($user_info[27]))
+                'timeshift_end'     => date('H:i:s', strtotime($user_info[27])),
+                'rest_day'          => 0
 
 
             );
