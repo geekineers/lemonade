@@ -78,15 +78,19 @@ class TimesheetController extends BaseController {
        			$q->where('employee_number', 'like', '%' . $employee_id . '%');										     
 			})
        		->where('status', 'like',  '%' . $status .'%')
-       		->where('time_in', '>', $timein_start)
-       		->where('time_in', '<', $timein_end)
-       		->where('time_out', '>', $timeout_start)
-       		->where('time_out', '<', $timeout_end);
+       		->where('time_in', '>=', $timein_start)
+       		// ->where('time_in', '<', $timein_end)
+       		// ->where('time_out', '>', $timeout_start)
+       		->where('time_out', '=<', $timeout_end);
        	
        	$total_count = count($data->get()->toArray());
        	$data = $data->take($take)->skip($skip)
        		->orderBy('time_in', 'desc')
        		->get();
+
+       	foreach ($data as $key => $value) {
+       		$data[$key]->time_diff = $value->getTimeDiff();
+       	}
 
        	$output['data'] = $data;
        	$output['pagination'] = array(
