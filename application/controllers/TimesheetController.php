@@ -78,10 +78,10 @@ class TimesheetController extends BaseController {
        			$q->where('employee_number', 'like', '%' . $employee_id . '%');										     
 			})
        		->where('status', 'like',  '%' . $status .'%')
-       		->where('time_in', '>=', $timein_start)
+       		->where('time_in', '>', $timein_start)
        		// ->where('time_in', '<', $timein_end)
        		// ->where('time_out', '>', $timeout_start)
-       		->where('time_out', '=<', $timeout_end);
+       		->where('time_out', '<', $timeout_end);
        	
        	$total_count = count($data->get()->toArray());
        	$data = $data->take($take)->skip($skip)
