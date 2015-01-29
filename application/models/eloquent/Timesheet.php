@@ -70,7 +70,7 @@ class Timesheet extends Eloquent {
   	$datetime_out = new DateTime($time_out);
   	
   	$interval = $datetime_in->diff($datetime_out);
-  	return $interval->format('%H:%I:%s');
+  	return $interval->format('%H:%I:%S');
   }
 
 
