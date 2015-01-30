@@ -825,6 +825,8 @@ class Employee extends BaseModel
 
     public function getUnderTime($from, $to, $unit = 'minute')
     {
+                $holiday = new \HolidayRepository();
+
         $company        = $this->getCompany();
         $days           = createDateRangeArray($from, $to);
         $timeshift_ends = $this->getTimeShiftEnd(true);
