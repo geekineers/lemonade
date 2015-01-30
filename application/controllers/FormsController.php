@@ -37,7 +37,7 @@ class FormsController extends BaseController
         {
              $permissions = $group->permissions;
         }
-        if($permissions['form_approval'] == 1){
+        if(isset($permissions['form_approval']) && $permissions['form_approval'] == 1){
             $data['forms'] = Form_Application::all();
         }
         else{
