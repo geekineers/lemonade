@@ -107,7 +107,11 @@ class TimesheetRepository extends BaseRepository
         $data['status'] = 'current';
       }
 
+      $date_t = date('Y-m-d', strtotime($date_time_in));
 
+      if($employee->isRestDay($date_t)){
+        $data['status'] = 'good';
+      }
       $existing = Timesheet::where('employee_id', $data['employee_id'])
                       ->where(function($query) use($date_time_in, $date_time_out) {
                             $query->whereBetween('time_in', [$date_time_in, $date_time_out])
@@ -250,6 +254,11 @@ class TimesheetRepository extends BaseRepository
       if(!isset($data['time_out']))
       {
         $data['status'] = 'current';
+      }
+      $date_t = date('Y-m-d', strtotime($time_in));
+
+      if($employee->isRestDay($date_t)){
+        $data['status'] = 'good';
       }
         // dd($timesheet_id);
         Timesheet::find($timesheet_id)->update($data);
