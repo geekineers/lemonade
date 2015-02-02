@@ -120,6 +120,7 @@ Pigeon::map(function ($r) {
     $r->post('settings/department/edit', 'DepartmentController#update');
     $r->get('settings/department/delete', 'DepartmentController#delete');
     $r->get('settings/department/destroy', 'DepartmentController#destroy');
+    $r->get('settings/department/search', 'DepartmentController#search');
     $r->get('settings/department/trash', 'DepartmentController#trash');
     $r->get('settings/department/restore/(:num)', 'DepartmentController#restore');
 

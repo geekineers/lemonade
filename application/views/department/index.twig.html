@@ -1,7 +1,30 @@
 {% extends "layout/main.twig.html" %}
 {% block content %}
+    <div class="template-head" style="display:none">
+    <thead>
+       <tr>
+        <th>Job</th>
+        <th>Description</th>
+      
+        <th>Option</th>
+    </tr>       
+    </thead>        
+    </div>
+
+ <div class="template-body" style="display:none">
+      <div id="action_button">
+      
+                <a href="#updateJob" data-id="IDVALUE" data-name="NAMEVALUE" data-department-head="HEADVALUE" data-branch = "BRANCHVALUE" data-description="DESCRIPTIONVALUE" class="btn-update-job btn btn-primary"><i class="fa fa-edit"></i></a>
+                <a onclick="return confirm('Are you sure?')" href="/settings/job/delete?token=IDVALUE" class="job_position_delete btn btn-danger"><i class="fa fa-trash-o"></i></a>
+        
+        </div>   
+ </div>
+
+
+
   <div class="row container">
-    <a class="department_create btn-add-branch btn btn-success" data-toggle="modal" data-target="#addDepartment" href="/3">
+  <div class="col-md-2">
+    <a class="department_create btn btn-success" data-toggle="modal" data-target="#addDepartment" href="#">
       <i class="fa fa-plus"></i>
     </a>
     <div class="dropdown inline" >
@@ -18,6 +41,16 @@
     </li>
   </ul>   
   </div>
+    
+  </div>
+    <div class="col-md-3">
+<select name="" class="form-control"id="branch-select">
+            <option value="">--Select Branch--</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
   <br>
 	{% if alert_message != null %}
 	<div class="col-md-11 alert alert-success alert-dismissable">
@@ -27,8 +60,9 @@
       {{ alert_message }}.
   </div>
     {% endif %}
-</div>
-<table id="department-list" class="table table-bordered table-hovered">
+
+<div class="col-md-12" style="margin-top:5px;">
+  <table id="department-list" class="table table-bordered table-hovered">
   <thead>
   <tr>
     <th>Name</th>
@@ -37,8 +71,8 @@
   </tr>    
   </thead>
 
-	 {% for group in groups %}
-	 	<tr>
+   {% for group in groups %}
+    <tr>
         <td>{{ group.department_name }}</td> 
         <td>{{ group.getBranchName().branch_name }}</td>
         <td>
@@ -52,7 +86,10 @@
     {% endfor %}
     </tr>
 </table>
+</div>
 
+
+</div>
 
  <form role="form" action="/settings/department/add" method="post">
 
@@ -156,13 +193,7 @@
 <script type="text/javascript" src="/js/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#department-list').dataTable({
-            "bPaginate": true,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
+
     $('.btn-update-department').on('click', function() {
         var id = $(this).data('id');
         var name = $(this).data('name');
@@ -178,6 +209,42 @@
         $('#update-branch').val(branch);
         $('#updateDepartment').modal('show');
 
+    });
+    $('#branch-select').on('change', function(){
+        var branch_id = $(this).val();
+        var html = "";
+        $.get('/settings/department/search', { branch : branch_id }, function(res){
+            
+            var temp_header = "<thead><tr><th>Name</th><th>Branch</th><th>Options</th></tr></thead>";
+            var temp_row = "<tr><td>NAME</td><td>BRANCH</td><td>ACTION</td></tr>";
+            var action = $('#action_button').html();
+            
+            var newRow ="";
+            var action_button ="";
+            html += temp_header;
+
+          res.forEach(function buildRows(element, index, array){
+             action_button = action;
+             action_button = action_button.replace('NAMEVALUE', element.department_name, 'gi');
+             action_button = action_button.replace('IDVALUE', element.id, 'gi');
+             action_button = action_button.replace('DESCRIPTIONVALUE', element.department_description, 'gi');
+             action_button = action_button.replace('BRANCHVALUE', element.branch_id, 'gi');
+             action_button = action_button.replace('DEPARTMENTHEADVALUE', element.department_head_id, 'gi');
+
+             newRow = temp_row;
+             newRow = newRow.replace('NAME', element.department_name, 'gi');
+             newRow = newRow.replace('DESCRIPTION', element.department_description, 'gi');
+             newRow = newRow.replace('ACTION', action_button, 'gi');
+
+
+             html += newRow;
+
+          });
+
+          $('#department-list').html(html);
+
+
+        });
     });
 
 });

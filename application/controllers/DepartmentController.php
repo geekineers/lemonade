@@ -31,6 +31,19 @@ class DepartmentController extends BaseController
         $this->render('department/index.twig.html', $data);
 
     }
+    public function search()
+    {
+        $branch = $this->input->get('branch');
+        
+        if($branch != null){
+        $data = $this->departmentRepository->where('branch_id', $branch)->get()->toArray();
+        }
+        else{
+        $data = $this->departmentRepository->all();
+
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
 
     public function restDepartment()
     {

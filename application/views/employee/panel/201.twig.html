@@ -109,7 +109,7 @@
 				<td><span class="form-label">Position</span>
 					<span class="profile-value">{{ employee.getJobPosition() }}
 					</span>
-					<select name="job_position" class="form-control edit-input">
+					<select name="job_position" id="job_position" class="form-control edit-input">
 						{% for position in job_positions %}
 						<option {% if position.id == employee.job_position %} selected="selected" {% endif %}value="{{ position.id }}">
 						{{ position.job_position }}</option>
@@ -288,6 +288,29 @@ $(document).ready(function(){
     			 $('#sub_department').html(group_string);
     	});
     });	
+
+    $('#branch').on('change', function(){
+    	var el = this;
+    	var d_id = $(el).val();
+    	var department_string;
+    	var group_string = "";
+    	$('#department').html('');
+    	$.get('/settings/department/search', {branch : d_id }, function(res){
+    			console.log(res);
+    			$.each(res, function(i, s, a){
+    				department_string += '<option value='+s.id+'>'+s.department_name+'</option>';
+    			});
+    			 $('#department').html(department_string );
+    	});
+    	var job_string;
+    	$.get('/settings/job/search', {branch : d_id }, function(res){
+    			console.log(res);
+    			$.each(res, function(i, s, a){
+    				job_string += '<option value='+s.id+'>'+s.job_position+'</option>';
+    			});
+    			 $('#job_position').html(job_string );
+    	});
+    });
 });
 
 </script>
