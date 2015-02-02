@@ -1776,6 +1776,7 @@ class Employee extends BaseModel
          
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                     ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->orWhereBetweem('time_out', [$date_range_start, $date_range_end])
                                     ->count();
                 
 
