@@ -102,8 +102,10 @@ $to = $payslip->getPayslipsGroup()->to;
       </table>
 
       <div style="height: 10px; margin:10px 0px; background-color:black"></div>
-
-<div style="width:49%;display: inline;">
+<table>
+  <tr>
+    <td>
+      <div style="width:100%;display: inline-block; margin-top:0px;">
    <table class="bordered" >
       <thead>
           <tr>
@@ -197,11 +199,11 @@ $to = $payslip->getPayslipsGroup()->to;
           <?php endif; ?>          
        <?php if (count($payslip->getAllowances())) {?>
 
-	<tr>
-																								                        <td>Allowances</td>
-																								                        <td></td>
-																								                      </tr>
-	<?php }?>
+  <tr>
+                                                                        <td>Allowances</td>
+                                                                        <td></td>
+                                                                      </tr>
+  <?php }?>
 <?php foreach ($payslip->getAllowances() as $item) {
   // dd($item->amount);
       $allowance = Allowance::find($item->allowance_id);
@@ -231,7 +233,7 @@ $to = $payslip->getPayslipsGroup()->to;
       </tr>
 
 
-	<?php }?>
+  <?php }?>
 <tr><td>&nbsp;
 </td><td>&nbsp;
 </td></tr>
@@ -252,8 +254,10 @@ $to = $payslip->getPayslipsGroup()->to;
         <!-- endforeach -->
    </table>
 </div>
-
-<div style="width:49%; display: inline; left:300px">
+    </td>
+    <td>
+      
+<div style="width:100%; left:300px">
   <table class="bordered">
      <thead>
         <tr >
@@ -294,19 +298,19 @@ $to = $payslip->getPayslipsGroup()->to;
 
              <!-- foreach -->
 <?php if (count($employee->getDeductions())) {?>
-	<tr>
-																																	          <td>Others</td>
-																																	          <td></td>
-																																	        </tr>
-	<?php }?>
+  <tr>
+                                                                            <td>Others</td>
+                                                                            <td></td>
+                                                                          </tr>
+  <?php }?>
 <?php foreach ($employee->getDeductions($from, $to) as $deduction) {?>
-																																										          <tr>
-																																										            <td style="text-align:right;" ><?php echo $deduction->getName();
-	?></td>
-																																										            <td style="text-align:right;" ><?php echo $deduction->getAmount(true);
-	?></td>
-																																										          </tr>
-	<?php }?>
+                                                                                              <tr>
+                                                                                                <td style="text-align:right;" ><?php echo $deduction->getName();
+  ?></td>
+                                                                                                <td style="text-align:right;" ><?php echo $deduction->getAmount(true);
+  ?></td>
+                                                                                              </tr>
+  <?php }?>
 
           <tr>
           <td><b style="padding:15px ;">Total Deduction</b></td>
@@ -318,6 +322,11 @@ $to = $payslip->getPayslipsGroup()->to;
   </table>
 
 </div>
+
+    </td>
+  </tr>
+</table>
+
 
 
     <table style="width:100%;top:250px;">
