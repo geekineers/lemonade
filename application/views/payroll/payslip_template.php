@@ -103,7 +103,7 @@ $to = $payslip->getPayslipsGroup()->to;
 
       <div style="height: 10px; margin:10px 0px; background-color:black"></div>
 
-<div style="width:49%;display: inline-block;">
+<div style="width:49%;display: inline;">
    <table class="bordered" >
       <thead>
           <tr>
@@ -253,7 +253,7 @@ $to = $payslip->getPayslipsGroup()->to;
    </table>
 </div>
 
-<div style="width:49%; display: inline-block; left:300px">
+<div style="width:49%; display: inline; left:300px">
   <table class="bordered">
      <thead>
         <tr >
