@@ -158,6 +158,8 @@ class PayslipsRepository extends BaseRepository
         $employee_slip['deductions'] = json_encode($employee->getDeductions($from, $to));
         $employee_slip['base_pay'] = $employee->getBasicSalary(false);
         $employee_slip['net']              = (($employee_slip['gross'] - $employee_slip['total_deduction_pay']) > 0 ) ? $employee_slip['gross'] - $employee_slip['total_deduction_pay'] : 0;
+        // var_dump($employee->getName());
+        // var_dump($employee_slip);
         $this->create($employee_slip);
         return true;
     }

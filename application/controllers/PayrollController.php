@@ -73,6 +73,8 @@ class PayrollController extends BaseController
         $data['user'] = $this->employeeRepository->getLoginUser($this->sentry->getUser());
         // dd($this->payrollGroupRepository->getDate($id));
 
+        $data['title'] = 'Payslips';
+
         $data['id']       = $id;
         $data['from']     = $from;
         $data['to']       = $to;
