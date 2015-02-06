@@ -1446,6 +1446,7 @@ class Employee extends BaseModel
             $dt = new Carbon($date);
 
             $current_date = date('Y-m-d', strtotime($date_range_start));
+            $end_date = date('Y-m-d', strtotime($date_range_end));
             if ($holiday->isRegularHoliday($current_date)){
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                     ->whereBetween('time_in', [$date_range_start, $date_range_end])
@@ -1467,7 +1468,13 @@ class Employee extends BaseModel
                     // $in = $time_in->format('H:i:s');
                     $time_out = date('Y-m-d H:i:s', strtotime($attended->time_out));
                     // $out = $time_out->format('H:i:s');
-                    $h = getInterval($time_in, $time_out, 'hours');
+                    if($holiday->isRegularHoliday($end_date)){
+                        $h = getInterval($time_in, $time_out, 'hours');                        
+                    }
+                    else{
+                        $out = date('Y-m-d H:i:s', strtotime(current_date . " 24:00:00"));
+                        $h = getInterval($time_in, $out, 'hours');
+                    }
                     $hours_attended += $h;
                 }
             }
