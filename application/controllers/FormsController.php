@@ -37,13 +37,13 @@ class FormsController extends BaseController
         {
              $permissions = $group->permissions;
         }
-        if(isset($permissions['form_approval']) && $permissions['form_approval'] == 1){
-            $data['forms'] = Form_Application::all();
-        }
-        else{
+        // if(isset($permissions['form_approval']) && $permissions['form_approval'] == 1){
+        // }
+        // else{
             
-            $data['forms'] = $data['user']->getSubordinatesApplications();
-        }
+        //     $data['forms'] = $data['user']->getSubordinatesApplications();
+        // }
+        $data['forms'] = Form_Application::all();
         $this->render('forms/index.twig.html', $data);
     }
 
