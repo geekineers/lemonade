@@ -1780,10 +1780,6 @@ class Employee extends BaseModel
 
             $dt = new Carbon($date);
 
-         // $attended_object = Timesheet::where('employee_id', '=', $this->id)
-         //                            ->whereBetween('time_in', [$date_range_start, $date_range_end])
-         //                            ->orWhereBetween('time_out', [$date_range_start, $date_range_end])
-         //                            ->get();
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                     ->where(function($query) use ($date_range_start, $date_range_end){
                                     return $query->whereBetween('time_in', [$date_range_start, $date_range_end])
@@ -1791,8 +1787,7 @@ class Employee extends BaseModel
                                         
                                     })
                                     ->count();
-                // var_dump($this->full_name);
-                // var_dump($attended);
+  
                 if($attended) 
                 {
                     if($with_holiday && ($holiday->isRegularHoliday($date) || $holiday->isSpecialHoliday($date))){
