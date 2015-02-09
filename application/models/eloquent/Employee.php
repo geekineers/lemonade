@@ -1472,7 +1472,7 @@ class Employee extends BaseModel
                         $h = getInterval($time_in, $time_out, 'hours');                        
                     }
                     else{
-                        $out = date('Y-m-d H:i:s', strtotime(current_date . " 24:00:00"));
+                        $out = date('Y-m-d H:i:s', strtotime($current_date . " 24:00:00"));
                         $h = getInterval($time_in, $out, 'hours');
                     }
                     $hours_attended += $h;
