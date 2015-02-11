@@ -1444,6 +1444,11 @@ class Employee extends BaseModel
         $hours_attended = 0;
         foreach ($date_range as $date) {
             $date_2 = $date;
+                            $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2_range = $day->format('Y-m-d');
+
+            $date_2 = $date;
             if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
                 $day = new DateTime($date);
                 $day->add(new DateInterval('P1D'));
@@ -1458,7 +1463,7 @@ class Employee extends BaseModel
             $end_date = date('Y-m-d', strtotime($date_range_end));
             if ($holiday->isRegularHoliday($current_date)){
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->whereBetween('time_in', [$date, $date_2_range])
                                     ->first();
 
                 if($attended) 
