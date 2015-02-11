@@ -579,13 +579,13 @@ $('.dateranger-btn').on('click', function(e){
                 newRow += temp;
             })
             if(data['pagination'].next_page){
-                $('.paginate-btn.next_page').fadeIn();
+                $('.paginate-btn.next_page').fadeOut();
             }
             else{
                 $('.paginate-btn.next_page').fadeOut();
             }
             if(data['pagination'].prev_page){
-                $('.paginate-btn.prev_page').fadeIn();
+                $('.paginate-btn.prev_page').fadeOut();
             }
             else{
                 $('.paginate-btn.prev_page').fadeOut();

@@ -1583,13 +1583,13 @@ class Employee extends BaseModel
                                         ->count();
                     if($attended){
                         if($holiday->isSpecialHoliday($current_date)){
-                            $special_holiday_attendance++;
+                            $special_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                         }
                         else if($holiday->isRegularHoliday($current_date)){
-                            $regular_holiday_attendance++;
+                            $regular_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                         }
                         else {
-                            $normal_day_attendance++;
+                            $normal_day_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                         }                        
                     }
 
@@ -1643,13 +1643,13 @@ class Employee extends BaseModel
                                     ->count();
                 if($attended){
                 if($holiday->isSpecialHoliday($current_date)){
-                    $special_holiday_attendance++;
+                    $special_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                 }
                 else if($holiday->isRegularHoliday($current_date)){
-                    $regular_holiday_attendance++;
+                    $regular_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                 }
                 else{
-                    $not_holiday_attendance++;
+                    $not_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                 }                    
                 }
 
@@ -1663,16 +1663,22 @@ class Employee extends BaseModel
         $rest_rate            = $this->getCompany()->company_rest_pay/100;
 
         // Regular Holiday +60%
-        $regular_holiday_pay = $regular_holiday_attendance * ($regular_holiday_rate * $this->getDailyRate(false));
+        $regular_holiday_pay = $regular_holiday_attendance * ($regular_holiday_rate * $this->getHourlyRate());
         // Special Holiday Attendance = +20%
-        $special_holiday_pay = $special_holiday_attendance * ($special_holiday_rate * $this->getDailyRate(false));
-        $not_holiday         = $not_holiday_attendance * ($rest_rate * $this->getDailyRate(false));
+        $special_holiday_pay = $special_holiday_attendance * ($special_holiday_rate * $this->getHourlyRate());
+        $not_holiday         = $not_holiday_attendance * ($rest_rate * $this->getHourlyRate());
         
         return array(
                 'regular_holiday' => $regular_holiday_pay,
                 'special_holiday' => $special_holiday_pay,
                 'not_holiday'     => $not_holiday
             );
+    }
+ 
+    public function getTotalRestDayPay($from, $to)
+    {
+        $output = $this->getRestDayPay($from , $to)['regular_holiday'] + $this->getRestDayPay($from, $to)['special_holiday'] + $this->getRestDayPay($from, $to)['not_holiday'];
+        return $output;
     }
 
     public function getSundayAttendance($from, $to)

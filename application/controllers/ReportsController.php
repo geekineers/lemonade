@@ -379,29 +379,38 @@ class ReportsController extends BaseController
        $branch = Branch::find($branch_id);
        
        foreach ($employees as $employee) {
-           $row[0] = $employee->full_name;
-           $row[1] = $this->formApplicationRepository->where('form_type', $form_type)
+            $applications = $this->formApplicationRepository->where('form_type', $form_type)
                                                 ->where('employee_id', $employee->id)
                                                 ->where('status', 'approved')
                                                 ->where('from', '>=', date('Y-m-d H:i:s',strtotime($from))) 
                                                 ->where('to', '<=', date('Y-m-d H:i:s',strtotime($to . " +1 days"))) 
-                                                ->count();
-           $row[2] = $this->formApplicationRepository->where('form_type', $form_type)
-                                                ->where('employee_id', $employee->id)
-                                                ->where('status', 'not-yet-approved')
-                                                ->where('from', '>=', date('Y-m-d H:i:s',strtotime($from))) 
-                                                ->where('to', '<=', date('Y-m-d H:i:s',strtotime($to . " +1 days"))) 
-                                                ->count();
-           $row[3] = $this->formApplicationRepository->where('form_type', $form_type)
-                                                ->where('employee_id', $employee->id)
-                                                ->where('status', 'disapproved')
-                                                ->where('from', '>=', date('Y-m-d H:i:s',strtotime($from))) 
-                                                ->where('to', '<=', date('Y-m-d H:i:s',strtotime($to . " +1 days"))) 
-                                                ->count();
+                                                ->get();
+            foreach ($applications as $application) {
+           $form_data = json_decode($application->form_data);
+           $row[0] = $employee->employee_number;
+           $row[1] = $employee->last_name;
+           $row[2] = $employee->first_name;
+           $row[3] = $employee->middle_name;
+           $row[4] = $form_data->reason;
+         if($form_type != 'leave'){
+            $row[5] = $form_data->total_hrs;
+            }
+            else{
+
+           $row[5] = $form_data->no_of_days;
+            }
+                                      
+           $row[6] = date('M-d-Y', strtotime($application->from)) . ' to ' . date('M-d-Y',strtotime($application->to));
+                     
          array_push($output, $row);
+            }
+
         }
 
-        $output_column = ['Name', 'Approved', 'Pending', 'Disapproved'];
+        $output_column = ['Employee #', 'Surname','Firstname', 'Middlename', 'Reason', 'No. of days', 'Date'];
+        if($form_type != 'leave'){
+            $output_column[5] = "Total Hours";
+        }
         $xls_file = $this->reportRepository->generateXLS($output, $output_column, $form_type. '-report-' . $branch->branch_name, $branch->branch_name . " " . $form_types_ref[$form_type]['name']);
 
         if ($xls_file) {
