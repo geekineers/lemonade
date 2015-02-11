@@ -1862,6 +1862,11 @@ class Employee extends BaseModel
         $date_range = createDateRangeArray($from, $to);
 
         foreach ($date_range as $date) {
+             $date_2 = $date;
+                            $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2_range = $day->format('Y-m-d');
+
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
             // dd($date_range_start, $date_range_end);
@@ -1870,20 +1875,20 @@ class Employee extends BaseModel
             if ($dt->isWeekend() && $weekend_include) {
 
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->whereBetween('time_in', [$date, $date_2_range])
                                                                       ->count();
 
-                if ($attended) {
+                if (!$attended) {
 
                     $total_absent += 1;
                 }
             } else if ($dt->isWeekday()) {
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                                                      ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                                                      ->whereBetween('time_in', [$date, $date_2_range])
                                                                       ->count();
                 $forms = Form_Application::where('employee_id', '=', $this->id)
                                                                           ->whereIn('form_type', ['ob', 'ot', 'leave'])
-                                                                          ->whereBetween('from', [$date_range_start, $date_range_end])
+                                                                          ->whereBetween('from', [$date, $date_2_range])
                                                                           ->where('status', '=', 'approved')
                                                                           ->count();
                 $current_date = date('Y-m-d', strtotime($date_range_start));
