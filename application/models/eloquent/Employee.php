@@ -1586,6 +1586,10 @@ class Employee extends BaseModel
        $normal_day_attendance = 0;
 
        foreach ($date_range as $date) {
+         $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2_range = $day->format('Y-m-d');
+
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
             
@@ -1598,7 +1602,7 @@ class Employee extends BaseModel
 
                 if($dt->dayOfWeek == $this->rest_day){
                     $attended = Timesheet::where('employee_id', '=', $this->id)
-                                        ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                        ->whereBetween('time_in', [$date, $date_2_range])
                                         ->count();
                     if($attended){
                         $all += getInterval($date_range_start, $date_range_end, 'hours');
