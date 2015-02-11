@@ -1076,7 +1076,7 @@ class Employee extends BaseModel
         $holiday = new \HolidayRepository();
         $total_overtime = 0;
         $from           = date('Y-m-d H:i:s', strtotime($from));
-        $to             = date('Y-m-d H:i:s', strtotime($to));
+        $to             = date('Y-m-d H:i:s', strtotime($to . '+1 day'));
 
 
         $overtimes = Form_Application::where('employee_id', '=', $this->id)
