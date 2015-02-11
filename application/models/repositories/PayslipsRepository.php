@@ -255,6 +255,7 @@ class PayslipsRepository extends BaseRepository
                     $objPHPExcel->getActiveSheet()->SetCellValue('D7', $payslip['name']);
                     foreach ($payslip['items'] as $key=>$item)  
                     {
+                        $total_allowance = $total_allowance_pay - ($item->getEmployee()->getColaPay($from, $to, 'normal_day') - $item->getEmployee()->getSEAPay($from, $to);
                         $objPHPExcel->getActiveSheet()->SetCellValue('C' . $row, $item->getEmployee()->getEmployeeID());
                         $objPHPExcel->getActiveSheet()->SetCellValue('D' . $row, toTitleCase($item->getEmployee()->last_name));
                         $objPHPExcel->getActiveSheet()->SetCellValue('E' . $row, toTitleCase($item->getEmployee()->first_name));
@@ -268,7 +269,7 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->getDailyRate());
                         $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, number_format($item->getEmployee()->getColaPay($from, $to, 'normal_day'), 2));
                         $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, number_format($item->getEmployee()->getSEAPay($from, $to), 2));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, number_format($item->total_allowance_pay, 2));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, number_format($item->total_allowance, 2));
                         $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getOverTime($from, $to, 'all'));
                         $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getOverTimePay($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getRestDayAttendance($from, $to, 'all'));
