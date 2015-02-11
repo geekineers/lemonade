@@ -1563,6 +1563,7 @@ class Employee extends BaseModel
        
        $in_attendance = 0;
        $special_holiday_attendance = 0;
+       $all = 0;
        $regular_holiday_attendance = 0;
        $normal_day_attendance = 0;
 
