@@ -1773,6 +1773,10 @@ class Employee extends BaseModel
         foreach ($date_range as $date) 
         {
             $date_2 = $date;
+                            $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2_range = $day->format('Y-m-d');
+        
             if(strtotime($this->timeshift_start) > strtotime($this->timeshift_end)){
                 $day = new DateTime($date);
                 $day->add(new DateInterval('P1D'));
@@ -1780,7 +1784,7 @@ class Employee extends BaseModel
             }
             // dd($date, $date_2);
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
-            $date_range_start_range = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start . ' -5 hours'));
+            // $date_range_start_range = date('Y-m-d H:i:s', strtotime($date . '));
         
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
             $date_range_end_range   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end . '+5 hours'));
@@ -1793,8 +1797,8 @@ class Employee extends BaseModel
                                     ->where(function($query) use ($date_range_start, $date_range_end){
                                     return $query->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                 ->orWhereBetween('time_out', [$date_range_start, $date_range_end])
-                                                ->orWhereBetween('time_in', [$date_range_start_range, $date_range_end])
-                                                ->orWhereBetween('time_out', [$date_range_start_range, $date_range_end_range]);
+                                                ->orWhereBetween('time_in', [$date, $date_2_range]);
+                                                // ->orWhereBetween('time_out', [$date_range_start_range, $date_range_end_range]);
                                         
                                     })
                                     ->count();
