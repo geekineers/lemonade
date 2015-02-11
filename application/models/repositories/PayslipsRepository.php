@@ -271,7 +271,7 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, number_format($item->total_allowance_pay, 2));
                         $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getOverTime($from, $to, 'all'));
                         $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getOverTimePay($from, $to));
-                        $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getTotalRestDayAttendance($from, $to, 'all'));
+                        $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getRestDayAttendance($from, $to, 'all'));
                         $objPHPExcel->getActiveSheet()->SetCellValue('T' . $row, $item->getEmployee()->getTotalRestDayPay($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('U' . $row, $item->getEmployee()->getNightDifferentialHours($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('V' . $row, $item->getEmployee()->getNightDifferentialPay($from, $to));
