@@ -1794,7 +1794,7 @@ class Employee extends BaseModel
             $dt = new Carbon($date);
 
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                    ->where(function($query) use ($date_range_start, $date_range_end){
+                                    ->where(function($query) use ($date_range_start, $date_range_end, $date, $date_2_range){
                                     return $query->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                 ->orWhereBetween('time_out', [$date_range_start, $date_range_end])
                                                 ->orWhereBetween('time_in', [$date, $date_2_range]);
