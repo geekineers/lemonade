@@ -1792,8 +1792,8 @@ class Employee extends BaseModel
                 $attended = Timesheet::where('employee_id', '=', $this->id)
                                     ->where(function($query) use ($date_range_start, $date_range_end){
                                     return $query->whereBetween('time_in', [$date_range_start, $date_range_end])
-                                                ->orWhereBetween('time_out', [$date_range_start, $date_range_end]);
-                                                ->orWhereBetween('time_in', [$date_range_start_range, $date_range_end]);
+                                                ->orWhereBetween('time_out', [$date_range_start, $date_range_end])
+                                                ->orWhereBetween('time_in', [$date_range_start_range, $date_range_end])
                                                 ->orWhereBetween('time_out', [$date_range_start_range, $date_range_end_range]);
                                         
                                     })
