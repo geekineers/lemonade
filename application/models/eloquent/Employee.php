@@ -1780,7 +1780,10 @@ class Employee extends BaseModel
             }
             // dd($date, $date_2);
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
+            $date_range_start_range = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start . ' -5 hours'));
+        
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end));
+            $date_range_end_range   = date('Y-m-d H:i:s', strtotime($date_2 . ' ' . $this->timeshift_end . '+5 hours'));
             // dd($date_range_start, $date_range_end);
               $dt = new Carbon($date);
 
@@ -1790,6 +1793,8 @@ class Employee extends BaseModel
                                     ->where(function($query) use ($date_range_start, $date_range_end){
                                     return $query->whereBetween('time_in', [$date_range_start, $date_range_end])
                                                 ->orWhereBetween('time_out', [$date_range_start, $date_range_end]);
+                                                ->orWhereBetween('time_in', [$date_range_start_range, $date_range_end]);
+                                                ->orWhereBetween('time_out', [$date_range_start_range, $date_range_end_range]);
                                         
                                     })
                                     ->count();
