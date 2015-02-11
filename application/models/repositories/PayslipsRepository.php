@@ -411,9 +411,9 @@ class PayslipsRepository extends BaseRepository
                                $objPHPExcel->getActiveSheet()->getStyle('AQ' . $total_row)->getFont()->setBold(true);
                             $objPHPExcel->getActiveSheet()->getStyle('AQ' . $total_row)->getFont()->setSize(11);
                             // $objPHPExcel->getActiveSheet()->SetCellValue('AL' . $row, $item->getEmployee()->getGeneratedPhilhealth($from, $to));
-                            $objPHPExcel->getActiveSheet()->SetCellValue('AQ' . $total_row, $total_all_netpay);
-                               $objPHPExcel->getActiveSheet()->getStyle('AQ' . $total_row)->getFont()->setBold(true);
-                            $objPHPExcel->getActiveSheet()->getStyle('AQ' . $total_row)->getFont()->setSize(11);
+                            $objPHPExcel->getActiveSheet()->SetCellValue('AR' . $total_row, $total_all_netpay);
+                               $objPHPExcel->getActiveSheet()->getStyle('AR' . $total_row)->getFont()->setBold(true);
+                            $objPHPExcel->getActiveSheet()->getStyle('AR' . $total_row)->getFont()->setSize(11);
                             // $objPHPExcel->getActiveSheet()->SetCellValue('AM' . $row, $item->getEmployee()->getPayrollPeriod()->period);
                             // $objPHPExcel->getActiveSheet()->SetCellValue('B' . $row+11, "PREPARED BY:");
                             // $objPHPExcel->getActiveSheet()->SetCellValue('G' . $row+11, "CHECKED BY:");
