@@ -1375,6 +1375,11 @@ class Employee extends BaseModel
 
     public function getColaPay($from, $to, $type="regular_holiday")
     {
+        if(strtolower($this->getPayrollPeriod()->period) != "daily") {
+            return 0;
+        }
+
+
         $holiday_rate = $this->getRegularHolidayRate();
         
         if($type == "normal_day")
@@ -1387,6 +1392,10 @@ class Employee extends BaseModel
 
     public function getSEAPay($from, $to)
     {
+               if(strtolower($this->getPayrollPeriod()->period) != "daily") {
+            return 0;
+        }
+
          $val =floatval($this->getSEACount($from, $to) * $this->getCompany()->company_sea); 
         // dd($val);
         return $val;
