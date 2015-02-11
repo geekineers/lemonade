@@ -1076,7 +1076,7 @@ class Employee extends BaseModel
         $holiday = new \HolidayRepository();
         $total_overtime = 0;
         $from           = date('Y-m-d H:i:s', strtotime($from));
-        $to             = date('Y-m-d H:i:s', strtotime($to . '+1 day'));
+        $to             = date('Y-m-d H:i:s', strtotime($to . '+1 day   '));
 
 
         $overtimes = Form_Application::where('employee_id', '=', $this->id)
@@ -1582,6 +1582,7 @@ class Employee extends BaseModel
                                         ->whereBetween('time_in', [$date_range_start, $date_range_end])
                                         ->count();
                     if($attended){
+                        $all += getInterval($date_range_start, $date_range_end, 'hours');
                         if($holiday->isSpecialHoliday($current_date)){
                             $special_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
                         }
@@ -1602,7 +1603,7 @@ class Employee extends BaseModel
 
        switch ($type) {
            case 'all':
-               # code...
+               return $all;
                break;
            case 'not_holiday':
                return $normal_day_attendance;
