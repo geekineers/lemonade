@@ -84,7 +84,7 @@ class TimesheetController extends BaseController {
        		->where('time_out', '<', $timeout_end);
        	
        	$total_count = count($data->get()->toArray());
-       	$data = $data->take($take)->skip($skip)
+       	$data = $data->take(99)->skip(0)
        		->orderBy('time_in', 'desc')
        		->get();
 

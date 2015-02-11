@@ -264,7 +264,7 @@ class PayslipsRepository extends BaseRepository
                         $objPHPExcel->getActiveSheet()->SetCellValue('M' . $row, $item->getEmployee()->getDailyRate());
                         $objPHPExcel->getActiveSheet()->SetCellValue('N' . $row, number_format($item->total_allowance_pay, 2));
                         $objPHPExcel->getActiveSheet()->SetCellValue('O' . $row, $item->getEmployee()->getOverTimePay($from, $to));
-                        // $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $item->getEmployee()->get#SUNDAYOVERTIME;
+                        $objPHPExcel->getActiveSheet()->SetCellValue('P' . $row, $item->getEmployee()->getTotalRestDayPay($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('Q' . $row, $item->getEmployee()->getRegularHolidayPay($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('R' . $row, $item->getEmployee()->getSpecialHolidayPay($from, $to));
                         $objPHPExcel->getActiveSheet()->SetCellValue('S' . $row, $item->getEmployee()->getGross($from, $to));
