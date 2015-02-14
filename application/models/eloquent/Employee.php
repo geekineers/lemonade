@@ -1156,7 +1156,7 @@ class Employee extends BaseModel
      * return overtime pay of an employee from a given date range
      * @return [float]
      */
-    public function getOvertimePay($from, $to)
+    public function getOvertimePay($from, $to, $type='all')
     {
         // dd($this->getOvertime($from, $to, 'regular_holiday'));
         $normal = floatval($this->getOverTimePayRate('normal') * $this->getOvertime($from, $to, 'normal') * $this->getHourlyRate());
@@ -1165,16 +1165,31 @@ class Employee extends BaseModel
         $special_holiday_rest_day = floatval($this->getOverTimePayRate('special_holiday_rest_day') * $this->getOvertime($from, $to, 'special_holiday_rest_day') * $this->getHourlyRate());
         $rest_day = floatval($this->getOverTimePayRate('rest_day') * $this->getOvertime($from, $to, 'rest_day') * $this->getHourlyRate());
         $special_holiday = floatval($this->getOverTimePayRate('special_holiday') * $this->getOvertime($from, $to, 'special_holiday') * $this->getHourlyRate());
-        
-        // var_dump($this->getName());
-        // var_dump($regular_holiday_rest_day);
-        // var_dump($special_holiday);
-        // var_dump($normal);
-        // var_dump("rest_day_count:" . $this->getOvertime($from, $to, 'rest_day'));
-        // var_dump($rest_day);
+        switch ($type) {
+            case 'normal':
+                return $normal;
+                break;
+            case 'regular_holiday':
+                return $regular_holiday;
+                break;
+            case 'regular_holiday_rest_day':
+                return $regular_holiday_rest_day;
+                break;
+            case 'special_holiday':
+                return $special_holiday;
+                break;
+            case 'special_holiday_rest_day':
+                return $special_holiday_rest_day;
+                break;
+            case 'rest_day':
+                return $rest_day;
+                break;
+            default:
+            
+                return $normal + $regular_holiday + $special_holiday + $regular_holiday_rest_day + $special_holiday_rest_day + $rest_day;
+                break;
+        }
 
-
-        return $normal + $regular_holiday + $special_holiday + $regular_holiday_rest_day + $special_holiday_rest_day + $rest_day;
     
     }
 
@@ -1595,15 +1610,16 @@ class Employee extends BaseModel
             
             $dt = new Carbon($date);
             $current_date = date('Y-m-d', strtotime($date_range_start));
-
+            // var_dump($this->getName());
             if($dt->dayOfWeek == $this->rest_day) {
                 
                 $current_date = date('Y-m-d', strtotime($date_range_start));
 
-                if($dt->dayOfWeek == $this->rest_day){
+             
                     $attended = Timesheet::where('employee_id', '=', $this->id)
                                         ->whereBetween('time_in', [$date, $date_2_range])
                                         ->count();
+                    // var_dump($attended);
                     if($attended){
                         $all += getInterval($date_range_start, $date_range_end, 'hours');
                         if($holiday->isSpecialHoliday($current_date)){
@@ -1619,7 +1635,7 @@ class Employee extends BaseModel
 
 
                     
-                }                
+                               
             }
        }
 
@@ -1657,13 +1673,16 @@ class Employee extends BaseModel
         foreach ($date_range as $date) {
             $date_range_start = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_start));
             $date_range_end   = date('Y-m-d H:i:s', strtotime($date . ' ' . $this->timeshift_end));
-            
+               $day = new DateTime($date);
+                $day->add(new DateInterval('P1D'));
+                $date_2_range = $day->format('Y-m-d');
+
             $dt = new Carbon($date);
             $current_date = date('Y-m-d', strtotime($date_range_start));
-
+            
             if($dt->dayOfWeek == $this->rest_day){
                 $attended = Timesheet::where('employee_id', '=', $this->id)
-                                    ->whereBetween('time_in', [$date_range_start, $date_range_end])
+                                    ->whereBetween('time_in', [$date, $date_2_range])
                                     ->count();
                 if($attended){
                 if($holiday->isSpecialHoliday($current_date)){
