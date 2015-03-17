@@ -1422,14 +1422,14 @@ class Employee extends BaseModel
         $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
         if($type == "normal_day")
         {
-            return (int)$this->getSpecialHolidayAttendance($from, $to) + (int) $this->getRestDayAttendance($from, $to);
+            return $this->getInAttendance($from, $to, true, true) - ((int)$this->getSpecialHolidayAttendance($from, $to, true) + (int) $this->getRestDayAttendance($from, $to, true));
         }
         return $regular_holiday_attendance;
     }
 
     public function getSEACount($from, $to)
     {
-        return $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to) + $this->getRestDayAttendance($from, $to) + $this->getRegularHolidayAttendance($from, $to));   
+        return $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, true) + $this->getRegularHolidayAttendance($from, $to));   
     }
 
 
@@ -1524,7 +1524,7 @@ class Employee extends BaseModel
      * @param  [string/date] $to
      * @return int
      */
-    public function getSpecialHolidayAttendance($from, $to)
+    public function getSpecialHolidayAttendance($from, $to, $is_not_in_hours = false)
     {
           $holiday = new \HolidayRepository();
 
@@ -1565,6 +1565,9 @@ class Employee extends BaseModel
             }
         }
 
+        if($is_not_in_hours){
+            return (int) $hours_attended / 24;
+        }
         return (int) $hours_attended;
     }
 
@@ -1590,7 +1593,7 @@ class Employee extends BaseModel
 
     }
 
-    public function getRestDayAttendance($from, $to, $type="all")
+    public function getRestDayAttendance($from, $to, $type="all", $is_not_in_hours = false)
     {
          $holiday = new \HolidayRepository();
        $date_range = createDateRangeArray($from, $to);
@@ -1643,15 +1646,27 @@ class Employee extends BaseModel
 
        switch ($type) {
            case 'all':
+            if($is_not_in_hours){
+                return (int) $all/24;
+            }
                return $all;
                break;
            case 'not_holiday':
+            if($is_not_in_hours){
+                return (int) $normal_day_attendance/24;
+            }
                return $normal_day_attendance;
                break;
             case 'regular_holiday':
+             if($is_not_in_hours){
+                return (int) $regular_holiday_attendance/24;
+            }
                 return $regular_holiday_attendance;
                 break;
             case 'special_holiday':
+             if($is_not_in_hours){
+                return (int) $special_holiday_attendance/24;
+            }
                 return $special_holiday_attendance;
                 break;
            default:
