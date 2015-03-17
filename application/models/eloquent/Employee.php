@@ -1422,7 +1422,7 @@ class Employee extends BaseModel
         $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
         if($type == "normal_day")
         {
-            return ((int)$this->getSpecialHolidayAttendance($from, $to, true) + (int) $this->getRestDayAttendance($from, $to, true));
+            return (int)$this->getSpecialHolidayAttendance($from, $to, true);
         }
         return $regular_holiday_attendance;
     }
