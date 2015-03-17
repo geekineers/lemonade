@@ -1527,7 +1527,7 @@ class Employee extends BaseModel
     public function getSpecialHolidayAttendance($from, $to, $is_not_in_hours = false)
     {
           $holiday = new \HolidayRepository();
-
+          $sh = 0;
         $date_range = createDateRangeArray($from, $to);
              // dd($date_range);
         $hours_attended = 0;
@@ -1555,6 +1555,7 @@ class Employee extends BaseModel
 
                 if($attended) 
                 {
+                    $sh++;
                     $time_in = date('Y-m-d H:i:s', strtotime($attended->time_in));
                     // $in = $time_in->format('H:i:s');
                     $time_out = date('Y-m-d H:i:s', strtotime($attended->time_out));
@@ -1566,7 +1567,7 @@ class Employee extends BaseModel
         }
 
         if($is_not_in_hours){
-            return (int) $hours_attended / 24;
+            return (int) $sh;
         }
         return (int) $hours_attended;
     }
@@ -1597,7 +1598,7 @@ class Employee extends BaseModel
     {
          $holiday = new \HolidayRepository();
        $date_range = createDateRangeArray($from, $to);
-       
+       $rd = 0;
        $in_attendance = 0;
        $special_holiday_attendance = 0;
        $all = 0;
@@ -1625,6 +1626,7 @@ class Employee extends BaseModel
                                         ->count();
                     // var_dump($attended);
                     if($attended){
+                        $rd;
                         $all += getInterval($date_range_start, $date_range_end, 'hours');
                         if($holiday->isSpecialHoliday($current_date)){
                             $special_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
@@ -1647,7 +1649,7 @@ class Employee extends BaseModel
        switch ($type) {
            case 'all':
             if($is_not_in_hours){
-                return (int) $all/24;
+                return (int) $rd;
             }
                return $all;
                break;
