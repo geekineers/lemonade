@@ -1030,7 +1030,7 @@ class Employee extends BaseModel
                 $overtime_pay = $ot_pay * $regular_holiday_pay;
                 break;
             case 'rest_day':
-                $ot_pay =  $this->getCompany()->company_rest_pay/100;
+                $ot_pay =  $this->getCompany()->company_overtime_pay/100;
                 $ot_pay = $ot_pay + 1;
                 $rest_day_pay = $rest_rate;
                 $overtime_pay = $ot_pay * $rest_day_pay;
@@ -1039,13 +1039,13 @@ class Employee extends BaseModel
                 $ot_pay = $this->getCompany()->company_special_holiday_overtime_pay/100;
                 $ot_pay = $ot_pay + 1;
                 $special_holiday_rest_rate = $special_holiday_rest_rate + 1;
-                $overtime_pay = $ot_pay * $special_holiday_rest_rate * $rest_rate;
+                $overtime_pay = $ot_pay * $special_holiday_rest_rate;
                 break;
             case 'regular_holiday_rest_day':
                 $ot_pay = $this->getCompany()->company_regular_holiday_overtime_pay/100;
-                $ot_pay = $ot_pay + 2;
+                $ot_pay = $ot_pay + 1;
                 $regular_holiday_pay = $regular_holiday_rest_rate + 1;
-                $overtime_pay = $ot_pay * $rest_rate;
+                $overtime_pay = $ot_pay * $regular_holiday_pay;
 
                 break;
             
@@ -1405,7 +1405,7 @@ class Employee extends BaseModel
         return floatval($holiday_rate * $this->getColaCount($from, $to, "regular_holiday") * $this->getCompany()->company_cola);
     }
 
-    public function getSEAPay($from, $to)
+    public function getSEAPay($from, $to, $type="all")
     {
                if(strtolower($this->getPayrollPeriod()->period) != "daily") {
             return 0;
@@ -1413,6 +1413,7 @@ class Employee extends BaseModel
 
          $val =floatval($this->getSEACount($from, $to) * $this->getCompany()->company_sea); 
         // dd($val);
+        if($type="regular_holiday")
         return $val;
     }
 
@@ -1421,15 +1422,14 @@ class Employee extends BaseModel
         $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
         if($type == "normal_day")
         {
-            return $this->getInAttendance($from, $to) -  $this->getRegularHolidayAttendance($from, $to, "all_attendance"); 
+            return $this->getInAttendance($from, $to) - $this->getSpecialHolidayAttendance($from, $to) - $this->getRestDayAttendance($from, $to);
         }
         return $regular_holiday_attendance;
     }
 
     public function getSEACount($from, $to)
     {
-        return $this->getInAttendance($from, $to, true, true);
-    }
+        return $this->getInAttendance($from, $to, true, true) - $this->getSpecialHolidayAttendance($from, $to) - $this->getRestDayAttendance($from, $to) - $this->getRegularHolidayAttendance($from, $to);    }
 
 
     /**
