@@ -85,6 +85,7 @@ class ReportsController extends BaseController
 
     public function generateIncomeTaxReport()
     {
+        $branch = $this->input->post('branch');
         $output = [];
         $index  = 0;
         $year   = $this->input->post('year');
@@ -111,7 +112,7 @@ class ReportsController extends BaseController
 
         foreach ($array_dates as $key   => $value) {
             array_push($output, ['quarter' => $key]);
-            $employees = $this->employeeRepository->all();
+            $employees = $this->employeeRepository->where('branch_id', $branch)->get();
             $total = 0;
             foreach ($employees as $employee) {
                 $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
@@ -144,6 +145,7 @@ class ReportsController extends BaseController
 
     public function generateSssReport()
     {
+        $branch = $this->input->post('branch');
         $output = [];
         $index  = 0;
         $year   = $this->input->post('year');
@@ -169,7 +171,7 @@ class ReportsController extends BaseController
 
         foreach ($array_dates as $key => $value) {
             array_push($output, ['quarter' => $key]);
-            $employees = $this->employeeRepository->all();
+            $employees = $this->employeeRepository->where('branch_id', $branch)->get();
             $total_employee = 0;
             $total_employer = 0;
             foreach ($employees as $employee) {
@@ -203,6 +205,7 @@ class ReportsController extends BaseController
 
     public function generatePhilhealthReport()
     {
+        $branch = $this->input->post('branch');
         $output = [];
         $year = $this->input->post('year');
 
@@ -226,7 +229,7 @@ class ReportsController extends BaseController
 
         foreach ($array_dates as $key => $value) {
             array_push($output, ['quarter' => $key]);
-            $employees = $this->employeeRepository->all();
+            $employees = $this->employeeRepository->where('branch_id', $branch)->get();
             $total_philhealth = 0;
             foreach ($employees as $employee) {
                 $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
@@ -257,6 +260,7 @@ class ReportsController extends BaseController
     }
     public function generatePagibigReport()
     {
+        $branch = $this->input->post('branch');
         $output = [];
         $year = $this->input->post('year');
 
@@ -280,7 +284,7 @@ class ReportsController extends BaseController
 
         foreach ($array_dates as $key => $value) {
             array_push($output, ['quarter' => $key]);
-            $employees = $this->employeeRepository->all();
+            $employees = $this->employeeRepository->where('branch_id', $branch)->get();
             $total_pagibig = 0;
             foreach ($employees as $employee) {
                 $date_hired = date('Y-m-d', strtotime($employee->getDateHired()));
