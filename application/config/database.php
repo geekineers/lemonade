@@ -90,7 +90,7 @@ $active_group  = 'default';
 $query_builder = true;
 
 $db_host     = '127.0.0.1';
-$db_name     = 'lemonade_dev';
+$db_name     = 'l_p';
 $db_username = 'root';
 
 $db_password = 'root';

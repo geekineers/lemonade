@@ -1421,15 +1421,31 @@ class Employee extends BaseModel
     {
         $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
         if($type == "normal_day")
-        {
-            return $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, 'all',true));
+        {   
+   
+            $output =  $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, 'all',true));
+      
+            return $output;
         }
         return $regular_holiday_attendance;
     }
 
     public function getSEACount($from, $to)
     {
-        return $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, 'all',true) + $this->getRegularHolidayAttendance($from, $to));   
+            $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
+       
+        $output =  $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, 'all',true) + $regular_holiday_attendance);   
+                 $test_array = array(
+                    'in_attendance' => $this->getInAttendance($from, $to, true, true),
+                    'special_holiday' => $this->getSpecialHolidayAttendance($from, $to, true),
+                    'rest_day' => $this->getRestDayAttendance($from, $to, 'all', true),
+                    'regular_holiday_attendance' => $regular_holiday_attendance,
+                    'output' => $output
+                );  
+
+        // dd($test_array);
+        return $output;
+
     }
 
 
@@ -1626,7 +1642,7 @@ class Employee extends BaseModel
                                         ->count();
                     // var_dump($attended);
                     if($attended){
-                        $rd;
+                        $rd++;
                         $all += getInterval($date_range_start, $date_range_end, 'hours');
                         if($holiday->isSpecialHoliday($current_date)){
                             $special_holiday_attendance += getInterval($date_range_start, $date_range_end, 'hours');
