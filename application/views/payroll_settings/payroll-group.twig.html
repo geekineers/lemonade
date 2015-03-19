@@ -34,7 +34,12 @@
                                  		<td>{{ group.period }}</td>
                                  		<td>{{ group.created_at }}</td>
                                     <td>
-                                      <button data-toggle="modal" data-id="{{ group.id }}" data-name="{{ group.group_name }}" data-branch="{{ group.branch_id }}" data-period="{{ group.period }}" data-target="#update-group" class="group-edit btn">
+                                      <button data-toggle="modal" data-id="{{ group.id }}" data-name="{{ group.group_name }}" data-branch="{{ group.branch_id }}" data-period="{{ group.period }}" data-target="#update-group" 
+                                      data-cola = "{{ group.cola }}"
+                                      data-sea = "{{ group.sea }}"
+                                      data-holidaypay = "{{ group.holiday_pay }}"
+                                      data-restday = "{{ group.rest_day }}"
+                                      class="group-edit btn">
                                         <i class="fa fa-edit"></i>
                                       </button>
                                   <a onclick="return confirm('Are you sure?')" href="/settings/payroll-group/delete?token={{ group.id }}" class="btn btn-danger department_delete"><i class="fa fa-trash-o"></i></a>
@@ -122,6 +127,25 @@
                                {% endfor %}
                             </select>
                         </div>
+                     <div class="form-group">
+                       <label for="">Payroll Info(<i>Select if you want to include the ff. in the payroll</i>)</label>
+                               <div class="icheckbox flat-red">
+                  <input name='cola' id="edit_cola" type="checkbox" class="flat-red">
+                        cola
+                </div> 
+                                 <div class="icheckbox flat-red">
+                  <input name='sea' id="edit_sea" type="checkbox" class="flat-red">
+                        sea
+                </div>
+                                 <div class="icheckbox flat-red">
+                  <input name='holiday_pay' id="edit_holiday_pay" type="checkbox" class="flat-red">
+                        holiday pay
+                </div>
+                                 <div class="icheckbox flat-red">
+                  <input name='rest_day' id="edit_rest_day" type="checkbox" class="flat-red">
+                        rest day pay
+                </div>
+                     </div>
             </div>
             <div class="modal-footer">
               <button class="btn"  data-dismiss="modal">Close</button>
@@ -159,11 +183,20 @@
           var name = $(this).data('name');
           var branch = $(this).data('branch');
           var period = $(this).data('period');
+          var cola = $(this).data('cola');
+          var sea = $(this).data('sea');
+          var holiday_pay = $(this).data('holidaypay');
+          var rest_day = $(this).data('restday');
 
           $('#edit_group_id').val(id);
           $('#edit_group_name').val(name);
           $('#edit_period_type').val(period);
           $('#edit_branch').val(branch);
+
+          $('#edit_cola').prop('checked', cola );
+          $('#edit_sea').prop('checked', sea );
+          $('#edit_holiday_pay').prop('checked', holiday_pay );
+          $('#edit_rest_day').prop('checked', rest_day );
 
           $('#update-group').modal('show');
       });

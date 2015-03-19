@@ -57,9 +57,14 @@ class PayrollSettingsController extends BaseController
         $data = array(
                  'branch_id'   => $this->input->post('branch-id'),
                 'group_name'  => $this->input->post('group-name'),
-                'period'      => $this->input->post('period')
+                'period'      => $this->input->post('period'),
+                'cola'        => (boolean) $this->input->post('cola'),
+                'sea'        => (boolean) $this->input->post('sea'),
+                'holiday_pay'        => (boolean) $this->input->post('holiday_pay'),
+                'rest_day'        => (boolean) $this->input->post('rest_day'),
             );
 
+        // dd($data);
         $this->payrollGroupRepository->find($id)->update($data);
          redirect('/settings/payroll-group');
     }
