@@ -23,7 +23,11 @@ class PayrollGroup extends Eloquent {
                         'created_at',
                         'updated_at',
                         'deleted_at',
-                        'company_id'
+                        'company_id',
+                        'cola',
+                        'sea',
+                        'holiday_pay',
+                        'rest_day'
 
                ];
 

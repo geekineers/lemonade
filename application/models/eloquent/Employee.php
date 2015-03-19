@@ -1379,6 +1379,9 @@ class Employee extends BaseModel
      */
     public function getRegularHolidayPay($from, $to)
     {
+        if(!$this->getPayrollPeriod()->holiday_pay){
+            return 0;
+        }
         $pay =  floatval($this->getRegularHolidayRate() * $this->getHourlyRate() * $this->getRegularHolidayAttendance($from, $to));
 
         if(strtolower($this->getPayrollPeriod()->period) == "daily"){
@@ -1391,6 +1394,9 @@ class Employee extends BaseModel
 
     public function getColaPay($from, $to, $type="regular_holiday")
     {
+        if(!$this->getPayrollPeriod()->cola){
+            return 0;
+        }
         if(strtolower($this->getPayrollPeriod()->period) != "daily") {
             return 0;
         }
@@ -1408,6 +1414,9 @@ class Employee extends BaseModel
 
     public function getSEAPay($from, $to, $type="all")
     {
+            if(!$this->getPayrollPeriod()->sea){
+            return 0;
+        }
                if(strtolower($this->getPayrollPeriod()->period) != "daily") {
             return 0;
         }
@@ -1598,6 +1607,9 @@ class Employee extends BaseModel
 
     public function getSpecialHolidayPay($from, $to)
     {
+        if(!$this->getPayrollPeriod()->holiday_pay){
+            return 0;
+        }   
         return floatval($this->getSpecialHolidayRate() * $this->getHourlyRate() * $this->getSpecialHolidayAttendance($from, $to))  + floatval($this->getRestDayPay($from, $to)['special_holiday']);
     }
 
@@ -1746,6 +1758,14 @@ class Employee extends BaseModel
         $special_holiday_pay = $special_holiday_attendance * ($special_holiday_rate * $this->getHourlyRate());
         $not_holiday         = $not_holiday_attendance * ($rest_rate * $this->getHourlyRate());
         
+        if(!$this->getPayrollPeriod()->rest_day){
+    return array(
+                'regular_holiday' => 0,
+                'special_holiday' => 0,
+                'not_holiday'     => 0
+            );
+        }
+
         return array(
                 'regular_holiday' => $regular_holiday_pay,
                 'special_holiday' => $special_holiday_pay,
@@ -1755,6 +1775,7 @@ class Employee extends BaseModel
  
     public function getTotalRestDayPay($from, $to)
     {
+
         $output = $this->getRestDayPay($from , $to)['regular_holiday'] + $this->getRestDayPay($from, $to)['special_holiday'] + $this->getRestDayPay($from, $to)['not_holiday'];
         return $output;
     }
