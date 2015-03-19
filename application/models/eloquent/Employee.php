@@ -1030,10 +1030,11 @@ class Employee extends BaseModel
                 $overtime_pay = $ot_pay * $regular_holiday_pay;
                 break;
             case 'rest_day':
-                $ot_pay =  $this->getCompany()->company_overtime_pay/100;
+                $ot_pay =  $this->getCompany()->company_special_holiday_overtime_pay/100;
                 $ot_pay = $ot_pay + 1;
                 $rest_day_pay = $rest_rate;
                 $overtime_pay = $ot_pay * $rest_day_pay;
+                // dd($overtime_pay);
                 break;
             case 'special_holiday_rest_day':
                 $ot_pay = $this->getCompany()->company_special_holiday_overtime_pay/100;
