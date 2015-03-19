@@ -1435,7 +1435,7 @@ class Employee extends BaseModel
     {
             $regular_holiday_attendance = $this->getRegularHolidayAttendance($from, $to, "all_attendance");
        
-        $output =  $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, 'all',true) + $regular_holiday_attendance);   
+        $output =  $this->getInAttendance($from, $to, true, true) - ($this->getSpecialHolidayAttendance($from, $to, true) + $this->getRestDayAttendance($from, $to, 'all',true));   
                  $test_array = array(
                     'in_attendance' => $this->getInAttendance($from, $to, true, true),
                     'special_holiday' => $this->getSpecialHolidayAttendance($from, $to, true),
