@@ -51,7 +51,7 @@ class Form_Application extends BaseModel {
     
   public function getEmployeeNames()
   {
-  	return Employee::find($this->employee_id)->getName();
+  	return Employee::withTrashed()->find($this->employee_id)->getName();
   }
   public function getPreparedBy()
   {
